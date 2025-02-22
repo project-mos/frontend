@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer base {
+  :root {
+    --radius: 0.5rem;
+  }
+}
+/* Global styles */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Text gradient */
+.text-gradient {
+  color: #4ecdc4;
+}
+
+/* Button gradient */
+.btn-gradient {
+  background: #4ecdc4;
+  border: none;
+  color: white;
+}
+
+.btn-gradient:hover:not(:disabled) {
+  background: #45b8b0;
+  color: white;
+  transform: translateY(-1px);
+}
