@@ -3,11 +3,11 @@ import React, { HTMLAttributes } from "react";
 
 const ButtonClass = {
   Default:
-    "flex justify-center items-center bg-white text-black border-2 rounded-md px-4 py-2 text-sm font-bold",
-  Green: "bg-mos-green-100 text-mos-green-500 border-mos-green-300",
-  Blue: "bg-mos-blue-100 text-mos-blue-500 border-mos-blue-300",
-  Pink: "bg-mos-pink-100 text-mos-pink-500 border-mos-pink-300",
-  Gray: "bg-mos-gray-100 text-mos-gray-500 border-mos-gray-500",
+    "flex justify-center items-center bg-white text-black border-2 rounded-md px-4 py-2 text-xxs font-bold ",
+  Green: "bg-mos-green-100 !text-mos-green-500 border-mos-green-300 ",
+  Blue: "bg-mos-blue-100 !text-mos-blue-500 border-mos-blue-300 ",
+  Pink: "bg-mos-pink-100 !text-mos-pink-500 border-mos-pink-300 ",
+  Gray: "bg-mos-gray-100 !text-mos-gray-500 border-mos-gray-500 ",
 };
 
 interface TagProps extends HTMLAttributes<HTMLDivElement> {
@@ -23,7 +23,7 @@ const TagComponent: React.FC<
       className={cn(
         ButtonClass.Default,
         color !== "Default" && ButtonClass[color], // 동적 색상 적용
-        size === "sm" && "text-[14px] px-3 py-1 max-h-7 ",
+        size === "sm" && " text-xxs px-3 py-1 max-h-7 ",
         className
       )}
       {...props}
