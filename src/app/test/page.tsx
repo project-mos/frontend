@@ -1,4 +1,6 @@
+"use client";
 import Button from "@/components/atoms/Button";
+import Select from "@/components/atoms/Select";
 import Tag from "@/components/atoms/Tag";
 import Typography from "@/components/atoms/Typography";
 
@@ -35,6 +37,14 @@ export default function TestPage() {
           <Button.Default>기본</Button.Default>
           <Button.Category>카테고리</Button.Category>
           <Button.Category active>선택 시</Button.Category>
+        </div>
+      </div>
+      <div className="flex items-center gap-2">
+        <Typography.Head1>Options</Typography.Head1>
+        <div className="flex gap-1 items-center">
+          <Select placeholder="진행 방식" defaultValue="">
+            <Select.Option value={1}>1</Select.Option>
+          </Select>
         </div>
       </div>
     </div>
