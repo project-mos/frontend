@@ -25,6 +25,13 @@ export default {
       // padding: px0_200rem,
       // margin: px0_200rem,
       // lineHeight: px0_100rem,
+      fontSize: {
+        sm: "var(--font-size)", // 기존 sm 값 유지
+        md: "calc(var(--font-size) + 4px)", // 중간 크기
+        lg: "calc(var(--font-size) + 8px)", // 큰 크기
+        xs: "calc(var(--font-size) - 4px)", // 가장 작은 사이즈 추가
+        xxs: "calc(var(--font-size) - 8px)", // 가장 작은 사이즈 추가
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
