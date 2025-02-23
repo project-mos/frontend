@@ -1,9 +1,10 @@
+import Button from "@/components/atoms/Button";
 import Tag from "@/components/atoms/Tag";
 import Typography from "@/components/atoms/Typography";
 
 export default function TestPage() {
   return (
-    <div className="flex flex-col items-center justify-center border-10 border-red-500 bg-white text-black min-h-screen">
+    <div className="flex flex-col gap-5 items-center border-10 border-red-500 bg-white text-black min-h-screen">
       <div className="flex">
         <Typography.Head1>Typographys &nbsp;</Typography.Head1>
         <div className="flex-col">
@@ -25,6 +26,15 @@ export default function TestPage() {
           <Tag.Blue>프로그래밍</Tag.Blue>
           <Tag.Pink size="sm">프로그래밍</Tag.Pink>
           <Tag.Gray>모집완료</Tag.Gray>
+        </div>
+      </div>
+
+      <div className="flex items-center gap-2">
+        <Typography.Head1>Buttons</Typography.Head1>
+        <div className="flex gap-1 items-center">
+          <Button.Default>기본</Button.Default>
+          <Button.Category>카테고리</Button.Category>
+          <Button.Category active>선택 시</Button.Category>
         </div>
       </div>
     </div>
