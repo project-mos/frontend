@@ -7,7 +7,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const DefaultButtonClass =
-  "px-5 py-2 border rounded-md text-btn-text-color border-gray-200 transition-all duration-200 text-sm bg-white";
+  "px-5 py-2 border rounded-md border-gray-200 transition-all duration-200 text-sm bg-white text-mos-gray-700";
 
 const DefaultButton: React.FC<ButtonProps> = ({
   className,
@@ -27,7 +27,7 @@ const DefaultButton: React.FC<ButtonProps> = ({
 };
 
 const CategoryButtonClass =
-  "hover:bg-white hover:text-main-color hover:border-main-color  data-[active=true]:bg-main-color data-[active=true]:text-white data-[active=true]:border-main-color";
+  "hover:text-mos-main-500 hover:mos-gray-500 hover:border-mos-main-500  data-[active=true]:bg-mos-main-500 data-[active=true]:text-white data-[active=true]:border-mos-main-500";
 
 const CategoryButton: React.FC<ButtonProps> = ({
   className,
