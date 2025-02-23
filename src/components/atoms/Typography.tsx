@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import classNames from "classnames";
+import { cn } from "@/lib/utils";
 
 type TypoType = "Head1" | "Head2" | "Head3" | "SubTitle1" | "P1" | "P2" | "P3";
 
@@ -24,7 +24,7 @@ const BaseTypography = ({
   className,
 }: TypographyProps & { type: TypoType }) => {
   const style = typoTypeMap[type];
-  return <p className={classNames(style, className)}>{children}</p>;
+  return <p className={cn(style, className)}>{children}</p>;
 };
 
 const Typography = {
