@@ -3,7 +3,7 @@ import React, { HTMLAttributes } from "react";
 
 const ButtonClass = {
   Default:
-    "flex items-center bg-white text-black border-2 rounded-md px-4 py-2 text-sm font-bold",
+    "flex justify-center items-center bg-white text-black border-2 rounded-md px-4 py-2 text-sm font-bold",
   Green: "bg-mos-green-100 text-mos-green-500 border-mos-green-300",
   Blue: "bg-mos-blue-100 text-mos-blue-500 border-mos-blue-300",
   Pink: "bg-mos-pink-100 text-mos-pink-500 border-mos-pink-300",
