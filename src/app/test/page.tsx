@@ -35,8 +35,8 @@ export default function TestPage() {
         <Typography.Head1>Buttons</Typography.Head1>
         <div className="flex gap-1 items-center">
           <Button.Default>기본</Button.Default>
-          <Button.Category>카테고리</Button.Category>
-          <Button.Category active>선택 시</Button.Category>
+          <Button.Main>카테고리</Button.Main>
+          <Button.Main active>선택 시</Button.Main>
         </div>
       </div>
       <div className="flex items-center gap-2">
