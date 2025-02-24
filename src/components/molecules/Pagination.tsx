@@ -34,6 +34,7 @@ const Pagination = ({ activePage, totalPage }: PaginationType) => {
   return (
     <div className="flex gap-2">
       <Button.Gray
+        disabled={activePage === 1}
         onClick={() => {
           pushPage(pathname, 1);
         }}
