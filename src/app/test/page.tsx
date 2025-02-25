@@ -3,6 +3,7 @@ import Button from "@/components/atoms/Button";
 import Select from "@/components/atoms/Select";
 import Tag from "@/components/atoms/Tag";
 import Typography from "@/components/atoms/Typography";
+import Pagination from "@/components/molecules/Pagination";
 
 export default function TestPage() {
   return (
@@ -45,6 +46,12 @@ export default function TestPage() {
           <Select placeholder="진행 방식" defaultValue="">
             <Select.Option value={1}>1</Select.Option>
           </Select>
+        </div>
+      </div>
+      <div className="flex items-center gap-2">
+        <Typography.Head1>Pagination</Typography.Head1>
+        <div className="flex gap-1 items-center">
+          <Pagination activePage={1} totalPage={2} />
         </div>
       </div>
     </div>
