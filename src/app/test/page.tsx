@@ -8,6 +8,7 @@ import Pagination from "@/components/molecules/Pagination";
 export default function TestPage() {
   return (
     <div className="flex flex-col gap-5 items-center border-10 border-red-500 bg-white text-black min-h-screen">
+      {/* Typography */}
       <div className="flex">
         <Typography.Head1>Typographys &nbsp;</Typography.Head1>
         <div className="flex-col">
@@ -20,18 +21,22 @@ export default function TestPage() {
           <Typography.P3 className="text-blue-500">example P3</Typography.P3>
         </div>
       </div>
-
+      {/* Tags */}
       <div className="flex items-center gap-2">
         <Typography.Head1>Tags</Typography.Head1>
         <div className="flex gap-1 items-center">
-          <Tag.Default>기본</Tag.Default>
-          <Tag.Green>모집중</Tag.Green>
+          <Tag.Default type="Detail">기본</Tag.Default>
+          <Tag.Detail>#Python</Tag.Detail>
+          <Tag.Default>안녕</Tag.Default>
+          <Tag.Green border={false}>모집중</Tag.Green>
+          <Tag.Gray border={false}>모집완료</Tag.Gray>
           <Tag.Blue>프로그래밍</Tag.Blue>
-          <Tag.Pink size="sm">프로그래밍</Tag.Pink>
-          <Tag.Gray>모집완료</Tag.Gray>
+          <Tag.Pink>프로그래밍</Tag.Pink>
+          <Tag.Default type="Card">#Python</Tag.Default>
+          <Tag.Card>#Python</Tag.Card>
         </div>
       </div>
-
+      {/* Buttons */}
       <div className="flex items-center gap-2">
         <Typography.Head1>Buttons</Typography.Head1>
         <div className="flex gap-1 items-center">
@@ -40,6 +45,7 @@ export default function TestPage() {
           <Button.Main active>선택 시</Button.Main>
         </div>
       </div>
+      {/* Options */}
       <div className="flex items-center gap-2">
         <Typography.Head1>Options</Typography.Head1>
         <div className="flex gap-1 items-center">
@@ -48,6 +54,7 @@ export default function TestPage() {
           </Select>
         </div>
       </div>
+      {/* Pagination */}
       <div className="flex items-center gap-2">
         <Typography.Head1>Pagination</Typography.Head1>
         <div className="flex gap-1 items-center">
