@@ -1,27 +1,17 @@
 import { cn } from "@/lib/utils";
-import Image from "next/image";
 import React, { ButtonHTMLAttributes } from "react";
 
+const DefaultButtonClass =
+  "box-border px-4 py-2 border rounded-md border-gray-200 transition-all duration-200 text-sm bg-white text-black flex items-center gap-2 h-[45px]";
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
   active?: boolean;
-  icon?: {
-    svg?: React.ReactNode; // SVG 요소 직접 전달 가능
-    src?: string; // 아이콘 파일 경로 (PNG, JPG, SVG 파일 가능)
-    alt?: string; // 아이콘 대체 텍스트
-  };
 }
-
-const DefaultButtonClass =
-  "px-5 py-2 border rounded-md border-gray-200 transition-all duration-200 text-sm bg-white text-mos-gray-700 flex items-center gap-2 h-[62px]";
-const SvgIconClass =
-  "w-6.5 h-6.5 fill-current text-current group-hover:text-current ";
 
 const DefaultButton: React.FC<ButtonProps> = ({
   className,
   children,
   active = false,
-  icon,
   ...props
 }) => {
   return (
@@ -30,37 +20,37 @@ const DefaultButton: React.FC<ButtonProps> = ({
       data-active={active}
       {...props}
     >
-      {/* SVG 직접 전달하는 경우 */}
-      {icon?.svg && <span className={cn(SvgIconClass)}>{icon.svg}</span>}
-
-      {/* 이미지 파일 경로로 전달하는 경우 Next.js 이미지 최적화 */}
-      {icon?.src && (
-        <Image width={26} height={26} src={icon.src} alt={icon.alt || "icon"} />
-      )}
-      {children && icon ? (
-        <div className={cn("ml-2")}>{children}</div>
-      ) : (
-        <>{children}</>
-      )}
+      {children}
     </button>
   );
 };
 
-const MainButtonClass =
-  "hover:text-mos-main-500 hover:mos-gray-500 hover:border-mos-main-500  data-[active=true]:bg-mos-main-500 data-[active=true]:text-white data-[active=true]:border-mos-main-500";
+const SolidButtonClass = {
+  Main: "hover:text-mos-main-500 hover:mos-gray-500 hover:border-mos-main-500  data-[active=true]:bg-mos-main-500 data-[active=true]:text-white data-[active=true]:border-mos-main-500",
+  // 미완. 작업하면서 필요하면 추가할 예정
+  Gray: "text-mos-gray-700 bg-mos-white-gray-100 text-black",
+  Green: "bg-mos-green-500 text-white border-mos-green-500",
+  Blue: "text-mos-blue-700 border-mos-blue-500",
+  Red: "text-red-700 border-red-500",
+};
 
-const MainButton: React.FC<ButtonProps> = ({
+interface SolidButtonProps extends ButtonProps {
+  className?: string;
+  active?: boolean;
+  color: keyof typeof SolidButtonClass;
+}
+
+const SolidButton: React.FC<SolidButtonProps> = ({
   className,
   children,
   active = false,
-  icon,
+  color,
   ...props
 }) => {
   return (
     <DefaultButton
-      className={cn(MainButtonClass, className)}
+      className={cn(SolidButtonClass[color], className)}
       active={active}
-      icon={icon}
       {...props}
     >
       {children}
@@ -68,33 +58,39 @@ const MainButton: React.FC<ButtonProps> = ({
   );
 };
 
-const GrayButtonClass =
-  "px-5 py-2 border rounded-md border-gray-200 transition-all duration-200 text-sm bg-mos-white-gray-100 text-black";
+const IconButtonClass = {
+  // active 시 추가 효과 기입 가능
+  Gray: "text-mos-gray-700 text-mos-gray-700",
+  Blue: "text-mos-blue-700 border-mos-blue-500",
+  Green: "bg-mos-green-500 text-white border-mos-green-500",
+  Red: "text-red-700 border-red-500",
+};
 
-const GrayButton: React.FC<ButtonProps> = ({
+interface IconButtonProps extends Omit<SolidButtonProps, "color"> {
+  color?: keyof typeof IconButtonClass;
+}
+
+const IconButton: React.FC<IconButtonProps> = ({
   className,
   children,
   active = false,
-  icon,
-
+  color = "Gray",
   ...props
 }) => {
   return (
     <DefaultButton
-      className={cn(GrayButtonClass, className)}
+      className={cn("w-10 h-10 p-3", IconButtonClass[color], className)}
       active={active}
-      icon={icon}
       {...props}
     >
       {children}
     </DefaultButton>
   );
 };
-
 const Button = {
   Default: DefaultButton,
-  Main: MainButton,
-  Gray: GrayButton,
+  Solid: SolidButton,
+  Icon: IconButton,
 };
 
 export default Button;
