@@ -16,12 +16,14 @@ const Pagination = ({ activePage, totalPage }: PaginationType) => {
     const pageNumber = activePage + i;
     if (pageNumber <= totalPage) {
       return (
-        <Button.Main
+        <Button.Solid
+          color="Main"
           key={pageNumber}
+          active={pageNumber === activePage}
           onClick={() => pushPage(pathname, pageNumber)}
         >
           {pageNumber}
-        </Button.Main>
+        </Button.Solid>
       );
     }
     return null;
@@ -33,39 +35,43 @@ const Pagination = ({ activePage, totalPage }: PaginationType) => {
 
   return (
     <div className="flex gap-2">
-      <Button.Gray
+      <Button.Solid
+        color="Gray"
         disabled={activePage === 1}
         onClick={() => {
           pushPage(pathname, 1);
         }}
       >
         처음
-      </Button.Gray>
-      <Button.Gray
+      </Button.Solid>
+      <Button.Solid
+        color="Gray"
         disabled={activePage === 1}
         onClick={() => {
           pushPage(pathname, prevPage);
         }}
       >
         이전
-      </Button.Gray>
+      </Button.Solid>
       {generatePagination}
-      <Button.Gray
+      <Button.Solid
+        color="Gray"
         disabled={activePage === totalPage}
         onClick={() => {
           pushPage(pathname, nextPage);
         }}
       >
         다음
-      </Button.Gray>
-      <Button.Gray
+      </Button.Solid>
+      <Button.Solid
+        color="Gray"
         disabled={activePage === totalPage}
         onClick={() => {
           pushPage(pathname, totalPage);
         }}
       >
         마지막
-      </Button.Gray>
+      </Button.Solid>
     </div>
   );
 };
