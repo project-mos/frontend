@@ -45,6 +45,7 @@ export default {
         "mos-green-100": "#E7F6EA",
         "mos-gray-700": "#495057",
         "mos-gray-500": "#6C757D",
+        "mos-gray-300": "#565656",
         "mos-gray-100": "#D5D5D5",
         "mos-white-gray-100": "#F8F9FA",
         "mos-blue-700": "#1E77D2",
