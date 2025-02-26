@@ -35,9 +35,27 @@ export default function TestPage() {
       <div className="flex items-center gap-2">
         <Typography.Head1>Buttons</Typography.Head1>
         <div className="flex gap-1 items-center">
-          <Button.Default>기본</Button.Default>
-          <Button.Main>카테고리</Button.Main>
-          <Button.Main active>선택 시</Button.Main>
+          <Button.Default>
+            <i className="bi bi-heart"></i>
+            좋아요 보기
+          </Button.Default>
+          <Button.Solid color="Main">카테고리</Button.Solid>
+          <Button.Solid color="Main" active>
+            전체
+          </Button.Solid>
+          <Button.Solid
+            color="Green"
+            // className="border-2 border-mos-blue-500 bg-white"
+          >
+            <i className="bi bi-person-check text-[24px]"></i>
+            출석하기
+          </Button.Solid>
+          <Button.Icon color="Blue">
+            <i className="bi bi-pencil"></i>
+          </Button.Icon>
+          <Button.Icon color="Red">
+            <i className="bi bi-trash"></i>
+          </Button.Icon>
         </div>
       </div>
       <div className="flex items-center gap-2">
