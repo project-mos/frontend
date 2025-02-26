@@ -12,7 +12,9 @@ export default function RootLayout({
     <html lang="en">
       <body suppressHydrationWarning>
         <Header />
-        <QueryClientProvider>{children}</QueryClientProvider>
+        <QueryClientProvider>
+          <div className="px-[100] pt-[75]">{children}</div>
+        </QueryClientProvider>
       </body>
     </html>
   );
