@@ -39,6 +39,6 @@ select {
 }
 
 .select_renewal {
-  background: url(/icon/chevron-down.png) no-repeat 89% 50%;
-  background-size: 32px 32px; /* 원하는 크기로 조절 */
+  background: url(/icon/chevron-down.png) no-repeat 92% 50%;
+  background-size: 21px 18px; /* 원하는 크기로 조절 */
 }
