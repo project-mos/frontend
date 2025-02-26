@@ -54,6 +54,9 @@ export default function TestPage() {
           <Pagination activePage={1} totalPage={2} />
         </div>
       </div>
+      <div>
+        <i className="bi bi-0-circle"></i>
+      </div>
     </div>
   );
 }
