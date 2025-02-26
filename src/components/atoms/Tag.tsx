@@ -3,7 +3,7 @@ import React, { HTMLAttributes } from "react";
 
 const TagClass = {
   Default:
-    "box-border flex justify-center items-center bg-white text-black border-2 rounded-md px-3 py-2 text-[14px] font-bold h-[30px]",
+    "box-border flex items-center bg-white text-black border-[1px] rounded-md px-3 pt-0.5 text-[0.75rem] h-[25px] w-fit min-w-fit",
   Green: "bg-mos-green-100 !text-mos-green-500 border-mos-green-300 ",
   Blue: "bg-mos-blue-100 !text-mos-blue-500 border-mos-blue-300 ",
   Pink: "bg-mos-pink-100 !text-mos-pink-500 border-mos-pink-300 ",
@@ -11,8 +11,8 @@ const TagClass = {
 };
 
 const ButtonTypeClass = {
-  Detail: "bg-mos-white-gray-100 rounded-[20px] text-mos-gray-300",
-  Card: "bg-mos-white-gray-100",
+  Detail: "bg-mos-white-gray-100 rounded-[20px] text-mos-gray-300 text-black",
+  Card: "bg-mos-white-gray-100 text-black",
 };
 
 interface TagProps extends HTMLAttributes<HTMLDivElement> {
