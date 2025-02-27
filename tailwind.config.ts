@@ -18,8 +18,8 @@ export default {
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     screens: {
-      desktop: "1920",
-      laptop: "1320",
+      desktop: "1920px",
+      laptop: "1320px",
     },
     extend: {
       // width: px0_200rem,
