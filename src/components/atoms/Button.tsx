@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import React, { ButtonHTMLAttributes } from "react";
 
 const DefaultButtonClass =
-  "box-border px-4 py-2 border rounded-md border-gray-200 transition-all duration-200 text-sm bg-white text-black flex items-center gap-2 h-[45px]";
+  "box-border px-4 py-2 border rounded-md border-gray-200 transition-all duration-200 text-sm bg-white text-black flex items-center gap-2 h-[40px] w-fit min-w-fit";
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
   active?: boolean;
