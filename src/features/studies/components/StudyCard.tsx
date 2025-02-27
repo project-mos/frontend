@@ -2,38 +2,63 @@ import Card from "@/components/atoms/Card";
 import Tag from "@/components/atoms/Tag";
 import Typography from "@/components/atoms/Typography";
 
-const StudyCard = () => {
+interface StudyCardProps {
+  study: {
+    title: string;
+    contents: string;
+    deadline: string;
+    category: string;
+    type: string;
+    recruit: boolean;
+    tags: string[];
+    members: { current: number; max: number };
+    views: number;
+  };
+}
+
+const StudyCard = ({ study }: StudyCardProps) => {
   return (
-    <Card className="w-[255px]">
+    <Card className="w-[255px] cursor-pointer">
       <Card.Header className="flex-col">
-        <div className="flex">
-          <Tag.Green>어학</Tag.Green>
-          <Tag.Blue>비대면</Tag.Blue>
-          <Tag.Green border={false}>모집중</Tag.Green>
+        <div className="flex justify-between mb-[20px]">
+          <div className="flex gap-[4.5px]">
+            <Tag.Green>{study.category}</Tag.Green>
+            <Tag.Blue>{study.type}</Tag.Blue>
+          </div>
+          {study.recruit ? (
+            <Tag.Green border={false}>모집중</Tag.Green>
+          ) : (
+            <Tag.Gray border={false}>모집 완료</Tag.Gray>
+          )}
         </div>
-        <Typography.Head3>스프링부트 심화 스터디</Typography.Head3>
-        <Typography.P1 className="text-red-500 text-[13px]">
-          마감: 2024-03-27
-        </Typography.P1>
+        <Typography.Head3>{study.title}</Typography.Head3>
+        <div className="flex gap-1 text-[13px] text-red-500">
+          <i className="bi bi-calendar" />
+          <Typography.P1 className=" text-[13px]">
+            마감: {study.deadline}
+          </Typography.P1>
+        </div>
       </Card.Header>
       <Card.Content>
-        <Typography.P1>
-          글은 최대 2줄까지 보이게 2줄을 넘어가면 ...으로 표기
+        <Typography.P1 className="pt-[20px] pb-[20px] text-mos-gray-700">
+          {study.contents}
         </Typography.P1>
-        <div className="flex flex-wrap gap-[5px]">
-          <Tag.Detail>#Next.js</Tag.Detail>
-          <Tag.Detail>#코딩테스트</Tag.Detail>
-          <Tag.Detail>#Python</Tag.Detail>
-          <Tag.Detail>#Next</Tag.Detail>
-          <Tag.Detail>#알고리즘</Tag.Detail>
+        <div className="flex flex-wrap gap-[5px] mb-[40px]">
+          {study.tags.map((tag, index) => (
+            <Tag.Detail key={index}>#{tag}</Tag.Detail>
+          ))}
         </div>
       </Card.Content>
-      <Card.Footer>
-        <div>
-          <Typography.P1>4/5명</Typography.P1>
+      <Card.Footer className="flex justify-between">
+        <div className="flex gap-1  text-mos-gray-300">
+          <i className="bi bi-people text-[15px]" />
+          <Typography.P1 className="text-[15px]">
+            {study.members.current}/{study.members.max}명
+          </Typography.P1>
         </div>
-        <div>
-          <Typography.P1>678명</Typography.P1>
+        <div className="flex gap-1 text-mos-gray-300">
+          <i className="bi bi-eye text-[15px]" />
+          <Typography.P1 className="text-[15px]">{study.views}</Typography.P1>
         </div>
       </Card.Footer>
     </Card>
