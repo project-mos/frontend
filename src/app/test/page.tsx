@@ -5,6 +5,7 @@ import Select from "@/components/atoms/Select";
 import Tag from "@/components/atoms/Tag";
 import Typography from "@/components/atoms/Typography";
 import Pagination from "@/components/molecules/Pagination";
+import StudyMeta from "@/components/molecules/StudyMeta";
 import StudyCard from "@/features/studies/components/StudyCard";
 
 export default function TestPage() {
@@ -25,7 +26,7 @@ export default function TestPage() {
   };
 
   return (
-    <div className="col-span-12 flex flex-col gap-5 items-center border-10 border-red-500 bg-white text-black min-h-screen">
+    <div className="flex flex-col gap-5 items-center border-10 border-red-500 bg-white text-black min-h-screen">
       {/* Typography */}
       <div className=" flex">
         <Typography.Head1>Typographys &nbsp;</Typography.Head1>
@@ -121,6 +122,15 @@ export default function TestPage() {
           </Typography.P1>
         </Card.Footer>
       </Card>
+
+      {/* StudyMeta */}
+      <div className="flex gap-2">
+        <StudyMeta.Person>4/6명</StudyMeta.Person>
+        <StudyMeta.Date>모집 기간: 2024-03-01 ~ 2024-03-04</StudyMeta.Date>
+        <StudyMeta.Time>매주 화요일 저녁 8시</StudyMeta.Time>
+        <StudyMeta.View>조회수 244</StudyMeta.View>
+      </div>
+
       {/* StudyCard */}
       <StudyCard study={study} />
     </div>

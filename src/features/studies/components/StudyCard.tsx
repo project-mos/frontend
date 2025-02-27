@@ -1,6 +1,7 @@
 import Card from "@/components/atoms/Card";
 import Tag from "@/components/atoms/Tag";
 import Typography from "@/components/atoms/Typography";
+import StudyMeta from "@/components/molecules/StudyMeta";
 
 interface StudyCardProps {
   study: {
@@ -51,14 +52,12 @@ const StudyCard = ({ study }: StudyCardProps) => {
       </Card.Content>
       <Card.Footer className="flex justify-between">
         <div className="flex gap-1  text-mos-gray-300">
-          <i className="bi bi-people text-[15px]" />
-          <Typography.P1 className="text-[15px]">
+          <StudyMeta.Person>
             {study.members.current}/{study.members.max}명
-          </Typography.P1>
+          </StudyMeta.Person>
         </div>
         <div className="flex gap-1 text-mos-gray-300">
-          <i className="bi bi-eye text-[15px]" />
-          <Typography.P1 className="text-[15px]">{study.views}</Typography.P1>
+          <StudyMeta.View>{study.views}</StudyMeta.View>
         </div>
       </Card.Footer>
     </Card>

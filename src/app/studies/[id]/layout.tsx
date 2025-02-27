@@ -1,17 +1,12 @@
-import Card from "@/components/atoms/Card";
+import Grid from "@/components/atoms/Grid";
 import React from "react";
 
-const StudiesLayout = ({ children }: { children: React.ReactNode }) => {
+const layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <>
-      <Card className="col-span-8  flex flex-col mr-2 min-h-screen ">
-        layout.tsx{children}
-      </Card>
-      <Card className="col-span-4 flex flex-col h-20 ">
-        layout.tsx{children}
-      </Card>
-    </>
+    <Grid cols={12} gap={1}>
+      {children}
+    </Grid>
   );
 };
 
-export default StudiesLayout;
+export default layout;
