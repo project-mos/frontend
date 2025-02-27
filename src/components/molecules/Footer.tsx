@@ -33,8 +33,8 @@ const Text: React.FC<FooterProps> = ({ children, className = "" }) => (
 
 const Footer = () => {
   return (
-    <div className="w-full h-[400px] bg-mos-white-gray-100 laptop:px-[100px] desktop:px-[300] py-[76px]">
-      <div className="flex gap-[300px] mb-[70px]">
+    <div className="w-full h-[365px] bg-mos-white-gray-100 laptop:px-[100px] desktop:px-[300] py-[56px]">
+      <div className="flex gap-[300px] mb-[50px]">
         <div className="flex flex-col gap-2">
           <SvgIcons.Logo />
           <Text>함께 성장하는 스터디 플랫폼</Text>
@@ -56,7 +56,7 @@ const Footer = () => {
         </div>
       </div>
       <div className="w-full border-b border-gray-300"></div>
-      <div className="flex justify-between mt-[40px]">
+      <div className="flex justify-between mt-[30px]">
         <Text>@2025 StudyMos. All rights reserved.</Text>
         <Text>사업자등록번호: 123-45-67890 | 대표: 홍길동</Text>
       </div>
