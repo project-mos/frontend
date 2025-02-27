@@ -18,11 +18,11 @@ export default {
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     screens: {
-      desktop: "1400px", // 데스크탑 (1400px 이상)
-      laptop: "1200px", // 노트북 (1200px 이상)
-      tablet: "990px", // 태블릿 (990px 이상)
-      mobile: "767px", // 모바일 (767px 이상)
       "sm-mobile": { max: "766px" }, // 작은 모바일 (766px 이하)
+      mobile: "767px", // 모바일 (767px 이상)
+      tablet: "990px", // 태블릿 (990px 이상)
+      laptop: "1200px", // 노트북 (1200px 이상)
+      desktop: "1400px", // 데스크탑 (1400px 이상)
     },
     extend: {
       // width: px0_200rem,
