@@ -17,6 +17,10 @@ export default {
   darkMode: ["class"],
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
+    screens: {
+      desktop: "1920",
+      laptop: "1320",
+    },
     extend: {
       // width: px0_200rem,
       // height: px0_200rem,
