@@ -33,7 +33,7 @@ const Text: React.FC<FooterProps> = ({ children, className = "" }) => (
 
 const Footer = () => {
   return (
-    <div className="w-full h-[365px] bg-mos-white-gray-100 laptop:px-[100px] desktop:px-[300] py-[56px]">
+    <div className="w-full h-[365px] bg-mos-white-gray-100 laptop:px-[100px] desktop:px-[300px] py-[56px]">
       <div className="flex gap-[300px] mb-[50px]">
         <div className="flex flex-col gap-2">
           <SvgIcons.Logo />
