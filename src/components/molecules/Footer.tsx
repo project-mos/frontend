@@ -33,36 +33,34 @@ const Text: React.FC<FooterProps> = ({ children, className = "" }) => (
 
 const Footer = () => {
   return (
-    <>
-      <div className="w-full h-[427px] bg-mos-white-gray-100 px-[200px] py-[76px]">
-        <div className="flex justify-between mb-[70px]">
-          <div className="flex flex-col gap-2">
-            <SvgIcons.Logo />
-            <Text>함께 성장하는 스터디 플랫폼</Text>
-            <div className="flex gap-[15px]">
-              <i className="bi bi-github text-mos-gray-300"></i>
-              <i className="bi bi-instagram text-mos-gray-300"></i>
-              <i className="bi bi-facebook text-mos-gray-300"></i>
-            </div>
-          </div>
-          <div className="flex gap-[50px]">
-            {footerSections.map(({ title, list }) => (
-              <div key={title}>
-                <Text className="font-bold mb-[10px]">{title}</Text>
-                {list.map((list) => (
-                  <Text key={list}>{list}</Text>
-                ))}
-              </div>
-            ))}
+    <div className="w-full h-[400px] bg-mos-white-gray-100 laptop:px-[100px] desktop:px-[300] py-[76px]">
+      <div className="flex gap-[300px] mb-[70px]">
+        <div className="flex flex-col gap-2">
+          <SvgIcons.Logo />
+          <Text>함께 성장하는 스터디 플랫폼</Text>
+          <div className="flex gap-[15px]">
+            <i className="bi bi-github text-mos-gray-300"></i>
+            <i className="bi bi-instagram text-mos-gray-300"></i>
+            <i className="bi bi-facebook text-mos-gray-300"></i>
           </div>
         </div>
-        <div className="w-full border-b border-gray-300"></div>
-        <div className="flex justify-between mt-[40px]">
-          <Text>@2025 StudyMos. All rights reserved.</Text>
-          <Text>사업자등록번호: 123-45-67890 | 대표: 홍길동</Text>
+        <div className="flex gap-[130px]">
+          {footerSections.map(({ title, list }) => (
+            <div key={title}>
+              <Text className="font-bold mb-[10px]">{title}</Text>
+              {list.map((list) => (
+                <Text key={list}>{list}</Text>
+              ))}
+            </div>
+          ))}
         </div>
       </div>
-    </>
+      <div className="w-full border-b border-gray-300"></div>
+      <div className="flex justify-between mt-[40px]">
+        <Text>@2025 StudyMos. All rights reserved.</Text>
+        <Text>사업자등록번호: 123-45-67890 | 대표: 홍길동</Text>
+      </div>
+    </div>
   );
 };
 
