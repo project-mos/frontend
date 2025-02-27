@@ -3,7 +3,7 @@ import React from "react";
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <Grid cols="12" gap="3">
+    <Grid cols={12} gap={1}>
       {children}
     </Grid>
   );
