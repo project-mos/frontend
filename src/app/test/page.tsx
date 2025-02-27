@@ -8,7 +8,7 @@ import Pagination from "@/components/molecules/Pagination";
 
 export default function TestPage() {
   return (
-    <div className="col-span-12 flex flex-col gap-5 items-center border-10 border-red-500 bg-white text-black min-h-screen">
+    <div className="flex flex-col gap-5 items-center border-10 border-red-500 bg-white text-black min-h-screen">
       {/* Typography */}
       <div className=" flex">
         <Typography.Head1>Typographys &nbsp;</Typography.Head1>
