@@ -13,7 +13,7 @@ const NavItem = ({ href, label, className }: NavItemProps) => {
   return (
     <Link href={href} passHref>
       <Typography.P1
-        className={`font-bold text-[18px] cursor-pointer text-mos-gray-700 ${className}`}
+        className={`font-bold cursor-pointer text-mos-gray-500 ${className}`}
       >
         {label}
       </Typography.P1>
@@ -25,7 +25,7 @@ const Header = () => {
   const isLoggedIn = false;
 
   return (
-    <header className="w-full h-[75px] border-b border-gray-200 bg-white fixed top-0 left-0 px-[200px] flex justify-between items-center">
+    <header className="w-full h-[75px] border-b border-gray-200 bg-white fixed top-0 left-0 laptop:px-[100px] desktop:px-[300] flex justify-between items-center">
       {/* 왼쪽: 로고 */}
       <div>
         <Link href="/" passHref>
@@ -39,14 +39,14 @@ const Header = () => {
       </div>
 
       {/* 오른쪽: 마이페이지, 로그인 버튼 */}
-      <div className="flex gap-[40px] items-center">
+      <div className="flex gap-[20px] items-center">
         <NavItem href="/my-page" label="마이페이지" />
         {isLoggedIn ? (
-          <Button.Solid color="Main" active className="h-[35px]">
+          <Button.Solid color="Main" active className="h-[29px]">
             로그아웃
           </Button.Solid>
         ) : (
-          <Button.Solid color="Main" active className="h-[35px]">
+          <Button.Solid color="Main" active className="h-[29px]">
             로그인
           </Button.Solid>
         )}

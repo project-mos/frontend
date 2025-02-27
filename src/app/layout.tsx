@@ -14,7 +14,9 @@ export default function RootLayout({
       <body suppressHydrationWarning>
         <Header />
         <QueryClientProvider>
-          <div className="px-[100px] pt-[75px]">{children}</div>
+          <div className="pt-[55px] laptop:px-[100px] desktop:px-[300px]">
+            {children}
+          </div>
         </QueryClientProvider>
         <Footer />
       </body>
