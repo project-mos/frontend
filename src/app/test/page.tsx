@@ -5,6 +5,7 @@ import Select from "@/components/atoms/Select";
 import Tag from "@/components/atoms/Tag";
 import Typography from "@/components/atoms/Typography";
 import Pagination from "@/components/molecules/Pagination";
+import StudyCard from "@/features/studies/components/StudyCard";
 
 export default function TestPage() {
   return (
@@ -104,6 +105,8 @@ export default function TestPage() {
           </Typography.P1>
         </Card.Footer>
       </Card>
+      {/* StudyCard */}
+      <StudyCard />
     </div>
   );
 }
