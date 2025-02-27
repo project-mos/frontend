@@ -12,13 +12,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body suppressHydrationWarning>
-        <Header />
         <QueryClientProvider>
-          <div className="pt-[55px] laptop:px-[100px] desktop:px-[300px]">
-            {children}
+          <Header />
+          <div className="flex items-center justify-center">
+            <div className="layout">{children}</div>
           </div>
+          <Footer />
         </QueryClientProvider>
-        <Footer />
       </body>
     </html>
   );

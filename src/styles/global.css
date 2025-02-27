@@ -15,22 +15,8 @@ body {
   flex-direction: column;
 }
 
-/* Text gradient */
-.text-gradient {
-  color: #4ecdc4;
-}
-
-/* Button gradient */
-.btn-gradient {
-  background: #4ecdc4;
-  border: none;
-  color: white;
-}
-
-.btn-gradient:hover:not(:disabled) {
-  background: #45b8b0;
-  color: white;
-  transform: translateY(-1px);
+.layout {
+  @apply grid grid-cols-12 px-3 pt-[55px] desktop:max-w-[1300px];
 }
 select {
   -webkit-appearance: none; /* 크롬 화살표 없애기 */
