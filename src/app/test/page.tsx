@@ -1,5 +1,6 @@
 "use client";
 import Button from "@/components/atoms/Button";
+import Card from "@/components/atoms/Card";
 import Select from "@/components/atoms/Select";
 import Tag from "@/components/atoms/Tag";
 import Typography from "@/components/atoms/Typography";
@@ -82,6 +83,27 @@ export default function TestPage() {
       <div>
         <i className="bi bi-0-circle"></i>
       </div>
+
+      <Card className="gap-3">
+        <Card.Header>
+          <Typography.Head3>알고리즘 마스터 스터디</Typography.Head3>
+        </Card.Header>
+        <Card.Content>
+          <Typography.SubTitle1>Content</Typography.SubTitle1>
+          <Typography.SubTitle1>스터디 소개</Typography.SubTitle1>
+          <Typography.P1>
+            코딩 테스트 대비를 위한 알고리즘 스터디입니다. 매주 백준 골드 레벨
+            문제를 풀고 토론하며, 실전 대비 모의고사도 진행합니다.
+          </Typography.P1>
+        </Card.Content>
+        <Card.Footer>
+          <Typography.SubTitle1>Footer</Typography.SubTitle1>
+          <Typography.P1>
+            코딩 테스트 대비를 위한 알고리즘 스터디입니다. 매주 백준 골드 레벨
+            문제를 풀고 토론하며, 실전 대비 모의고사도 진행합니다.
+          </Typography.P1>
+        </Card.Footer>
+      </Card>
     </div>
   );
 }
