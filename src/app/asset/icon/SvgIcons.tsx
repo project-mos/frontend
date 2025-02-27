@@ -20,7 +20,7 @@ const PenCil = ({ className, width = 25, height = 25 }: SvgIconsProps) => {
 const Logo = () => {
   return (
     <svg
-      width="109"
+      width="95"
       height="22"
       viewBox="0 0 109 22"
       fill="none"
