@@ -9,6 +9,7 @@ import StudyMeta from "@/components/molecules/StudyMeta";
 import StudyCard from "@/features/studies/components/StudyCard";
 import StudyDescriptionCard from "@/features/studies/components/StudyDescriptionCard";
 import { MockStudiesApiResult } from "../mock/api/studies";
+import Badge from "@/components/atoms/Badge";
 
 export default function TestPage() {
   const study = {
@@ -102,6 +103,23 @@ export default function TestPage() {
       </div>
       <div>
         <i className="bi bi-0-circle"></i>
+      </div>
+      {/* Badge */}
+      <div className="flex items-center gap-2">
+        <Typography.Head1>Badge</Typography.Head1>
+        <div className="flex gap-1 items-center">
+          <Badge>1/2 단계</Badge>
+          <Badge color="Green">1/2 단계</Badge>
+          <Badge color="Gray">
+            <i className="bi bi-clock mr-1"></i>
+            모집 기간: 2024-03-01 ~ 2024-03-04
+          </Badge>
+          <Badge color="Pink">1/2 단계</Badge>
+          {/* <Badge color="Green">Green</Badge>
+          <Badge color="Blue">Blue</Badge>
+          <Badge color="Red">Red</Badge>
+          <Badge color="Gray">Gray</Badge> */}
+        </div>
       </div>
 
       <Card className="gap-3">
