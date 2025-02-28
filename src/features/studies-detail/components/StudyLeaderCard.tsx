@@ -22,8 +22,11 @@ const StudyLeaderCard = () => {
             <div className="flex items-center">
               {Array(5)
                 .fill(null)
-                .map((item) => (
-                  <i className="bi bi-star-fill text-yellow-500 mr-[3px]"></i>
+                .map((item, index) => (
+                  <i
+                    className="bi bi-star-fill text-yellow-500 mr-[3px]"
+                    key={index}
+                  ></i>
                 ))}
               <Typography.P3 className="text-[15px] text-mos-gray-500">
                 5
