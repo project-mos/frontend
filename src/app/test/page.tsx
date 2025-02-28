@@ -145,8 +145,10 @@ export default function TestPage() {
 
       {/* StudyMeta */}
       <div className="flex gap-2">
-        <StudyMeta.Person>4/6명</StudyMeta.Person>
-        <StudyMeta.Date>모집 기간: 2024-03-01 ~ 2024-03-04</StudyMeta.Date>
+        <StudyMeta.Person className="text-mos-main-500">4/6명</StudyMeta.Person>
+        <StudyMeta.Date onClick={() => alert("click")}>
+          모집 기간: 2024-03-01 ~ 2024-03-04
+        </StudyMeta.Date>
         <StudyMeta.Time>매주 화요일 저녁 8시</StudyMeta.Time>
         <StudyMeta.View>조회수 244</StudyMeta.View>
       </div>
