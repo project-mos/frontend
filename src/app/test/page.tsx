@@ -6,8 +6,17 @@ import Tag from "@/components/atoms/Tag";
 import Typography from "@/components/atoms/Typography";
 import Pagination from "@/components/molecules/Pagination";
 import StudyCard from "@/features/studies/components/StudyCard";
+import StudyMeta from "@/components/molecules/StudyMeta";
+import StudyDescriptionCard from "@/features/studies/components/StudyDescriptionCard";
+import {
+  MockStudiesApiResult,
+  MockStudyCardApiResult,
+} from "../mock/api/studies";
+import Badge from "@/components/atoms/Badge";
+
 
 export default function TestPage() {
+  const study = MockStudyCardApiResult.study;
   return (
     <div className="flex flex-col gap-5 items-center border-10 border-red-500 bg-white text-black min-h-screen">
       {/* Typography */}
@@ -84,6 +93,23 @@ export default function TestPage() {
       <div>
         <i className="bi bi-0-circle"></i>
       </div>
+      {/* Badge */}
+      <div className="flex items-center gap-2">
+        <Typography.Head1>Badge</Typography.Head1>
+        <div className="flex gap-1 items-center">
+          <Badge>1/2 단계</Badge>
+          <Badge color="Green">1/2 단계</Badge>
+          <Badge color="Gray">
+            <i className="bi bi-clock mr-1"></i>
+            모집 기간: 2024-03-01 ~ 2024-03-04
+          </Badge>
+          <Badge color="Pink">1/2 단계</Badge>
+          {/* <Badge color="Green">Green</Badge>
+          <Badge color="Blue">Blue</Badge>
+          <Badge color="Red">Red</Badge>
+          <Badge color="Gray">Gray</Badge> */}
+        </div>
+      </div>
 
       <Card className="gap-3">
         <Card.Header>
@@ -105,8 +131,25 @@ export default function TestPage() {
           </Typography.P1>
         </Card.Footer>
       </Card>
+      
       {/* StudyCard */}
       <StudyCard />
+
+      {/* StudyMeta */}
+      <div className="flex gap-2">
+        <StudyMeta.Person className="text-mos-main-500">4/6명</StudyMeta.Person>
+        <StudyMeta.Date onClick={() => alert("click")}>
+          모집 기간: 2024-03-01 ~ 2024-03-04
+        </StudyMeta.Date>
+        <StudyMeta.Time>매주 화요일 저녁 8시</StudyMeta.Time>
+        <StudyMeta.View>조회수 244</StudyMeta.View>
+      </div>
+
+      {/* StudyCard */}
+      <StudyCard study={study} />
+
+      {/* StudyDescriptionCard */}
+      <StudyDescriptionCard data={MockStudiesApiResult} />
     </div>
   );
 }

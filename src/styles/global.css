@@ -24,6 +24,12 @@ select {
   appearance: none; /* 화살표 없애기 */
 }
 
+/* study detail 만 list-style 적용(StudyDetailListWrap) */
+.study-detail {
+  list-style: disc;
+  padding-left: 40px;
+}
+
 .select_renewal {
   background: url(/icon/chevron-down.png) no-repeat 92% 50%;
   background-size: 21px 18px; /* 원하는 크기로 조절 */
