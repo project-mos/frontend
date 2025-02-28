@@ -1,5 +1,3 @@
-import Button from "@/components/atoms/Button";
-import Card from "@/components/atoms/Card";
 import Grid from "@/components/atoms/Grid";
 import ShareCard from "@/features/studies-detail/components/ShareCard";
 import StudyLeaderCard from "@/features/studies-detail/components/StudyLeaderCard";
@@ -11,8 +9,8 @@ const page = () => {
   return (
     <>
       <StudyDescriptionCard data={MockStudiesApiResult} />
-        <Grid className="col-span-4 flex flex-col gap-5">
-          <StudyLeaderCard />
+      <Grid className="col-span-4 flex flex-col gap-5">
+        <StudyLeaderCard />
         <ShareCard />
       </Grid>
     </>
