@@ -7,6 +7,8 @@ import Typography from "@/components/atoms/Typography";
 import Pagination from "@/components/molecules/Pagination";
 import StudyMeta from "@/components/molecules/StudyMeta";
 import StudyCard from "@/features/studies/components/StudyCard";
+import StudyDescriptionCard from "@/features/studies/components/StudyDescriptionCard";
+import { MockStudiesApiResult } from "../mock/api/studies";
 
 export default function TestPage() {
   const study = {
@@ -133,6 +135,9 @@ export default function TestPage() {
 
       {/* StudyCard */}
       <StudyCard study={study} />
+
+      {/* StudyDescriptionCard */}
+      <StudyDescriptionCard data={MockStudiesApiResult} />
     </div>
   );
 }
