@@ -8,26 +8,14 @@ import Pagination from "@/components/molecules/Pagination";
 import StudyMeta from "@/components/molecules/StudyMeta";
 import StudyCard from "@/features/studies/components/StudyCard";
 import StudyDescriptionCard from "@/features/studies/components/StudyDescriptionCard";
-import { MockStudiesApiResult } from "../mock/api/studies";
+import {
+  MockStudiesApiResult,
+  MockStudyCardApiResult,
+} from "../mock/api/studies";
 import Badge from "@/components/atoms/Badge";
 
 export default function TestPage() {
-  const study = {
-    title: "스프링부트 심화 스터디",
-    contents:
-      "글은 최대 2줄까지 보이게 2줄을 넘어가면 ...으로 표기 -> 아직 안됨",
-    deadline: "2024-02-02",
-    category: "어학",
-    type: "비대면",
-    recruit: true,
-    tags: ["Next.js", "코딩테스트", "Python", "Next", "알고리즘"],
-    members: {
-      current: 4,
-      max: 5,
-    },
-    views: 678,
-  };
-
+  const study = MockStudyCardApiResult.study;
   return (
     <div className="flex flex-col gap-5 items-center border-10 border-red-500 bg-white text-black min-h-screen">
       {/* Typography */}
