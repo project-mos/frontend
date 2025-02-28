@@ -10,9 +10,29 @@ const StudyLeaderCard = () => {
       <Card.Header className="mb-[15px]">
         <Typography.SubTitle1>스터디장</Typography.SubTitle1>
       </Card.Header>
-      <Card.Content>
-        <Profile width={60} height={60} src={profileImg} />
+
+      <Card.Content className="mb-[20px]">
+        <div className="flex gap-[15px] items-center">
+          <Profile width={60} height={60} src={profileImg} />
+          <div>
+            <Typography.P3>김코딩</Typography.P3>
+            <Typography.P3 className="text-[14px] text-mos-gray-500 mb-[5px]">
+              현직 네카라쿠배 개발자
+            </Typography.P3>
+            <div className="flex items-center">
+              {Array(5)
+                .fill(null)
+                .map((item) => (
+                  <i className="bi bi-star-fill text-yellow-500 mr-[3px]"></i>
+                ))}
+              <Typography.P3 className="text-[15px] text-mos-gray-500">
+                5
+              </Typography.P3>
+            </div>
+          </div>
+        </div>
       </Card.Content>
+
       <Card.Footer>
         <Button.Icon active={true} className="w-full">
           <i className="bi bi-chat-dots"></i>

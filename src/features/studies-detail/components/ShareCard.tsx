@@ -8,6 +8,7 @@ const ShareCard = () => {
       <Card.Header className="mb-[15px]">
         <Typography.SubTitle1>공유하기</Typography.SubTitle1>
       </Card.Header>
+
       <Card.Footer>
         <div className="flex w-full gap-2">
           <Button.Icon className="flex-2 w-full">
