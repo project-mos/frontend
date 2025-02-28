@@ -34,3 +34,17 @@ export interface Description {
   rules: string[];
   benefits: string[];
 }
+
+export interface StudyCardInterface {
+  study: {
+    title: string;
+    contents: string;
+    deadline: string;
+    category: string;
+    type: string;
+    recruit: boolean;
+    tags: string[];
+    members: { current: number; max: number };
+    views: number;
+  };
+}

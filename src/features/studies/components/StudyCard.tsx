@@ -2,22 +2,9 @@ import Card from "@/components/atoms/Card";
 import Tag from "@/components/atoms/Tag";
 import Typography from "@/components/atoms/Typography";
 import StudyMeta from "@/components/molecules/StudyMeta";
+import { StudyCardInterface } from "@/types/api/studies/detail";
 
-interface StudyCardProps {
-  study: {
-    title: string;
-    contents: string;
-    deadline: string;
-    category: string;
-    type: string;
-    recruit: boolean;
-    tags: string[];
-    members: { current: number; max: number };
-    views: number;
-  };
-}
-
-const StudyCard = ({ study }: StudyCardProps) => {
+const StudyCard = ({ study }: StudyCardInterface) => {
   return (
     <Card className="w-[255px] cursor-pointer">
       <Card.Header className="flex-col">
@@ -33,12 +20,9 @@ const StudyCard = ({ study }: StudyCardProps) => {
           )}
         </div>
         <Typography.Head3>{study.title}</Typography.Head3>
-        <div className="flex gap-1 text-[13px] text-red-500">
-          <i className="bi bi-calendar" />
-          <Typography.P1 className=" text-[13px]">
-            마감: {study.deadline}
-          </Typography.P1>
-        </div>
+        <StudyMeta.Date className="text-red-500 text-[13px]">
+          마감: {study.deadline}
+        </StudyMeta.Date>
       </Card.Header>
       <Card.Content>
         <Typography.P1 className="pt-[20px] pb-[20px] text-mos-gray-700">

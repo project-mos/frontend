@@ -1,4 +1,7 @@
-import { StudiesDescription } from "@/types/api/studies/detail";
+import {
+  StudiesDescription,
+  StudyCardInterface,
+} from "@/types/api/studies/detail";
 
 // <StudyDescriptionCard/> 에 쓰일 mock data
 export const MockStudiesApiResult: StudiesDescription = {
@@ -34,5 +37,23 @@ export const MockStudiesApiResult: StudiesDescription = {
       "월 1회 이상 발표",
       "진행 코드 리뷰 적극 참여",
     ],
+  },
+};
+
+export const MockStudyCardApiResult: StudyCardInterface = {
+  study: {
+    title: "스프링부트 심화 스터디",
+    contents:
+      "글은 최대 2줄까지 보이게 2줄을 넘어가면 ...으로 표기 -> 아직 안됨",
+    deadline: "2024-02-02",
+    category: "어학",
+    type: "비대면",
+    recruit: true,
+    tags: ["Next.js", "코딩테스트", "Python", "Next", "알고리즘"],
+    members: {
+      current: 4,
+      max: 5,
+    },
+    views: 678,
   },
 };
