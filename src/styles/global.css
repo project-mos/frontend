@@ -25,8 +25,9 @@ select {
 }
 
 /* study detail 만 list-style 적용(StudyDetailListWrap) */
-.study-detail li {
+.study-detail {
   list-style: disc;
+  padding-left: 40px;
 }
 
 .select_renewal {
