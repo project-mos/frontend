@@ -12,13 +12,14 @@ const TagClass = {
 
 const ButtonTypeClass = {
   Detail: "bg-mos-white-gray-100 rounded-[20px] text-mos-gray-300 text-black",
-  Card: "bg-mos-white-gray-100 text-black",
+  Card: "bg-mos-white-gray-100 text-mos-gray-700",
 };
 
 interface TagProps extends HTMLAttributes<HTMLDivElement> {
   className?: string;
   type?: keyof typeof ButtonTypeClass;
   border?: boolean;
+  bold?: boolean;
 }
 
 const TagComponent: React.FC<TagProps & { color: keyof typeof TagClass }> = ({
@@ -27,6 +28,7 @@ const TagComponent: React.FC<TagProps & { color: keyof typeof TagClass }> = ({
   children,
   color,
   type,
+  bold = false,
   ...props
 }) => {
   return (
@@ -36,6 +38,7 @@ const TagComponent: React.FC<TagProps & { color: keyof typeof TagClass }> = ({
         type && ButtonTypeClass[type],
         color !== "Default" && TagClass[color], // 동적 색상 적용
         !border && "border-none",
+        bold && "font-bold", // Bold 적용
         className
       )}
       {...props}
