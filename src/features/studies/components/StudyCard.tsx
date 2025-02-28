@@ -1,6 +1,3 @@
-import Card from "@/components/atoms/Card";
-import Tag from "@/components/atoms/Tag";
-import Typography from "@/components/atoms/Typography";
 import StudyMeta from "@/components/molecules/StudyMeta";
 import { StudyCardInterface } from "@/types/api/studies/detail";
 

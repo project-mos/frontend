@@ -5,14 +5,15 @@ import Select from "@/components/atoms/Select";
 import Tag from "@/components/atoms/Tag";
 import Typography from "@/components/atoms/Typography";
 import Pagination from "@/components/molecules/Pagination";
-import StudyMeta from "@/components/molecules/StudyMeta";
 import StudyCard from "@/features/studies/components/StudyCard";
+import StudyMeta from "@/components/molecules/StudyMeta";
 import StudyDescriptionCard from "@/features/studies/components/StudyDescriptionCard";
 import {
   MockStudiesApiResult,
   MockStudyCardApiResult,
 } from "../mock/api/studies";
 import Badge from "@/components/atoms/Badge";
+
 
 export default function TestPage() {
   const study = MockStudyCardApiResult.study;
@@ -130,6 +131,9 @@ export default function TestPage() {
           </Typography.P1>
         </Card.Footer>
       </Card>
+      
+      {/* StudyCard */}
+      <StudyCard />
 
       {/* StudyMeta */}
       <div className="flex gap-2">
