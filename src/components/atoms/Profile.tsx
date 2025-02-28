@@ -8,6 +8,7 @@ interface ProfileProps {
   className?: string;
   children?: React.ReactNode;
 }
+
 const Profile: React.FC<ProfileProps> = ({
   width,
   height,
@@ -22,7 +23,6 @@ const Profile: React.FC<ProfileProps> = ({
         `w-[${width}px] h-[${height}px]`,
         className
       )}
-      style={{ width, height }}
     >
       <Image src={src} alt="프로필 이미지" width={width} height={height} />
       {children}
