@@ -1,12 +1,17 @@
+import { HTMLAttributes } from "react";
 import Card from "@/components/atoms/Card";
 import Tag from "@/components/atoms/Tag";
 import Typography from "@/components/atoms/Typography";
 import StudyMeta from "@/components/molecules/StudyMeta";
 import { StudyCardInterface } from "@/types/api/studies/detail";
 
-const StudyCard = ({ study }: StudyCardInterface) => {
+interface StudyCardProps
+  extends StudyCardInterface,
+    HTMLAttributes<HTMLDivElement> {}
+
+const StudyCard = ({ study, className, ...props }: StudyCardProps) => {
   return (
-    <Card className="w-[255px] cursor-pointer">
+    <Card className={`w-[255px] cursor-pointer ${className ?? ""}`} {...props}>
       <Card.Header className="flex-col">
         <div className="flex justify-between mb-[20px]">
           <div className="flex gap-[4.5px]">

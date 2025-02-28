@@ -142,7 +142,7 @@ export default function TestPage() {
       </div>
 
       {/* StudyCard */}
-      <StudyCard study={study} />
+      <StudyCard study={study} onClick={() => alert("click")} />
 
       {/* StudyDescriptionCard */}
       <StudyDescriptionCard data={MockStudiesApiResult} />
