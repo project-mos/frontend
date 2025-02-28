@@ -15,13 +15,17 @@ const StudyCard = ({ study, className, ...props }: StudyCardProps) => {
       <Card.Header className="flex-col">
         <div className="flex justify-between mb-[20px]">
           <div className="flex gap-[4.5px]">
-            <Tag.Green>{study.category}</Tag.Green>
-            <Tag.Blue>{study.type}</Tag.Blue>
+            <Tag.Green bold>{study.category}</Tag.Green>
+            <Tag.Blue bold>{study.type}</Tag.Blue>
           </div>
           {study.recruit ? (
-            <Tag.Green border={false}>모집중</Tag.Green>
+            <Tag.Green bold border={false}>
+              모집중
+            </Tag.Green>
           ) : (
-            <Tag.Gray border={false}>모집 완료</Tag.Gray>
+            <Tag.Gray bold border={false}>
+              모집 완료
+            </Tag.Gray>
           )}
         </div>
         <Typography.Head3>{study.title}</Typography.Head3>
