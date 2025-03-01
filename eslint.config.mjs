@@ -5,6 +5,7 @@ import tailwind from "eslint-plugin-tailwindcss";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+const isProduction = process.env.NODE_ENV === "production";
 
 const compat = new FlatCompat({
   baseDirectory: __dirname,
@@ -13,7 +14,7 @@ const compat = new FlatCompat({
 const tailwindESLintContext = {
   settingsDefault: {
     // These are the default values but feel free to customize
-    callees: ["classnames", "clsx", "ctl"],
+    callees: ["classnames", "clsx", "ctl", "cn"],
     config: "tailwind.config.js",
     cssFiles: [
       "**/*.css",
@@ -38,7 +39,7 @@ const tailwindESLintContext = {
             ...this.settingsDefault,
             callees: [...this.settingsDefault.callees, "twMerge"], // cn함수와 연관된 callee 추가
             config: "./tailwind.config.ts", // tailwind config file이 ts이므로 변경
-            classRegex: "^(class(Name)?|.*Style.*)$", // Style도 포함
+            classRegex: "^(class(Name)?|.*Style.*|bi-.*|fa-.*)$", // Style도 포함
           },
         },
       },
@@ -49,6 +50,11 @@ const tailwindESLintContext = {
 const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
   ...tailwindESLintContext.getConfig(),
+  {
+    rules: {
+      "tailwindcss/no-custom-classname": isProduction ? "off" : "warn", // 🚀 프로덕션에서는 끄고, 개발에서는 경고
+    },
+  },
 ];
 
 export default eslintConfig;
