@@ -1,8 +1,9 @@
 import { cn } from "@/lib/utils";
 import React, { ButtonHTMLAttributes } from "react";
+import Icon from "./Icon";
 
 const DefaultButtonClass =
-  "box-border px-4 py-2 border rounded-md border-gray-200 transition-all duration-200 text-sm bg-white text-black flex items-center gap-2 h-[40px] w-fit min-w-fit";
+  "box-border px-4 py-2 border rounded-md border-gray-200 transition-all duration-200 text-sm bg-white text-black flex items-center gap-2 h-[40px] w-fit min-w-fit justify-center";
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
   active?: boolean;
