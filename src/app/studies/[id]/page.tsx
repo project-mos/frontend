@@ -4,6 +4,7 @@ import StudyLeaderCard from "@/features/studies-detail/components/StudyLeaderCar
 import { MockStudiesApiResult } from "@/app/mock/api/studies";
 import StudyDescriptionCard from "@/features/studies/components/StudyDescriptionCard";
 import React from "react";
+import StudyCurriculumCard from "@/features/studies/components/StudyCurriculumCard";
 
 const page = () => {
   return (
@@ -13,6 +14,7 @@ const page = () => {
         <StudyLeaderCard />
         <ShareCard />
       </Grid>
+      <StudyCurriculumCard />
     </>
   );
 };
