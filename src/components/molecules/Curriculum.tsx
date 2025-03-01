@@ -15,7 +15,7 @@ const Curriculum = ({ data }: CurriculumProps) => {
           <div className="flex gap-[20px]" key={curriculum.step}>
             <div>
               <Tag.Main className="flex flex-col text-nowrap">
-                <Typography.P3 className="text-[14px] font-bold pt-[1px]">
+                <Typography.P3 className="font-bold pt-[1px]">
                   {curriculum.step}
                 </Typography.P3>
               </Tag.Main>
