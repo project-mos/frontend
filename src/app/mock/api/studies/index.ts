@@ -1,6 +1,7 @@
 import {
   StudiesDescription,
   StudyCardInterface,
+  StudyCurriculumInterface,
 } from "@/types/api/studies/detail";
 
 // <StudyDescriptionCard/> 에 쓰일 mock data
@@ -57,3 +58,25 @@ export const MockStudyCardApiResult: StudyCardInterface = {
     views: 678,
   },
 };
+
+// <Curriculum/> 에 쓰일 mock data
+export const MockStudyCurriculumApiResult: StudyCurriculumInterface[] = [ 
+  {
+    step: '1주차',
+    title: '정렬 알고리즘',
+    content: '버블정렬, 선택정렬, 삽입정렬, 퀵정렬학습',
+    task: ['백준 1181번','백준 1183번']
+  },
+  {
+    step: '2주차',
+    title: '그래프 탐색',
+    content: 'DFS, BFS 기초와 응용',
+    task: ['백준 1260번','백준 2178번']
+  },
+  {
+    step: '3주차',
+    title: '동적 프로그래밍',
+    content: 'DP 개념과 기초 문제 풀이',
+    task: ['백준 1463번','백준 9095번']
+  }
+]
