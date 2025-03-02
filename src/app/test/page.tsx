@@ -14,7 +14,6 @@ import {
 } from "../mock/api/studies";
 import Badge from "@/components/atoms/Badge";
 
-
 export default function TestPage() {
   const study = MockStudyCardApiResult.study;
   return (
@@ -131,9 +130,9 @@ export default function TestPage() {
           </Typography.P1>
         </Card.Footer>
       </Card>
-      
+
       {/* StudyCard */}
-      <StudyCard />
+      <StudyCard study={study} />
 
       {/* StudyMeta */}
       <div className="flex gap-2">
