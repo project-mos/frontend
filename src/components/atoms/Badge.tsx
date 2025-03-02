@@ -22,7 +22,7 @@ const Badge = ({
   return (
     <span
       className={cn(
-        "box-border flex items-center text-[.75rem] font-semibold px-2.5 rounded-full h-[20px]",
+        "box-border flex h-[20px] items-center rounded-full px-2.5 text-[.75rem] font-semibold",
         BadgeColors[color],
         className
       )}

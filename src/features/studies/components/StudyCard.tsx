@@ -13,7 +13,7 @@ const StudyCard = ({ study, className, ...props }: StudyCardProps) => {
   return (
     <Card className={`w-[255px] cursor-pointer ${className ?? ""}`} {...props}>
       <Card.Header className="flex-col">
-        <div className="flex justify-between mb-[20px]">
+        <div className="mb-[20px] flex justify-between">
           <div className="flex gap-[4.5px]">
             <Tag.Green bold>{study.category}</Tag.Green>
             <Tag.Blue bold>{study.type}</Tag.Blue>
@@ -29,15 +29,15 @@ const StudyCard = ({ study, className, ...props }: StudyCardProps) => {
           )}
         </div>
         <Typography.Head3>{study.title}</Typography.Head3>
-        <StudyMeta.Date className="text-red-500 text-[13px]">
+        <StudyMeta.Date className="text-[13px] text-red-500">
           마감: {study.deadline}
         </StudyMeta.Date>
       </Card.Header>
       <Card.Content>
-        <Typography.P1 className="pt-[20px] pb-[20px] text-mos-gray-700">
+        <Typography.P1 className="py-[20px] text-mos-gray-700">
           {study.contents}
         </Typography.P1>
-        <div className="flex flex-wrap gap-[5px] mb-[40px]">
+        <div className="mb-[40px] flex flex-wrap gap-[5px]">
           {study.tags.map((tag, index) => (
             <Tag.Detail key={index}>#{tag}</Tag.Detail>
           ))}

@@ -18,7 +18,7 @@ import CustomImage from "@/components/atoms/Image";
 export default function TestPage() {
   const study = MockStudyCardApiResult.study;
   return (
-    <div className="flex flex-col gap-5 items-center border-10 border-red-500 bg-white text-black min-h-screen">
+    <div className="border-10 flex min-h-screen flex-col items-center gap-5 border-red-500 bg-white text-black">
       {/* Typography */}
       <div className=" flex">
         <Typography.Head1>Typographys &nbsp;</Typography.Head1>
@@ -35,7 +35,7 @@ export default function TestPage() {
       {/* Tags */}
       <div className="flex items-center gap-2">
         <Typography.Head1>Tags</Typography.Head1>
-        <div className="flex gap-1 items-center">
+        <div className="flex items-center gap-1">
           <Tag.Default type="Detail">기본</Tag.Default>
           <Tag.Detail>#Python</Tag.Detail>
           <Tag.Default>안녕</Tag.Default>
@@ -50,7 +50,7 @@ export default function TestPage() {
       {/* Buttons */}
       <div className="flex items-center gap-2">
         <Typography.Head1>Buttons</Typography.Head1>
-        <div className="flex gap-1 items-center">
+        <div className="flex items-center gap-1">
           <Button.Default>
             <i className="bi bi-heart"></i>
             좋아요 보기
@@ -77,7 +77,7 @@ export default function TestPage() {
       {/* Options */}
       <div className="flex items-center gap-2">
         <Typography.Head1>Options</Typography.Head1>
-        <div className="flex gap-1 items-center">
+        <div className="flex items-center gap-1">
           <Select placeholder="진행 방식" defaultValue="">
             <Select.Option value={1}>1</Select.Option>
           </Select>
@@ -86,7 +86,7 @@ export default function TestPage() {
       {/* Pagination */}
       <div className="flex items-center gap-2">
         <Typography.Head1>Pagination</Typography.Head1>
-        <div className="flex gap-1 items-center">
+        <div className="flex items-center gap-1">
           <Pagination activePage={1} totalPage={2} />
         </div>
       </div>
@@ -96,7 +96,7 @@ export default function TestPage() {
       {/* Badge */}
       <div className="flex items-center gap-2">
         <Typography.Head1>Badge</Typography.Head1>
-        <div className="flex gap-1 items-center">
+        <div className="flex items-center gap-1">
           <Badge>1/2 단계</Badge>
           <Badge color="Green">1/2 단계</Badge>
           <Badge color="Gray">

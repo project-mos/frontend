@@ -1,6 +1,5 @@
 import { cn } from "@/lib/utils";
 import React, { ButtonHTMLAttributes } from "react";
-import Icon from "./Icon";
 
 const DefaultButtonClass =
   "box-border px-4 py-2 border rounded-md border-gray-200 transition-all duration-200 text-sm bg-white text-black flex items-center gap-2 h-[40px] w-fit min-w-fit justify-center";
@@ -80,7 +79,7 @@ const IconButton: React.FC<IconButtonProps> = ({
 }) => {
   return (
     <DefaultButton
-      className={cn("w-10 h-10 p-3", IconButtonClass[color], className)}
+      className={cn("size-10 p-3", IconButtonClass[color], className)}
       active={active}
       {...props}
     >

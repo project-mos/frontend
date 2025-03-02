@@ -19,7 +19,7 @@ const Profile: React.FC<ProfileProps> = ({
   return (
     <div
       className={cn(
-        "rounded-full overflow-hidden",
+        "overflow-hidden rounded-full",
         `w-[${width}px] h-[${height}px]`,
         className
       )}

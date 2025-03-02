@@ -14,7 +14,7 @@ const ShareCard = () => {
           <Button.Icon className="flex-2 w-full">
             <i className="bi bi-link-45deg text-[18px]"></i>링크복사
           </Button.Icon>
-          <Button.Icon className="flex-1 w-full">
+          <Button.Icon className="w-full flex-1">
             <i className="bi bi-share"></i>
           </Button.Icon>
         </div>

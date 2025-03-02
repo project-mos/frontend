@@ -9,7 +9,7 @@ const Card = ({ className, children, ...props }: CardProps) => {
   return (
     <div
       className={cn(
-        "flex flex-col box-border p-4 border-[1px] rounded-md border-mos-white-gray-300 shadow-[0px_0px_20px_#DEE2E6]",
+        "box-border flex flex-col rounded-md border border-mos-white-gray-300 p-4 shadow-[0px_0px_20px_#DEE2E6]",
         className
       )}
       {...props}

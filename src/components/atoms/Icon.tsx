@@ -14,7 +14,7 @@ const Icon: React.FC<IconProps> = ({ src, alt, className, onClick }) => {
     <Image
       src={src}
       alt={alt}
-      className={cn("w-6 h-6 object-contain", className)}
+      className={cn("size-6 object-contain", className)}
       onClick={onClick}
     />
   );

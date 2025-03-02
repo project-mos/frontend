@@ -12,11 +12,11 @@ const StudyLeaderCard = () => {
       </Card.Header>
 
       <Card.Content className="mb-[20px]">
-        <div className="flex gap-[15px] items-center">
+        <div className="flex items-center gap-[15px]">
           <Profile width={60} height={60} src={profileImg} />
           <div>
             <Typography.P3>김코딩</Typography.P3>
-            <Typography.P3 className="text-[14px] text-mos-gray-500 mb-[5px]">
+            <Typography.P3 className="mb-[5px] text-[14px] text-mos-gray-500">
               현직 네카라쿠배 개발자
             </Typography.P3>
             <div className="flex items-center">
@@ -24,7 +24,7 @@ const StudyLeaderCard = () => {
                 .fill(null)
                 .map((item, index) => (
                   <i
-                    className="bi bi-star-fill text-yellow-500 mr-[3px]"
+                    className="bi bi-star-fill mr-[3px] text-yellow-500"
                     key={index}
                   ></i>
                 ))}

@@ -11,7 +11,7 @@ import {
 
 const StudyDescriptionCard = ({ data }: StudiesDescriptionApiResult) => {
   return (
-    <Card className="flex flex-col col-span-8 pb-10 gap-5">
+    <Card className="col-span-8 flex flex-col gap-5 pb-10">
       <Card.Header className="flex-col gap-3">
         <div className="flex justify-between">
           <Tag.Green bold>{data.category}</Tag.Green>
@@ -63,7 +63,7 @@ const StudyDescriptionCard = ({ data }: StudiesDescriptionApiResult) => {
               return (
                 <Typography.P1
                   key={`${item}_${index}`}
-                  className="text-mos-gray-700 text-[14px]"
+                  className="text-[14px] text-mos-gray-700"
                 >
                   {item}
                 </Typography.P1>

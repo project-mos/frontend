@@ -18,7 +18,7 @@ const Select = ({
   return (
     <select
       className={cn(
-        "box-border select select_renewal border rounded-md pl-5 pr-[60px] text-sm h-[40px]",
+        "select select_renewal box-border h-[40px] rounded-md border pl-5 pr-[60px] text-sm",
         className
       )}
       {...props}

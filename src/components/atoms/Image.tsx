@@ -11,7 +11,7 @@ const CustomImage = forwardRef<HTMLImageElement, ImageProps>(
     return (
       <div className="relative w-full h-64">
         <Image
-          ref={ref as any}
+          ref={ref}
           className={cn("object-cover", className)}
           fill
           {...props}
