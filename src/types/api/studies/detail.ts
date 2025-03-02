@@ -48,3 +48,10 @@ export interface StudyCardInterface {
     views: number;
   };
 }
+
+export interface StudyCurriculumInterface {
+  step: string,
+  title: string,
+  content: string,
+  task: string[],
+}

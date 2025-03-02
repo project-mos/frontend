@@ -4,6 +4,7 @@ import React, { HTMLAttributes } from "react";
 const TagClass = {
   Default:
     "box-border flex items-center bg-white text-black border-[1px] rounded-md px-3 pt-0.5 text-[0.75rem] h-[25px] w-fit min-w-fit",
+  Main: "bg-mos-main-500 text-white border-mos-main-500",
   Green: "bg-mos-green-100 !text-mos-green-500 border-mos-green-300 ",
   Blue: "bg-mos-blue-100 !text-mos-blue-500 border-mos-blue-300 ",
   Pink: "bg-mos-pink-100 !text-mos-pink-500 border-mos-pink-300 ",
@@ -51,6 +52,7 @@ const TagComponent: React.FC<TagProps & { color: keyof typeof TagClass }> = ({
 // 태그 객체로 내보내기
 const Tag = {
   Default: (props: TagProps) => <TagComponent {...props} color="Default" />,
+  Main: (props: TagProps) => <TagComponent {...props} color="Main" />,
   Green: (props: TagProps) => <TagComponent {...props} color="Green" />,
   Blue: (props: TagProps) => <TagComponent {...props} color="Blue" />,
   Pink: (props: TagProps) => <TagComponent {...props} color="Pink" />,

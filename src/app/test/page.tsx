@@ -15,6 +15,7 @@ import {
 import Badge from "@/components/atoms/Badge";
 import CustomImage from "@/components/atoms/Image";
 
+
 export default function TestPage() {
   const study = MockStudyCardApiResult.study;
   return (
@@ -45,6 +46,7 @@ export default function TestPage() {
           <Tag.Pink>프로그래밍</Tag.Pink>
           <Tag.Default type="Card">#Python</Tag.Default>
           <Tag.Card>#Python</Tag.Card>
+          <Tag.Main>알고리즘 기초</Tag.Main>
         </div>
       </div>
       {/* Buttons */}
