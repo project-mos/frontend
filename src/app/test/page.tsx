@@ -13,6 +13,7 @@ import {
   MockStudyCardApiResult,
 } from "../mock/api/studies";
 import Badge from "@/components/atoms/Badge";
+import CustomImage from "@/components/atoms/Image";
 
 export default function TestPage() {
   const study = MockStudyCardApiResult.study;
@@ -149,6 +150,13 @@ export default function TestPage() {
 
       {/* StudyDescriptionCard */}
       <StudyDescriptionCard data={MockStudiesApiResult} />
+
+      {/* Image */}
+      <CustomImage
+        src="https://letsenhance.io/static/73136da51c245e80edc6ccfe44888a99/1015f/MainBefore.jpg"
+        alt="Next.js Logo"
+        unoptimized
+      />
     </div>
   );
 }
