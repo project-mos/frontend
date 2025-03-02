@@ -131,6 +131,9 @@ export default function TestPage() {
         </Card.Footer>
       </Card>
 
+      {/* StudyCard */}
+      <StudyCard study={study} />
+
       {/* StudyMeta */}
       <div className="flex gap-2">
         <StudyMeta.Person className="text-mos-main-500">4/6명</StudyMeta.Person>
