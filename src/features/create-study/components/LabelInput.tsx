@@ -1,6 +1,7 @@
+import React from 'react';
+import { cn } from '@/lib/utils';
 import Input from '@/components/atoms/Input';
 import Typography from '@/components/atoms/Typography';
-import React from 'react';
 
 interface LabelInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
@@ -14,17 +15,17 @@ const LabelInput = ({
   required,
   ...props
 }: LabelInputProps) => {
-  const inputId = id || `input-${label.replace(/\s+/g, '-').toLowerCase()}`;
+  const inputId = id ?? `input-${label.replace(/\s+/g, '-').toLowerCase()}`;
 
   return (
-    <div className="flex flex-col gap-[5px] w-full">
+    <div className={cn('flex flex-col gap-[5px] w-full', className)}>
       <label htmlFor={inputId}>
         <Typography.P1>
-          {label} {required && <span>*</span>}
+          {label} {required ? '*' : ''}
         </Typography.P1>
       </label>
 
-      <Input id={inputId} className={`w-full ${className ?? ''}`} {...props} />
+      <Input id={inputId} className="w-full" required={required} {...props} />
     </div>
   );
 };

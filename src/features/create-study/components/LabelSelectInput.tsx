@@ -1,8 +1,9 @@
+import React, { HTMLAttributes } from 'react';
+import { cn } from '@/lib/utils';
 import Select from '@/components/atoms/Select';
 import Typography from '@/components/atoms/Typography';
-import { HTMLAttributes } from 'react';
 
-interface LabelSelectInputProps extends HTMLAttributes<HTMLInputElement> {
+interface LabelSelectInputProps extends HTMLAttributes<HTMLDivElement> {
   label: string;
   id?: string;
   required?: boolean;
@@ -17,17 +18,18 @@ const LabelSelectInput = ({
   selectList,
   ...props
 }: LabelSelectInputProps) => {
-  const inputId = id || `input-${label.replace(/\s+/g, '-').toLowerCase()}`;
-
   return (
-    <div className="flex flex-col gap-[5px] w-full" {...props}>
-      <label htmlFor={inputId}>
+    <div className={cn('flex flex-col gap-[5px] w-full', className)} {...props}>
+      <label htmlFor={id}>
         <Typography.P1>
           {label} {required && <span>*</span>}
         </Typography.P1>
       </label>
 
-      <Select className="w-full focus:border-mos-main-500 focus:outline-none">
+      <Select
+        id={id}
+        className={cn('w-full focus:border-mos-main-500 focus:outline-none')}
+      >
         {selectList.map((option, index) => (
           <Select.Option key={index} value={option}>
             {option}
