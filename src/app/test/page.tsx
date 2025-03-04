@@ -16,10 +16,12 @@ import Badge from '@/components/atoms/Badge';
 import CustomImage from '@/components/atoms/Image';
 import LabelInput from '@/features/create-study/components/LabelInput';
 import { useState } from 'react';
+import LabelSelectInput from '@/features/create-study/components/LabelSelectInput';
 
 export default function TestPage() {
   const study = MockStudyCardApiResult.study;
   const [studyName, setStudyName] = useState('');
+  const [category, setCategory] = useState(['ex1', 'ex2', 'ex3']);
 
   return (
     <div className="border-10 flex min-h-screen flex-col items-center gap-5 border-red-500 bg-white text-black">
@@ -174,6 +176,7 @@ export default function TestPage() {
         value={studyName}
         onChange={(e) => setStudyName(e.target.value)}
       />
+      <LabelSelectInput label="카테고리" selectList={category} required />
     </div>
   );
 }

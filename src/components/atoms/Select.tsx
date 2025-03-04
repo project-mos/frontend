@@ -1,9 +1,9 @@
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
 import React, {
   DetailedHTMLProps,
   HtmlHTMLAttributes,
   OptionHTMLAttributes,
-} from "react";
+} from 'react';
 
 interface SelectProps extends HtmlHTMLAttributes<HTMLSelectElement> {
   className?: string;
@@ -18,7 +18,7 @@ const Select = ({
   return (
     <select
       className={cn(
-        "select select_renewal box-border h-[40px] rounded-md border pl-5 pr-[60px] text-sm",
+        'select select_renewal box-border h-[40px] rounded-md border pl-5 pr-[60px] text-sm',
         className
       )}
       {...props}
