@@ -16,22 +16,21 @@ const LabelTagInput = ({
   setTagList,
   label,
   id,
-  className,
   required,
   ...props
 }: LabelTagInputProps) => {
-  const [tagElement, setTagElement] = useState('');
+  const [tagElement, setTagElement] = useState("");
 
-  const inputId = id ?? `input-${label.replace(/\s+/g, '-').toLowerCase()}`;
+  const inputId = id ?? `input-${label.replace(/\s+/g, "-").toLowerCase()}`;
 
   const handleTagChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTagElement(event.target.value);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if ((event.key === 'Enter' || event.key === ' ') && tagElement.trim()) {
+    if ((event.key === "Enter" || event.key === " ") && tagElement.trim()) {
       setTagList((prevTags) => [...prevTags, tagElement.trim()]);
-      setTagElement('');
+      setTagElement("");
     }
   };
 
@@ -40,10 +39,10 @@ const LabelTagInput = ({
   };
 
   return (
-    <div className="flex flex-col gap-[10px] w-full">
+    <div className="flex w-full flex-col gap-[10px]">
       <label htmlFor={inputId} className="flex items-center">
         <Typography.P1>
-          {label} {required ? '*' : ''}
+          {label} {required ? "*" : ""}
         </Typography.P1>
       </label>
 

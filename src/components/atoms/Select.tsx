@@ -1,9 +1,9 @@
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
 import React, {
   DetailedHTMLProps,
   HtmlHTMLAttributes,
   OptionHTMLAttributes,
-} from 'react';
+} from "react";
 
 interface SelectProps extends HtmlHTMLAttributes<HTMLSelectElement> {
   className?: string;
@@ -19,7 +19,8 @@ const Select = ({
     <div className="relative w-full">
       <select
         className={cn(
-          'appearance-none w-full box-border h-[40px] rounded-md border pl-5 pr-10 text-sm'
+          "box-border h-[40px] w-full appearance-none rounded-md border pl-5 pr-10 text-sm",
+          className
         )}
         {...props}
       >

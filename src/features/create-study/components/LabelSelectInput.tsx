@@ -19,7 +19,7 @@ const LabelSelectInput = ({
   ...props
 }: LabelSelectInputProps) => {
   return (
-    <div className={cn('flex flex-col gap-[5px] w-full', className)} {...props}>
+    <div className={cn('flex w-full flex-col gap-[5px]', className)} {...props}>
       <label htmlFor={id}>
         <Typography.P1>
           {label} {required && <span>*</span>}
@@ -29,7 +29,7 @@ const LabelSelectInput = ({
       <Select
         id={id}
         className={cn(
-          'w-full focus:border-mos-main-500 focus:outline-none placeholder:text-mos-gray-500'
+          'w-full placeholder:text-mos-gray-500 focus:border-mos-main-500 focus:outline-none'
         )}
       >
         {selectList.map((option, index) => (
