@@ -1,4 +1,5 @@
 import Input from '@/components/atoms/Input';
+import Typography from '@/components/atoms/Typography';
 import React from 'react';
 
 interface LabelInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -17,8 +18,10 @@ const LabelInput = ({
 
   return (
     <div className="flex flex-col gap-[5px] w-full">
-      <label htmlFor={inputId} className="text-sm font-medium text-gray-700">
-        {label} {required && <span>*</span>}
+      <label htmlFor={inputId}>
+        <Typography.P1>
+          {label} {required && <span>*</span>}
+        </Typography.P1>
       </label>
 
       <Input id={inputId} className={`w-full ${className ?? ''}`} {...props} />
