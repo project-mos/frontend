@@ -1,0 +1,19 @@
+#!/bin/zsh
+
+# 현재 브랜치 가져오기
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+
+# main 또는 release/* 패턴과 매칭되면 빌드 실행
+if [[ "$CURRENT_BRANCH" == "main" || "$CURRENT_BRANCH" == release/* ]]; then
+  echo "🔨 Running build before pushing..."
+  
+  # Next.js 빌드 실행
+  if ! pnpm run build; then
+    echo "❌ Build failed! Push aborted."
+    exit 1
+  fi
+fi
+
+# 푸쉬 실행
+echo "🚀 Pushing to $CURRENT_BRANCH..."
+exit 0
