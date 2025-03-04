@@ -16,20 +16,24 @@ const Select = ({
   ...props
 }: SelectProps) => {
   return (
-    <select
-      className={cn(
-        'select select_renewal box-border h-[40px] rounded-md border pl-5 pr-[60px] text-sm',
-        className
-      )}
-      {...props}
-    >
-      {placeholder && (
-        <Option disabled hidden value="">
-          {placeholder}
-        </Option>
-      )}
-      {children}
-    </select>
+    <div className="relative w-full">
+      <select
+        className={cn(
+          'appearance-none w-full box-border h-[40px] rounded-md border pl-5 pr-10 text-sm'
+        )}
+        {...props}
+      >
+        {placeholder && (
+          <option disabled hidden value="">
+            {placeholder}
+          </option>
+        )}
+        {children}
+      </select>
+      <div className="pointer-events-none absolute right-5 top-1/2 -translate-y-1/2">
+        <i className="bi bi-chevron-down text-gray-500"></i>
+      </div>
+    </div>
   );
 };
 

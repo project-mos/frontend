@@ -28,7 +28,9 @@ const LabelSelectInput = ({
 
       <Select
         id={id}
-        className={cn('w-full focus:border-mos-main-500 focus:outline-none')}
+        className={cn(
+          'w-full focus:border-mos-main-500 focus:outline-none placeholder:text-mos-gray-500'
+        )}
       >
         {selectList.map((option, index) => (
           <Select.Option key={index} value={option}>

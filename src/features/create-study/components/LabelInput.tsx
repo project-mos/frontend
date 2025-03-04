@@ -25,7 +25,12 @@ const LabelInput = ({
         </Typography.P1>
       </label>
 
-      <Input id={inputId} className="w-full" required={required} {...props} />
+      <Input
+        id={inputId}
+        className="w-full placeholder:text-mos-gray-500"
+        required={required}
+        {...props}
+      />
     </div>
   );
 };

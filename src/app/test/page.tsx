@@ -17,11 +17,13 @@ import CustomImage from '@/components/atoms/Image';
 import LabelInput from '@/features/create-study/components/LabelInput';
 import { useState } from 'react';
 import LabelSelectInput from '@/features/create-study/components/LabelSelectInput';
+import LabelTagInput from '@/features/create-study/components/LabelTagInput';
 
 export default function TestPage() {
   const study = MockStudyCardApiResult.study;
   const [studyName, setStudyName] = useState('');
   const [category, setCategory] = useState(['ex1', 'ex2', 'ex3']);
+  const [tagList, setTagList] = useState<string[]>([]);
 
   return (
     <div className="border-10 flex min-h-screen flex-col items-center gap-5 border-red-500 bg-white text-black">
@@ -175,8 +177,15 @@ export default function TestPage() {
         label="모집인원"
         value={studyName}
         onChange={(e) => setStudyName(e.target.value)}
+        placeholder="예: 매주 화요일 오후 8시"
       />
       <LabelSelectInput label="카테고리" selectList={category} required />
+      <LabelTagInput
+        tagList={tagList}
+        setTagList={setTagList}
+        label="태그"
+        placeholder="태그를 입력해주세요"
+      />
     </div>
   );
 }
