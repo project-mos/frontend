@@ -1,23 +1,26 @@
-"use client";
-import Button from "@/components/atoms/Button";
-import Card from "@/components/atoms/Card";
-import Select from "@/components/atoms/Select";
-import Tag from "@/components/atoms/Tag";
-import Typography from "@/components/atoms/Typography";
-import Pagination from "@/components/molecules/Pagination";
-import StudyCard from "@/features/studies/components/StudyCard";
-import StudyMeta from "@/components/molecules/StudyMeta";
-import StudyDescriptionCard from "@/features/studies/components/StudyDescriptionCard";
+'use client';
+import Button from '@/components/atoms/Button';
+import Card from '@/components/atoms/Card';
+import Select from '@/components/atoms/Select';
+import Tag from '@/components/atoms/Tag';
+import Typography from '@/components/atoms/Typography';
+import Pagination from '@/components/molecules/Pagination';
+import StudyCard from '@/features/studies/components/StudyCard';
+import StudyMeta from '@/components/molecules/StudyMeta';
+import StudyDescriptionCard from '@/features/studies/components/StudyDescriptionCard';
 import {
   MockStudiesApiResult,
   MockStudyCardApiResult,
-} from "../mock/api/studies";
-import Badge from "@/components/atoms/Badge";
-import CustomImage from "@/components/atoms/Image";
-
+} from '../mock/api/studies';
+import Badge from '@/components/atoms/Badge';
+import CustomImage from '@/components/atoms/Image';
+import LabelInput from '@/features/create-study/components/LabelInput';
+import { useState } from 'react';
 
 export default function TestPage() {
   const study = MockStudyCardApiResult.study;
+  const [studyName, setStudyName] = useState('');
+
   return (
     <div className="border-10 flex min-h-screen flex-col items-center gap-5 border-red-500 bg-white text-black">
       {/* Typography */}
@@ -140,7 +143,7 @@ export default function TestPage() {
       {/* StudyMeta */}
       <div className="flex gap-2">
         <StudyMeta.Person className="text-mos-main-500">4/6명</StudyMeta.Person>
-        <StudyMeta.Date onClick={() => alert("click")}>
+        <StudyMeta.Date onClick={() => alert('click')}>
           모집 기간: 2024-03-01 ~ 2024-03-04
         </StudyMeta.Date>
         <StudyMeta.Time>매주 화요일 저녁 8시</StudyMeta.Time>
@@ -148,7 +151,7 @@ export default function TestPage() {
       </div>
 
       {/* StudyCard */}
-      <StudyCard study={study} onClick={() => alert("click")} />
+      <StudyCard study={study} onClick={() => alert('click')} />
 
       {/* StudyDescriptionCard */}
       <StudyDescriptionCard data={MockStudiesApiResult} />
@@ -158,6 +161,18 @@ export default function TestPage() {
         src="https://letsenhance.io/static/73136da51c245e80edc6ccfe44888a99/1015f/MainBefore.jpg"
         alt="Next.js Logo"
         unoptimized
+      />
+
+      <LabelInput
+        label="스터디명"
+        value={studyName}
+        onChange={(e) => setStudyName(e.target.value)}
+        required
+      />
+      <LabelInput
+        label="모집인원"
+        value={studyName}
+        onChange={(e) => setStudyName(e.target.value)}
       />
     </div>
   );
