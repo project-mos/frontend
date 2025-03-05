@@ -1,7 +1,7 @@
 import { StudyCurriculumInterface } from "@/types/api/studies/detail";
-import Card from "../atoms/Card";
-import Tag from "../atoms/Tag";
-import Typography from "../atoms/Typography";
+import Card from "../../../components/atoms/Card";
+import Tag from "../../../components/atoms/Tag";
+import Typography from "../../../components/atoms/Typography";
 
 interface CurriculumProps {
   data: StudyCurriculumInterface[];
