@@ -27,7 +27,7 @@ const Header = () => {
   return (
     <header className="fixed left-0 top-0 z-50 flex h-[55px] w-full items-center justify-between border-b border-gray-200 bg-white laptop:px-[100px] desktop:px-[300]">
       {/* 왼쪽: 로고 */}
-      <div>
+      <div className="pl-5">
         <Link href="/" passHref>
           <SvgIcons.Logo />
         </Link>
@@ -39,7 +39,7 @@ const Header = () => {
       </div>
 
       {/* 오른쪽: 마이페이지, 로그인 버튼 */}
-      <div className="flex items-center gap-[20px]">
+      <div className="flex items-center gap-[20px] pr-5">
         <NavItem href="/my-page" label="마이페이지" />
         {isLoggedIn ? (
           <Button.Solid color="Main" active className="h-[29px]">
