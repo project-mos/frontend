@@ -18,6 +18,7 @@ import LabelInput from "@/features/create-study/components/LabelInput";
 import { useState } from "react";
 import LabelSelectInput from "@/features/create-study/components/LabelSelectInput";
 import LabelTagInput from "@/features/create-study/components/LabelTagInput";
+import LabelDateInput from "@/features/create-study/components/LabelDateInput";
 
 export default function TestPage() {
   const study = MockStudyCardApiResult.study;
@@ -25,7 +26,8 @@ export default function TestPage() {
   const [category, setCategory] = useState<string>("");
   const categoryList = ["ex1", "ex2", "ex3"];
   const [tagList, setTagList] = useState<string[]>([]);
-
+  const [startDate, setStartDate] = useState<string>("");
+  const [endDate, setEndDate] = useState<string>("");
   return (
     <div className="border-10 flex min-h-screen flex-col items-center gap-5 border-red-500 bg-white text-black">
       {/* Typography */}
@@ -193,6 +195,20 @@ export default function TestPage() {
         label="태그"
         placeholder="태그를 입력해주세요"
       />
+      <div className="flex w-full gap-3">
+        <LabelDateInput
+          label="모집 시작일"
+          value={startDate}
+          onChange={(e) => setStartDate(e.target.value)}
+        />
+        <LabelDateInput
+          label="모집 마감일"
+          value={endDate}
+          onChange={(e) => setEndDate(e.target.value)}
+        />
+      </div>
+      <p>{startDate}</p>
+      <p>{endDate}</p>
     </div>
   );
 }
