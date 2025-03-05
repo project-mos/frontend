@@ -25,7 +25,7 @@ const Header = () => {
   const isLoggedIn = false;
 
   return (
-    <header className="fixed left-0 top-0 flex h-[55px] w-full items-center justify-between border-b border-gray-200 bg-white laptop:px-[100px] desktop:px-[300]">
+    <header className="fixed left-0 top-0 z-50 flex h-[55px] w-full items-center justify-between border-b border-gray-200 bg-white laptop:px-[100px] desktop:px-[300]">
       {/* 왼쪽: 로고 */}
       <div>
         <Link href="/" passHref>
