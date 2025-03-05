@@ -2,7 +2,7 @@ import { HTMLAttributes } from "react";
 import Card from "@/components/atoms/Card";
 import Tag from "@/components/atoms/Tag";
 import Typography from "@/components/atoms/Typography";
-import StudyMeta from "@/components/molecules/StudyMeta";
+import Meta from "@/components/molecules/Meta";
 import { StudyCardInterface } from "@/types/api/studies/detail";
 
 interface StudyCardProps
@@ -29,9 +29,9 @@ const StudyCard = ({ study, className, ...props }: StudyCardProps) => {
           )}
         </div>
         <Typography.Head3>{study.title}</Typography.Head3>
-        <StudyMeta.Date className="text-[13px] text-red-500">
+        <Meta icon="calendar" className="text-[13px] text-red-500">
           마감: {study.deadline}
-        </StudyMeta.Date>
+        </Meta>
       </Card.Header>
       <Card.Content>
         <Typography.P1 className="py-[20px] text-mos-gray-700">
@@ -45,12 +45,12 @@ const StudyCard = ({ study, className, ...props }: StudyCardProps) => {
       </Card.Content>
       <Card.Footer className="flex justify-between">
         <div className="flex gap-1  text-mos-gray-300">
-          <StudyMeta.Person>
+          <Meta icon="person">
             {study.members.current}/{study.members.max}명
-          </StudyMeta.Person>
+          </Meta>
         </div>
         <div className="flex gap-1 text-mos-gray-300">
-          <StudyMeta.View>{study.views}</StudyMeta.View>
+          <Meta icon="eye">{study.views}</Meta>
         </div>
       </Card.Footer>
     </Card>
