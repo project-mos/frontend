@@ -3,7 +3,7 @@ import React from "react";
 import Card from "@/components/atoms/Card";
 import Tag from "@/components/atoms/Tag";
 import Typography from "@/components/atoms/Typography";
-import StudyMeta from "@/components/molecules/StudyMeta";
+import Meta from "@/components/molecules/Meta";
 import {
   Description,
   StudiesDescriptionApiResult,
@@ -26,15 +26,15 @@ const StudyDescriptionCard = ({ data }: StudiesDescriptionApiResult) => {
           <Typography.Head3>{data.title}</Typography.Head3>
         </div>
         <div className="flex flex-col gap-1">
-          <StudyMeta.Date>
+          <Meta icon="calendar">
             {data.schedule.startDate} ~ {data.schedule.endDate}
-          </StudyMeta.Date>
-          <StudyMeta.Time>{data.schedule.weeklyMeeting}</StudyMeta.Time>
+          </Meta>
+          <Meta icon="clock">{data.schedule.weeklyMeeting}</Meta>
           <div className="flex gap-2">
-            <StudyMeta.Person>
+            <Meta icon="person">
               {data.participants.current}/{data.participants.max}
-            </StudyMeta.Person>
-            <StudyMeta.View>{data.views}</StudyMeta.View>
+            </Meta>
+            <Meta icon="eye">{data.views}</Meta>
           </div>
         </div>
 
