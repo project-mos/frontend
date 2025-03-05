@@ -1,28 +1,29 @@
-'use client';
-import Button from '@/components/atoms/Button';
-import Card from '@/components/atoms/Card';
-import Select from '@/components/atoms/Select';
-import Tag from '@/components/atoms/Tag';
-import Typography from '@/components/atoms/Typography';
-import Pagination from '@/components/molecules/Pagination';
-import StudyCard from '@/features/studies/components/StudyCard';
-import StudyMeta from '@/components/molecules/StudyMeta';
-import StudyDescriptionCard from '@/features/studies/components/StudyDescriptionCard';
+"use client";
+import Button from "@/components/atoms/Button";
+import Card from "@/components/atoms/Card";
+import Select from "@/components/atoms/Select";
+import Tag from "@/components/atoms/Tag";
+import Typography from "@/components/atoms/Typography";
+import Pagination from "@/components/molecules/Pagination";
+import StudyCard from "@/features/studies/components/StudyCard";
+import StudyMeta from "@/components/molecules/StudyMeta";
+import StudyDescriptionCard from "@/features/studies/components/StudyDescriptionCard";
 import {
   MockStudiesApiResult,
   MockStudyCardApiResult,
-} from '../mock/api/studies';
-import Badge from '@/components/atoms/Badge';
-import CustomImage from '@/components/atoms/Image';
-import LabelInput from '@/features/create-study/components/LabelInput';
-import { useState } from 'react';
-import LabelSelectInput from '@/features/create-study/components/LabelSelectInput';
-import LabelTagInput from '@/features/create-study/components/LabelTagInput';
+} from "../mock/api/studies";
+import Badge from "@/components/atoms/Badge";
+import CustomImage from "@/components/atoms/Image";
+import LabelInput from "@/features/create-study/components/LabelInput";
+import { useState } from "react";
+import LabelSelectInput from "@/features/create-study/components/LabelSelectInput";
+import LabelTagInput from "@/features/create-study/components/LabelTagInput";
 
 export default function TestPage() {
   const study = MockStudyCardApiResult.study;
-  const [studyName, setStudyName] = useState('');
-  const [category, setCategory] = useState(['ex1', 'ex2', 'ex3']);
+  const [studyName, setStudyName] = useState<string>("");
+  const [category, setCategory] = useState<string>("");
+  const categoryList = ["ex1", "ex2", "ex3"];
   const [tagList, setTagList] = useState<string[]>([]);
 
   return (
@@ -147,7 +148,7 @@ export default function TestPage() {
       {/* StudyMeta */}
       <div className="flex gap-2">
         <StudyMeta.Person className="text-mos-main-500">4/6명</StudyMeta.Person>
-        <StudyMeta.Date onClick={() => alert('click')}>
+        <StudyMeta.Date onClick={() => alert("click")}>
           모집 기간: 2024-03-01 ~ 2024-03-04
         </StudyMeta.Date>
         <StudyMeta.Time>매주 화요일 저녁 8시</StudyMeta.Time>
@@ -155,7 +156,7 @@ export default function TestPage() {
       </div>
 
       {/* StudyCard */}
-      <StudyCard study={study} onClick={() => alert('click')} />
+      <StudyCard study={study} onClick={() => alert("click")} />
 
       {/* StudyDescriptionCard */}
       <StudyDescriptionCard data={MockStudiesApiResult} />
@@ -179,7 +180,13 @@ export default function TestPage() {
         onChange={(e) => setStudyName(e.target.value)}
         placeholder="예: 매주 화요일 오후 8시"
       />
-      <LabelSelectInput label="카테고리" selectList={category} required />
+      <LabelSelectInput
+        label="카테고리"
+        selectList={categoryList}
+        onChange={(e) => setCategory((e.target as HTMLSelectElement).value)}
+        required
+      />
+      <p>{category}</p>
       <LabelTagInput
         tagList={tagList}
         setTagList={setTagList}
