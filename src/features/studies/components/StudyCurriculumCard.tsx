@@ -1,11 +1,11 @@
 import { MockStudyCurriculumApiResult } from "@/app/mock/api/studies";
 import Card from "@/components/atoms/Card";
 import Typography from "@/components/atoms/Typography";
-import Curriculum from "@/components/molecules/Curriculum";
+import Curriculum from "@/features/studies/components/Curriculum";
 
 const StudyCurriculumCard = () => {
   return (
-    <Card className="flex flex-col col-span-8">
+    <Card className="col-span-8 flex flex-col">
       <Card.Header className="mb-[20px]">
         <Typography.SubTitle1>커리큘럼</Typography.SubTitle1>
       </Card.Header>

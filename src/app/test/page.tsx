@@ -6,7 +6,7 @@ import Tag from "@/components/atoms/Tag";
 import Typography from "@/components/atoms/Typography";
 import Pagination from "@/components/molecules/Pagination";
 import StudyCard from "@/features/studies/components/StudyCard";
-import StudyMeta from "@/components/molecules/StudyMeta";
+import Meta from "@/components/molecules/Meta";
 import StudyDescriptionCard from "@/features/studies/components/StudyDescriptionCard";
 import {
   MockStudiesApiResult,
@@ -147,14 +147,16 @@ export default function TestPage() {
       {/* StudyCard */}
       <StudyCard study={study} />
 
-      {/* StudyMeta */}
+      {/* Meta */}
       <div className="flex gap-2">
-        <StudyMeta.Person className="text-mos-main-500">4/6명</StudyMeta.Person>
-        <StudyMeta.Date onClick={() => alert("click")}>
+        <Meta icon="person" className="text-mos-main-500">
+          4/6명
+        </Meta>
+        <Meta icon="calendar" onClick={() => alert("click")}>
           모집 기간: 2024-03-01 ~ 2024-03-04
-        </StudyMeta.Date>
-        <StudyMeta.Time>매주 화요일 저녁 8시</StudyMeta.Time>
-        <StudyMeta.View>조회수 244</StudyMeta.View>
+        </Meta>
+        <Meta icon="clock">매주 화요일 저녁 8시</Meta>
+        <Meta icon="eye">조회수 244</Meta>
       </div>
 
       {/* StudyCard */}
