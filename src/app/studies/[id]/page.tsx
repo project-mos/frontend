@@ -1,9 +1,10 @@
-import ShareCard from "@/features/studies-detail/components/ShareCard";
-import StudyLeaderCard from "@/features/studies-detail/components/StudyLeaderCard";
+import ShareCard from "@/features/studies/components/ShareCard";
+import StudyLeaderCard from "@/features/studies/components/StudyLeaderCard";
 import { MockStudiesApiResult } from "@/app/mock/api/studies";
 import StudyDescriptionCard from "@/features/studies/components/StudyDescriptionCard";
 import React from "react";
 import StudyCurriculumCard from "@/features/studies/components/StudyCurriculumCard";
+import Apply from "@/features/studies/components/applyStudy/Apply";
 
 const page = () => {
   return (
@@ -14,6 +15,7 @@ const page = () => {
         <ShareCard />
       </div>
       <StudyCurriculumCard />
+      <Apply />
     </>
   );
 };
