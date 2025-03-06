@@ -19,6 +19,7 @@ import { useState } from "react";
 import LabelSelectInput from "@/features/create-study/components/LabelSelectInput";
 import LabelTagInput from "@/features/create-study/components/LabelTagInput";
 import LabelDateInput from "@/features/create-study/components/LabelDateInput";
+import LabelNumberInput from "@/features/create-study/components/LabelNumberInput";
 
 export default function TestPage() {
   const study = MockStudyCardApiResult.study;
@@ -179,7 +180,7 @@ export default function TestPage() {
         required
       />
       <LabelInput
-        label="모집인원"
+        label="진행 시간"
         value={studyName}
         onChange={(e) => setStudyName(e.target.value)}
         placeholder="예: 매주 화요일 오후 8시"
@@ -211,6 +212,7 @@ export default function TestPage() {
       </div>
       <p>{startDate}</p>
       <p>{endDate}</p>
+      <LabelNumberInput label="모집 인원" />
     </div>
   );
 }
