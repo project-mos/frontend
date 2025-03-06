@@ -8,11 +8,17 @@ const Apply = () => {
   return (
     <div className="col-span-8 flex flex-col items-center gap-5">
       {!isApplyVisible && (
-        <Button.Solid color="Main" onClick={() => setIsApplyVisible(true)}>
+        <Button.Solid
+          color="Main"
+          active
+          onClick={() => setIsApplyVisible(true)}
+        >
           지원하기
         </Button.Solid>
       )}
-      {isApplyVisible && <ApplyFormCard />}
+      {isApplyVisible && (
+        <ApplyFormCard setIsApplyVisible={setIsApplyVisible} />
+      )}
     </div>
   );
 };
