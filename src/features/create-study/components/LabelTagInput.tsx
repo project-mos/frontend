@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import Input from '@/components/atoms/Input';
-import Tag from '@/components/atoms/Tag';
-import Typography from '@/components/atoms/Typography';
+import React, { useState } from "react";
+import Input from "@/components/atoms/Input";
+import Tag from "@/components/atoms/Tag";
+import Typography from "@/components/atoms/Typography";
+import Button from "@/components/atoms/Button";
 
 interface LabelTagInputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -27,11 +28,9 @@ const LabelTagInput = ({
     setTagElement(event.target.value);
   };
 
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if ((event.key === "Enter" || event.key === " ") && tagElement.trim()) {
-      setTagList((prevTags) => [...prevTags, tagElement.trim()]);
-      setTagElement("");
-    }
+  const handleClickAddButton = () => {
+    setTagList((prevTags) => [...prevTags, tagElement.trim()]);
+    setTagElement("");
   };
 
   const handleRemoveTag = (index: number) => {
@@ -46,14 +45,22 @@ const LabelTagInput = ({
         </Typography.P1>
       </label>
 
-      <Input
-        id={inputId}
-        value={tagElement}
-        onChange={handleTagChange}
-        onKeyDown={handleKeyDown}
-        className="w-full placeholder:text-mos-gray-500"
-        {...props}
-      />
+      <div className="flex">
+        <Input
+          id={inputId}
+          value={tagElement}
+          onChange={handleTagChange}
+          className="w-full rounded-r-none placeholder:text-mos-gray-500"
+          {...props}
+        />
+        <Button.Solid
+          onClick={handleClickAddButton}
+          color="Main"
+          className="h-[42px] w-[30px] rounded-l-none"
+        >
+          추가
+        </Button.Solid>
+      </div>
 
       <div className="flex flex-wrap gap-2">
         {tagList.map((tag, index) => (
