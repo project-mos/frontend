@@ -35,7 +35,7 @@ const SolidButtonClass = {
   Red: "text-mos-gray-500 data-[active=true]:bg-red-500 data-[active=true]:text-white data-[active=true]:border-red-500",
 };
 
-interface SolidButtonProps extends ButtonProps {
+export interface SolidButtonProps extends ButtonProps {
   className?: string;
   active?: boolean;
   color: keyof typeof SolidButtonClass;
