@@ -2,9 +2,18 @@ import Typography from "@/components/atoms/Typography";
 import Modal from "@/components/atoms/Modal";
 import { Dispatch, JSX, SetStateAction } from "react";
 import SvgIcons from "@/app/asset/icon/SvgIcons";
+import { cn } from "@/lib/utils";
 
 interface LoginModalProps {
   setIsLoginModalOpen: Dispatch<SetStateAction<boolean>>;
+}
+
+interface SnsButtonProps {
+  platform: string;
+  icon: JSX.Element;
+  bgColor: string;
+  hoverColor: string;
+  textColor: string;
 }
 
 const LoginModal = ({ setIsLoginModalOpen }: LoginModalProps) => {
@@ -26,24 +35,28 @@ const LoginModal = ({ setIsLoginModalOpen }: LoginModalProps) => {
           platform="Kakao"
           icon={<SvgIcons.Kakao />}
           bgColor="bg-kakao"
+          hoverColor="hover:bg-kakao-hover"
           textColor="text-black"
         />
         <SnsLoginButton
           platform="Naver"
           icon={<SvgIcons.Naver />}
           bgColor="bg-naver"
+          hoverColor="hover:bg-naver-hover"
           textColor="text-white"
         />
         <SnsLoginButton
           platform="Google"
           icon={<SvgIcons.Google />}
-          bgColor="bg-google"
+          bgColor="bg-white"
+          hoverColor="hover:bg-google-hover"
           textColor="text-black"
         />
         <SnsLoginButton
           platform="Github"
           icon={<i className="bi bi-github text-white"></i>}
           bgColor="bg-black"
+          hoverColor="hover:bg-black"
           textColor="text-white"
         />
       </Modal.Button>
@@ -51,22 +64,21 @@ const LoginModal = ({ setIsLoginModalOpen }: LoginModalProps) => {
   );
 };
 
-interface SnsButtonProps {
-  platform: string;
-  icon: JSX.Element;
-  bgColor: string;
-  textColor: string;
-}
-
 const SnsLoginButton = ({
   platform,
   icon,
   bgColor,
+  hoverColor,
   textColor,
 }: SnsButtonProps) => {
   return (
     <button
-      className={`${bgColor} my-[15px] flex w-full items-center justify-center gap-[10px] rounded-lg py-[10px]`}
+      className={cn(
+        bgColor,
+        hoverColor,
+        "my-[15px] flex w-full items-center justify-center gap-[10px] rounded-lg py-[10px] transition-all duration-200",
+        platform === "Google" && "border border-gray-300"
+      )}
     >
       {icon}
       <Typography.P3 className={`font-semibold ${textColor}`}>
