@@ -6,7 +6,7 @@ import ApplyFormCard from "./ApplyFormCard";
 const Apply = () => {
   const [isApplyVisible, setIsApplyVisible] = useState<boolean>(false);
   return (
-    <div className="col-span-8 flex flex-col items-center gap-5">
+    <div className="col-span-12 flex flex-col items-center gap-5 tablet:col-span-8">
       {!isApplyVisible && (
         <Button.Solid
           color="Main"

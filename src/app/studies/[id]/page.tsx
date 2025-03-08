@@ -10,7 +10,7 @@ const page = () => {
   return (
     <>
       <StudyDescriptionCard data={MockStudiesApiResult} />
-      <div className="col-span-4 flex flex-col gap-5">
+      <div className="order-last col-span-12 flex flex-col gap-5 tablet:order-none tablet:col-span-4">
         <StudyLeaderCard />
         <ShareCard />
       </div>
