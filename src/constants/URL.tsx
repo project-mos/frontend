@@ -1,7 +1,8 @@
 const URL = {
   HOME: "/",
   STUDY: {
-    CREATE: "/studies/create",
+    CREATE: "/create-study",
+    DETAIL: "/studies",
   },
   MYPAGE: "/mypage",
 } as const;
