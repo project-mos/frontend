@@ -16,10 +16,27 @@ import Badge from "@/components/atoms/Badge";
 import CustomImage from "@/components/atoms/Image";
 import Modal from "@/components/atoms/Modal";
 import { useState } from "react";
+import Input from "@/components/atoms/Input";
+import { FormProvider, useForm } from "react-hook-form";
+
+interface FormData {
+  test: string; // 'test' 필드 타입을 string으로 설정
+}
 
 export default function TestPage() {
   const study = MockStudyCardApiResult.study;
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+
+  // input 에시용
+  const methods = useForm<FormData>();
+  const { watch } = methods;
+
+  const [test] = watch(["test"]);
+
+  const onSubmit = (data: FormData) => {
+    console.log("data", data);
+  };
+
   return (
     <div className="border-10 flex min-h-screen flex-col items-center gap-5 border-red-500 bg-white text-black">
       {/* Typography */}
@@ -114,7 +131,6 @@ export default function TestPage() {
           <Badge color="Gray">Gray</Badge> */}
         </div>
       </div>
-
       <Card className="gap-3">
         <Card.Header>
           <Typography.Head3>알고리즘 마스터 스터디</Typography.Head3>
@@ -135,10 +151,8 @@ export default function TestPage() {
           </Typography.P1>
         </Card.Footer>
       </Card>
-
       {/* StudyCard */}
       <StudyCard study={study} />
-
       {/* Meta */}
       <div className="flex gap-2">
         <Meta icon="person" className="text-mos-main-500">
@@ -150,20 +164,16 @@ export default function TestPage() {
         l<Meta icon="clock">매주 화요일 저녁 8시</Meta>
         <Meta icon="eye">조회수 244</Meta>
       </div>
-
       {/* StudyCard */}
       <StudyCard study={study} onClick={() => alert("click")} />
-
       {/* StudyDescriptionCard */}
       <StudyDescriptionCard data={MockStudiesApiResult} />
-
       {/* Image */}
       <CustomImage
         src="https://letsenhance.io/static/73136da51c245e80edc6ccfe44888a99/1015f/MainBefore.jpg"
         alt="Next.js Logo"
         unoptimized
       />
-
       {/* modal */}
       <Button.Solid
         active
@@ -199,6 +209,18 @@ export default function TestPage() {
           </Modal.Button>
         </Modal>
       )}
+
+      {/* Input */}
+      <FormProvider {...methods}>
+        <form onSubmit={methods.handleSubmit(onSubmit)}>
+          <div className="flex gap-[10px]">
+            <Input name="test"></Input>
+            <Button.Solid color="Main" active={!!test} disabled={!test}>
+              확인
+            </Button.Solid>
+          </div>
+        </form>
+      </FormProvider>
     </div>
   );
 }
