@@ -42,7 +42,7 @@ const Content = ({ className, children, ...props }: ModalProps) => {
 
 const Button = ({ className, children, ...props }: ModalProps) => {
   return (
-    <div className={cn("flex gap-[10px]", className)} {...props}>
+    <div className={cn("flex justify-center gap-[10px]", className)} {...props}>
       {children}
     </div>
   );
