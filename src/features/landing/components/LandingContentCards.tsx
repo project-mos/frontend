@@ -1,8 +1,8 @@
-import { MockStudyCardApiResult } from "@/app/mock/api/studies";
 import Grid from "@/components/atoms/Grid";
 import Typography from "@/components/atoms/Typography";
-import StudyCard from "@/features/studies/components/StudyCard";
+
 import React from "react";
+import LandingStudyCard from "./LandingStudyCard";
 
 const LandingContentCards = () => {
   return (
@@ -50,16 +50,5 @@ const LandingGrid = ({ children }: { children: React.ReactNode }) => {
     >
       {children}
     </Grid>
-  );
-};
-
-const LandingStudyCard = () => {
-  return (
-    <div className="flex justify-center ">
-      <StudyCard
-        className="hover:shadow-2xs w-full transition hover:-translate-y-1 hover:border-mos-main-500 hover:shadow-mos-main-500"
-        study={MockStudyCardApiResult.study}
-      />
-    </div>
   );
 };
