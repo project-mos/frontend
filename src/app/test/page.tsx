@@ -18,11 +18,15 @@ import Modal from "@/components/atoms/Modal";
 import { useState } from "react";
 import Input from "@/components/atoms/Input";
 import { FormProvider, useForm } from "react-hook-form";
+import LabelInput from "@/features/create-study/components/LabelInput";
+import LabelSelectInput from "@/features/create-study/components/LabelSelectInput";
+import LabelTagInput from "@/features/create-study/components/LabelTagInput";
+import LabelDateInput from "@/features/create-study/components/LabelDateInput";
+import LabelNumberInput from "@/features/create-study/components/LabelNumberInput";
 
 interface FormData {
   test: string; // 'test' 필드 타입을 string으로 설정
 }
-
 export default function TestPage() {
   const study = MockStudyCardApiResult.study;
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
@@ -37,6 +41,12 @@ export default function TestPage() {
     console.log("data", data);
   };
 
+  const [studyName, setStudyName] = useState<string>("");
+  const [category, setCategory] = useState<string>("");
+  const categoryList = ["ex1", "ex2", "ex3"];
+  const [tagList, setTagList] = useState<string[]>([]);
+  const [startDate, setStartDate] = useState<string>("");
+  const [endDate, setEndDate] = useState<string>("");
   return (
     <div className="border-10 flex min-h-screen flex-col items-center gap-5 border-red-500 bg-white text-black">
       {/* Typography */}
@@ -219,6 +229,54 @@ export default function TestPage() {
               확인
             </Button.Solid>
           </div>
+        </form>
+      </FormProvider>
+      <FormProvider {...methods}>
+        <form onSubmit={methods.handleSubmit(onSubmit)}>
+          <LabelInput
+            name="name"
+            label="스터디명"
+            value={studyName}
+            onChange={(e) => setStudyName(e.target.value)}
+            required
+          />
+          <LabelInput
+            name="duration"
+            label="진행 시간"
+            value={studyName}
+            onChange={(e) => setStudyName(e.target.value)}
+            placeholder="예: 매주 화요일 오후 8시"
+          />
+          <LabelSelectInput
+            label="카테고리"
+            selectList={categoryList}
+            onChange={(e) => setCategory((e.target as HTMLSelectElement).value)}
+            required
+          />
+          <p>{category}</p>
+          <LabelTagInput
+            name="tags"
+            tagList={tagList}
+            setTagList={setTagList}
+            label="태그"
+          />
+          <div className="flex w-full gap-3">
+            <LabelDateInput
+              name="startDate"
+              label="모집 시작일"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+            />
+            <LabelDateInput
+              name="endDate"
+              label="모집 마감일"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+            />
+          </div>
+          <p>{startDate}</p>
+          <p>{endDate}</p>
+          <LabelNumberInput name="person" label="모집 인원" />
         </form>
       </FormProvider>
     </div>
