@@ -10,7 +10,7 @@ interface CurriculumProps {
 
 const StudyCurriculumCard = () => {
   return (
-    <Card className="col-span-8 flex flex-col">
+    <Card className="col-span-12 flex  flex-col tablet:col-span-8">
       <Card.Header className="mb-[20px]">
         <Typography.SubTitle1>커리큘럼</Typography.SubTitle1>
       </Card.Header>
