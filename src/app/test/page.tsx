@@ -14,7 +14,7 @@ import {
 } from "../mock/api/studies";
 import Badge from "@/components/atoms/Badge";
 import CustomImage from "@/components/atoms/Image";
-import Modal from "@/components/molecules/Modal";
+import Modal from "@/components/atoms/Modal";
 import { useState } from "react";
 
 export default function TestPage() {
