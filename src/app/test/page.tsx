@@ -14,9 +14,12 @@ import {
 } from "../mock/api/studies";
 import Badge from "@/components/atoms/Badge";
 import CustomImage from "@/components/atoms/Image";
+import Modal from "@/components/molecules/Modal";
+import { useState } from "react";
 
 export default function TestPage() {
   const study = MockStudyCardApiResult.study;
+  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   return (
     <div className="border-10 flex min-h-screen flex-col items-center gap-5 border-red-500 bg-white text-black">
       {/* Typography */}
@@ -144,7 +147,7 @@ export default function TestPage() {
         <Meta icon="calendar" onClick={() => alert("click")}>
           모집 기간: 2024-03-01 ~ 2024-03-04
         </Meta>
-        <Meta icon="clock">매주 화요일 저녁 8시</Meta>
+        l<Meta icon="clock">매주 화요일 저녁 8시</Meta>
         <Meta icon="eye">조회수 244</Meta>
       </div>
 
@@ -160,6 +163,42 @@ export default function TestPage() {
         alt="Next.js Logo"
         unoptimized
       />
+
+      {/* modal */}
+      <Button.Solid
+        active
+        color="Main"
+        onClick={() => setIsOpenModal((prev) => !prev)}
+      >
+        모달열기
+      </Button.Solid>
+      {isOpenModal && (
+        <Modal setIsOpenModal={setIsOpenModal}>
+          <Modal.Content>
+            <Typography.Head3>title</Typography.Head3>
+            <Typography.P3>content</Typography.P3>
+          </Modal.Content>
+          <Modal.Button>
+            <Button.Solid
+              active
+              color="Main"
+              onClick={() => {
+                alert("확인");
+                setIsOpenModal(false);
+              }}
+            >
+              확인
+            </Button.Solid>
+            <Button.Solid
+              active
+              color="Gray"
+              onClick={() => setIsOpenModal(false)}
+            >
+              취소
+            </Button.Solid>
+          </Modal.Button>
+        </Modal>
+      )}
     </div>
   );
 }
