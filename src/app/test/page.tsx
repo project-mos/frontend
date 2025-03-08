@@ -14,15 +14,33 @@ import {
 } from "../mock/api/studies";
 import Badge from "@/components/atoms/Badge";
 import CustomImage from "@/components/atoms/Image";
-import LabelInput from "@/features/create-study/components/LabelInput";
+import Modal from "@/components/atoms/Modal";
 import { useState } from "react";
+import Input from "@/components/atoms/Input";
+import { FormProvider, useForm } from "react-hook-form";
+import LabelInput from "@/features/create-study/components/LabelInput";
 import LabelSelectInput from "@/features/create-study/components/LabelSelectInput";
 import LabelTagInput from "@/features/create-study/components/LabelTagInput";
 import LabelDateInput from "@/features/create-study/components/LabelDateInput";
 import LabelNumberInput from "@/features/create-study/components/LabelNumberInput";
 
+interface FormData {
+  test: string; // 'test' 필드 타입을 string으로 설정
+}
 export default function TestPage() {
   const study = MockStudyCardApiResult.study;
+  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+
+  // input 에시용
+  const methods = useForm<FormData>();
+  const { watch } = methods;
+
+  const [test] = watch(["test"]);
+
+  const onSubmit = (data: FormData) => {
+    console.log("data", data);
+  };
+
   const [studyName, setStudyName] = useState<string>("");
   const [category, setCategory] = useState<string>("");
   const categoryList = ["ex1", "ex2", "ex3"];
@@ -123,7 +141,6 @@ export default function TestPage() {
           <Badge color="Gray">Gray</Badge> */}
         </div>
       </div>
-
       <Card className="gap-3">
         <Card.Header>
           <Typography.Head3>알고리즘 마스터 스터디</Typography.Head3>
@@ -144,10 +161,8 @@ export default function TestPage() {
           </Typography.P1>
         </Card.Footer>
       </Card>
-
       {/* StudyCard */}
       <StudyCard study={study} />
-
       {/* Meta */}
       <div className="flex gap-2">
         <Meta icon="person" className="text-mos-main-500">
@@ -156,63 +171,114 @@ export default function TestPage() {
         <Meta icon="calendar" onClick={() => alert("click")}>
           모집 기간: 2024-03-01 ~ 2024-03-04
         </Meta>
-        <Meta icon="clock">매주 화요일 저녁 8시</Meta>
+        l<Meta icon="clock">매주 화요일 저녁 8시</Meta>
         <Meta icon="eye">조회수 244</Meta>
       </div>
-
       {/* StudyCard */}
       <StudyCard study={study} onClick={() => alert("click")} />
-
       {/* StudyDescriptionCard */}
       <StudyDescriptionCard data={MockStudiesApiResult} />
-
       {/* Image */}
       <CustomImage
         src="https://letsenhance.io/static/73136da51c245e80edc6ccfe44888a99/1015f/MainBefore.jpg"
         alt="Next.js Logo"
         unoptimized
       />
+      {/* modal */}
+      <Button.Solid
+        active
+        color="Main"
+        onClick={() => setIsOpenModal((prev) => !prev)}
+      >
+        모달열기
+      </Button.Solid>
+      {isOpenModal && (
+        <Modal setIsOpenModal={setIsOpenModal}>
+          <Modal.Content>
+            <Typography.Head3>title</Typography.Head3>
+            <Typography.P3>content</Typography.P3>
+          </Modal.Content>
+          <Modal.Button>
+            <Button.Solid
+              active
+              color="Main"
+              onClick={() => {
+                alert("확인");
+                setIsOpenModal(false);
+              }}
+            >
+              확인
+            </Button.Solid>
+            <Button.Solid
+              active
+              color="Gray"
+              onClick={() => setIsOpenModal(false)}
+            >
+              취소
+            </Button.Solid>
+          </Modal.Button>
+        </Modal>
+      )}
 
-      <LabelInput
-        label="스터디명"
-        value={studyName}
-        onChange={(e) => setStudyName(e.target.value)}
-        required
-      />
-      <LabelInput
-        label="진행 시간"
-        value={studyName}
-        onChange={(e) => setStudyName(e.target.value)}
-        placeholder="예: 매주 화요일 오후 8시"
-      />
-      <LabelSelectInput
-        label="카테고리"
-        selectList={categoryList}
-        onChange={(e) => setCategory((e.target as HTMLSelectElement).value)}
-        required
-      />
-      <p>{category}</p>
-      <LabelTagInput
-        tagList={tagList}
-        setTagList={setTagList}
-        label="태그"
-        placeholder="태그를 입력해주세요"
-      />
-      <div className="flex w-full gap-3">
-        <LabelDateInput
-          label="모집 시작일"
-          value={startDate}
-          onChange={(e) => setStartDate(e.target.value)}
-        />
-        <LabelDateInput
-          label="모집 마감일"
-          value={endDate}
-          onChange={(e) => setEndDate(e.target.value)}
-        />
-      </div>
-      <p>{startDate}</p>
-      <p>{endDate}</p>
-      <LabelNumberInput label="모집 인원" />
+      {/* Input */}
+      <FormProvider {...methods}>
+        <form onSubmit={methods.handleSubmit(onSubmit)}>
+          <div className="flex gap-[10px]">
+            <Input name="test"></Input>
+            <Button.Solid color="Main" active={!!test} disabled={!test}>
+              확인
+            </Button.Solid>
+          </div>
+        </form>
+      </FormProvider>
+      <FormProvider {...methods}>
+        <form onSubmit={methods.handleSubmit(onSubmit)}>
+          <LabelInput
+            name="name"
+            label="스터디명"
+            value={studyName}
+            onChange={(e) => setStudyName(e.target.value)}
+            required
+          />
+          <LabelInput
+            name="duration"
+            label="진행 시간"
+            value={studyName}
+            onChange={(e) => setStudyName(e.target.value)}
+            placeholder="예: 매주 화요일 오후 8시"
+          />
+          <LabelSelectInput
+            label="카테고리"
+            selectList={categoryList}
+            onChange={(e) => setCategory((e.target as HTMLSelectElement).value)}
+            required
+          />
+          <p>{category}</p>
+          <LabelTagInput
+            name="tags"
+            tagList={tagList}
+            setTagList={setTagList}
+            label="태그"
+          />
+          <div className="flex w-full gap-3">
+            <LabelDateInput
+              name="startDate"
+              label="모집 시작일"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+            />
+            <LabelDateInput
+              name="endDate"
+              label="모집 마감일"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+            />
+          </div>
+          <p>{startDate}</p>
+          <p>{endDate}</p>
+          <LabelNumberInput name="person" label="모집 인원" />
+        </form>
+      </FormProvider>
     </div>
   );
 }
