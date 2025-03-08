@@ -6,6 +6,7 @@ import Link from "next/link";
 import Typography from "../atoms/Typography";
 import { useState } from "react";
 import LoginModal from "@/features/login/components/LoginModal";
+import URL from "@/constants/URL";
 
 interface NavItemProps {
   href: string;
@@ -35,19 +36,19 @@ const Header = () => {
         <div className="flex w-[90%] max-w-[1300px] items-center justify-between">
           {/* 왼쪽: 로고 */}
           <div>
-            <Link href="/" passHref>
+            <Link href={URL.HOME} passHref>
               <SvgIcons.Logo />
             </Link>
           </div>
 
           {/* 중간: 스터디 만들기 버튼 */}
           <div>
-            <NavItem href="/create-study" label="스터디 만들기" />
+            <NavItem href={URL.STUDY.CREATE} label="스터디 만들기" />
           </div>
 
           {/* 오른쪽: 마이페이지, 로그인 버튼 */}
           <div className="flex items-center gap-[20px]">
-            <NavItem href="/my-page" label="마이페이지" />
+            <NavItem href={URL.MYPAGE} label="마이페이지" />
             {isLoggedIn ? (
               <Button.Solid color="Main" active className="h-[29px]">
                 로그아웃
