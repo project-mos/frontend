@@ -286,7 +286,10 @@ export default function TestPage() {
         </form>
       </FormProvider>
       {/* MDXEditor */}
-      <Editor markdown={`Hello **world**!`} />
+      <Editor
+        markdown={`Hello **world**! 
+        # 안녕하세요`}
+      />
     </div>
   );
 }
