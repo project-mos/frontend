@@ -9,7 +9,11 @@ interface RadioButtonProps extends React.InputHTMLAttributes<HTMLInputElement> {
 const RadioButton = ({ label, className, ...props }: RadioButtonProps) => {
   return (
     <label className={cn("flex cursor-pointer gap-3", className)}>
-      <input type="radio" className="cursor-pointer" {...props} />
+      <input
+        type="radio"
+        className="cursor-pointer accent-blue-500"
+        {...props}
+      />
       <Typography.P1>{label}</Typography.P1>
     </label>
   );

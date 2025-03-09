@@ -1,8 +1,8 @@
 import React from "react";
 import { cn } from "@/lib/utils";
 import Input from "@/components/atoms/Input";
-import Typography from "@/components/atoms/Typography";
 import { useFormContext } from "react-hook-form";
+import Label from "./Label";
 
 interface LabelNumberInputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -24,11 +24,7 @@ const LabelNumberInput = ({
 
   return (
     <div className={cn("flex w-full flex-col gap-[5px]", className)}>
-      <label htmlFor={inputId}>
-        <Typography.P1>
-          {label} {required ? "*" : ""}
-        </Typography.P1>
-      </label>
+      <Label label={label} required htmlFor={inputId} />
 
       <Input
         id={inputId}

@@ -36,9 +36,9 @@ const LabelTagInput = ({
   };
 
   return (
-    <div className="flex w-full flex-col gap-[10px]">
+    <div className="flex w-full flex-col gap-[5px]">
       <label htmlFor={inputId} className="flex items-center">
-        <Typography.P1>{label}</Typography.P1>
+        <Typography.P1 className="text-[15px]">{label}</Typography.P1>
       </label>
 
       <div className="flex">
