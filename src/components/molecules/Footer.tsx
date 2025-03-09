@@ -26,15 +26,15 @@ interface FooterProps {
 }
 
 const Text: React.FC<FooterProps> = ({ children, className = "" }) => (
-  <Typography.P1 className={`text-mos-gray-300 text-nowrap ${className}`}>
+  <Typography.P1 className={`text-nowrap text-mos-gray-300 ${className}`}>
     {children}
   </Typography.P1>
 );
 
 const Footer = () => {
   return (
-    <div className="w-full h-auto bg-mos-white-gray-100 py-[56px]">
-      <div className="w-[90%] max-w-[1300px] mx-auto">
+    <div className="h-auto w-full bg-mos-white-gray-100 py-[56px]">
+      <div className="mx-auto w-[90%] max-w-[1300px]">
         <div className="mb-[50px] flex flex-wrap justify-between gap-[50px]">
           <div className="flex flex-col gap-2">
             <SvgIcons.Logo />
