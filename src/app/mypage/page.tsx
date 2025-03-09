@@ -6,7 +6,7 @@ import StudySchedule from "@/features/mypage/components/StudySchedule";
 const MyPage = () => {
   return (
     <>
-      <div className="col-span-4 flex flex-col gap-5">
+      <div className="col-span-12 flex flex-col gap-5 tablet:col-span-4">
         <Profile />
         <Statistics />
       </div>
