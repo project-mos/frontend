@@ -16,7 +16,7 @@ const Select = ({
   ...props
 }: SelectProps) => {
   return (
-    <div className="relative w-full">
+    <div className="relative">
       <select
         className={cn(
           "box-border h-[40px] w-full appearance-none rounded-md border pl-5 pr-10 text-sm",
@@ -31,7 +31,7 @@ const Select = ({
         )}
         {children}
       </select>
-      <div className="pointer-events-none absolute right-5 top-1/2 -translate-y-1/2">
+      <div className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2">
         <i className="bi bi-chevron-down text-gray-500"></i>
       </div>
     </div>
