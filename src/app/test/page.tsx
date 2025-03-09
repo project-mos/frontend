@@ -24,6 +24,8 @@ import LabelSelectInput from "@/features/create-study/components/LabelSelectInpu
 import LabelTagInput from "@/features/create-study/components/LabelTagInput";
 import LabelDateInput from "@/features/create-study/components/LabelDateInput";
 import LabelNumberInput from "@/features/create-study/components/LabelNumberInput";
+import RadioButton from "@/components/atoms/RadioButton";
+import RadioGroup from "@/components/molecules/RadioGroup";
 
 interface FormData {
   test: string; // 'test' 필드 타입을 string으로 설정
@@ -53,6 +55,13 @@ export default function TestPage() {
   const [tagList, setTagList] = useState<string[]>([]);
   const [startDate, setStartDate] = useState<string>("");
   const [endDate, setEndDate] = useState<string>("");
+
+  const [studyMethod, setStudyMethod] = useState("online");
+  const studyMethods = [
+    { label: "비대면", value: "online" },
+    { label: "대면", value: "offline" },
+    { label: "혼합", value: "hybrid" },
+  ];
   return (
     <div className="border-10 flex min-h-screen flex-col items-center gap-5 border-red-500 bg-white text-black">
       {/* Typography */}
@@ -284,6 +293,13 @@ export default function TestPage() {
           <p>{endDate}</p>
           <LabelNumberInput name="person" label="모집 인원" />
         </form>
+        <RadioButton label="test label" />
+        <RadioGroup
+          name="studyMethod"
+          options={studyMethods}
+          selectedValue={studyMethod}
+          onChange={setStudyMethod}
+        />
       </FormProvider>
       {/* MDXEditor */}
       <Editor
