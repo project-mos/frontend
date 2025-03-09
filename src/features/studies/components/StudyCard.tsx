@@ -11,7 +11,12 @@ interface StudyCardProps
 
 const StudyCard = ({ study, className, ...props }: StudyCardProps) => {
   return (
-    <Card className={`w-[255px] cursor-pointer ${className ?? ""}`} {...props}>
+    <Card
+      className={`flex w-[255px] cursor-pointer flex-col gap-7 ${
+        className ?? ""
+      }`}
+      {...props}
+    >
       <Card.Header className="flex-col">
         <div className="mb-[20px] flex justify-between">
           <div className="flex gap-[4.5px]">
@@ -29,14 +34,16 @@ const StudyCard = ({ study, className, ...props }: StudyCardProps) => {
           )}
         </div>
         <Typography.Head3>{study.title}</Typography.Head3>
-        <Meta icon="calendar" className="text-[13px] text-red-500">
-          마감: {study.deadline}
-        </Meta>
+        <div className="mt-1">
+          <Meta icon="calendar" className="text-[13px] text-red-500">
+            마감: {study.deadline}
+          </Meta>
+        </div>
       </Card.Header>
       <Card.Content>
-        <Typography.P1 className="py-[20px] text-mos-gray-700">
+        {/* <Typography.P1 className="py-[20px] text-mos-gray-700">
           {study.contents}
-        </Typography.P1>
+        </Typography.P1> */}
         <div className="mb-[40px] flex flex-wrap gap-[5px]">
           {study.tags.map((tag, index) => (
             <Tag.Detail key={index}>#{tag}</Tag.Detail>
