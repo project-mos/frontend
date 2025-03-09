@@ -30,6 +30,7 @@ export default function MDXEditor({
 }: { editorRef?: ForwardedRef<MDXEditorMethods> | null } & MDXEditorProps) {
   return (
     <InitializedMDXEditor
+      contentEditableClassName="prose lg:prose-xl"
       plugins={[
         // Example Plugin Usage
         headingsPlugin(),
