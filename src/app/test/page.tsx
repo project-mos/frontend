@@ -26,6 +26,7 @@ import LabelDateInput from "@/features/create-study/components/LabelDateInput";
 import LabelNumberInput from "@/features/create-study/components/LabelNumberInput";
 import RadioButton from "@/components/atoms/RadioButton";
 import RadioGroup from "@/components/molecules/RadioGroup";
+import Tab from "@/components/atoms/Tab";
 
 interface FormData {
   test: string; // 'test' 필드 타입을 string으로 설정
@@ -306,6 +307,8 @@ export default function TestPage() {
         markdown={`Hello **world**! 
         # 안녕하세요`}
       />
+      {/* Tab */}
+      <Tab tabList={["잠여 중인 스터디", "지원 현황"]} />
     </div>
   );
 }
