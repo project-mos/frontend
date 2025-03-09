@@ -2,7 +2,7 @@
 
 import { MDXRemote as MDXRemoteRSC, MDXRemoteProps } from "next-mdx-remote/rsc";
 import { HTMLAttributes } from "react";
-import Typography from "./atoms/Typography";
+import Typography from "./Typography";
 
 // 컴포넌트 커스터마이징
 const components = {
