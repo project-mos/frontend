@@ -1,4 +1,5 @@
 "use client";
+import dynamic from "next/dynamic";
 import Button from "@/components/atoms/Button";
 import Card from "@/components/atoms/Card";
 import Select from "@/components/atoms/Select";
@@ -14,6 +15,11 @@ import {
 } from "../mock/api/studies";
 import Badge from "@/components/atoms/Badge";
 import CustomImage from "@/components/atoms/Image";
+
+const Editor = dynamic(() => import("@/components/atoms/MDXEditor"), {
+  // Make sure we turn SSR off
+  ssr: false,
+});
 
 export default function TestPage() {
   const study = MockStudyCardApiResult.study;
@@ -160,6 +166,8 @@ export default function TestPage() {
         alt="Next.js Logo"
         unoptimized
       />
+      {/* MDXEditor */}
+      <Editor markdown={`Hello **world**!`} />
     </div>
   );
 }
