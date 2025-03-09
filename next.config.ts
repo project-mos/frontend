@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
 import createMDX from "@next/mdx";
 
+const isProduction = process.env.NODE_ENV === "production";
+
 const nextConfig: NextConfig = {
   // Configure `pageExtensions` to include markdown and MDX files
   pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
@@ -14,6 +16,10 @@ const nextConfig: NextConfig = {
       use: ["@svgr/webpack"],
     });
     return config;
+  },
+  // 빌드 시 콘솔 제거
+  compiler: {
+    removeConsole: isProduction,
   },
   transpilePackages: ["next-mdx-remote"],
 };
