@@ -1,4 +1,5 @@
 "use client";
+import dynamic from "next/dynamic";
 import Button from "@/components/atoms/Button";
 import Card from "@/components/atoms/Card";
 import Select from "@/components/atoms/Select";
@@ -27,6 +28,11 @@ import LabelNumberInput from "@/features/create-study/components/LabelNumberInpu
 interface FormData {
   test: string; // 'test' 필드 타입을 string으로 설정
 }
+const Editor = dynamic(() => import("@/components/atoms/MDXEditor"), {
+  // Make sure we turn SSR off
+  ssr: false,
+});
+
 export default function TestPage() {
   const study = MockStudyCardApiResult.study;
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
@@ -279,6 +285,8 @@ export default function TestPage() {
           <LabelNumberInput name="person" label="모집 인원" />
         </form>
       </FormProvider>
+      {/* MDXEditor */}
+      <Editor markdown={`Hello **world**!`} />
     </div>
   );
 }
