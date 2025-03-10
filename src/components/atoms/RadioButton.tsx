@@ -14,7 +14,9 @@ const RadioButton = ({ label, className, ...props }: RadioButtonProps) => {
         className="cursor-pointer accent-blue-500"
         {...props}
       />
-      <Typography.P1>{label}</Typography.P1>
+      <Typography.P1 className="text-[14px] text-mos-gray-700">
+        {label}
+      </Typography.P1>
     </label>
   );
 };
