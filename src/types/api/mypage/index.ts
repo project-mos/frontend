@@ -6,3 +6,10 @@ export interface activeStudiesProps {
     nextMeeting: string,
   },
 } 
+
+
+export interface applyStatusProps {
+  tag: string[],
+  title: string,
+  date: string
+}
