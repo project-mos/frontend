@@ -1,6 +1,6 @@
 import React from "react";
 import { cn } from "@/lib/utils";
-import Label from "./Label";
+import Label from "../../../components/molecules/Label";
 import Textarea from "@/components/atoms/Textarea";
 
 interface LabelTextAreaInputProps

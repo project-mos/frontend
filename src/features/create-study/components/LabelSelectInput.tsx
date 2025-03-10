@@ -2,7 +2,7 @@ import React, { HTMLAttributes } from "react";
 import { cn } from "@/lib/utils";
 import { useFormContext } from "react-hook-form";
 import Select from "@/components/atoms/Select";
-import Label from "./Label";
+import Label from "../../../components/molecules/Label";
 
 interface LabelSelectInputProps extends HTMLAttributes<HTMLDivElement> {
   label: string;

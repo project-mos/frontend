@@ -1,5 +1,5 @@
 import React from "react";
-import Label from "./Label";
+import Label from "../../../components/molecules/Label";
 import dynamic from "next/dynamic";
 import { useFormContext } from "react-hook-form";
 
