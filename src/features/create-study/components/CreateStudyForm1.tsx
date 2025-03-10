@@ -1,4 +1,5 @@
 "use client";
+import { useRouter } from "next/navigation";
 import { FormProvider, useForm } from "react-hook-form";
 import Badge from "@/components/atoms/Badge";
 import Typography from "@/components/atoms/Typography";
@@ -6,11 +7,13 @@ import BasicInfo from "./BasicInfo";
 import StudyMethod from "./StudyMethod";
 import StudyActions from "./StudyActions";
 
-const CreateStudyForm = () => {
+const CreateStudyForm1 = () => {
   const methods = useForm<FormData>();
+  const router = useRouter();
 
   const onSubmit = (data: FormData) => {
     console.log("data", data);
+    router.push("/create-study?step=2");
   };
 
   return (
@@ -33,4 +36,4 @@ const CreateStudyForm = () => {
   );
 };
 
-export default CreateStudyForm;
+export default CreateStudyForm1;
