@@ -52,7 +52,7 @@ function Calendar() {
       cells.push(
         <div
           key={`empty-${i}`}
-          className="size-28 border border-gray-200 p-2"
+          className="h-20 w-24 border border-gray-200 p-2"
         />
       );
     }
@@ -67,31 +67,33 @@ function Calendar() {
       cells.push(
         <div
           key={day}
-          className="flex size-28 flex-col border border-gray-200 p-2"
+          className="flex h-20 w-24 flex-col border border-gray-200 p-2"
         >
           {/* 날짜 영역: 오늘이면 동그라미로 감싸기 */}
           <div className="flex items-center">
             {isToday ? (
-              <div className="flex size-6 items-center justify-center rounded-full bg-mos-main-500">
-                <span className="text-sm font-medium text-white">{day}</span>
+              <div className="flex size-5 items-center justify-center rounded-full bg-mos-main-500">
+                <span className="text-[12px] font-medium text-white">
+                  {day}
+                </span>
               </div>
             ) : (
-              <span className="text-sm font-medium">{day}</span>
+              <span className="text-[12px] font-medium">{day}</span>
             )}
           </div>
           {/* 이벤트 영역: 날짜 숫자 바로 아래에 표시 */}
           {dayEvents.length > 0 && (
             <div className="mt-1 flex cursor-pointer flex-col space-y-1">
               <div
-                className={`h-5 w-full ${dayEvents[0].color} flex items-center rounded pl-1`}
+                className={`h-5 w-full ${dayEvents[0].color} flex items-center rounded p-1`}
                 title={dayEvents[0].title}
               >
-                <span className="truncate text-xs text-white">
+                <span className="truncate text-[11px] text-white">
                   {dayEvents[0].title}
                 </span>
               </div>
               {dayEvents.length > 1 && (
-                <div className="text-right text-xs text-gray-600">
+                <div className="text-right text-[11px] text-gray-600">
                   +{dayEvents.length - 1}
                 </div>
               )}
@@ -142,7 +144,7 @@ function Calendar() {
           &gt;
         </button>
       </div>
-      <div className="grid grid-cols-7 gap-1">
+      <div className="grid grid-cols-7 gap-px">
         {/* 요일 헤더 */}
         <div className="text-center font-bold text-red-500">일</div>
         <div className="text-center font-bold">월</div>
