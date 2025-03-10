@@ -9,9 +9,15 @@ interface LabelTagInputProps {
   name: string;
   label: string;
   id?: string;
+  placeholder?: string;
 }
 
-const LabelTagInput = ({ name, label, id }: LabelTagInputProps) => {
+const LabelTagInput = ({
+  name,
+  label,
+  id,
+  placeholder,
+}: LabelTagInputProps) => {
   const { setValue, watch } = useFormContext();
   const tags: string[] = watch(name, []);
   const [tagInput, setTagInput] = useState("");
@@ -44,6 +50,7 @@ const LabelTagInput = ({ name, label, id }: LabelTagInputProps) => {
           value={tagInput}
           onChange={(e) => setTagInput(e.target.value)}
           className="w-full rounded-r-none placeholder:text-mos-gray-500"
+          placeholder={placeholder}
         />
         <Button.Solid
           type="button"

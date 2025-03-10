@@ -30,7 +30,11 @@ const BasicInfo = () => {
             required
           />
         </div>
-        <LabelTagInput name="tags" label="태그" />
+        <LabelTagInput
+          name="tags"
+          label="태그"
+          placeholder="태그를 입력하새요"
+        />
       </Card.Content>
     </Card>
   );
