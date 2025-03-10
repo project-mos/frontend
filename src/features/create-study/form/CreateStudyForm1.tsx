@@ -3,9 +3,9 @@ import { useRouter } from "next/navigation";
 import { FormProvider, useForm } from "react-hook-form";
 import Badge from "@/components/atoms/Badge";
 import Typography from "@/components/atoms/Typography";
-import BasicInfo from "./BasicInfo";
-import StudyMethod from "./StudyMethod";
-import StudyActions from "./StudyActions";
+import BasicInfo from "../components/BasicInfo";
+import StudyMethod from "../components/StudyMethod";
+import StudyActions from "../components/StudyActions";
 
 const CreateStudyForm1 = () => {
   const methods = useForm<FormData>();

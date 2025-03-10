@@ -1,5 +1,5 @@
-import CreateStudyForm1 from "@/features/create-study/components/CreateStudyForm1";
-import CreateStudyForm2 from "@/features/create-study/components/CreateStudyForm2";
+import CreateStudyForm1 from "@/features/create-study/form/CreateStudyForm1";
+import CreateStudyForm2 from "@/features/create-study/form/CreateStudyForm2";
 
 const CreateStudyPage = async ({
   searchParams,
