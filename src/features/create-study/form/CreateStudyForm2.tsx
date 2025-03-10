@@ -4,6 +4,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import Badge from "@/components/atoms/Badge";
 import Typography from "@/components/atoms/Typography";
 import StudyDescription from "../components/StudyDescription";
+import StudyActions from "../components/StudyActions";
 
 const CreateStudyForm2 = () => {
   const methods = useForm<FormData>();
@@ -26,7 +27,7 @@ const CreateStudyForm2 = () => {
           className="flex flex-col gap-[30px]"
         >
           <StudyDescription />
-          <input type="submit" onSubmit={() => onSubmit} />
+          <StudyActions solidLabel="다음 단계" ghostLabel="취소" />
         </form>
       </FormProvider>
     </div>

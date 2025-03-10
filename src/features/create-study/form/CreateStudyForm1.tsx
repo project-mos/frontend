@@ -29,7 +29,7 @@ const CreateStudyForm1 = () => {
         >
           <BasicInfo />
           <StudyMethod />
-          <StudyActions />
+          <StudyActions solidLabel="다음 단계" ghostLabel="취소" />
         </form>
       </FormProvider>
     </div>
