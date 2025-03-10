@@ -24,7 +24,7 @@ const LabelTextAreaInput = ({
       <Label htmlFor={inputId} label={label} required={required} />
       <Textarea
         name={name}
-        className="resize-none"
+        className="h-[130px] resize-none"
         placeholder="스터디 참여에 필요한 조건을 작성해주세요. (예: 필요한 기초 지식, 준비물, 참여 가능 시간 등)"
       />
     </div>
