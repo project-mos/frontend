@@ -50,6 +50,9 @@ export default function TestPage() {
     console.log("data", data);
   };
 
+  // Tab
+  const [selectedTab, setSelectedTab] = useState<string>("");
+
   const [studyName, setStudyName] = useState<string>("");
   const [category, setCategory] = useState<string>("");
   const categoryList = ["ex1", "ex2", "ex3"];
@@ -308,7 +311,11 @@ export default function TestPage() {
         # 안녕하세요`}
       />
       {/* Tab */}
-      <Tab tabList={["잠여 중인 스터디", "지원 현황"]} />
+      <Tab
+        tabList={["잠여 중인 스터디", "지원 현황"]}
+        selectedTab={selectedTab}
+        setSelectedTab={setSelectedTab}
+      />
     </div>
   );
 }
