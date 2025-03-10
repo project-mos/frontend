@@ -261,6 +261,7 @@ export default function TestPage() {
             placeholder="예: 매주 화요일 오후 8시"
           />
           <LabelSelectInput
+            name="category"
             label="카테고리"
             selectList={categoryList}
             onChange={(e) => setCategory((e.target as HTMLSelectElement).value)}
