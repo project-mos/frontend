@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Card from "@/components/atoms/Card";
 import Typography from "@/components/atoms/Typography";
 import LabelRadioInput from "./LabelRadioInput";
@@ -11,11 +10,6 @@ const StudyMethod = () => {
     { label: "혼합", value: "hybrid" },
   ];
 
-  const [meetingType, setMeetingType] = useState<
-    "online" | "offline" | "hybrid"
-  >("online");
-  const [schedule, setSchedule] = useState<string>("");
-
   return (
     <Card className="pb-[30px]">
       <Card.Header className="mb-[30px]">
@@ -26,17 +20,11 @@ const StudyMethod = () => {
           name="meetingType"
           label="스터디 방식"
           options={meetingTypes}
-          selectedValue={meetingType}
-          onChange={(value) =>
-            setMeetingType(value as "online" | "offline" | "hybrid")
-          }
           required
         />
         <LabelInput
-          name="duration"
+          name="schedule"
           label="진행 시간"
-          value={schedule}
-          onChange={(e) => setSchedule(e.target.value)}
           placeholder="예: 매주 화요일 오후 8시"
           required
         />
