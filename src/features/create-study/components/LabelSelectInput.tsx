@@ -5,6 +5,7 @@ import Label from "./Label";
 
 interface LabelSelectInputProps extends HTMLAttributes<HTMLDivElement> {
   label: string;
+  name?: string;
   id?: string;
   required?: boolean;
   selectList: string[];

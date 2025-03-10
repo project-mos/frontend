@@ -1,7 +1,6 @@
 import React from "react";
 import { cn } from "@/lib/utils";
 import Input from "@/components/atoms/Input";
-import { useFormContext } from "react-hook-form";
 import Label from "./Label";
 
 interface LabelDateInputProps
@@ -19,7 +18,6 @@ const LabelDateInput = ({
   required,
   ...props
 }: LabelDateInputProps) => {
-  const { register } = useFormContext();
   const inputId = id ?? `input-${name.replace(/\s+/g, "-").toLowerCase()}`;
 
   return (
@@ -27,10 +25,10 @@ const LabelDateInput = ({
       <Label label={label} required htmlFor={inputId} />
       <Input
         type="date"
+        name={name}
         id={inputId}
         className="w-full placeholder:text-mos-gray-500"
         required={required}
-        {...register(name)}
         {...props}
       />
     </div>

@@ -46,7 +46,6 @@ const LabelTagInput = ({
       <div className="flex">
         <Input
           id={inputId}
-          name="input"
           value={tagInput}
           onChange={(e) => setTagInput(e.target.value)}
           className="w-full rounded-r-none placeholder:text-mos-gray-500"

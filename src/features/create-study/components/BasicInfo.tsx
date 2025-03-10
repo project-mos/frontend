@@ -16,8 +16,14 @@ const BasicInfo = () => {
       </Card.Header>
       <Card.Content className="flex flex-col gap-[15px]">
         <LabelInput name="name" label="스터디명" required />
-        <LabelSelectInput label="카테고리" selectList={categoryList} required />
+        <LabelSelectInput
+          name="category"
+          label="카테고리"
+          selectList={categoryList}
+          required
+        />
         <LabelNumberInput name="person" label="모집 인원" />
+
         <div className="flex w-full flex-col gap-3 mobile:flex-row">
           <LabelDateInput
             name="recruitmentStartDate"
