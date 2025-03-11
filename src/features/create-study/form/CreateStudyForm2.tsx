@@ -38,6 +38,7 @@ const CreateStudyForm2 = () => {
             description="스터디 규칙을 추가하여 참여자들이 지켜야 할 사항을 안내해보세요."
           />
           <ContentInputBox
+            name="rules"
             subTitle="스터디 규칙"
             buttonText="규칙 추가"
             placeholder="스터디 규칙을 입력하세요"
@@ -45,6 +46,12 @@ const CreateStudyForm2 = () => {
           <ContentAdderBox
             buttonText="스터디 혜택 추가하기"
             description="스터디 혜택을 추가하여 참여자들에게 제공되는 장점을 설명해보세요."
+          />
+          <ContentInputBox
+            name="benefits"
+            subTitle="스터디 혜택"
+            buttonText="혜택 추가"
+            placeholder="스터디 혜택을 입력하세요"
           />
 
           <StudyActions solidLabel="다음 단계" ghostLabel="취소" />
