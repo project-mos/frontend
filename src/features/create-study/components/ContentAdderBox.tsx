@@ -6,12 +6,13 @@ interface ContentAdderBoxProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   buttonText: string;
   description: string;
+  setIsInputBoxOpened: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ContentAdderBox = ({
   buttonText,
   description,
-  onClick,
+  setIsInputBoxOpened,
 }: ContentAdderBoxProps) => {
   return (
     <Card>
@@ -20,7 +21,7 @@ const ContentAdderBox = ({
           {description}
         </Typography.P1>
         <Button.Default
-          onClick={onClick}
+          onClick={() => setIsInputBoxOpened(true)}
           active
           type="button"
           className="m-auto"

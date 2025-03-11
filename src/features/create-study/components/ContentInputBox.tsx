@@ -11,6 +11,7 @@ interface ContentInputBoxProps
   subTitle: string;
   buttonText: string;
   placeholder: string;
+  setIsInputBoxOpened: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface InlineInputProps {
@@ -51,6 +52,7 @@ const ContentInputBox = ({
   subTitle,
   buttonText,
   placeholder,
+  setIsInputBoxOpened,
 }: ContentInputBoxProps) => {
   const { watch, setValue } = useFormContext();
   const rules: string[] = watch(name, [""]);
@@ -84,7 +86,12 @@ const ContentInputBox = ({
             <i className="bi bi-plus"></i>
             {buttonText}
           </Button.Default>
-          <Button.Solid type="button" color="Main" className="h-[35px]">
+          <Button.Solid
+            onClick={() => setIsInputBoxOpened(false)}
+            type="button"
+            color="Main"
+            className="h-[35px]"
+          >
             <i className="bi bi-x"></i>
             취소
           </Button.Solid>
