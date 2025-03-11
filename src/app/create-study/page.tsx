@@ -1,5 +1,6 @@
 import CreateStudyForm1 from "@/features/create-study/form/CreateStudyForm1";
 import CreateStudyForm2 from "@/features/create-study/form/CreateStudyForm2";
+import CreateStudyForm3 from "@/features/create-study/form/CreateStudyForm3";
 
 const CreateStudyPage = async ({
   searchParams,
@@ -10,6 +11,7 @@ const CreateStudyPage = async ({
   const stepNumber = Number(step);
 
   if (stepNumber === 2) return <CreateStudyForm2 />;
+  if (stepNumber === 3) return <CreateStudyForm3 />;
   return <CreateStudyForm1 />;
 };
 
