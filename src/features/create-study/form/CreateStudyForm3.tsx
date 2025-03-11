@@ -5,6 +5,8 @@ import Badge from "@/components/atoms/Badge";
 import Typography from "@/components/atoms/Typography";
 import StudyActions from "../components/StudyActions";
 
+import StudyApply from "../components/StudyApply";
+
 const CreateStudyForm3 = () => {
   const methods = useForm<FormData>();
   const router = useRouter();
@@ -25,6 +27,7 @@ const CreateStudyForm3 = () => {
           onSubmit={methods.handleSubmit(onSubmit)}
           className="flex flex-col gap-[30px]"
         >
+          <StudyApply />
           <StudyActions solidLabel="스터디 만들기" ghostLabel="이전 단계" />
         </form>
       </FormProvider>
