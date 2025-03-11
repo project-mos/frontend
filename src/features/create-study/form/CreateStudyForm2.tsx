@@ -6,6 +6,7 @@ import Typography from "@/components/atoms/Typography";
 import StudyDescription from "../components/StudyDescription";
 import StudyActions from "../components/StudyActions";
 import ContentAdderBox from "../components/ContentAdderBox";
+import ContentInputBox from "../components/ContentInputBox";
 
 const CreateStudyForm2 = () => {
   const methods = useForm<FormData>();
@@ -35,6 +36,11 @@ const CreateStudyForm2 = () => {
           <ContentAdderBox
             buttonText="스터디 규칙 추가하기"
             description="스터디 규칙을 추가하여 참여자들이 지켜야 할 사항을 안내해보세요."
+          />
+          <ContentInputBox
+            subTitle="스터디 규칙"
+            buttonText="규칙 추가"
+            placeholder="스터디 규칙을 입력하세요"
           />
           <ContentAdderBox
             buttonText="스터디 혜택 추가하기"
