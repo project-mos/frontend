@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 
 interface CalendarProps {
@@ -50,10 +51,7 @@ function Calendar() {
     // 이전 달 빈 칸 렌더링
     for (let i = 0; i < firstDay; i++) {
       cells.push(
-        <div
-          key={`empty-${i}`}
-          className="h-20 w-24 border border-gray-200 p-2"
-        />
+        <div key={`empty-${i}`} className="h-20 border border-gray-200 p-2" />
       );
     }
 
@@ -67,7 +65,7 @@ function Calendar() {
       cells.push(
         <div
           key={day}
-          className="flex h-20 w-24 flex-col border border-gray-200 p-2"
+          className="flex h-20 flex-col border border-gray-200 p-2"
         >
           {/* 날짜 영역: 오늘이면 동그라미로 감싸기 */}
           <div className="flex items-center">
@@ -126,11 +124,11 @@ function Calendar() {
   };
 
   return (
-    <div className="mx-auto mt-8 max-w-4xl rounded-md border border-gray-300 p-4 shadow-md">
+    <div className="mx-auto mt-3 w-full max-w-4xl rounded-md border border-gray-300 p-4 shadow-md">
       <div className="mb-4 flex items-center justify-between">
         <button
           onClick={handlePrevMonth}
-          className="rounded bg-mos-main-500 px-4 py-2 text-white hover:bg-mos-main-700"
+          className="rounded bg-mos-main-500 px-3 py-1 text-white hover:bg-mos-main-700"
         >
           &lt;
         </button>
@@ -139,7 +137,7 @@ function Calendar() {
         </div>
         <button
           onClick={handleNextMonth}
-          className="rounded bg-mos-main-500 px-4 py-2 text-white hover:bg-mos-main-700"
+          className="rounded bg-mos-main-500 px-3 py-1 text-white hover:bg-mos-main-700"
         >
           &gt;
         </button>
