@@ -4,7 +4,6 @@ import { FormProvider, useForm } from "react-hook-form";
 import Badge from "@/components/atoms/Badge";
 import Typography from "@/components/atoms/Typography";
 import StudyActions from "../components/StudyActions";
-
 import StudyApply from "../components/StudyApply";
 
 const CreateStudyForm3 = () => {
