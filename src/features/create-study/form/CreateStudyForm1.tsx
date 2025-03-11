@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import { FormProvider, useForm } from "react-hook-form";
 import Badge from "@/components/atoms/Badge";
 import Typography from "@/components/atoms/Typography";
-import BasicInfo from "../components/BasicInfo";
+import StudyBasicInfo from "../components/StudyBasicInfo";
 import StudyMethod from "../components/StudyMethod";
 import StudyActions from "../components/StudyActions";
 
@@ -27,7 +27,7 @@ const CreateStudyForm1 = () => {
           onSubmit={methods.handleSubmit(onSubmit)}
           className="flex flex-col gap-[30px]"
         >
-          <BasicInfo />
+          <StudyBasicInfo />
           <StudyMethod />
           <StudyActions solidLabel="다음 단계" ghostLabel="취소" />
         </form>

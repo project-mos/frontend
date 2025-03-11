@@ -6,7 +6,7 @@ import LabelNumberInput from "./LabelNumberInput";
 import LabelDateInput from "./LabelDateInput";
 import LabelTagInput from "./LabelTagInput";
 
-const BasicInfo = () => {
+const StudyBasicInfo = () => {
   const categoryList = ["ex1", "ex2", "ex3"];
 
   return (
@@ -46,4 +46,4 @@ const BasicInfo = () => {
   );
 };
 
-export default BasicInfo;
+export default StudyBasicInfo;
