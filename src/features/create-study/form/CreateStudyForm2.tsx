@@ -1,4 +1,5 @@
 "use client";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { FormProvider, useForm } from "react-hook-form";
 import Badge from "@/components/atoms/Badge";
@@ -24,6 +25,10 @@ const CreateStudyForm2 = () => {
     console.log(data);
     router.push("/create-study?step=3");
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="m-auto flex w-full max-w-[800px] flex-col gap-[20px] tablet:w-[85%]">

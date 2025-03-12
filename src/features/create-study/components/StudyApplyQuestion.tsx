@@ -117,6 +117,7 @@ const OptionBox = ({ index }: { index: number }) => {
         onClick={handleAddOption}
         color="Main"
         className="bg-gray-100"
+        type="button"
       >
         <i className="bi bi-plus text-[20px]"></i>
         옵션 추가

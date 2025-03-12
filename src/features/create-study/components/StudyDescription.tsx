@@ -1,9 +1,8 @@
+import { useFormContext } from "react-hook-form";
 import Card from "@/components/atoms/Card";
 import Typography from "@/components/atoms/Typography";
-
 import LabelTextAreaInput from "./LabelTextAreaInput";
 import LabelEditor from "./LabelEditor";
-import { useFormContext } from "react-hook-form";
 import ErrorMessage from "@/components/atoms/ErrorMessage";
 
 const StudyDescription = () => {
