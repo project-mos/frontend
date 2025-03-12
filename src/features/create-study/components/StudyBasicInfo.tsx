@@ -19,7 +19,7 @@ const StudyBasicInfo = () => {
       <Card.Header className="mb-[30px]">
         <Typography.SubTitle1>기본 정보</Typography.SubTitle1>
       </Card.Header>
-      <Card.Content className="flex flex-col gap-[15px]">
+      <Card.Content className="flex flex-col gap-[25px]">
         <LabelInput name="name" label="스터디명" required />
         {errors.name && (
           <ErrorMessage>{errors.name.message as string}</ErrorMessage>

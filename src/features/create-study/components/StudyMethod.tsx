@@ -21,7 +21,7 @@ const StudyMethod = () => {
       <Card.Header className="mb-[30px]">
         <Typography.SubTitle1>진행 방식</Typography.SubTitle1>
       </Card.Header>
-      <Card.Content className="flex flex-col gap-[15px]">
+      <Card.Content className="flex flex-col gap-[25px]">
         <LabelRadioInput
           name="meetingType"
           label="스터디 방식"

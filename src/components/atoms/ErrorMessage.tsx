@@ -6,7 +6,7 @@ interface ErrorMessageProps {
 }
 const ErrorMessage = ({ children }: ErrorMessageProps) => {
   return (
-    <Typography.P1 className="mt-[-10px] text-[13px] text-mos-coral-500">
+    <Typography.P1 className="mb-[-25px] mt-[-20px] text-[13px] text-mos-coral-500">
       {children}
     </Typography.P1>
   );

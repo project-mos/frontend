@@ -17,7 +17,7 @@ const StudyDescription = () => {
       <Card.Header className="mb-[30px]">
         <Typography.SubTitle1>스터디 설명</Typography.SubTitle1>
       </Card.Header>
-      <Card.Content className="flex flex-col gap-[15px]">
+      <Card.Content className="flex flex-col gap-[25px]">
         <LabelEditor
           label="스터디 설명"
           name="content"
