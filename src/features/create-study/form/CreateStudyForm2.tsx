@@ -1,7 +1,6 @@
-"use client";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, useFormContext } from "react-hook-form";
 import Badge from "@/components/atoms/Badge";
 import Typography from "@/components/atoms/Typography";
 import StudyDescription from "../components/StudyDescription";
@@ -9,20 +8,13 @@ import StudyActions from "../components/StudyActions";
 import StudyRules from "../components/StudyRules";
 import StudyBenefits from "../components/StudyBenefits";
 import StudyCurriculum from "../components/StudyCurriculum";
-
-interface StudyForm2Interface {
-  content: string;
-  requirements?: string;
-  rules?: string[];
-  benefits?: string;
-}
+import { StudyFormInterface } from "./CreateStudyForm";
 
 const CreateStudyForm2 = () => {
-  const methods = useForm<StudyForm2Interface>();
+  const methods = useFormContext<StudyFormInterface>();
   const router = useRouter();
 
-  const onSubmit = (data: StudyForm2Interface) => {
-    console.log(data);
+  const onSubmit = () => {
     router.push("/create-study?step=3");
   };
 
