@@ -9,12 +9,19 @@ import StudyRules from "../components/StudyRules";
 import StudyBenefits from "../components/StudyBenefits";
 import StudyCurriculum from "../components/StudyCurriculum";
 
+interface StudyForm2Interface {
+  content: string;
+  requirements?: string;
+  rules?: string[];
+  benefits?: string;
+}
+
 const CreateStudyForm2 = () => {
-  const methods = useForm<FormData>();
+  const methods = useForm<StudyForm2Interface>();
   const router = useRouter();
 
-  const onSubmit = (data: FormData) => {
-    console.log("data", data);
+  const onSubmit = (data: StudyForm2Interface) => {
+    console.log(data);
     router.push("/create-study?step=3");
   };
 

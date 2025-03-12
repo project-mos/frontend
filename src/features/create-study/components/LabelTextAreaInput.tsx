@@ -12,16 +12,13 @@ interface LabelTextAreaInputProps
 const LabelTextAreaInput = ({
   label,
   name,
-  id,
   className,
   required,
   ...props
 }: LabelTextAreaInputProps) => {
-  const inputId = id ?? `input-${name.replace(/\s+/g, "-").toLowerCase()}`;
-
   return (
     <div className={cn("flex w-full flex-col gap-[5px]", className)} {...props}>
-      <Label htmlFor={inputId} label={label} required={required} />
+      <Label label={label} required={required} />
       <Textarea
         name={name}
         className="h-[130px] resize-none"
