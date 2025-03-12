@@ -1,7 +1,7 @@
 import React from "react";
-import Typography from "@/components/atoms/Typography";
-import RadioGroup from "@/components/molecules/RadioGroup";
 import { useFormContext } from "react-hook-form";
+import RadioGroup from "@/components/molecules/RadioGroup";
+import Label from "@/components/molecules/Label";
 
 interface LabelRadioInputProps {
   name: string;
@@ -22,9 +22,7 @@ const LabelRadioInput = ({
 
   return (
     <div className="flex w-full flex-col gap-[5px]">
-      <Typography.P1 className="text-[15px]">
-        {label} {required ? "*" : ""}
-      </Typography.P1>
+      <Label htmlFor={name} required={required} label={label} />
       <RadioGroup
         {...register(name)}
         name={name}
