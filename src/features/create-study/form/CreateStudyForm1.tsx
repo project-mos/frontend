@@ -60,6 +60,11 @@ const CreateStudyForm1 = () => {
       isValid = false;
     }
 
+    if (!isValid) {
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }, 0);
+    }
     return isValid;
   };
 
