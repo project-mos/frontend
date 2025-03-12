@@ -30,6 +30,7 @@ const LabelNumberInput = ({
         type="number"
         className="w-full placeholder:text-mos-gray-500"
         required={required}
+        min={1}
         {...props}
       />
     </div>
