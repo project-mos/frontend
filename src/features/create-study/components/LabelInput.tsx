@@ -21,12 +21,11 @@ const LabelInput = ({
 
   return (
     <div className={cn("flex w-full flex-col gap-[5px]", className)}>
-      <Label label={label} required htmlFor={inputId} />
+      <Label label={label} required={required} htmlFor={inputId} />
       <Input
         name={name}
         id={inputId}
         className="w-full placeholder:text-mos-gray-500"
-        required={required}
         {...props}
       />
     </div>

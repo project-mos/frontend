@@ -16,11 +16,10 @@ interface LabelEditorProps {
 
 const LabelEditor = ({ label, name, id, required }: LabelEditorProps) => {
   const { watch, setValue } = useFormContext();
-
   const content = watch(name) || "";
 
   const handleChange = (value: string) => {
-    setValue(name, value);
+    setValue(name, value, { shouldValidate: true });
   };
 
   return (
