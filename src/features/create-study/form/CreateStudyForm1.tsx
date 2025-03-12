@@ -29,6 +29,38 @@ const CreateStudyForm1 = () => {
       isValid = false;
     }
 
+    if (!data.recruitmentStartDate || !data.recruitmentEndDate) {
+      setError("recruitmentStartDate", {
+        message: "모집 시작일과 마감일은 필수 입력사항입니다.",
+      });
+      setError("recruitmentEndDate", {
+        message: "모집 시작일과 마감일은 필수 입력사항입니다.",
+      });
+      isValid = false;
+    }
+
+    if (data.recruitmentStartDate > data.recruitmentEndDate) {
+      setError("recruitmentStartDate", {
+        message: "유효하지 않은 날짜 지정입니다.",
+      });
+      setError("recruitmentEndDate", {
+        message: "유효하지 않은 날짜 지정입니다.",
+      });
+      isValid = false;
+    }
+
+    if (!data.meetingType) {
+      setError("meetingType", {
+        message: "스터디 방식은 필수 입력사항입니다.",
+      });
+      isValid = false;
+    }
+
+    if (!data.schedule.trim()) {
+      setError("schedule", { message: "진행 시간은 필수 입력사항입니다." });
+      isValid = false;
+    }
+
     if (!isValid) {
       setTimeout(() => {
         window.scrollTo({ top: 0, behavior: "smooth" });
