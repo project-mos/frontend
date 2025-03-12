@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import { StudyFormInterface } from "./CreateStudyForm";
 import Card from "@/components/atoms/Card";
@@ -5,7 +6,11 @@ import Typography from "@/components/atoms/Typography";
 
 const CreatStudyForm4 = () => {
   const { watch } = useFormContext<StudyFormInterface>();
-  const formData = watch(); // 모든 폼 데이터 가져오기
+  const formData = watch();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <Card className="p-6">
