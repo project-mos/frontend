@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { FormProvider, useFormContext } from "react-hook-form";
 import Badge from "@/components/atoms/Badge";
@@ -6,17 +6,24 @@ import Typography from "@/components/atoms/Typography";
 import StudyActions from "../components/StudyActions";
 import StudyApply from "../components/StudyApply";
 import { StudyFormInterface } from "./CreateStudyForm";
+import CreateStudyModal from "../components/CreateStudyModal";
 
 const CreateStudyForm3 = () => {
   const methods = useFormContext<StudyFormInterface>();
   const router = useRouter();
+  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
 
   const onSubmit = () => {
-    router.push("/create-study?step=4");
+    setIsOpenModal(true);
   };
 
   const handleClickBackButton = () => {
     router.push("/create-study?step=2");
+  };
+
+  const handleClickCreateButton = () => {
+    setIsOpenModal(false);
+    router.push("/create-study?step=4");
   };
 
   useEffect(() => {
@@ -42,6 +49,14 @@ const CreateStudyForm3 = () => {
           />
         </form>
       </FormProvider>
+      {isOpenModal && (
+        <CreateStudyModal
+          title="스터디를 생성하시겠습니까?"
+          descriptions={[]}
+          setIsOpenModal={setIsOpenModal}
+          confirmFunction={handleClickCreateButton}
+        />
+      )}
     </div>
   );
 };

@@ -30,6 +30,7 @@ const CreateStudyForm1 = () => {
     setIsOpenModal(false);
     router.push("/");
   };
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
