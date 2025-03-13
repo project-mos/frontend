@@ -24,9 +24,6 @@ const useValidateForm = () => {
       setError("recruitmentStartDate", {
         message: "모집 시작일과 마감일은 필수 입력사항입니다.",
       });
-      setError("recruitmentEndDate", {
-        message: "모집 시작일과 마감일은 필수 입력사항입니다.",
-      });
       isValid = false;
     }
 
