@@ -8,8 +8,7 @@ import StudyMethod from "../components/StudyMethod";
 import StudyActions from "../components/StudyActions";
 import { StudyFormInterface } from "./CreateStudyForm";
 import useValidateForm from "../hooks/useValidateForm";
-import Modal from "@/components/atoms/Modal";
-import Button from "@/components/atoms/Button";
+import CreateStudyModal from "../components/CreateStudyModal";
 
 const CreateStudyForm1 = () => {
   const methods = useFormContext<StudyFormInterface>();
@@ -27,6 +26,10 @@ const CreateStudyForm1 = () => {
     setIsOpenModal(true);
   };
 
+  const handleClickCancelButton = () => {
+    setIsOpenModal(false);
+    router.push("/");
+  };
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -52,34 +55,12 @@ const CreateStudyForm1 = () => {
         </form>
       </FormProvider>
       {isOpenModal && (
-        <Modal setIsOpenModal={setIsOpenModal}>
-          <Modal.Content className="mb-[40px] flex w-[300px] flex-col gap-3 text-center">
-            <Typography.Head3>취소하시겠습니까?</Typography.Head3>
-            <Typography.P3>
-              현재까지 작성하신 내용이 <br />
-              저장되지않습니다.
-            </Typography.P3>
-          </Modal.Content>
-          <Modal.Button>
-            <Button.Solid
-              active
-              color="Main"
-              onClick={() => {
-                setIsOpenModal(false);
-                router.push("/");
-              }}
-            >
-              확인
-            </Button.Solid>
-            <Button.Solid
-              active
-              color="Gray"
-              onClick={() => setIsOpenModal(false)}
-            >
-              취소
-            </Button.Solid>
-          </Modal.Button>
-        </Modal>
+        <CreateStudyModal
+          title="취소하시겠습니까?"
+          descriptions={["현재까지 작성하신 내용은", "저장되지않습니다."]}
+          setIsOpenModal={setIsOpenModal}
+          confirmFunction={handleClickCancelButton}
+        />
       )}
     </div>
   );
