@@ -48,15 +48,15 @@ const CreateStudyForm3 = () => {
             onClickBackButton={handleClickBackButton}
           />
         </form>
+        {isOpenModal && (
+          <CreateStudyModal
+            title="스터디를 생성하시겠습니까?"
+            descriptions={[]}
+            setIsOpenModal={setIsOpenModal}
+            confirmFunction={handleClickCreateButton}
+          />
+        )}
       </FormProvider>
-      {isOpenModal && (
-        <CreateStudyModal
-          title="스터디를 생성하시겠습니까?"
-          descriptions={[]}
-          setIsOpenModal={setIsOpenModal}
-          confirmFunction={handleClickCreateButton}
-        />
-      )}
     </div>
   );
 };
