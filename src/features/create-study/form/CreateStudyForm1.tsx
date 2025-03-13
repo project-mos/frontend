@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { FormProvider, useFormContext } from "react-hook-form";
 import Badge from "@/components/atoms/Badge";
@@ -8,11 +8,14 @@ import StudyMethod from "../components/StudyMethod";
 import StudyActions from "../components/StudyActions";
 import { StudyFormInterface } from "./CreateStudyForm";
 import useValidateForm from "../hooks/useValidateForm";
+import Modal from "@/components/atoms/Modal";
+import Button from "@/components/atoms/Button";
 
 const CreateStudyForm1 = () => {
   const methods = useFormContext<StudyFormInterface>();
   const router = useRouter();
   const validateForm = useValidateForm();
+  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
 
   const onSubmit = (data: StudyFormInterface) => {
     if (validateForm(data)) {
@@ -21,9 +24,7 @@ const CreateStudyForm1 = () => {
   };
 
   const handleClickBackButton = () => {
-    if (window.confirm("취소?")) {
-      router.push("/");
-    }
+    setIsOpenModal(true);
   };
 
   useEffect(() => {
@@ -50,6 +51,36 @@ const CreateStudyForm1 = () => {
           />
         </form>
       </FormProvider>
+      {isOpenModal && (
+        <Modal setIsOpenModal={setIsOpenModal}>
+          <Modal.Content className="mb-[40px] flex w-[300px] flex-col gap-3 text-center">
+            <Typography.Head3>취소하시겠습니까?</Typography.Head3>
+            <Typography.P3>
+              현재까지 작성하신 내용이 <br />
+              저장되지않습니다.
+            </Typography.P3>
+          </Modal.Content>
+          <Modal.Button>
+            <Button.Solid
+              active
+              color="Main"
+              onClick={() => {
+                setIsOpenModal(false);
+                router.push("/");
+              }}
+            >
+              확인
+            </Button.Solid>
+            <Button.Solid
+              active
+              color="Gray"
+              onClick={() => setIsOpenModal(false)}
+            >
+              취소
+            </Button.Solid>
+          </Modal.Button>
+        </Modal>
+      )}
     </div>
   );
 };
