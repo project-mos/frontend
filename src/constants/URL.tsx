@@ -1,7 +1,7 @@
 const URL = {
   HOME: "/",
   STUDY: {
-    CREATE: "/create-study",
+    CREATE: "/create-study?step=1",
     DETAIL: "/studies",
   },
   MYPAGE: "/mypage",

@@ -18,6 +18,10 @@ const CreateStudyForm2 = () => {
     router.push("/create-study?step=3");
   };
 
+  const handleClickBackButton = () => {
+    router.push("/create-study");
+  };
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -38,7 +42,11 @@ const CreateStudyForm2 = () => {
           <StudyRules />
           <StudyBenefits />
 
-          <StudyActions solidLabel="다음 단계" ghostLabel="이전 단계" />
+          <StudyActions
+            solidLabel="다음 단계"
+            ghostLabel="이전 단계"
+            onClickBackButton={handleClickBackButton}
+          />
         </form>
       </FormProvider>
     </div>

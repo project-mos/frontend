@@ -15,6 +15,10 @@ const CreateStudyForm3 = () => {
     router.push("/create-study?step=4");
   };
 
+  const handleClickBackButton = () => {
+    router.push("/create-study?step=2");
+  };
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -31,7 +35,11 @@ const CreateStudyForm3 = () => {
           className="flex flex-col gap-[30px]"
         >
           <StudyApply />
-          <StudyActions solidLabel="스터디 만들기" ghostLabel="이전 단계" />
+          <StudyActions
+            solidLabel="스터디 만들기"
+            ghostLabel="이전 단계"
+            onClickBackButton={handleClickBackButton}
+          />
         </form>
       </FormProvider>
     </div>

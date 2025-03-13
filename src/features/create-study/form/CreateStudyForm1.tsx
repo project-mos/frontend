@@ -20,6 +20,12 @@ const CreateStudyForm1 = () => {
     }
   };
 
+  const handleClickBackButton = () => {
+    if (window.confirm("취소?")) {
+      router.push("/");
+    }
+  };
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -37,7 +43,11 @@ const CreateStudyForm1 = () => {
         >
           <StudyBasicInfo />
           <StudyMethod />
-          <StudyActions solidLabel="다음 단계" ghostLabel="취소" />
+          <StudyActions
+            solidLabel="다음 단계"
+            ghostLabel="취소"
+            onClickBackButton={handleClickBackButton}
+          />
         </form>
       </FormProvider>
     </div>

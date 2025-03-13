@@ -5,6 +5,7 @@ import CreateStudyForm1 from "@/features/create-study/form/CreateStudyForm1";
 import CreateStudyForm2 from "@/features/create-study/form/CreateStudyForm2";
 import CreateStudyForm3 from "@/features/create-study/form/CreateStudyForm3";
 import CreatStidyForm4 from "./CreateStudyForm4";
+import { useEffect } from "react";
 
 export interface StudyFormInterface {
   category: string;
@@ -33,6 +34,9 @@ const CreateStudyForm = () => {
 
   const methods = useForm<StudyFormInterface>();
 
+  useEffect(() => {
+    console.log(stepNumber);
+  }, [stepNumber]);
   return (
     <FormProvider {...methods}>
       {stepNumber === 2 ? (
