@@ -31,9 +31,6 @@ const useValidateForm = () => {
       setError("recruitmentStartDate", {
         message: "유효하지 않은 날짜 지정입니다.",
       });
-      setError("recruitmentEndDate", {
-        message: "유효하지 않은 날짜 지정입니다.",
-      });
       isValid = false;
     }
 
