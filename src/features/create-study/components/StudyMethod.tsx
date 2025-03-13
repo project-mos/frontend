@@ -17,7 +17,7 @@ const StudyMethod = () => {
   ];
 
   return (
-    <Card className="pb-[30px]">
+    <Card className="pb-[40px]">
       <Card.Header className="mb-[30px]">
         <Typography.SubTitle1>진행 방식</Typography.SubTitle1>
       </Card.Header>

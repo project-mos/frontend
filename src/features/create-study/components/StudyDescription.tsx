@@ -14,7 +14,7 @@ const StudyDescription = () => {
 
   return (
     <Card>
-      <Card.Header className="mb-[30px]">
+      <Card.Header className="mb-[40px]">
         <Typography.SubTitle1>스터디 설명</Typography.SubTitle1>
       </Card.Header>
       <Card.Content className="flex flex-col gap-[25px]">

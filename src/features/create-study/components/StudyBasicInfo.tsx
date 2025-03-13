@@ -15,7 +15,7 @@ const StudyBasicInfo = () => {
   const categoryList = ["ex1", "ex2", "ex3"];
 
   return (
-    <Card className="pb-[30px]">
+    <Card className="pb-[40px]">
       <Card.Header className="mb-[30px]">
         <Typography.SubTitle1>기본 정보</Typography.SubTitle1>
       </Card.Header>

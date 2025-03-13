@@ -63,7 +63,10 @@ const LabelTagInput = ({
 
       <div className="flex flex-wrap gap-2">
         {tags.map((tag: string, index: number) => (
-          <Tag.Detail key={index} className="flex items-center gap-2 px-5 py-4">
+          <Tag.Detail
+            key={index}
+            className="mb-[-43px] flex items-center gap-2 px-5  py-4"
+          >
             <Typography.P1>{tag}</Typography.P1>
             <button
               type="button"
