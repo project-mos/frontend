@@ -28,6 +28,8 @@ import RadioButton from "@/components/atoms/RadioButton";
 import RadioGroup from "@/components/molecules/RadioGroup";
 import Tab from "@/components/atoms/Tab";
 
+import Calendar from "@/components/molecules/Calendar";
+
 interface FormData {
   test: string; // 'test' 필드 타입을 string으로 설정
 }
@@ -316,6 +318,8 @@ export default function TestPage() {
         selectedTab={selectedTab}
         setSelectedTab={setSelectedTab}
       />
+      {/* Calendar */}
+      <Calendar />
     </div>
   );
 }

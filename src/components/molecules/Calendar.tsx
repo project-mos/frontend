@@ -1,5 +1,9 @@
 "use client";
 import React, { useState } from "react";
+import Button from "../atoms/Button";
+import Typography from "../atoms/Typography";
+import Grid from "../atoms/Grid";
+import { cn } from "@/lib/utils";
 
 interface CalendarProps {
   [key: string]: {
@@ -8,6 +12,10 @@ interface CalendarProps {
     color: string;
   }[];
 }
+
+const cellStyle =
+  "h-16 w-full min-w-14 mobile:min-w-20 border border-gray-200 p-2 mobile:h-20 tablet:min-w-[50px] ";
+
 function Calendar() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const today = new Date();
@@ -50,9 +58,7 @@ function Calendar() {
 
     // 이전 달 빈 칸 렌더링
     for (let i = 0; i < firstDay; i++) {
-      cells.push(
-        <div key={`empty-${i}`} className="h-20 border border-gray-200 p-2" />
-      );
+      cells.push(<div key={`empty-${i}`} className={cellStyle} />);
     }
 
     // 날짜 셀 렌더링
@@ -63,36 +69,36 @@ function Calendar() {
       const dayEvents = events[dateKey] || [];
 
       cells.push(
-        <div
-          key={day}
-          className="flex h-20 flex-col border border-gray-200 p-2"
-        >
+        <div key={day} className={cn(cellStyle)}>
           {/* 날짜 영역: 오늘이면 동그라미로 감싸기 */}
           <div className="flex items-center">
             {isToday ? (
               <div className="flex size-5 items-center justify-center rounded-full bg-mos-main-500">
-                <span className="text-[12px] font-medium text-white">
+                <Typography.P3 className="text-[12px] font-medium text-white">
                   {day}
-                </span>
+                </Typography.P3>
               </div>
             ) : (
-              <span className="text-[12px] font-medium">{day}</span>
+              <Typography.P3 className="text-[12px] font-medium">
+                {day}
+              </Typography.P3>
             )}
           </div>
           {/* 이벤트 영역: 날짜 숫자 바로 아래에 표시 */}
           {dayEvents.length > 0 && (
             <div className="mt-1 flex cursor-pointer flex-col space-y-1">
               <div
-                className={`h-5 w-full ${dayEvents[0].color} flex items-center rounded p-1`}
-                title={dayEvents[0].title}
+                className={`hidden h-5 w-full mobile:flex ${dayEvents[0].color} flex items-center rounded p-1`}
               >
-                <span className="truncate text-[11px] text-white">
+                <Typography.P3 className="truncate text-[11px] text-white">
                   {dayEvents[0].title}
-                </span>
+                </Typography.P3>
               </div>
               {dayEvents.length > 1 && (
-                <div className="text-right text-[11px] text-gray-600">
-                  +{dayEvents.length - 1}
+                <div className="flex items-center justify-end text-right text-[11px] font-semibold ">
+                  <Typography.P3 className="rounded-full bg-mos-green-500 px-[3px] py-[2px] text-mos-white-gray-100">
+                    +{dayEvents.length - 1}
+                  </Typography.P3>
                 </div>
               )}
             </div>
@@ -100,6 +106,17 @@ function Calendar() {
         </div>
       );
     }
+
+    // 마지막 행 빈 칸 채우기
+    const totalCells = firstDay + daysInMonth;
+    const extraCells = totalCells % 7;
+    if (extraCells !== 0) {
+      const remaining = 7 - extraCells;
+      for (let i = 0; i < remaining; i++) {
+        cells.push(<div key={`empty-end-${i}`} className={cellStyle} />);
+      }
+    }
+
     return cells;
   };
 
@@ -124,36 +141,30 @@ function Calendar() {
   };
 
   return (
-    <div className="mx-auto mt-3 w-full max-w-4xl rounded-md border border-gray-300 p-4 shadow-md">
+    <div className="mx-auto mt-8 w-full max-w-4xl rounded-md border border-gray-300 p-4 shadow-md tablet:h-[600px]">
       <div className="mb-4 flex items-center justify-between">
-        <button
-          onClick={handlePrevMonth}
-          className="rounded bg-mos-main-500 px-3 py-1 text-white hover:bg-mos-main-700"
-        >
+        <Button.Solid color="Main" active onClick={handlePrevMonth}>
           &lt;
-        </button>
-        <div className="text-xl font-semibold">
+        </Button.Solid>
+        <Typography.SubTitle1>
           {currentDate.getFullYear()}년 {currentDate.getMonth() + 1}월
-        </div>
-        <button
-          onClick={handleNextMonth}
-          className="rounded bg-mos-main-500 px-3 py-1 text-white hover:bg-mos-main-700"
-        >
+        </Typography.SubTitle1>
+        <Button.Solid color="Main" active onClick={handleNextMonth}>
           &gt;
-        </button>
+        </Button.Solid>
       </div>
-      <div className="grid grid-cols-7 gap-px">
+      <Grid cols={7} className="gap-px text-center">
         {/* 요일 헤더 */}
-        <div className="text-center font-bold text-red-500">일</div>
-        <div className="text-center font-bold">월</div>
-        <div className="text-center font-bold">화</div>
-        <div className="text-center font-bold">수</div>
-        <div className="text-center font-bold">목</div>
-        <div className="text-center font-bold">금</div>
-        <div className="text-center font-bold">토</div>
+        <Typography.P3 className="font-bold text-red-600">일</Typography.P3>
+        <Typography.P3 className="text-center font-bold">월</Typography.P3>
+        <Typography.P3 className="text-center font-bold">화</Typography.P3>
+        <Typography.P3 className="text-center font-bold">수</Typography.P3>
+        <Typography.P3 className="text-center font-bold">목</Typography.P3>
+        <Typography.P3 className="text-center font-bold">금</Typography.P3>
+        <Typography.P3 className="text-center font-bold">토</Typography.P3>
         {/* 날짜 셀 */}
         {renderCalendarCells()}
-      </div>
+      </Grid>
     </div>
   );
 }
