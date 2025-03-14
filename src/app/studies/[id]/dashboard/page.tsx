@@ -1,13 +1,17 @@
-import Card from "@/components/atoms/Card";
 import React from "react";
+import DashboardIntendedCard from "@/features/studies/components/dashboard/DashboardIntendedCard";
+import DashboardTitleCard from "@/features/studies/components/dashboard/DashboardTitleCard";
+import DashboardSideBarCard from "@/features/studies/components/dashboard/DashboardSideBarCard";
+
+import DashboardContentCard from "@/features/studies/components/dashboard/DashboardContentCard";
 
 const StudiesDashBoardPage = () => {
   return (
     <>
-      <Card className="col-span-12">알고리즘 스터디</Card>
-      <Card className="col-span-12 tablet:col-span-4">알고리즘 스터디</Card>
-      <Card className="col-span-12 tablet:col-span-8">스터디 일정</Card>
-      <Card className="col-span-12 tablet:col-span-4">관리자 메뉴</Card>
+      <DashboardTitleCard />
+      <DashboardIntendedCard />
+      <DashboardSideBarCard />
+      <DashboardContentCard />
     </>
   );
 };
