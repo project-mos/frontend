@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import Button from "../atoms/Button";
 import Typography from "../atoms/Typography";
