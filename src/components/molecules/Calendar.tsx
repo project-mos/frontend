@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Button from "../atoms/Button";
 import Typography from "../atoms/Typography";
 import Grid from "../atoms/Grid";
+import { cn } from "@/lib/utils";
 
 interface CalendarProps {
   [key: string]: {
@@ -11,6 +12,10 @@ interface CalendarProps {
     color: string;
   }[];
 }
+
+const cellStyle =
+  "h-16 w-full min-w-14 mobile:min-w-20 border border-gray-200 p-2 mobile:h-20 tablet:min-w-[50px] ";
+
 function Calendar() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const today = new Date();
@@ -53,12 +58,7 @@ function Calendar() {
 
     // 이전 달 빈 칸 렌더링
     for (let i = 0; i < firstDay; i++) {
-      cells.push(
-        <div
-          key={`empty-${i}`}
-          className="h-16 w-full min-w-[60px] border border-gray-200 p-2 tablet:h-20 tablet:min-w-[100px]"
-        />
-      );
+      cells.push(<div key={`empty-${i}`} className={cellStyle} />);
     }
 
     // 날짜 셀 렌더링
@@ -69,10 +69,7 @@ function Calendar() {
       const dayEvents = events[dateKey] || [];
 
       cells.push(
-        <div
-          key={day}
-          className="flex h-16 w-full min-w-[60px] flex-col border  border-gray-200 p-2 tablet:h-20 tablet:min-w-[100px]"
-        >
+        <div key={day} className={cn(cellStyle)}>
           {/* 날짜 영역: 오늘이면 동그라미로 감싸기 */}
           <div className="flex items-center">
             {isToday ? (
@@ -91,7 +88,7 @@ function Calendar() {
           {dayEvents.length > 0 && (
             <div className="mt-1 flex cursor-pointer flex-col space-y-1">
               <div
-                className={`hidden h-5 w-full tablet:flex ${dayEvents[0].color} flex items-center rounded p-1`}
+                className={`hidden h-5 w-full mobile:flex ${dayEvents[0].color} flex items-center rounded p-1`}
               >
                 <Typography.P3 className="truncate text-[11px] text-white">
                   {dayEvents[0].title}
@@ -109,6 +106,17 @@ function Calendar() {
         </div>
       );
     }
+
+    // 마지막 행 빈 칸 채우기
+    const totalCells = firstDay + daysInMonth;
+    const extraCells = totalCells % 7;
+    if (extraCells !== 0) {
+      const remaining = 7 - extraCells;
+      for (let i = 0; i < remaining; i++) {
+        cells.push(<div key={`empty-end-${i}`} className={cellStyle} />);
+      }
+    }
+
     return cells;
   };
 
@@ -133,7 +141,7 @@ function Calendar() {
   };
 
   return (
-    <div className="mx-auto mt-8 max-w-4xl rounded-md border border-gray-300 p-4 shadow-md">
+    <div className="mx-auto mt-8 w-full max-w-4xl rounded-md border border-gray-300 p-4 shadow-md tablet:h-[600px]">
       <div className="mb-4 flex items-center justify-between">
         <Button.Solid color="Main" active onClick={handlePrevMonth}>
           &lt;
