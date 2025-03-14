@@ -1,5 +1,4 @@
 import type { NextConfig } from "next";
-import createMDX from "@next/mdx";
 
 const isProduction = process.env.NODE_ENV === "production";
 
@@ -21,11 +20,6 @@ const nextConfig: NextConfig = {
   compiler: {
     removeConsole: isProduction,
   },
-  transpilePackages: ["next-mdx-remote"],
 };
 
-const withMDX = createMDX({
-  // Add markdown plugins here, as desired 플러그인 추후 추가예정
-});
-
-export default withMDX(nextConfig);
+export default nextConfig;

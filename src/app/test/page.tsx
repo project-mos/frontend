@@ -1,5 +1,5 @@
 "use client";
-import dynamic from "next/dynamic";
+
 import Button from "@/components/atoms/Button";
 import Card from "@/components/atoms/Card";
 import Select from "@/components/atoms/Select";
@@ -33,10 +33,6 @@ import Calendar from "@/components/molecules/Calendar";
 interface FormData {
   test: string; // 'test' 필드 타입을 string으로 설정
 }
-const Editor = dynamic(() => import("@/components/atoms/MDXEditor"), {
-  // Make sure we turn SSR off
-  ssr: false,
-});
 
 export default function TestPage() {
   const study = MockStudyCardApiResult.study;
@@ -308,10 +304,7 @@ export default function TestPage() {
         />
       </FormProvider>
       {/* MDXEditor */}
-      <Editor
-        markdown={`Hello **world**! 
-        # 안녕하세요`}
-      />
+
       {/* Tab */}
       <Tab
         tabList={["잠여 중인 스터디", "지원 현황"]}
