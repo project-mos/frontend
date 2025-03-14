@@ -9,7 +9,9 @@ import Tab from "@/components/atoms/Tab";
 import Tag from "@/components/atoms/Tag";
 import Typography from "@/components/atoms/Typography";
 import Meta from "@/components/molecules/Meta";
+import URL from "@/constants/URL";
 import { activeStudiesProps, applyStatusProps } from "@/types/api/mypage";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const ActiveStudies = () => {
@@ -42,6 +44,8 @@ const StudyList = ({
   data: activeStudiesProps[] | applyStatusProps[];
   type: "active" | "apply";
 }) => {
+  const router = useRouter();
+
   const tagColors: Record<string, keyof typeof Tag> = {
     스터디장: "Green",
     스터디원: "Blue",
@@ -82,7 +86,11 @@ const StudyList = ({
               )}
             </div>
             <div>
-              <Button.Ghost color="Main" className="h-[30px] text-[14px]">
+              <Button.Ghost
+                color="Main"
+                className="h-[30px] text-[14px]"
+                onClick={() => router.push(URL.STUDY.DETAIL_DASHBOARD("1"))}
+              >
                 {type === "active" ? "스터디룸 입장" : "상세보기"}
               </Button.Ghost>
             </div>
