@@ -21,7 +21,6 @@ import Input from "@/components/atoms/Input";
 import { FormProvider, useForm } from "react-hook-form";
 import LabelInput from "@/features/create-study/components/LabelInput";
 import LabelSelectInput from "@/features/create-study/components/LabelSelectInput";
-import LabelTagInput from "@/features/create-study/components/LabelTagInput";
 import LabelDateInput from "@/features/create-study/components/LabelDateInput";
 import LabelNumberInput from "@/features/create-study/components/LabelNumberInput";
 import RadioButton from "@/components/atoms/RadioButton";
@@ -54,7 +53,6 @@ export default function TestPage() {
   const [studyName, setStudyName] = useState<string>("");
   const [category, setCategory] = useState<string>("");
   const categoryList = ["ex1", "ex2", "ex3"];
-  const [tagList, setTagList] = useState<string[]>([]);
   const [startDate, setStartDate] = useState<string>("");
   const [endDate, setEndDate] = useState<string>("");
 
@@ -265,18 +263,14 @@ export default function TestPage() {
             placeholder="예: 매주 화요일 오후 8시"
           />
           <LabelSelectInput
+            name="category"
             label="카테고리"
             selectList={categoryList}
             onChange={(e) => setCategory((e.target as HTMLSelectElement).value)}
             required
           />
           <p>{category}</p>
-          <LabelTagInput
-            name="tags"
-            tagList={tagList}
-            setTagList={setTagList}
-            label="태그"
-          />
+
           <div className="flex w-full gap-3">
             <LabelDateInput
               name="startDate"
