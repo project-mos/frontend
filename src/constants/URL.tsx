@@ -3,6 +3,9 @@ const URL = {
   STUDY: {
     CREATE: "/create-study",
     DETAIL: "/studies",
+    DETAIL_DASHBOARD(id: string) {
+      return `${this.DETAIL}/${id}/dashboard`;
+    },
   },
   MYPAGE: "/mypage",
 } as const;
