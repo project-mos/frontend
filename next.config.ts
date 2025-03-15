@@ -1,8 +1,10 @@
 import type { NextConfig } from "next";
 
 const isProduction = process.env.NODE_ENV === "production";
+export const isStrictMode = true;
 
 const nextConfig: NextConfig = {
+  reactStrictMode: isStrictMode,
   // Configure `pageExtensions` to include markdown and MDX files
   pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
   // Optionally, add any other Next.js config below
