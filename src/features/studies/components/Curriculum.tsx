@@ -1,10 +1,13 @@
-import { StudyCurriculumInterface } from "@/types/api/studies/detail";
+import {
+  StudyCurriculumCardInterface,
+  StudyCurriculumInterface,
+} from "@/types/api/studies/detail";
 import Card from "../../../components/atoms/Card";
 import Tag from "../../../components/atoms/Tag";
 import Typography from "../../../components/atoms/Typography";
 
 interface CurriculumProps {
-  data: StudyCurriculumInterface[];
+  data: StudyCurriculumInterface[] | StudyCurriculumCardInterface[];
 }
 
 const Curriculum = ({ data }: CurriculumProps) => {
@@ -12,9 +15,9 @@ const Curriculum = ({ data }: CurriculumProps) => {
     <>
       {data.map((curriculum) => {
         return (
-          <div className="flex gap-[20px]" key={curriculum.step}>
+          <div className="flex gap-[20px]" key={curriculum.content}>
             <div>
-              <Tag.Main className="flex flex-col text-nowrap">
+              <Tag.Main className="flex h-[30px] w-[100px] flex-col text-nowrap pt-[4px]">
                 <Typography.P3 className="pt-px font-bold">
                   {curriculum.step}
                 </Typography.P3>
@@ -23,7 +26,7 @@ const Curriculum = ({ data }: CurriculumProps) => {
               {/* 동적으로 Card.Content 높이에 맞춰서 height 조정 */}
               <div
                 className="ml-[10px] w-[2px] bg-[#DCDCDC]"
-                style={{ height: "calc(70% + 10px)" }}
+                style={{ height: "calc(70%)" }}
               ></div>
             </div>
 
@@ -40,16 +43,18 @@ const Curriculum = ({ data }: CurriculumProps) => {
                   </Typography.P3>
                 </Card.Content>
                 <Card.Footer>
-                  <div className="flex gap-[50px]">
-                    {curriculum.task.map((task) => (
-                      <Typography.P3
-                        className="text-[14px] font-bold"
-                        key={task}
-                      >
-                        {task}
-                      </Typography.P3>
-                    ))}
-                  </div>
+                  {"task" in curriculum && (
+                    <div className="flex gap-[50px]">
+                      {curriculum.task.map((task) => (
+                        <Typography.P3
+                          className="text-[14px] font-bold"
+                          key={task}
+                        >
+                          {task}
+                        </Typography.P3>
+                      ))}
+                    </div>
+                  )}
                 </Card.Footer>
               </Card>
             </div>

@@ -1,5 +1,7 @@
+import CurriculumCard from "@/features/studies/components/curriculum/CurriculumCard";
+
 const Curriculum = () => {
-  return <p>Curriculum</p>;
+  return <CurriculumCard />;
 };
 
 export default Curriculum;
