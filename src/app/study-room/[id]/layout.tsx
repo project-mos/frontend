@@ -1,7 +1,7 @@
 import Grid from "@/components/atoms/Grid";
-import DashboardIntendedCard from "@/features/studies/components/dashboard/DashboardIntendedCard";
-import DashboardSideBarCard from "@/features/studies/components/dashboard/DashboardSideBarCard";
-import DashboardTitleCard from "@/features/studies/components/dashboard/DashboardTitleCard";
+import DashboardIntendedCard from "@/features/study-room/components/dashboard/DashboardIntendedCard";
+import DashboardSideBarCard from "@/features/study-room/components/dashboard/DashboardSideBarCard";
+import DashboardTitleCard from "@/features/study-room/components/dashboard/DashboardTitleCard";
 import React from "react";
 
 const layout = ({ children }: { children: React.ReactNode }) => {

@@ -1,5 +1,5 @@
 import { MockCurriculumCardApiResult } from "@/app/mock/api/studies";
-import Curriculum from "../Curriculum";
+import Curriculum from "../../../studies/components/Curriculum";
 import Card from "@/components/atoms/Card";
 import Typography from "@/components/atoms/Typography";
 import Button from "@/components/atoms/Button";
