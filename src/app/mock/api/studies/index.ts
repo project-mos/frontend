@@ -1,7 +1,6 @@
 import {
   StudiesDescription,
   StudyCardInterface,
-  StudyCurriculumCardInterface,
   StudyCurriculumInterface,
 } from "@/types/api/studies/detail";
 
@@ -79,24 +78,5 @@ export const MockStudyCurriculumApiResult: StudyCurriculumInterface[] = [
     title: '동적 프로그래밍',
     content: 'DP 개념과 기초 문제 풀이',
     task: ['백준 1463번','백준 9095번']
-  }
-]
-
-// <CurriculumCard/> 에 쓰일 mock data
-export const MockCurriculumCardApiResult: StudyCurriculumCardInterface[] = [ 
-  {
-    step: '알고리즘 기초',
-    title: '알고리즘 기초와 복잡도',
-    content: '시간 복잡도, 공간 복잡도, 빅오 표기법에 대해 학습합니다.',
-  },
-  {
-    step: '자료구조',
-    title: '배열과 연결 리스트',
-    content: '기본 자료구조인 배열과 연결 리스트의 특징과 활용법을 학습합니다.',
-  },
-  {
-    step: '자료구조',
-    title: '스택과 큐',
-    content: '스택과 큐의 개념, 구현 방법, 실전 문제 풀이를 진행합니다.',
   }
 ]

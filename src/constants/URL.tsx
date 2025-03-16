@@ -11,6 +11,9 @@ const URL = {
     DETAIL_CURRICULUM(id: string) {
       return `/study-room/${id}/curriculum`;
     },
+    DETAIL_NOTICE(id: string) {
+      return `/study-room/${id}/notice`;
+    },
   },
   MYPAGE: "/mypage",
 } as const;
