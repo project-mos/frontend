@@ -1,5 +1,5 @@
 import React from "react";
-import DashboardContentCard from "@/features/studies/components/dashboard/DashboardContentCard";
+import DashboardContentCard from "@/features/study-room/components/dashboard/DashboardContentCard";
 
 const StudiesDashBoardPage = () => {
   return <DashboardContentCard />;
