@@ -1,10 +1,8 @@
-import {
-  StudyCurriculumCardInterface,
-  StudyCurriculumInterface,
-} from "@/types/api/studies/detail";
+import { StudyCurriculumInterface } from "@/types/api/studies/detail";
 import Card from "../../../components/atoms/Card";
 import Tag from "../../../components/atoms/Tag";
 import Typography from "../../../components/atoms/Typography";
+import { StudyCurriculumCardInterface } from "@/types/api/study-room";
 
 interface CurriculumProps {
   data: StudyCurriculumInterface[] | StudyCurriculumCardInterface[];
