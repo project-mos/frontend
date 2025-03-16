@@ -46,6 +46,8 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       colors: {
+        "mos-main": "#4FCDC4",
+        "mos-main-100": "#4ecdc41a",
         "mos-main-500": "#4ecdc4",
         "mos-main-700": "#45b8b0",
         "mos-green-500": "#348037",

@@ -18,11 +18,8 @@ const Profile: React.FC<ProfileProps> = ({
 }) => {
   return (
     <div
-      className={cn(
-        "overflow-hidden rounded-full",
-        `w-[${width}px] h-[${height}px]`,
-        className
-      )}
+      className={cn("overflow-hidden rounded-full", className)}
+      style={{ width, height }}
     >
       <Image src={src} alt="프로필 이미지" width={width} height={height} />
       {children}

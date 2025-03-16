@@ -1,5 +1,5 @@
 "use client";
-import dynamic from "next/dynamic";
+
 import Button from "@/components/atoms/Button";
 import Card from "@/components/atoms/Card";
 import Select from "@/components/atoms/Select";
@@ -25,14 +25,13 @@ import LabelDateInput from "@/features/create-study/components/LabelDateInput";
 import LabelNumberInput from "@/features/create-study/components/LabelNumberInput";
 import RadioButton from "@/components/atoms/RadioButton";
 import RadioGroup from "@/components/molecules/RadioGroup";
+import Tab from "@/components/atoms/Tab";
+
+import Calendar from "@/components/molecules/Calendar";
 
 interface FormData {
   test: string; // 'test' 필드 타입을 string으로 설정
 }
-const Editor = dynamic(() => import("@/components/atoms/MDXEditor"), {
-  // Make sure we turn SSR off
-  ssr: false,
-});
 
 export default function TestPage() {
   const study = MockStudyCardApiResult.study;
@@ -47,6 +46,9 @@ export default function TestPage() {
   const onSubmit = (data: FormData) => {
     console.log("data", data);
   };
+
+  // Tab
+  const [selectedTab, setSelectedTab] = useState<string>("");
 
   const [studyName, setStudyName] = useState<string>("");
   const [category, setCategory] = useState<string>("");
@@ -296,10 +298,15 @@ export default function TestPage() {
         />
       </FormProvider>
       {/* MDXEditor */}
-      <Editor
-        markdown={`Hello **world**! 
-        # 안녕하세요`}
+
+      {/* Tab */}
+      <Tab
+        tabList={["잠여 중인 스터디", "지원 현황"]}
+        selectedTab={selectedTab}
+        setSelectedTab={setSelectedTab}
       />
+      {/* Calendar */}
+      <Calendar />
     </div>
   );
 }
