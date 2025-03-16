@@ -7,10 +7,18 @@ import { useRouter } from "next/navigation";
 import URL from "@/constants/URL";
 
 const MENU_ITEMS = [
-  { name: "일정", icon: "bi-calendar", path: URL.STUDY.DETAIL_DASHBOARD("1") },
+  {
+    name: "일정",
+    icon: "bi-calendar",
+    path: URL.STUDYROOM.DETAIL_DASHBOARD("1"),
+  },
   { name: "멤버", icon: "bi-people" },
   { name: "자료실", icon: "bi-folder" },
-  { name: "커리큘럼", icon: "bi-book", path: URL.STUDY.DETAIL_CURRICULUM("1") },
+  {
+    name: "커리큘럼",
+    icon: "bi-book",
+    path: URL.STUDYROOM.DETAIL_CURRICULUM("1"),
+  },
   { name: "채팅", icon: "bi-chat" },
   { name: "공지사항", icon: "bi-megaphone" },
 ];
