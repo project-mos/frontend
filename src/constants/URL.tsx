@@ -1,10 +1,18 @@
 const URL = {
   HOME: "/",
   STUDY: {
-    CREATE: "/create-study",
+    CREATE: "/create-study?step=1",
     DETAIL: "/studies",
+  },
+  STUDYROOM: {
     DETAIL_DASHBOARD(id: string) {
-      return `${this.DETAIL}/${id}/dashboard`;
+      return `/study-room/${id}/dashboard`;
+    },
+    DETAIL_CURRICULUM(id: string) {
+      return `/study-room/${id}/curriculum`;
+    },
+    DETAIL_NOTICE(id: string) {
+      return `/study-room/${id}/notice`;
     },
     DETAIL_CURRICULUM(id: string) {
       return `${this.DETAIL}/${id}/curriculum`;

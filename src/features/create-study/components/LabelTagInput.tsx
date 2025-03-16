@@ -1,51 +1,55 @@
-import React from "react";
+import React, { useState } from "react";
+import { useFormContext } from "react-hook-form";
 import Input from "@/components/atoms/Input";
 import Tag from "@/components/atoms/Tag";
 import Typography from "@/components/atoms/Typography";
 import Button from "@/components/atoms/Button";
-import { useFormContext } from "react-hook-form";
 
 interface LabelTagInputProps {
   name: string;
-  tagList: string[];
-  setTagList: React.Dispatch<React.SetStateAction<string[]>>;
   label: string;
   id?: string;
+  placeholder?: string;
 }
 
 const LabelTagInput = ({
   name,
-  tagList,
-  setTagList,
   label,
   id,
+  placeholder,
 }: LabelTagInputProps) => {
-  const { register, setValue, watch } = useFormContext();
-  const tagElement = watch(name, ""); // useFormContext에서 watch를 사용하여 값 관리
-
+  const { setValue, watch } = useFormContext();
+  const tags: string[] = watch(name, []);
+  const [tagInput, setTagInput] = useState("");
   const inputId = id ?? `input-${name.replace(/\s+/g, "-").toLowerCase()}`;
 
   const handleClickAddButton = () => {
-    if (tagElement.trim() === "") return;
-    setTagList((prevTags) => [...prevTags, tagElement.trim()]);
-    setValue(name, ""); // 입력 필드 초기화
+    if (tagInput.trim() === "") return;
+
+    setValue(name, [...tags, tagInput.trim()]);
+    setTagInput("");
   };
 
   const handleRemoveTag = (index: number) => {
-    setTagList((prevTags) => prevTags.filter((_, i) => i !== index));
+    setValue(
+      name,
+      tags.filter((_: string, i: number) => i !== index)
+    );
   };
 
   return (
-    <div className="flex w-full flex-col gap-[10px]">
+    <div className="flex w-full flex-col gap-[5px]">
       <label htmlFor={inputId} className="flex items-center">
-        <Typography.P1>{label}</Typography.P1>
+        <Typography.P1 className="text-[15px]">{label}</Typography.P1>
       </label>
 
       <div className="flex">
         <Input
           id={inputId}
+          value={tagInput}
+          onChange={(e) => setTagInput(e.target.value)}
           className="w-full rounded-r-none placeholder:text-mos-gray-500"
-          {...register(name)}
+          placeholder={placeholder}
         />
         <Button.Solid
           type="button"
@@ -58,8 +62,11 @@ const LabelTagInput = ({
       </div>
 
       <div className="flex flex-wrap gap-2">
-        {tagList.map((tag, index) => (
-          <Tag.Detail key={index} className="flex items-center gap-2 px-5 py-4">
+        {tags.map((tag: string, index: number) => (
+          <Tag.Detail
+            key={index}
+            className="mb-[-43px] flex items-center gap-2 px-5  py-4"
+          >
             <Typography.P1>{tag}</Typography.P1>
             <button
               type="button"
