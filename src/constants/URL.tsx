@@ -3,11 +3,13 @@ const URL = {
   STUDY: {
     CREATE: "/create-study?step=1",
     DETAIL: "/studies",
+  },
+  STUDYROOM: {
     DETAIL_DASHBOARD(id: string) {
-      return `${this.DETAIL}/${id}/dashboard`;
+      return `/study-room/${id}/dashboard`;
     },
     DETAIL_CURRICULUM(id: string) {
-      return `${this.DETAIL}/${id}/curriculum`;
+      return `/study-room/${id}/curriculum`;
     },
   },
   MYPAGE: "/mypage",
