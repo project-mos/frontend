@@ -9,3 +9,9 @@ export interface StudyNoticeCardInterface {
   content: string,
   writer: string
 }
+
+export interface StudyManageCardInterface {
+  name: string,
+  date: string,
+  questionList: {question:string, answer:string}[]
+}
