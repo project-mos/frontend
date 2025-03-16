@@ -55,9 +55,3 @@ export interface StudyCurriculumInterface {
   content: string,
   task: string[],
 }
-
-export interface StudyCurriculumCardInterface {
-  step: string,
-  title: string,
-  content: string,
-}

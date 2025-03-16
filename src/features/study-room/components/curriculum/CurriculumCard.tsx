@@ -1,8 +1,8 @@
-import { MockCurriculumCardApiResult } from "@/app/mock/api/studies";
 import Curriculum from "../../../studies/components/Curriculum";
 import Card from "@/components/atoms/Card";
 import Typography from "@/components/atoms/Typography";
 import Button from "@/components/atoms/Button";
+import { MockCurriculumCardApiResult } from "@/app/mock/api/study-room";
 
 const CurriculumCard = () => {
   return (

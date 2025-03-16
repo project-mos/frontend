@@ -20,7 +20,11 @@ const MENU_ITEMS = [
     path: URL.STUDYROOM.DETAIL_CURRICULUM("1"),
   },
   { name: "채팅", icon: "bi-chat" },
-  { name: "공지사항", icon: "bi-megaphone" },
+  {
+    name: "공지사항",
+    icon: "bi-megaphone",
+    path: URL.STUDYROOM.DETAIL_NOTICE("1"),
+  },
 ];
 
 const ADMIN_MENU_ITEMS = [{ name: "지원자 관리", icon: "bi-calendar" }];
