@@ -22,6 +22,7 @@ const CreateStudyForm2 = () => {
   const editorRef = useRef<QuillEditorHandle>(null);
 
   const onSubmit = () => {
+    methods.setValue("step2Completed", true);
     methods.setValue("content", contents);
     handleGetContent();
     router.push("/create-study?step=3");

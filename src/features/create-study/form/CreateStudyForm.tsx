@@ -6,8 +6,12 @@ import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import CreatStidyForm4 from "./CreateStudyForm4";
+import StepProtection from "./StepProtection";
 
 export interface StudyFormInterface {
+  step1Completed: boolean;
+  step2Completed: boolean;
+  step3Completed: boolean;
   category: string;
   meetingType: string;
   name: string;
@@ -34,6 +38,9 @@ const CreateStudyForm = () => {
 
   const methods = useForm<StudyFormInterface>({
     defaultValues: {
+      step1Completed: false,
+      step2Completed: false,
+      step3Completed: false,
       category: "",
       meetingType: "",
       name: "",
@@ -55,6 +62,7 @@ const CreateStudyForm = () => {
 
   return (
     <FormProvider {...methods}>
+      <StepProtection />
       {stepNumber === 2 ? (
         <CreateStudyForm2 />
       ) : stepNumber === 3 ? (

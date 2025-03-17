@@ -14,6 +14,7 @@ const CreateStudyForm3 = () => {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
 
   const onSubmit = () => {
+    methods.setValue("step3Completed", true);
     setIsOpenModal(true);
   };
 
