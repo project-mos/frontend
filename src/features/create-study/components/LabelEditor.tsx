@@ -29,7 +29,7 @@ const LabelEditor = ({
   } = useFormContext();
 
   return (
-    <div className="gap-[5px]">
+    <div className="mb-[35px] gap-[5px]">
       <Label label={label} required={required} />
       <div className="h-[500px]">
         <QuillEditor ref={editorRef} />
