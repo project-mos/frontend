@@ -15,19 +15,19 @@ const MemberCard = () => {
         <table className="text-surface min-w-full text-left text-sm font-light">
           <thead className="border-b border-neutral-200 font-medium ">
             <tr>
-              <th scope="col" className="px-1 py-2 text-[14px]">
+              <th scope="col" className="px-1 py-2 text-[14px] tablet:text-sm">
                 이름
               </th>
-              <th scope="col" className="px-1 py-2 text-[14px]">
+              <th scope="col" className="px-1 py-2 text-[14px] tablet:text-sm">
                 역할
               </th>
-              <th scope="col" className="px-1 py-2 text-[14px]">
+              <th scope="col" className="px-1 py-2 text-[14px] tablet:text-sm">
                 참여일
               </th>
-              <th scope="col" className="px-1 py-2 text-[14px]">
+              <th scope="col" className="px-1 py-2 text-[14px] tablet:text-sm">
                 참여율
               </th>
-              <th scope="col" className="px-1 py-2 text-[14px]">
+              <th scope="col" className="px-1 py-2 text-[14px] tablet:text-sm">
                 동작
               </th>
             </tr>
