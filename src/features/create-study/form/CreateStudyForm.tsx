@@ -1,9 +1,10 @@
 "use client";
-import { useSearchParams } from "next/navigation";
-import { FormProvider, useForm } from "react-hook-form";
 import CreateStudyForm1 from "@/features/create-study/form/CreateStudyForm1";
 import CreateStudyForm2 from "@/features/create-study/form/CreateStudyForm2";
 import CreateStudyForm3 from "@/features/create-study/form/CreateStudyForm3";
+import { useSearchParams } from "next/navigation";
+import { useEffect } from "react";
+import { FormProvider, useForm } from "react-hook-form";
 import CreatStidyForm4 from "./CreateStudyForm4";
 
 export interface StudyFormInterface {
@@ -17,7 +18,7 @@ export interface StudyFormInterface {
   content: string;
   requirements?: string;
   rules?: string[];
-  benefits?: string;
+  benefits?: string[];
   questions: {
     question: string;
     answerType: string;
@@ -31,7 +32,26 @@ const CreateStudyForm = () => {
   const step = searchParams.get("step") || "1";
   const stepNumber = Number(step);
 
-  const methods = useForm<StudyFormInterface>();
+  const methods = useForm<StudyFormInterface>({
+    defaultValues: {
+      category: "",
+      meetingType: "",
+      name: "",
+      person: "",
+      recruitmentEndDate: "",
+      recruitmentStartDate: "",
+      schedule: "",
+      content: "",
+      requirements: "",
+      rules: [""],
+      benefits: [""],
+      questions: [],
+    },
+  });
+
+  useEffect(() => {
+    methods.reset();
+  }, []);
 
   return (
     <FormProvider {...methods}>
