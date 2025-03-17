@@ -46,6 +46,11 @@ const useValidateForm = () => {
       isValid = false;
     }
 
+    if (!data.category) {
+      setError("category", { message: "카테고리는 필수 선택사항입니다." });
+      isValid = false;
+    }
+
     if (!isValid) {
       setTimeout(() => {
         window.scrollTo({ top: 0, behavior: "smooth" });
