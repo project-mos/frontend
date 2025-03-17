@@ -1,8 +1,8 @@
+import Card from "@/components/atoms/Card";
+import Typography from "@/components/atoms/Typography";
 import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import { StudyFormInterface } from "./CreateStudyForm";
-import Card from "@/components/atoms/Card";
-import Typography from "@/components/atoms/Typography";
 
 const CreatStudyForm4 = () => {
   const { watch } = useFormContext<StudyFormInterface>();
@@ -36,6 +36,7 @@ const CreatStudyForm4 = () => {
           <p>📌 설명: {formData.content || "입력 없음"}</p>
           <p>📌 참여 요건: {formData.requirements || "입력 없음"}</p>
           <p>📌 혜택: {formData.benefits || "입력 없음"}</p>
+          <p>📌 규칙: {formData.rules || "입력 없음"}</p>
         </div>
 
         <Typography.SubTitle1>질문 리스트</Typography.SubTitle1>
