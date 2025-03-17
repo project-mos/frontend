@@ -26,6 +26,8 @@ const CreateStudyForm2 = () => {
   const methods = useFormContext<StudyFormInterface>();
   const router = useRouter();
   const [contents, setContents] = useState<string>("");
+  const { setValue } = useFormContext();
+  const editorRef = useRef<QuillEditorHandle>(null);
 
   const onSubmit = () => {
     methods.setValue("content", contents);
@@ -40,9 +42,6 @@ const CreateStudyForm2 = () => {
   const {
     formState: { errors },
   } = useFormContext();
-
-  const { setValue } = useFormContext();
-  const editorRef = useRef<QuillEditorHandle>(null);
 
   const handleGetContent = () => {
     if (editorRef.current) {
