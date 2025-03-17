@@ -1,22 +1,14 @@
 import Badge from "@/components/atoms/Badge";
-import Card from "@/components/atoms/Card";
-import ErrorMessage from "@/components/atoms/ErrorMessage";
 import Typography from "@/components/atoms/Typography";
-import Label from "@/components/molecules/Label";
-import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { FormProvider, useFormContext } from "react-hook-form";
-import LabelTextAreaInput from "../components/LabelTextAreaInput";
 import StudyActions from "../components/StudyActions";
 import StudyBenefits from "../components/StudyBenefits";
 import StudyCurriculum from "../components/StudyCurriculum";
+import StudyDescription from "../components/StudyDescription";
 import StudyRules from "../components/StudyRules";
 import { StudyFormInterface } from "./CreateStudyForm";
-
-const QuillEditor = dynamic(() => import("@/components/QuillEditor"), {
-  ssr: false,
-});
 
 type QuillEditorHandle = {
   getContent: () => string;
@@ -38,10 +30,6 @@ const CreateStudyForm2 = () => {
   const handleClickBackButton = () => {
     router.push("/create-study?step=1");
   };
-
-  const {
-    formState: { errors },
-  } = useFormContext();
 
   const handleGetContent = () => {
     if (editorRef.current) {
@@ -66,23 +54,7 @@ const CreateStudyForm2 = () => {
           onSubmit={methods.handleSubmit(onSubmit)}
           className="flex flex-col gap-[30px]"
         >
-          <Card>
-            <Card.Header className="mb-[40px]">
-              <Typography.SubTitle1>스터디 설명</Typography.SubTitle1>
-            </Card.Header>
-            <Card.Content className="flex flex-col gap-[25px]">
-              <div className="gap-[5px]">
-                <Label label="스터디 설명" required={true} />
-                <div className="h-[500px]">
-                  <QuillEditor ref={editorRef} />
-                </div>
-              </div>
-              {errors.content && (
-                <ErrorMessage>{errors.content.message as string}</ErrorMessage>
-              )}
-              <LabelTextAreaInput label="참여 요건" name="requirements" />
-            </Card.Content>
-          </Card>
+          <StudyDescription editorRef={editorRef} />
           <StudyCurriculum />
           <StudyRules />
           <StudyBenefits />
