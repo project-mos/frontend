@@ -43,7 +43,13 @@ const CreatStudyForm4 = () => {
 
           <Typography.SubTitle1>스터디 상세 설명</Typography.SubTitle1>
           <div>
-            <p>📌 설명: {formData.content || "입력 없음"}</p>
+            <p>📌 설명:</p>
+            <div
+              className="mb-[10px] rounded-md border bg-gray-50 p-2"
+              dangerouslySetInnerHTML={{
+                __html: formData.content || "입력 없음",
+              }}
+            />
             <p>📌 참여 요건: {formData.requirements || "입력 없음"}</p>
             <p>📌 혜택: {formData.benefits || "입력 없음"}</p>
             <p>📌 규칙: {formData.rules || "입력 없음"}</p>
