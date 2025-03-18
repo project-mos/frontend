@@ -1,12 +1,12 @@
-import { useFormContext } from "react-hook-form";
 import Card from "@/components/atoms/Card";
-import Typography from "@/components/atoms/Typography";
-import LabelInput from "./LabelInput";
-import LabelSelectInput from "./LabelSelectInput";
-import LabelNumberInput from "./LabelNumberInput";
-import LabelDateInput from "./LabelDateInput";
-import LabelTagInput from "./LabelTagInput";
 import ErrorMessage from "@/components/atoms/ErrorMessage";
+import Typography from "@/components/atoms/Typography";
+import { useFormContext } from "react-hook-form";
+import LabelDateInput from "./LabelDateInput";
+import LabelInput from "./LabelInput";
+import LabelNumberInput from "./LabelNumberInput";
+import LabelSelectInput from "./LabelSelectInput";
+import LabelTagInput from "./LabelTagInput";
 
 const StudyBasicInfo = () => {
   const {
@@ -20,7 +20,12 @@ const StudyBasicInfo = () => {
         <Typography.SubTitle1>기본 정보</Typography.SubTitle1>
       </Card.Header>
       <Card.Content className="flex flex-col gap-[25px]">
-        <LabelInput name="name" label="스터디명" required />
+        <LabelInput
+          name="name"
+          label="스터디명"
+          required
+          placeholder="스터디명을 입력하세요"
+        />
         {errors.name && (
           <ErrorMessage>{errors.name.message as string}</ErrorMessage>
         )}
@@ -33,7 +38,11 @@ const StudyBasicInfo = () => {
         {errors.category && (
           <ErrorMessage>{errors.category.message as string}</ErrorMessage>
         )}
-        <LabelNumberInput name="person" label="모집 인원" />
+        <LabelNumberInput
+          name="person"
+          label="모집 인원"
+          placeholder="모집 인원을 입력하세요"
+        />
         {errors.person && (
           <ErrorMessage>{errors.person.message as string}</ErrorMessage>
         )}
