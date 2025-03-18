@@ -1,4 +1,4 @@
-import React from "react";
+import { useFormContext } from "react-hook-form";
 import RadioButton from "../atoms/RadioButton";
 
 interface RadioGroupProps {
@@ -14,6 +14,8 @@ const RadioGroup = ({
   selectedValue,
   onChange,
 }: RadioGroupProps) => {
+  const { clearErrors } = useFormContext();
+
   return (
     <div className="flex items-center gap-4">
       {options.map((option) => (
@@ -23,7 +25,11 @@ const RadioGroup = ({
           label={option.label}
           value={option.value}
           checked={selectedValue === option.value}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={(e) => {
+            console.log(e.target.value);
+            onChange(e.target.value);
+            clearErrors(name);
+          }}
         />
       ))}
     </div>

@@ -1,19 +1,15 @@
 "use client";
 
-import React, {
-  useEffect,
-  useRef,
-  forwardRef,
-  useImperativeHandle,
-} from "react";
 import Quill from "quill";
-import "quill/dist/quill.snow.css"; // Import Quill styles
-import { isStrictMode } from "../../next.config";
 import { ImageResize } from "quill-image-resize-module-ts";
+import "quill/dist/quill.snow.css"; // Import Quill styles
+import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
+import { isStrictMode } from "../../next.config";
 
 // Define the ref type for the QuillEditor component
 export type QuillEditorHandle = {
   getContent: () => string;
+  setContent: (content: string) => void;
 };
 
 Quill.register("modules/ImageResize", ImageResize);
@@ -58,14 +54,16 @@ const QuillEditor = forwardRef<QuillEditorHandle>((_, ref) => {
   // Expose the getContent function to the parent component
   useImperativeHandle(ref, () => ({
     getContent: () => {
+      return quillRef.current ? quillRef.current.root.innerHTML : "";
+    },
+    setContent: (content: string) => {
       if (quillRef.current) {
-        return quillRef.current.root.innerHTML; // Return the HTML content
+        quillRef.current.root.innerHTML = content;
       }
-      return "";
     },
   }));
 
-  return <div ref={editorRef} style={{ height: "300px" }} />;
+  return <div ref={editorRef} />;
 });
 
 QuillEditor.displayName = "QuillEditor";

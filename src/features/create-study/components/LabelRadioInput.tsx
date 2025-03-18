@@ -1,7 +1,6 @@
-import React from "react";
-import { useFormContext } from "react-hook-form";
-import RadioGroup from "@/components/molecules/RadioGroup";
 import Label from "@/components/molecules/Label";
+import RadioGroup from "@/components/molecules/RadioGroup";
+import { useFormContext } from "react-hook-form";
 
 interface LabelRadioInputProps {
   name: string;

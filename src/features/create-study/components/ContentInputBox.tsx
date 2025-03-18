@@ -87,7 +87,11 @@ const ContentInputBox = ({
             {buttonText}
           </Button.Default>
           <Button.Solid
-            onClick={() => setIsInputBoxOpened(false)}
+            onClick={() => {
+              setIsInputBoxOpened(false);
+              setValue(name, [""]);
+              watch(name, [""]);
+            }}
             type="button"
             color="Main"
             className="h-[35px]"

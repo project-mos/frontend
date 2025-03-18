@@ -1,17 +1,17 @@
-import { useFormContext } from "react-hook-form";
 import Card from "@/components/atoms/Card";
 import Typography from "@/components/atoms/Typography";
-import LabelTextAreaInput from "./LabelTextAreaInput";
 import LabelEditor from "./LabelEditor";
-import ErrorMessage from "@/components/atoms/ErrorMessage";
+import LabelTextAreaInput from "./LabelTextAreaInput";
 
-const StudyDescription = () => {
-  const {
-    formState: { errors },
-    setValue,
-    clearErrors,
-  } = useFormContext();
+type QuillEditorHandle = {
+  getContent: () => string;
+};
 
+interface StudyDescriptionProps {
+  editorRef: React.RefObject<QuillEditorHandle | null>;
+}
+
+const StudyDescription = ({ editorRef }: StudyDescriptionProps) => {
   return (
     <Card>
       <Card.Header className="mb-[40px]">
@@ -21,20 +21,13 @@ const StudyDescription = () => {
         <LabelEditor
           label="스터디 설명"
           name="content"
-          required
-          onChange={(value) => {
-            setValue("content", value);
-            if (value.trim()) {
-              clearErrors("content");
-            }
-          }}
+          editorRef={editorRef}
+          required={true}
         />
-        {errors.content && (
-          <ErrorMessage>{errors.content.message as string}</ErrorMessage>
-        )}
         <LabelTextAreaInput label="참여 요건" name="requirements" />
       </Card.Content>
     </Card>
   );
 };
+
 export default StudyDescription;

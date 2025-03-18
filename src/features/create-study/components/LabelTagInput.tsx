@@ -1,9 +1,10 @@
-import React, { useState } from "react";
-import { useFormContext } from "react-hook-form";
+import Button from "@/components/atoms/Button";
 import Input from "@/components/atoms/Input";
 import Tag from "@/components/atoms/Tag";
 import Typography from "@/components/atoms/Typography";
-import Button from "@/components/atoms/Button";
+import { cn } from "@/lib/utils";
+import { useState } from "react";
+import { useFormContext } from "react-hook-form";
 
 interface LabelTagInputProps {
   name: string;
@@ -61,11 +62,13 @@ const LabelTagInput = ({
         </Button.Solid>
       </div>
 
-      <div className="flex flex-wrap gap-2">
+      <div
+        className={cn(tags.length >= 1 && "mb-[-33px]", "flex flex-wrap gap-2")}
+      >
         {tags.map((tag: string, index: number) => (
           <Tag.Detail
             key={index}
-            className="mb-[-43px] flex items-center gap-2 px-5  py-4"
+            className=" flex items-center gap-2 px-5  py-4"
           >
             <Typography.P1>{tag}</Typography.P1>
             <button
