@@ -1,18 +1,19 @@
 import { useEffect, useState } from "react";
-import { useFormContext } from "react-hook-form";
-import { StudyFormInterface } from "../form/CreateStudyForm";
 import ContentAdderBox from "./ContentAdderBox";
 import ContentInputBox from "./ContentInputBox";
 
 const StudyRules = () => {
-  const methods = useFormContext<StudyFormInterface>();
   const [isInputBoxOpened, setIsInputBoxOpened] = useState<boolean>(false);
 
   useEffect(() => {
-    const rules = methods.watch("rules");
+    const storedData = localStorage.getItem("studyForm");
+    if (storedData) {
+      const parsedForm = JSON.parse(storedData);
+      const rules = parsedForm.rules;
 
-    if (rules && rules?.length >= 1 && rules[0] !== "") {
-      setIsInputBoxOpened(true);
+      if (rules.length >= 1 && rules[0] !== "") {
+        setIsInputBoxOpened(true);
+      }
     }
   }, []);
 
