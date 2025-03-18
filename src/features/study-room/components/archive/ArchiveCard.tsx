@@ -1,31 +1,34 @@
-import Badge from "@/components/atoms/Badge";
 import Button from "@/components/atoms/Button";
 import Card from "@/components/atoms/Card";
 import Typography from "@/components/atoms/Typography";
-import Image from "next/image";
+
 import React from "react";
 
-const MemberCard = () => {
+const ArchiveCard = () => {
   return (
-    <Card className="h-fit gap-3 overflow-x-scroll">
-      <Card.Header>
-        <Typography.SubTitle1>멤버 관리</Typography.SubTitle1>
+    <Card className="col-span-12 h-fit gap-4 tablet:col-span-10">
+      <Card.Header className="flex items-center justify-between">
+        <Typography.SubTitle1>자료실</Typography.SubTitle1>
+        <Button.Solid color="Main" active>
+          <i className="bi bi-upload" />
+          파일 업로드
+        </Button.Solid>
       </Card.Header>
-      <Card.Content className="gap-3">
+      <Card.Content>
         <table className="text-surface min-w-full text-left text-sm font-light">
           <thead className="border-b border-neutral-200 font-medium ">
             <tr>
               <th scope="col" className="px-1 py-2 text-[14px] tablet:text-sm">
-                이름
+                파일명
               </th>
               <th scope="col" className="px-1 py-2 text-[14px] tablet:text-sm">
-                역할
+                업로더
               </th>
               <th scope="col" className="px-1 py-2 text-[14px] tablet:text-sm">
-                참여일
+                업로드 일자
               </th>
               <th scope="col" className="px-1 py-2 text-[14px] tablet:text-sm">
-                참여율
+                크기
               </th>
               <th scope="col" className="px-1 py-2 text-[14px] tablet:text-sm">
                 동작
@@ -36,23 +39,16 @@ const MemberCard = () => {
             <tr className="border-b border-neutral-200 dark:border-white/10">
               <td className="whitespace-nowrap px-1 py-2 font-medium">
                 <div className="flex items-center gap-2">
-                  <Image
-                    src={"/"}
-                    fill={false}
-                    width={30}
-                    height={30}
-                    alt="멤버 이미지"
-                    className="hidden !h-[30px] w-[30px] rounded-full bg-slate-500"
-                  ></Image>
+                  <i className="bi bi-file-earmark-text"></i>
                   <Typography.P3 className=" text-[14px] tablet:text-sm">
-                    홍길동
+                    알고리즘 로드맵.pdf
                   </Typography.P3>
                 </div>
               </td>
               <td className="whitespace-nowrap px-1 py-2 ">
-                <Badge className="w-fit" color="Green">
-                  <span className=" text-[11px] tablet:text-sm">스터디장</span>
-                </Badge>
+                <Typography.P3 className="text-[14px] font-medium tablet:text-sm">
+                  홍길동
+                </Typography.P3>
               </td>
               <td className="whitespace-nowrap px-1 py-2">
                 <Typography.P3 className="text-[14px] font-medium tablet:text-sm">
@@ -61,12 +57,15 @@ const MemberCard = () => {
               </td>
               <td className="whitespace-nowrap px-1 py-2">
                 <Typography.P3 className="text-[14px] font-medium tablet:text-sm">
-                  50%
+                  1.2MB
                 </Typography.P3>
               </td>
               <td className="whitespace-nowrap px-1 py-2">
-                <Button.Icon color="Blue">
-                  <i className="bi bi-chat"></i>
+                <Button.Icon color="Blue" className="font-bold">
+                  <i className="bi bi-download"></i>
+                  <Typography.P3 className="hidden tablet:block">
+                    파일 다운로드
+                  </Typography.P3>
                 </Button.Icon>
               </td>
             </tr>
@@ -77,4 +76,4 @@ const MemberCard = () => {
   );
 };
 
-export default MemberCard;
+export default ArchiveCard;

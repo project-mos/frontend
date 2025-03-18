@@ -39,7 +39,13 @@ const MENU_ITEMS = [
   },
 ];
 
-const ADMIN_MENU_ITEMS = [{ name: "지원자 관리", icon: "bi-calendar" }];
+const ADMIN_MENU_ITEMS = [
+  {
+    name: "지원자 관리",
+    icon: "bi-person-plus",
+    path: URL.STUDY_ROOM.DETAIL_MANAGE_APPLICANTS("1"),
+  },
+];
 
 const StudyRoomSideBarCard = () => {
   const [activeTab, setActiveTab] = useState<string>("일정");
