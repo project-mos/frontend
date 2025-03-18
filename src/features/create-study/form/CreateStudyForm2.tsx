@@ -12,19 +12,19 @@ import { StudyFormInterface } from "./CreateStudyForm";
 
 type QuillEditorHandle = {
   getContent: () => string;
+  setContent: (content: string) => void;
 };
 
 const CreateStudyForm2 = () => {
   const methods = useFormContext<StudyFormInterface>();
   const router = useRouter();
-  const [contents, setContents] = useState<string>("");
+  const setContents = useState<string>("")[1];
   const { setValue } = useFormContext();
   const editorRef = useRef<QuillEditorHandle>(null);
 
   const onSubmit = () => {
-    methods.setValue("step2Completed", true);
-    methods.setValue("content", contents);
     handleGetContent();
+    methods.setValue("step2Completed", true);
     router.push("/create-study?step=3");
   };
 
@@ -36,12 +36,20 @@ const CreateStudyForm2 = () => {
     if (editorRef.current) {
       const content = editorRef.current.getContent();
       setValue("content", content);
-      if (setContents) setContents(content);
+      localStorage.setItem("content", content);
+      setContents(content);
     }
   };
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    const storedContent = localStorage.getItem("content");
+
+    if (storedContent && editorRef.current) {
+      setValue("content", storedContent);
+      setContents(storedContent);
+      editorRef.current.setContent(storedContent);
+    }
   }, []);
 
   return (
