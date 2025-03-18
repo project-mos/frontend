@@ -89,7 +89,7 @@ const StudyList = ({
               <Button.Ghost
                 color="Main"
                 className="h-[30px] text-[14px]"
-                onClick={() => router.push(URL.STUDYROOM.DETAIL_DASHBOARD("1"))}
+                onClick={() => router.push(URL.STUDY_ROOM.DETAIL_SCHEDULE("1"))}
               >
                 {type === "active" ? "스터디룸 입장" : "상세보기"}
               </Button.Ghost>

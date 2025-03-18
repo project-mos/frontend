@@ -3,7 +3,7 @@ import Tag from "@/components/atoms/Tag";
 import Typography from "@/components/atoms/Typography";
 import React from "react";
 
-const DashboardTitleCard = () => {
+const StudyRoomTitleCard = () => {
   return (
     <Card className="col-span-12 gap-3 tablet:col-span-8">
       <Card.Header>
@@ -24,4 +24,4 @@ const DashboardTitleCard = () => {
   );
 };
 
-export default DashboardTitleCard;
+export default StudyRoomTitleCard;

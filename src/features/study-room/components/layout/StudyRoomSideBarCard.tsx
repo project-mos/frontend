@@ -2,7 +2,7 @@
 import Card from "@/components/atoms/Card";
 import Typography from "@/components/atoms/Typography";
 import React, { useState } from "react";
-import DashboardTabListWrapper from "./atom/DashboardTabListWrapper";
+import StudyRoomTabListWrapper from "./StudyRoomTabListWrapper";
 import { useRouter } from "next/navigation";
 import URL from "@/constants/URL";
 
@@ -10,26 +10,44 @@ const MENU_ITEMS = [
   {
     name: "일정",
     icon: "bi-calendar",
-    path: URL.STUDYROOM.DETAIL_DASHBOARD("1"),
+    path: URL.STUDY_ROOM.DETAIL_SCHEDULE("1"),
   },
-  { name: "멤버", icon: "bi-people" },
-  { name: "자료실", icon: "bi-folder" },
+  {
+    name: "멤버",
+    icon: "bi-people",
+    path: URL.STUDY_ROOM.DETAIL_MEMBER("1"),
+  },
+  {
+    name: "자료실",
+    icon: "bi-folder",
+    path: URL.STUDY_ROOM.DETAIL_ARCHIVE("1"),
+  },
   {
     name: "커리큘럼",
     icon: "bi-book",
-    path: URL.STUDYROOM.DETAIL_CURRICULUM("1"),
+    path: URL.STUDY_ROOM.DETAIL_CURRICULUM("1"),
   },
-  { name: "채팅", icon: "bi-chat" },
+  {
+    name: "채팅",
+    icon: "bi-chat",
+    path: URL.STUDY_ROOM.DETAIL_CHAT("1"),
+  },
   {
     name: "공지사항",
     icon: "bi-megaphone",
-    path: URL.STUDYROOM.DETAIL_NOTICE("1"),
+    path: URL.STUDY_ROOM.DETAIL_NOTICE("1"),
   },
 ];
 
-const ADMIN_MENU_ITEMS = [{ name: "지원자 관리", icon: "bi-calendar" }];
+const ADMIN_MENU_ITEMS = [
+  {
+    name: "지원자 관리",
+    icon: "bi-person-plus",
+    path: URL.STUDY_ROOM.DETAIL_MANAGE_APPLICANTS("1"),
+  },
+];
 
-const DashboardSideBarCard = () => {
+const StudyRoomSideBarCard = () => {
   const [activeTab, setActiveTab] = useState<string>("일정");
   const router = useRouter();
 
@@ -40,14 +58,14 @@ const DashboardSideBarCard = () => {
 
   // 메뉴
   const renderTab = (item: { name: string; icon: string; path?: string }) => (
-    <DashboardTabListWrapper
+    <StudyRoomTabListWrapper
       key={item.name}
       active={activeTab === item.name}
       onClick={() => handleTabClick(item.name, item.path)}
     >
       <i className={`bi ${item.icon}`} />
       <Typography.P3>{item.name}</Typography.P3>
-    </DashboardTabListWrapper>
+    </StudyRoomTabListWrapper>
   );
 
   return (
@@ -75,4 +93,4 @@ const DashboardSideBarCard = () => {
   );
 };
 
-export default DashboardSideBarCard;
+export default StudyRoomSideBarCard;

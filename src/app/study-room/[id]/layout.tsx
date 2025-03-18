@@ -1,15 +1,15 @@
-import Grid from "@/components/atoms/Grid";
-import DashboardIntendedCard from "@/features/study-room/components/dashboard/DashboardIntendedCard";
-import DashboardSideBarCard from "@/features/study-room/components/dashboard/DashboardSideBarCard";
-import DashboardTitleCard from "@/features/study-room/components/dashboard/DashboardTitleCard";
 import React from "react";
+import Grid from "@/components/atoms/Grid";
+import StudyRoomIntendedCard from "@/features/study-room/components/layout/StudyRoomIntendedCard";
+import StudyRoomSideBarCard from "@/features/study-room/components/layout/StudyRoomSideBarCard";
+import StudyRoomTitleCard from "@/features/study-room/components/layout/StudyRoomTitleCard";
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <Grid cols={12} gap={5}>
-      <DashboardTitleCard />
-      <DashboardIntendedCard />
-      <DashboardSideBarCard />
+      <StudyRoomTitleCard />
+      <StudyRoomIntendedCard />
+      <StudyRoomSideBarCard />
       {children}
     </Grid>
   );

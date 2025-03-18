@@ -1,15 +1,15 @@
 import { HTMLAttributes } from "react";
 
-interface DashboardTabListWrapperProps extends HTMLAttributes<HTMLDivElement> {
+interface StudyRoomTabListWrapperProps extends HTMLAttributes<HTMLDivElement> {
   active?: boolean;
   children: React.ReactNode;
 }
 
-const DashboardTabListWrapper = ({
+const StudyRoomTabListWrapper = ({
   active,
   children,
   ...props
-}: DashboardTabListWrapperProps) => {
+}: StudyRoomTabListWrapperProps) => {
   return (
     <div
       className="flex gap-3 rounded-md p-3 text-mos-gray-500 transition hover:bg-mos-white-gray-100 hover:text-mos-main-500 data-[active]:bg-mos-main-100 data-[active]:text-mos-main-500"
@@ -21,4 +21,4 @@ const DashboardTabListWrapper = ({
   );
 };
 
-export default DashboardTabListWrapper;
+export default StudyRoomTabListWrapper;

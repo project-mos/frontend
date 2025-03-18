@@ -1,12 +1,10 @@
-import Grid from "@/components/atoms/Grid";
-
 import React from "react";
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <Grid cols={12} gap={5}>
+    <div className="col-span-12 flex h-full flex-col gap-5 tablet:col-span-10">
       {children}
-    </Grid>
+    </div>
   );
 };
 

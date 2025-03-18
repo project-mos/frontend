@@ -3,7 +3,7 @@ import Card from "@/components/atoms/Card";
 import Typography from "@/components/atoms/Typography";
 import React from "react";
 
-const DashboardIntendedCard = () => {
+const StudyRoomIntendedCard = () => {
   return (
     <Card className="col-span-12 tablet:col-span-4">
       <Card.Header className="flex justify-between">
@@ -22,4 +22,4 @@ const DashboardIntendedCard = () => {
   );
 };
 
-export default DashboardIntendedCard;
+export default StudyRoomIntendedCard;
