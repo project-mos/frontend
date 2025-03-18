@@ -1,29 +1,54 @@
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { FormProvider, useFormContext } from "react-hook-form";
 import Badge from "@/components/atoms/Badge";
 import Typography from "@/components/atoms/Typography";
-import StudyDescription from "../components/StudyDescription";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import { FormProvider, useFormContext } from "react-hook-form";
 import StudyActions from "../components/StudyActions";
-import StudyRules from "../components/StudyRules";
 import StudyBenefits from "../components/StudyBenefits";
 import StudyCurriculum from "../components/StudyCurriculum";
+import StudyDescription from "../components/StudyDescription";
+import StudyRules from "../components/StudyRules";
 import { StudyFormInterface } from "./CreateStudyForm";
+
+type QuillEditorHandle = {
+  getContent: () => string;
+  setContent: (content: string) => void;
+};
 
 const CreateStudyForm2 = () => {
   const methods = useFormContext<StudyFormInterface>();
   const router = useRouter();
+  const setContents = useState<string>("")[1];
+  const editorRef = useRef<QuillEditorHandle>(null);
 
   const onSubmit = () => {
+    handleGetContent();
+    methods.setValue("step2Completed", true);
     router.push("/create-study?step=3");
   };
 
   const handleClickBackButton = () => {
-    router.push("/create-study");
+    router.push("/create-study?step=1");
+  };
+
+  const handleGetContent = () => {
+    if (editorRef.current) {
+      const content = editorRef.current.getContent();
+      methods.setValue("content", content);
+      localStorage.setItem("content", content);
+      setContents(content);
+    }
   };
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    const storedContent = localStorage.getItem("content");
+
+    if (storedContent && editorRef.current) {
+      methods.setValue("content", storedContent);
+      setContents(storedContent);
+      editorRef.current.setContent(storedContent);
+    }
   }, []);
 
   return (
@@ -37,11 +62,10 @@ const CreateStudyForm2 = () => {
           onSubmit={methods.handleSubmit(onSubmit)}
           className="flex flex-col gap-[30px]"
         >
-          <StudyDescription />
+          <StudyDescription editorRef={editorRef} />
           <StudyCurriculum />
           <StudyRules />
           <StudyBenefits />
-
           <StudyActions
             solidLabel="다음 단계"
             ghostLabel="이전 단계"

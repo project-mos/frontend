@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { FormProvider, useFormContext } from "react-hook-form";
 import Badge from "@/components/atoms/Badge";
 import Typography from "@/components/atoms/Typography";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { FormProvider, useFormContext } from "react-hook-form";
+import CreateStudyModal from "../components/CreateStudyModal";
+import StudyActions from "../components/StudyActions";
 import StudyBasicInfo from "../components/StudyBasicInfo";
 import StudyMethod from "../components/StudyMethod";
-import StudyActions from "../components/StudyActions";
-import { StudyFormInterface } from "./CreateStudyForm";
 import useValidateForm from "../hooks/useValidateForm";
-import CreateStudyModal from "../components/CreateStudyModal";
+import { StudyFormInterface } from "./CreateStudyForm";
 
 const CreateStudyForm1 = () => {
   const methods = useFormContext<StudyFormInterface>();
@@ -18,6 +18,7 @@ const CreateStudyForm1 = () => {
 
   const onSubmit = (data: StudyFormInterface) => {
     if (validateForm(data)) {
+      methods.setValue("step1Completed", true);
       router.push("/create-study?step=2");
     }
   };
