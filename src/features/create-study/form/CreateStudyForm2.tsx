@@ -19,7 +19,6 @@ const CreateStudyForm2 = () => {
   const methods = useFormContext<StudyFormInterface>();
   const router = useRouter();
   const setContents = useState<string>("")[1];
-  const { setValue } = useFormContext();
   const editorRef = useRef<QuillEditorHandle>(null);
 
   const onSubmit = () => {
@@ -35,7 +34,7 @@ const CreateStudyForm2 = () => {
   const handleGetContent = () => {
     if (editorRef.current) {
       const content = editorRef.current.getContent();
-      setValue("content", content);
+      methods.setValue("content", content);
       localStorage.setItem("content", content);
       setContents(content);
     }
@@ -46,7 +45,7 @@ const CreateStudyForm2 = () => {
     const storedContent = localStorage.getItem("content");
 
     if (storedContent && editorRef.current) {
-      setValue("content", storedContent);
+      methods.setValue("content", storedContent);
       setContents(storedContent);
       editorRef.current.setContent(storedContent);
     }
