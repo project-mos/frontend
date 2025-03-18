@@ -11,18 +11,12 @@ const StepProtection = () => {
 
   const isStep1Completed = watch("step1Completed", false);
   const isStep2Completed = watch("step2Completed", false);
-  const isStep3Completed = watch("isStep3Completed", false);
+  const isStep3Completed = watch("step3Completed", false);
 
   useEffect(() => {
-    if (step === 2 && !isStep1Completed) {
-      router.replace("/create-study?step=1");
-    }
-    if (step === 3 && !isStep2Completed) {
-      router.replace("/create-study?step=2");
-    }
-    if (step === 4 && !isStep3Completed) {
-      router.replace("/create-study?step=3");
-    }
+    if (step === 2 && !isStep1Completed) router.replace("/create-study?step=1");
+    if (step === 3 && !isStep2Completed) router.replace("/create-study?step=2");
+    if (step === 4 && !isStep3Completed) router.replace("/create-study?step=3");
   }, [step, isStep1Completed, isStep2Completed, router]);
 
   return null;

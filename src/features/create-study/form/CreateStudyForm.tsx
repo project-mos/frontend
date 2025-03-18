@@ -57,7 +57,18 @@ const CreateStudyForm = () => {
   });
 
   useEffect(() => {
-    methods.reset();
+    const subscription = methods.watch((values) => {
+      localStorage.setItem("studyForm", JSON.stringify(values));
+    });
+
+    return () => subscription.unsubscribe();
+  }, [methods.watch]);
+
+  useEffect(() => {
+    const storedData = localStorage.getItem("studyForm");
+    if (storedData) {
+      methods.reset(JSON.parse(storedData));
+    }
   }, []);
 
   return (
