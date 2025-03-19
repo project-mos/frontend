@@ -19,6 +19,7 @@ export default function RootLayout({
           </div>
           <Footer />
         </QueryClientProvider>
+        <div id="portal"></div>
       </body>
     </html>
   );
