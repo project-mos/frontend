@@ -1,9 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ContentAdderBox from "./ContentAdderBox";
 import ContentInputBox from "./ContentInputBox";
 
 const StudyBenefits = () => {
   const [isInputBoxOpened, setIsInputBoxOpened] = useState<boolean>(false);
+
+  useEffect(() => {
+    const storedData = localStorage.getItem("studyForm");
+    if (storedData) {
+      const parsedForm = JSON.parse(storedData);
+      const benefits = parsedForm.benefits;
+
+      if (benefits.length >= 1 && benefits[0] !== "") {
+        setIsInputBoxOpened(true);
+      }
+    }
+  }, []);
 
   return (
     <>
