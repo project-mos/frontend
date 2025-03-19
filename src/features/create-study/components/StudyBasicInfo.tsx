@@ -2,7 +2,7 @@ import Card from "@/components/atoms/Card";
 import ErrorMessage from "@/components/atoms/ErrorMessage";
 import Typography from "@/components/atoms/Typography";
 import { useFormContext } from "react-hook-form";
-import LabelDateInput from "./LabelDateInput";
+import LabelInputDate from "./LabelInputDate";
 import LabelInput from "./LabelInput";
 import LabelNumberInput from "./LabelNumberInput";
 import LabelSelectInput from "./LabelSelectInput";
@@ -47,12 +47,12 @@ const StudyBasicInfo = () => {
           <ErrorMessage>{errors.person.message as string}</ErrorMessage>
         )}
         <div className="flex w-full flex-col gap-3 mobile:flex-row">
-          <LabelDateInput
+          <LabelInputDate
             name="recruitmentStartDate"
             label="모집 시작일"
             required
           />
-          <LabelDateInput
+          <LabelInputDate
             name="recruitmentEndDate"
             label="모집 마감일"
             required

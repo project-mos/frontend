@@ -21,7 +21,7 @@ import Input from "@/components/atoms/Input";
 import { FormProvider, useForm } from "react-hook-form";
 import LabelInput from "@/features/create-study/components/LabelInput";
 import LabelSelectInput from "@/features/create-study/components/LabelSelectInput";
-import LabelDateInput from "@/features/create-study/components/LabelDateInput";
+import LabelInputDate from "@/features/create-study/components/LabelInputDate";
 import LabelNumberInput from "@/features/create-study/components/LabelNumberInput";
 import RadioButton from "@/components/atoms/RadioButton";
 import RadioGroup from "@/components/molecules/RadioGroup";
@@ -272,13 +272,13 @@ export default function TestPage() {
           <p>{category}</p>
 
           <div className="flex w-full gap-3">
-            <LabelDateInput
+            <LabelInputDate
               name="startDate"
               label="모집 시작일"
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
             />
-            <LabelDateInput
+            <LabelInputDate
               name="endDate"
               label="모집 마감일"
               value={endDate}
