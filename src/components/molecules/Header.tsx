@@ -32,7 +32,7 @@ const Header = () => {
 
   return (
     <>
-      <header className="fixed left-0 top-0 z-50  flex h-[55px] w-full justify-center border-b border-gray-200 bg-white">
+      <header className="header fixed left-0 top-0 flex h-[55px] w-full justify-center border-b border-gray-200 bg-white">
         <div className="flex w-[90%] max-w-[1300px] items-center justify-between">
           {/* 왼쪽: 로고 */}
           <div>

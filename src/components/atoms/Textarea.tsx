@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { useFormContext } from "react-hook-form";
 
-interface TextareaProps
+export interface TextareaProps
   extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   className?: string;
   name: string;
