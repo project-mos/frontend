@@ -32,11 +32,7 @@ const NoticeCard = () => {
     <Card className="col-span-12 h-fit gap-3 tablet:col-span-10">
       <Card.Header className="mb-[10px] justify-between">
         <Typography.SubTitle1>공지사항</Typography.SubTitle1>
-        <Button.Solid
-          color="Main"
-          active
-          className="h-[30px] p-0 pl-1.5 pr-3 text-[14px]"
-        >
+        <Button.Solid color="Main" active size="sm">
           <i className="bi bi-plus text-[22px]"></i>
           공지 작성
         </Button.Solid>

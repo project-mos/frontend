@@ -9,9 +9,9 @@ const ScheduleCard = () => {
       <Card.Header className="flex-col justify-between gap-3">
         <div className="flex justify-between">
           <Typography.SubTitle1>스터디 일정</Typography.SubTitle1>
-          <Button.Solid color="Main" active>
-            <i className="bi bi-plus text-2xl" />
-            일정추가
+          <Button.Solid color="Main" active size="sm">
+            <i className="bi bi-plus text-xl" />
+            일정 추가
           </Button.Solid>
         </div>
       </Card.Header>

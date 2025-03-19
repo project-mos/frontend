@@ -9,7 +9,7 @@ const ArchiveCard = () => {
     <Card className="col-span-12 h-fit gap-4 tablet:col-span-10">
       <Card.Header className="flex items-center justify-between">
         <Typography.SubTitle1>자료실</Typography.SubTitle1>
-        <Button.Solid color="Main" active>
+        <Button.Solid color="Main" active size="sm">
           <i className="bi bi-upload" />
           파일 업로드
         </Button.Solid>
@@ -37,8 +37,8 @@ const ArchiveCard = () => {
           </thead>
           <tbody>
             <tr className="border-b border-neutral-200 dark:border-white/10">
-              <td className="whitespace-nowrap px-1 py-2 font-medium">
-                <div className="flex items-center gap-2">
+              <td className="max-w-[100px] whitespace-nowrap px-1 py-2 font-medium">
+                <div className="flex items-center gap-2 overflow-x-scroll">
                   <i className="bi bi-file-earmark-text"></i>
                   <Typography.P3 className=" text-[14px] tablet:text-sm">
                     알고리즘 로드맵.pdf
@@ -61,9 +61,9 @@ const ArchiveCard = () => {
                 </Typography.P3>
               </td>
               <td className="whitespace-nowrap px-1 py-2">
-                <Button.Icon color="Blue" className="font-bold">
+                <Button.Icon color="Blue" className="font-bold" size="sm">
                   <i className="bi bi-download"></i>
-                  <Typography.P3 className="hidden tablet:block">
+                  <Typography.P3 className="hidden text-[14px] tablet:block">
                     파일 다운로드
                   </Typography.P3>
                 </Button.Icon>
