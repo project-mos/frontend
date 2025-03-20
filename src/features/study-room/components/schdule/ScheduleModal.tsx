@@ -2,11 +2,6 @@
 
 import Button from "@/components/atoms/Button";
 
-import TestModal, {
-  ModalOnClose,
-  TestModalProps,
-} from "@/components/atoms/TestModal";
-
 import Typography from "@/components/atoms/Typography";
 
 import LabelDateInput from "@/features/create-study/components/LabelInputDate";
@@ -16,9 +11,10 @@ import LabelTimeInput from "@/features/create-study/components/LabelInputTime";
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import LabelTextAreaInput from "@/features/create-study/components/LabelTextAreaInput";
+import Modal, { ModalOnClose, ModalProps } from "@/components/atoms/Modal";
 
 // success, close 시 실행할 함수들을 부모로부터 받음
-interface ScheduleModalProps extends TestModalProps {
+interface ScheduleModalProps extends ModalProps {
   onSuccess: () => void;
   onClose: ModalOnClose;
 }
@@ -55,19 +51,15 @@ const ScheduleModal = ({
 
   return (
     <FormProvider {...methods}>
-      <TestModal
-        {...props}
-        className="w-[85%] max-w-[700px]"
-        onClose={onCloses}
-      >
-        <TestModal.Header onClose={onClose}>
+      <Modal {...props} className="w-[85%] max-w-[700px]" onClose={onCloses}>
+        <Modal.Header onClose={onClose}>
           <Typography.Head3>스터디 일정 등록</Typography.Head3>
-        </TestModal.Header>
+        </Modal.Header>
         <form
           onSubmit={methods.handleSubmit(onSubmit)}
           className="flex flex-col gap-5"
         >
-          <TestModal.Content className="flex flex-col gap-5">
+          <Modal.Content className="flex flex-col gap-5">
             <div className="flex flex-col gap-2">
               <Typography.SubTitle1>스터디 시간</Typography.SubTitle1>
               <LabelDateInput<CreateStudySchedule>
@@ -116,16 +108,16 @@ const ScheduleModal = ({
                 registerOptions={{ required: "그만하쇼" }}
               />
             </div>
-          </TestModal.Content>
+          </Modal.Content>
 
-          <TestModal.Footer className="flex justify-end gap-2">
+          <Modal.Footer className="flex justify-end gap-2">
             <Button.Default onClick={onClose}>취소</Button.Default>
             <Button.Solid type="submit" color="Main" active>
               확인
             </Button.Solid>
-          </TestModal.Footer>
+          </Modal.Footer>
         </form>
-      </TestModal>
+      </Modal>
     </FormProvider>
   );
 };

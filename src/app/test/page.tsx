@@ -15,7 +15,7 @@ import {
 } from "../mock/api/studies";
 import Badge from "@/components/atoms/Badge";
 import CustomImage from "@/components/atoms/Image";
-import Modal from "@/components/atoms/Modal";
+import Modal from "@/components/atoms/ConfirmModal";
 import { useState } from "react";
 import Input from "@/components/atoms/Input";
 import { FormProvider, useForm } from "react-hook-form";
