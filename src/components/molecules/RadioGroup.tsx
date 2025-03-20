@@ -1,35 +1,28 @@
-import { useFormContext } from "react-hook-form";
-import RadioButton from "../atoms/RadioButton";
+import RadioButton, { RadioButtonProps } from "../atoms/RadioButton";
 
-interface RadioGroupProps {
+interface RadioGroupProps
+  extends Omit<RadioButtonProps, "label" | "value" | "checked"> {
   name: string;
   options: { label: string; value: string }[];
   selectedValue: string;
-  onChange: (value: string) => void;
 }
 
 const RadioGroup = ({
   name,
   options,
   selectedValue,
-  onChange,
+  ...props
 }: RadioGroupProps) => {
-  const { clearErrors } = useFormContext();
-
   return (
     <div className="flex items-center gap-4">
-      {options.map((option) => (
+      {options.map(({ label, value }) => (
         <RadioButton
-          key={option.value}
+          key={value}
           name={name}
-          label={option.label}
-          value={option.value}
-          checked={selectedValue === option.value}
-          onChange={(e) => {
-            console.log(e.target.value);
-            onChange(e.target.value);
-            clearErrors(name);
-          }}
+          label={label}
+          value={value}
+          checked={selectedValue === value}
+          {...props}
         />
       ))}
     </div>
