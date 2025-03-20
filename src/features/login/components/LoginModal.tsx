@@ -1,11 +1,11 @@
 import Typography from "@/components/atoms/Typography";
-import Modal from "@/components/atoms/Modal";
-import { Dispatch, JSX, SetStateAction } from "react";
+import { JSX } from "react";
 import SvgIcons from "@/app/asset/icon/SvgIcons";
 import { cn } from "@/lib/utils";
+import Modal, { ModalOnClose, ModalProps } from "@/components/atoms/Modal";
 
-interface LoginModalProps {
-  setIsLoginModalOpen: Dispatch<SetStateAction<boolean>>;
+interface ScheduleModalProps extends ModalProps {
+  onClose: ModalOnClose;
 }
 
 interface SnsButtonProps {
@@ -16,9 +16,10 @@ interface SnsButtonProps {
   textColor: string;
 }
 
-const LoginModal = ({ setIsLoginModalOpen }: LoginModalProps) => {
+const LoginModal = ({ onClose, ...props }: ScheduleModalProps) => {
   return (
-    <Modal setIsOpenModal={setIsLoginModalOpen}>
+    <Modal {...props} onClose={onClose}>
+      <Modal.Header onClose={onClose}></Modal.Header>
       <Modal.Content className="w-[350px] text-center">
         <SvgIcons.Logo width={183} height={50} className="mx-auto" />
         <Typography.P1 className="my-[5px] text-[20px]">
@@ -30,7 +31,7 @@ const LoginModal = ({ setIsLoginModalOpen }: LoginModalProps) => {
         </Typography.P3>
       </Modal.Content>
 
-      <Modal.Button className="block">
+      <Modal.Footer className="block">
         <SnsLoginButton
           platform="Kakao"
           icon={<SvgIcons.Kakao />}
@@ -59,7 +60,7 @@ const LoginModal = ({ setIsLoginModalOpen }: LoginModalProps) => {
           hoverColor="hover:bg-black"
           textColor="text-white"
         />
-      </Modal.Button>
+      </Modal.Footer>
     </Modal>
   );
 };

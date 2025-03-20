@@ -4,9 +4,9 @@ import SvgIcons from "@/app/asset/icon/SvgIcons";
 import Button from "@/components/atoms/Button";
 import Link from "next/link";
 import Typography from "../atoms/Typography";
-import { useState } from "react";
 import LoginModal from "@/features/login/components/LoginModal";
 import URL from "@/constants/URL";
+import useModal from "@/app/hooks/useModal";
 
 interface NavItemProps {
   href: string;
@@ -28,10 +28,11 @@ const NavItem = ({ href, label, className }: NavItemProps) => {
 
 const Header = () => {
   const isLoggedIn = false;
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState<boolean>(false);
+  const { modal, openModal, closeModal } = useModal();
 
   return (
     <>
+      <LoginModal isOpen={modal} onClose={closeModal} />
       <header className="header fixed left-0 top-0 flex h-[55px] w-full justify-center border-b border-gray-200 bg-white">
         <div className="flex w-[90%] max-w-[1300px] items-center justify-between">
           {/* 왼쪽: 로고 */}
@@ -58,7 +59,7 @@ const Header = () => {
                 color="Main"
                 active
                 className="h-[29px]"
-                onClick={() => setIsLoginModalOpen(true)}
+                onClick={openModal}
               >
                 로그인
               </Button.Solid>
@@ -66,9 +67,6 @@ const Header = () => {
           </div>
         </div>
       </header>
-      {isLoginModalOpen && (
-        <LoginModal setIsLoginModalOpen={setIsLoginModalOpen} />
-      )}
     </>
   );
 };
