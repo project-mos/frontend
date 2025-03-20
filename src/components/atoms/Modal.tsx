@@ -1,54 +1,113 @@
-import { Dispatch, HTMLAttributes, SetStateAction } from "react";
-import { cn } from "@/lib/utils";
+"use client";
 
-interface ModalProps extends HTMLAttributes<HTMLDivElement> {
-  setIsOpenModal?: Dispatch<SetStateAction<boolean>>;
-  classNaem?: string;
+import { HTMLAttributes, useEffect, useCallback } from "react";
+import { cn } from "@/lib/utils";
+import { createPortal } from "react-dom";
+
+export type ModalOnClose = () => void;
+
+export interface ModalProps extends HTMLAttributes<HTMLDivElement> {
+  className?: string;
+  onSuccess?: () => void;
+  onClose?: ModalOnClose;
+  isOpen: boolean;
 }
 
 const Modal = ({
-  setIsOpenModal,
+  className,
+  children,
+  onClose,
+  isOpen,
+  ...props
+}: ModalProps) => {
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent) => {
+      console.log(event);
+      if (onClose) {
+        if (event.key === "Escape") {
+          onClose();
+        }
+      }
+    },
+    [onClose]
+  );
+
+  useEffect(() => {
+    if (isOpen) {
+      document.addEventListener("keydown", (event: KeyboardEvent) => {
+        handleKeyDown(event);
+      });
+    }
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isOpen, handleKeyDown]);
+
+  if (!isOpen) return null;
+  // 포탈 박스 가져오기
+  const portalElement = document.getElementById("portal");
+  // 포탈 박스 없으면 null
+  if (!portalElement) return null;
+  // 포탈 박스 있으면 이동
+  return createPortal(
+    <div
+      className="modal fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+      role="dialog"
+      aria-modal="true"
+    >
+      <div
+        className={cn("rounded-2xl bg-white p-5", className)}
+        onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
+        {...props}
+      >
+        {children}
+      </div>
+    </div>,
+    portalElement
+  );
+};
+
+interface HeaderProps extends HTMLAttributes<HTMLDivElement> {
+  onClose: () => void;
+}
+const Header = ({ className, children, onClose, ...props }: HeaderProps) => (
+  <div
+    className={cn(
+      "flex items-center gap-4",
+      !children ? "justify-end" : "justify-between",
+      className
+    )}
+    {...props}
+  >
+    {children}
+    <button className="cursor-pointer" onClick={onClose}>
+      <i className="bi bi-x text-[30px] text-mos-gray-300"></i>
+    </button>
+  </div>
+);
+
+const Content = ({
   className,
   children,
   ...props
-}: ModalProps) => {
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div
-        className={cn("rounded-2xl bg-white p-[20px]", className)}
-        {...props}
-      >
-        <div className="flex h-[22px] items-center justify-end">
-          <button
-            className="cursor-pointer"
-            onClick={() => setIsOpenModal && setIsOpenModal(false)}
-          >
-            <i className="bi bi-x text-[30px] text-mos-gray-300"></i>
-          </button>
-        </div>
-        {children}
-      </div>
-    </div>
-  );
-};
+}: HTMLAttributes<HTMLDivElement>) => (
+  <div className={cn("my-4", className)} {...props}>
+    {children}
+  </div>
+);
 
-const Content = ({ className, children, ...props }: ModalProps) => {
-  return (
-    <div className={cn("my-[20px]", className)} {...props}>
-      {children}
-    </div>
-  );
-};
+const Footer = ({
+  className,
+  children,
+  ...props
+}: HTMLAttributes<HTMLDivElement>) => (
+  <div className={cn("flex justify-center gap-4", className)} {...props}>
+    {children}
+  </div>
+);
 
-const Button = ({ className, children, ...props }: ModalProps) => {
-  return (
-    <div className={cn("flex justify-center gap-[10px]", className)} {...props}>
-      {children}
-    </div>
-  );
-};
-
+Modal.Header = Header;
 Modal.Content = Content;
-Modal.Button = Button;
+Modal.Footer = Footer;
 
 export default Modal;

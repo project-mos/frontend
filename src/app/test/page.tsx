@@ -15,7 +15,7 @@ import {
 } from "../mock/api/studies";
 import Badge from "@/components/atoms/Badge";
 import CustomImage from "@/components/atoms/Image";
-import Modal from "@/components/atoms/Modal";
+import ConfirmModal from "@/components/atoms/ConfirmModal";
 import { useState } from "react";
 import Input from "@/components/atoms/Input";
 import { FormProvider, useForm } from "react-hook-form";
@@ -208,12 +208,12 @@ export default function TestPage() {
         모달열기
       </Button.Solid>
       {isOpenModal && (
-        <Modal setIsOpenModal={setIsOpenModal}>
-          <Modal.Content>
+        <ConfirmModal setIsOpenModal={setIsOpenModal}>
+          <ConfirmModal.Content>
             <Typography.Head3>title</Typography.Head3>
             <Typography.P3>content</Typography.P3>
-          </Modal.Content>
-          <Modal.Button>
+          </ConfirmModal.Content>
+          <ConfirmModal.Button>
             <Button.Solid
               active
               color="Main"
@@ -231,8 +231,8 @@ export default function TestPage() {
             >
               취소
             </Button.Solid>
-          </Modal.Button>
-        </Modal>
+          </ConfirmModal.Button>
+        </ConfirmModal>
       )}
 
       {/* Input */}
