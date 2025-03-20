@@ -79,7 +79,9 @@ const CurriculumModal = ({ onClose, ...props }: CurriculumModalProps) => {
               color="Main"
               active={formState.isValid}
               disabled={!formState.isValid}
-            />
+            >
+              확인
+            </Button.Solid>
           </Modal.Footer>
         </form>
       </Modal>
