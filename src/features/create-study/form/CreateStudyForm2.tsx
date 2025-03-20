@@ -1,7 +1,7 @@
 import Badge from "@/components/atoms/Badge";
 import Typography from "@/components/atoms/Typography";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { FormProvider, useFormContext } from "react-hook-form";
 import StudyActions from "../components/StudyActions";
 import StudyBenefits from "../components/StudyBenefits";
@@ -9,26 +9,22 @@ import StudyCurriculum from "../components/StudyCurriculum";
 import StudyDescription from "../components/StudyDescription";
 import StudyRules from "../components/StudyRules";
 import { StudyFormInterface } from "./CreateStudyForm";
-
-type QuillEditorHandle = {
-  getContent: () => string;
-  setContent: (content: string) => void;
-};
+import URL from "@/constants/URL";
+import { QuillEditorHandle } from "@/components/QuillEditor";
 
 const CreateStudyForm2 = () => {
   const methods = useFormContext<StudyFormInterface>();
   const router = useRouter();
-  const setContents = useState<string>("")[1];
   const editorRef = useRef<QuillEditorHandle>(null);
 
   const onSubmit = () => {
     handleGetContent();
     methods.setValue("step2Completed", true);
-    router.push("/create-study?step=3");
+    // router.push(`${URL.STUDY.CREATE}?step=3`);
   };
 
   const handleClickBackButton = () => {
-    router.push("/create-study?step=1");
+    router.push(`${URL.STUDY.CREATE}?step=1`);
   };
 
   const handleGetContent = () => {
@@ -36,7 +32,6 @@ const CreateStudyForm2 = () => {
       const content = editorRef.current.getContent();
       methods.setValue("content", content);
       localStorage.setItem("content", content);
-      setContents(content);
     }
   };
 
@@ -46,7 +41,6 @@ const CreateStudyForm2 = () => {
 
     if (storedContent && editorRef.current) {
       methods.setValue("content", storedContent);
-      setContents(storedContent);
       editorRef.current.setContent(storedContent);
     }
   }, []);
