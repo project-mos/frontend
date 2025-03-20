@@ -7,7 +7,7 @@ import {
   useFormContext,
 } from "react-hook-form";
 import Select from "@/components/atoms/Select";
-import Label from "../../../components/molecules/Label";
+import Label from "./Label";
 import ErrorMessage from "@/components/atoms/ErrorMessage";
 interface LabelSelectInputProps<T extends FieldValues>
   extends HTMLAttributes<HTMLDivElement> {
