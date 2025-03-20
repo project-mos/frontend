@@ -1,15 +1,9 @@
-import { useFormContext } from "react-hook-form";
 import Card from "@/components/atoms/Card";
 import Typography from "@/components/atoms/Typography";
 import LabelRadioInput from "./LabelRadioInput";
 import LabelInput from "./LabelInput";
-import ErrorMessage from "@/components/atoms/ErrorMessage";
 
 const StudyMethod = () => {
-  const {
-    formState: { errors },
-  } = useFormContext();
-
   const meetingTypes = [
     { label: "비대면", value: "online" },
     { label: "대면", value: "offline" },
@@ -27,19 +21,15 @@ const StudyMethod = () => {
           label="스터디 방식"
           options={meetingTypes}
           required
+          registerOptions={{ required: "스터디 방식을 선택해주세요" }}
         />
-        {errors.meetingType && (
-          <ErrorMessage>{errors.meetingType.message as string}</ErrorMessage>
-        )}
         <LabelInput
           name="schedule"
           label="진행 시간"
           placeholder="예: 매주 화요일 오후 8시"
           required
+          registerOptions={{ required: "진행 시간을 입력해주세요" }}
         />
-        {errors.schedule && (
-          <ErrorMessage>{errors.schedule.message as string}</ErrorMessage>
-        )}
       </Card.Content>
     </Card>
   );
