@@ -1,34 +1,53 @@
+import ErrorMessage from "@/components/atoms/ErrorMessage";
 import Label from "@/components/molecules/Label";
 import RadioGroup from "@/components/molecules/RadioGroup";
-import { useFormContext } from "react-hook-form";
+import { HTMLAttributes } from "react";
+import {
+  FieldValues,
+  Path,
+  RegisterOptions,
+  useFormContext,
+} from "react-hook-form";
 
-interface LabelRadioInputProps {
-  name: string;
+interface LabelRadioInputProps<T extends FieldValues>
+  extends HTMLAttributes<HTMLInputElement> {
   label: string;
-  options: { label: string; value: string }[];
+  name: Path<T>;
+  id?: string;
   required?: boolean;
+  options: { label: string; value: string }[];
+  registerOptions?: RegisterOptions<T, Path<T>>;
 }
-
-const LabelRadioInput = ({
+const LabelRadioInput = <T extends FieldValues>({
   name,
   label,
   options,
   required,
-}: LabelRadioInputProps) => {
-  const { register, watch, setValue } = useFormContext();
+  registerOptions,
+  ...props
+}: LabelRadioInputProps<T>) => {
+  const {
+    watch,
+    register,
+    formState: { errors },
+  } = useFormContext<T>();
 
+  // const inputId = id ?? `input-${name.replace(/\s+/g, "-").toLowerCase()}`;
   const selectedValue = watch(name) || "";
 
   return (
     <div className="flex w-full flex-col gap-[5px]">
       <Label htmlFor={name} required={required} label={label} />
       <RadioGroup
-        {...register(name)}
+        {...register(name, registerOptions)}
         name={name}
         options={options}
         selectedValue={selectedValue}
-        onChange={(value) => setValue(name, value)}
+        {...props}
       />
+      {errors[name]?.message && (
+        <ErrorMessage>{String(errors[name]?.message)}</ErrorMessage>
+      )}
     </div>
   );
 };

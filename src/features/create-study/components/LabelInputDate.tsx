@@ -9,7 +9,7 @@ import {
   RegisterOptions,
 } from "react-hook-form";
 
-import Typography from "@/components/atoms/Typography";
+import ErrorMessage from "@/components/atoms/ErrorMessage";
 
 interface LabelInputDateProps<T extends FieldValues>
   extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -46,9 +46,7 @@ const LabelInputDate = <T extends FieldValues>({
       />
       {/* <Typography.P1 className="text-red-600">asdasd</Typography.P1> */}
       {errors[name]?.message && (
-        <Typography.P1 className="text-red-600">
-          {String(errors[name]?.message)}
-        </Typography.P1>
+        <ErrorMessage>{String(errors[name]?.message)}</ErrorMessage>
       )}
     </div>
   );

@@ -44,7 +44,10 @@ const Header = () => {
 
           {/* 중간: 스터디 만들기 버튼 */}
           <div>
-            <NavItem href={URL.STUDY.CREATE} label="스터디 만들기" />
+            <NavItem
+              href={URL.STUDY.CREATE + "?step=1"}
+              label="스터디 만들기"
+            />
           </div>
 
           {/* 오른쪽: 마이페이지, 로그인 버튼 */}

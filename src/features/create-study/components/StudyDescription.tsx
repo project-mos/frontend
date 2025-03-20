@@ -2,10 +2,7 @@ import Card from "@/components/atoms/Card";
 import Typography from "@/components/atoms/Typography";
 import LabelEditor from "./LabelEditor";
 import LabelTextAreaInput from "./LabelTextAreaInput";
-
-type QuillEditorHandle = {
-  getContent: () => string;
-};
+import { QuillEditorHandle } from "@/components/QuillEditor";
 
 interface StudyDescriptionProps {
   editorRef: React.RefObject<QuillEditorHandle | null>;
@@ -24,7 +21,11 @@ const StudyDescription = ({ editorRef }: StudyDescriptionProps) => {
           editorRef={editorRef}
           required={true}
         />
-        <LabelTextAreaInput label="참여 요건" name="requirements" />
+        <LabelTextAreaInput
+          label="참여 요건"
+          name="requirements"
+          placeholder="참여 요건을 작성해주세요"
+        />
       </Card.Content>
     </Card>
   );

@@ -5,7 +5,7 @@ import CreateStudyForm3 from "@/features/create-study/form/CreateStudyForm3";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import CreatStidyForm4 from "./CreateStudyForm4";
+import CreateStudyForm4 from "./CreateStudyForm4";
 import StepProtection from "./StepProtection";
 
 export interface StudyFormInterface {
@@ -84,15 +84,10 @@ const CreateStudyForm = () => {
   return (
     <FormProvider {...methods}>
       <StepProtection />
-      {stepNumber === 2 ? (
-        <CreateStudyForm2 />
-      ) : stepNumber === 3 ? (
-        <CreateStudyForm3 />
-      ) : stepNumber === 4 ? (
-        <CreatStidyForm4 />
-      ) : (
-        <CreateStudyForm1 />
-      )}
+      {stepNumber === 1 && <CreateStudyForm1 />}
+      {stepNumber === 2 && <CreateStudyForm2 />}
+      {stepNumber === 3 && <CreateStudyForm3 />}
+      {stepNumber === 4 && <CreateStudyForm4 />}
     </FormProvider>
   );
 };

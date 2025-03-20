@@ -2,7 +2,8 @@ import React from "react";
 import Typography from "./Typography";
 import { cn } from "@/lib/utils";
 
-interface RadioButtonProps extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface RadioButtonProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
 }
 
