@@ -4,13 +4,13 @@ import Button from "@/components/atoms/Button";
 
 import Typography from "@/components/atoms/Typography";
 
-import LabelDateInput from "@/features/create-study/components/LabelInputDate";
-import LabelInput from "@/features/create-study/components/LabelInput";
+import LabelDateInput from "@/components/molecules/LabelInputDate";
+import LabelInput from "@/components/molecules/LabelInput";
 
-import LabelTimeInput from "@/features/create-study/components/LabelInputTime";
+import LabelTimeInput from "@/components/molecules/LabelInputTime";
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import LabelTextAreaInput from "@/features/create-study/components/LabelTextAreaInput";
+import LabelTextAreaInput from "@/components/molecules/LabelTextAreaInput";
 import Modal, { ModalOnClose, ModalProps } from "@/components/atoms/Modal";
 
 // success, close 시 실행할 함수들을 부모로부터 받음

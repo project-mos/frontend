@@ -1,7 +1,7 @@
 import Card from "@/components/atoms/Card";
 import Typography from "@/components/atoms/Typography";
-import LabelRadioInput from "./LabelRadioInput";
-import LabelInput from "./LabelInput";
+import LabelRadioInput from "../../../components/molecules/LabelRadioInput";
+import LabelInput from "../../../components/molecules/LabelInput";
 
 const StudyMethod = () => {
   const meetingTypes = [

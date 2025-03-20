@@ -40,12 +40,12 @@ const DefaultButton: React.FC<ButtonProps> = ({
 
 const SolidButtonClass = {
   // 미완. 작업하면서 필요하면 추가할 예정
-  Main: "text-mos-gray-500 data-[active=true]:bg-mos-main-500 data-[active=true]:text-white data-[active=true]:border-mos-main-500",
-  Gray: "text-mos-gray-500 data-[active=true]:bg-mos-gray-500 data-[active=true]:text-white data-[active=true]:border-mos-gray-500",
+  Main: "bg-mos-gray-100 text-white data-[active=true]:bg-mos-main-500 data-[active=true]:text-white data-[active=true]:border-mos-main-500",
+  Gray: "bg-mos-gray-100 text-white data-[active=true]:bg-mos-gray-500 data-[active=true]:text-white data-[active=true]:border-mos-gray-500",
   Green:
-    "text-mos-gray-500 data-[active=true]:bg-mos-green-500 data-[active=true]:text-white data-[active=true]:border-mos-green-500",
-  Blue: "text-mos-gray-500 data-[active=true]:bg-mos-blue-500 data-[active=true]:text-white data-[active=true]:border-mos-blue-500",
-  Red: "text-mos-gray-500 data-[active=true]:bg-red-500 data-[active=true]:text-white data-[active=true]:border-red-500",
+    "bg-mos-gray-100 text-white data-[active=true]:bg-mos-green-500 data-[active=true]:text-white data-[active=true]:border-mos-green-500",
+  Blue: "bg-mos-gray-100 text-white data-[active=true]:bg-mos-blue-500 data-[active=true]:text-white data-[active=true]:border-mos-blue-500",
+  Red: "bg-mos-gray-100 text-white data-[active=true]:bg-red-500 data-[active=true]:text-white data-[active=true]:border-red-500",
 };
 
 export interface SolidButtonProps extends ButtonProps {

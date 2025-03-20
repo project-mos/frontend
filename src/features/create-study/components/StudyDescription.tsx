@@ -1,7 +1,7 @@
 import Card from "@/components/atoms/Card";
 import Typography from "@/components/atoms/Typography";
 import LabelEditor from "./LabelEditor";
-import LabelTextAreaInput from "./LabelTextAreaInput";
+import LabelTextAreaInput from "../../../components/molecules/LabelTextAreaInput";
 import { QuillEditorHandle } from "@/components/QuillEditor";
 
 interface StudyDescriptionProps {
