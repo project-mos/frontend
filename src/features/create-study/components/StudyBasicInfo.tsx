@@ -1,9 +1,9 @@
 import Card from "@/components/atoms/Card";
 import Typography from "@/components/atoms/Typography";
-import LabelInputDate from "./LabelInputDate";
-import LabelInput from "./LabelInput";
-import LabelNumberInput from "./LabelNumberInput";
-import LabelSelectInput from "./LabelSelectInput";
+import LabelInputDate from "../../../components/molecules/LabelInputDate";
+import LabelInput from "../../../components/molecules/LabelInput";
+import LabelNumberInput from "../../../components/molecules/LabelNumberInput";
+import LabelSelectInput from "../../../components/molecules/LabelSelectInput";
 import LabelTagInput from "./LabelTagInput";
 
 const StudyBasicInfo = () => {
