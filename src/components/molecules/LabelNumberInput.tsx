@@ -16,7 +16,7 @@ interface LabelNumberInputProps<T extends FieldValues>
   name: Path<T>;
   id?: string;
   required?: boolean;
-  placeholder: string;
+  placeholder?: string;
   registerOptions?: RegisterOptions<T, Path<T>>;
 }
 

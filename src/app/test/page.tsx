@@ -294,7 +294,9 @@ export default function TestPage() {
           name="studyMethod"
           options={studyMethods}
           selectedValue={studyMethod}
-          onChange={setStudyMethod}
+          onChange={(event) => {
+            setStudyMethod(event.target.value);
+          }}
         />
       </FormProvider>
       {/* MDXEditor */}
