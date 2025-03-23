@@ -62,7 +62,7 @@ const List = () => {
 
 const ManageCard = () => {
   return (
-    <Card className="col-span-12 h-fit gap-3 tablet:col-span-10">
+    <Card className="col-span-12 h-fit gap-3 tablet:col-span-9 laptop:col-span-10">
       <Card.Header className="mb-[10px] justify-between">
         <Typography.SubTitle1>지원자 목록</Typography.SubTitle1>
       </Card.Header>

@@ -36,7 +36,7 @@ const NoticeCard = () => {
   return (
     <>
       <NoticeModal isOpen={modal} onClose={closeModal} />
-      <Card className="col-span-12 h-fit gap-3 tablet:col-span-10">
+      <Card className="col-span-12 h-fit gap-3 tablet:col-span-9 laptop:col-span-10">
         <Card.Header className="mb-[10px] justify-between">
           <Typography.SubTitle1>공지사항</Typography.SubTitle1>
           <Button.Solid color="Main" active size="sm" onClick={openModal}>

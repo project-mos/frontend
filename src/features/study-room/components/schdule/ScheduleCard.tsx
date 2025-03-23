@@ -21,7 +21,7 @@ const ScheduleCard = () => {
         }}
       />
 
-      <Card className="col-span-12 h-fit gap-3 tablet:col-span-10">
+      <Card className="col-span-12 h-fit gap-3 tablet:col-span-9 laptop:col-span-10">
         <Card.Header className="flex-col justify-between gap-3">
           <div className="flex justify-between">
             <Typography.SubTitle1>스터디 일정</Typography.SubTitle1>
@@ -32,9 +32,9 @@ const ScheduleCard = () => {
           </div>
         </Card.Header>
         <Card.Content className="gap-3">
-          <Card className="col-span-12 gap-1 shadow-none tablet:col-span-10">
+          <Card className="col-span-12 gap-3 shadow-none mobile:gap-1 tablet:col-span-10">
             <Card.Header className="justify-between">
-              <div className="flex gap-1">
+              <div className="flex flex-col gap-1 mobile:flex-row">
                 <Badge color="Blue">
                   <i className="bi bi-calendar3 mr-1"></i>
                   2024-02-25
