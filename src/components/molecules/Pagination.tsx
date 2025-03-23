@@ -35,7 +35,7 @@ const Pagination = ({ activePage, totalPage }: PaginationType) => {
   }
 
   return (
-    <div className="flex gap-2">
+    <div className="flex flex-wrap justify-center gap-2">
       <Button.Solid
         color="Gray"
         disabled={activePage === 1}
