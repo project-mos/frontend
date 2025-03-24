@@ -9,6 +9,8 @@ import URL from "@/constants/URL";
 import useModal from "@/app/hooks/useModal";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { ADMIN_MENU_ITEMS, MENU_ITEMS } from "@/constants/SidebarItems";
+import { usePathname } from "next/navigation";
 
 const Header = () => {
   const isLoggedIn = true;
@@ -28,8 +30,10 @@ const Header = () => {
 
           {/* 오른쪽: 마이페이지, 로그인 버튼 */}
           <nav className="flex items-center gap-[20px]">
+            {/* 로그인 했을 때 */}
             {isLoggedIn ? (
               <>
+                {/* 반응형 */}
                 <Link href={`${URL.STUDY.CREATE}?step=1`}>
                   <i className="bi bi-pencil-square hidden text-[28px] active:text-mos-main-500 tablet:inline-block" />
                 </Link>
@@ -58,6 +62,8 @@ const Header = () => {
 
 export function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
+  const isStudyRoom = pathname.split("/")?.[1] === "study-room"; // 첫 번째 경로 추출
 
   const close = () => {
     setIsOpen(false);
@@ -132,6 +138,51 @@ export function Sidebar() {
                 </Typography.P1>
               </Link>
             </li>
+            {/* 스터디룸 메뉴 */}
+            {isStudyRoom && (
+              <>
+                <Typography.P1 className="p-3 font-bold">
+                  스터디 룸
+                </Typography.P1>
+                {MENU_ITEMS.map((item, index) => {
+                  return (
+                    <li
+                      className="px-8 py-1.5 hover:bg-mos-main-100"
+                      onClick={close}
+                      key={`${item}_${index}`}
+                    >
+                      <Link href={item.path}>
+                        <Typography.P1 className="flex gap-2 font-semibold">
+                          <i className={cn(item.icon)} />
+                          {item.name}
+                        </Typography.P1>
+                      </Link>
+                    </li>
+                  );
+                })}
+                <Typography.P1 className="p-3 font-bold">
+                  스터디 룸 관리자
+                </Typography.P1>
+
+                {ADMIN_MENU_ITEMS.map((item, index) => {
+                  return (
+                    <li
+                      className=" px-8 hover:bg-mos-main-100"
+                      onClick={close}
+                      key={`${item}_${index}`}
+                    >
+                      <Link href={item.path}>
+                        <Typography.P1 className="flex gap-2 font-semibold">
+                          <i className={cn(item.icon)} />
+                          {item.name}
+                        </Typography.P1>
+                      </Link>
+                    </li>
+                  );
+                })}
+              </>
+            )}
+
             {/* 추후 로그아웃 기능 들어갈지 미정 */}
             {/* <li className="p-3 hover:bg-mos-main-100" onClick={close}>
               <Link href={URL.STUDY.CREATE}>
