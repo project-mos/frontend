@@ -5,7 +5,7 @@ import LandingContentHeader from "@/features/landing/components/LandingContentHe
 
 export default function Home() {
   return (
-    <div className="flex flex-col gap-3 border ">
+    <div className="flex flex-col gap-10 ">
       <LandingContentHeader />
       <LandingContentCards />
       <div className="flex justify-center">

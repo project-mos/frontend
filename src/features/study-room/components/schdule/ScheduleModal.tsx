@@ -59,7 +59,7 @@ const ScheduleModal = ({
           onSubmit={methods.handleSubmit(onSubmit)}
           className="flex flex-col gap-5"
         >
-          <Modal.Content className="flex flex-col gap-5">
+          <Modal.Content className="flex max-h-[300px] flex-col gap-5 overflow-y-scroll mobile:max-h-[505px]">
             <div className="flex flex-col gap-2">
               <Typography.SubTitle1>스터디 시간</Typography.SubTitle1>
               <LabelDateInput<CreateStudySchedule>
@@ -69,7 +69,7 @@ const ScheduleModal = ({
                 registerOptions={{ required: "그만하쇼", valueAsDate: true }}
               />
 
-              <div className="flex gap-2">
+              <div className="flex flex-col gap-2 mobile:flex-row">
                 <LabelTimeInput<CreateStudySchedule>
                   name="start_time"
                   label="시작 시간"

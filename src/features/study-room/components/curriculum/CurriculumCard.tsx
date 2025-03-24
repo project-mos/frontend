@@ -13,7 +13,7 @@ const CurriculumCard = () => {
   return (
     <>
       <CurriculumModal isOpen={modal} onClose={closeModal} />
-      <Card className="col-span-12 h-fit gap-3 tablet:col-span-10">
+      <Card className="col-span-12 h-fit gap-3 tablet:col-span-9 laptop:col-span-10">
         <Card.Header className="mb-[20px] justify-between">
           <Typography.SubTitle1>커리큘럼</Typography.SubTitle1>
           <div className="flex gap-2">

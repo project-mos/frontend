@@ -6,6 +6,7 @@
     --radius: 0.5rem;
     --header-z-index: 9;
     --modal-z-index: 10;
+    --sidebar-z-index: 10;
   }
 }
 /* Global styles */
@@ -41,4 +42,7 @@ select {
 }
 .modal {
   z-index: var(--modal-z-index);
+}
+.sidebar {
+  z-index: var(--sidebar-z-index);
 }

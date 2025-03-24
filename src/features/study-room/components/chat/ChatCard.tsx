@@ -11,7 +11,7 @@ const ChatCard = () => {
 
   return (
     <FormProvider {...methods}>
-      <Card className="col-span-12 gap-4 tablet:col-span-10">
+      <Card className="col-span-12 gap-4 tablet:col-span-9 laptop:col-span-10">
         <Card.Header className="flex items-center justify-between">
           <Typography.SubTitle1>채팅</Typography.SubTitle1>
           <Button.Solid color="Main" active size="sm">

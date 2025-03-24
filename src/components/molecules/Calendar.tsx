@@ -14,7 +14,7 @@ interface CalendarProps {
 }
 
 const cellStyle =
-  "h-16 w-full min-w-14 mobile:min-w-20 border border-gray-200 p-2 mobile:h-20 tablet:min-w-[50px] ";
+  "h-16 w-full min-w-10 mobile:min-w-20 border border-gray-200 p-2 mobile:h-20 tablet:min-w-[50px] ";
 
 function Calendar() {
   const [currentDate, setCurrentDate] = useState(new Date());

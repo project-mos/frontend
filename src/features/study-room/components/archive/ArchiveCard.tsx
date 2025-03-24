@@ -6,7 +6,7 @@ import React from "react";
 
 const ArchiveCard = () => {
   return (
-    <Card className="col-span-12 h-fit gap-4 tablet:col-span-10">
+    <Card className="col-span-12 h-fit gap-4 tablet:col-span-9 laptop:col-span-10">
       <Card.Header className="flex items-center justify-between">
         <Typography.SubTitle1>자료실</Typography.SubTitle1>
         <Button.Solid color="Main" active size="sm">
@@ -38,7 +38,7 @@ const ArchiveCard = () => {
           <tbody>
             <tr className="border-b border-neutral-200 dark:border-white/10">
               <td className="max-w-[100px] whitespace-nowrap px-1 py-2 font-medium">
-                <div className="flex items-center gap-2 overflow-x-scroll">
+                <div className="flex items-center gap-2 sm-mobile:overflow-x-scroll">
                   <i className="bi bi-file-earmark-text"></i>
                   <Typography.P3 className=" text-[14px] tablet:text-sm">
                     알고리즘 로드맵.pdf
