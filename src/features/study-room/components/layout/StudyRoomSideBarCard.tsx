@@ -4,48 +4,7 @@ import Typography from "@/components/atoms/Typography";
 import React, { useState } from "react";
 import StudyRoomTabListWrapper from "./StudyRoomTabListWrapper";
 import { useRouter } from "next/navigation";
-import URL from "@/constants/URL";
-
-const MENU_ITEMS = [
-  {
-    name: "일정",
-    icon: "bi-calendar",
-    path: URL.STUDY_ROOM.DETAIL_SCHEDULE("1"),
-  },
-  {
-    name: "멤버",
-    icon: "bi-people",
-    path: URL.STUDY_ROOM.DETAIL_MEMBER("1"),
-  },
-  {
-    name: "자료실",
-    icon: "bi-folder",
-    path: URL.STUDY_ROOM.DETAIL_ARCHIVE("1"),
-  },
-  {
-    name: "커리큘럼",
-    icon: "bi-book",
-    path: URL.STUDY_ROOM.DETAIL_CURRICULUM("1"),
-  },
-  {
-    name: "채팅",
-    icon: "bi-chat",
-    path: URL.STUDY_ROOM.DETAIL_CHAT("1"),
-  },
-  {
-    name: "공지사항",
-    icon: "bi-megaphone",
-    path: URL.STUDY_ROOM.DETAIL_NOTICE("1"),
-  },
-];
-
-const ADMIN_MENU_ITEMS = [
-  {
-    name: "지원자 관리",
-    icon: "bi-person-plus",
-    path: URL.STUDY_ROOM.DETAIL_MANAGE_APPLICANTS("1"),
-  },
-];
+import { ADMIN_MENU_ITEMS, MENU_ITEMS } from "@/constants/SidebarItems";
 
 const StudyRoomSideBarCard = () => {
   const [activeTab, setActiveTab] = useState<string>("일정");
