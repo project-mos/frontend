@@ -11,10 +11,10 @@ const ShareCard = () => {
 
       <Card.Footer>
         <div className="flex w-full gap-2">
-          <Button.Icon className="flex-2 w-full">
+          <Button.Icon color="Main" className="flex-2 w-full">
             <i className="bi bi-link-45deg text-[18px]"></i>링크복사
           </Button.Icon>
-          <Button.Icon className="w-full flex-1">
+          <Button.Icon color="Main" className="w-full flex-1">
             <i className="bi bi-share"></i>
           </Button.Icon>
         </div>
