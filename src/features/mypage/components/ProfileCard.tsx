@@ -10,10 +10,10 @@ const ProfileCard = () => {
     <Card>
       <Card.Content className="mb-[15px] items-center gap-[15px]">
         <Profile
-          width={150}
-          height={150}
+          width={160}
+          height={160}
           src={profileImg}
-          className="mt-[25px]"
+          className="mt-[45px]"
         />
         <Typography.Head3>홍길동</Typography.Head3>
         <Typography.P3 className="text-[14px] text-mos-gray-500">
