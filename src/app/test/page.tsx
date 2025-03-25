@@ -101,17 +101,17 @@ export default function TestPage() {
             <i className="bi bi-heart"></i>
             좋아요 보기
           </Button.Default>
-          <Button.Solid color="Main">카테고리</Button.Solid>
+          <Button.Ghost color="Main">카테고리</Button.Ghost>
           <Button.Solid color="Main" active>
             전체
           </Button.Solid>
-          <Button.Solid
+          <Button.Ghost
             color="Green"
             // className="border-2 border-mos-blue-500 bg-white"
           >
             <i className="bi bi-person-check text-[24px]"></i>
             출석하기
-          </Button.Solid>
+          </Button.Ghost>
           <Button.Icon color="Blue">
             <i className="bi bi-pencil"></i>
           </Button.Icon>

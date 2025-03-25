@@ -17,14 +17,14 @@ const Pagination = ({ activePage, totalPage }: PaginationType) => {
     const pageNumber = activePage + i;
     if (pageNumber <= totalPage) {
       return (
-        <Button.Solid
+        <Button.Ghost
           color="Main"
           key={pageNumber}
           active={pageNumber === activePage}
           onClick={() => pushPage(pathname, pageNumber)}
         >
           {pageNumber}
-        </Button.Solid>
+        </Button.Ghost>
       );
     }
     return null;
@@ -36,7 +36,7 @@ const Pagination = ({ activePage, totalPage }: PaginationType) => {
 
   return (
     <div className="flex flex-wrap justify-center gap-2">
-      <Button.Solid
+      <Button.Ghost
         color="Gray"
         disabled={activePage === 1}
         onClick={() => {
@@ -44,8 +44,8 @@ const Pagination = ({ activePage, totalPage }: PaginationType) => {
         }}
       >
         처음
-      </Button.Solid>
-      <Button.Solid
+      </Button.Ghost>
+      <Button.Ghost
         color="Gray"
         disabled={activePage === 1}
         onClick={() => {
@@ -53,9 +53,9 @@ const Pagination = ({ activePage, totalPage }: PaginationType) => {
         }}
       >
         이전
-      </Button.Solid>
+      </Button.Ghost>
       {generatePagination}
-      <Button.Solid
+      <Button.Ghost
         color="Gray"
         disabled={activePage === totalPage}
         onClick={() => {
@@ -63,8 +63,8 @@ const Pagination = ({ activePage, totalPage }: PaginationType) => {
         }}
       >
         다음
-      </Button.Solid>
-      <Button.Solid
+      </Button.Ghost>
+      <Button.Ghost
         color="Gray"
         disabled={activePage === totalPage}
         onClick={() => {
@@ -72,7 +72,7 @@ const Pagination = ({ activePage, totalPage }: PaginationType) => {
         }}
       >
         마지막
-      </Button.Solid>
+      </Button.Ghost>
     </div>
   );
 };

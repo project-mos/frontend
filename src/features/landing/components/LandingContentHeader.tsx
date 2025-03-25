@@ -76,13 +76,13 @@ const LandingContentHeader = () => {
           >
             <Select.Option value={1}>1</Select.Option>
           </Select>
-          <Button.Solid
+          <Button.Ghost
             color="Main"
             className=" hover:border-mos-main-500 hover:text-mos-main-500"
           >
             <i className="bi bi-heart"></i>
             좋아요 보기
-          </Button.Solid>
+          </Button.Ghost>
           {/* <Input name="" /> */}
         </div>
       </div>
@@ -98,7 +98,7 @@ const LandingHeaderButton = ({
   ...props
 }: SolidButtonProps) => {
   return (
-    <Button.Solid
+    <Button.Ghost
       className={cn(
         "hover:border-mos-main-500 hover:text-mos-main-500",
         className
@@ -106,6 +106,6 @@ const LandingHeaderButton = ({
       {...props}
     >
       {children}
-    </Button.Solid>
+    </Button.Ghost>
   );
 };
