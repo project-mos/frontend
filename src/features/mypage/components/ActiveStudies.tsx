@@ -73,14 +73,14 @@ const StudyList = ({
           <Typography.Head3 className="text-[20px]">
             {data.title}
           </Typography.Head3>
-          <div className="flex justify-between">
+          <div className="flex items-end justify-between">
             <div className="flex items-center gap-[10px]">
               {"meta" in data ? (
-                <>
+                <div className="flex flex-col  gap-1 mobile:flex-row">
                   <Meta icon="person">{data.meta.members}</Meta>
-                  <span>•</span>
+                  <span className="hidden mobile:inline-block">•</span>
                   <Meta icon="calendar">{data.meta.nextMeeting}</Meta>
-                </>
+                </div>
               ) : (
                 <Typography.P3>지원일 : {data.date}</Typography.P3>
               )}
@@ -88,7 +88,7 @@ const StudyList = ({
             <div>
               <Button.Ghost
                 color="Main"
-                className="h-[30px] text-[14px]"
+                size="sm"
                 onClick={() => router.push(URL.STUDY_ROOM.DETAIL_SCHEDULE("1"))}
               >
                 {type === "active" ? "스터디룸 입장" : "상세보기"}

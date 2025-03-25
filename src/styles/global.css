@@ -4,6 +4,9 @@
 @layer base {
   :root {
     --radius: 0.5rem;
+    --header-z-index: 9;
+    --modal-z-index: 10;
+    --sidebar-z-index: 10;
   }
 }
 /* Global styles */
@@ -33,4 +36,13 @@ select {
 .select_renewal {
   background: url(/icon/chevron-down.png) no-repeat 92% 50%;
   background-size: 21px 18px; /* 원하는 크기로 조절 */
+}
+.header {
+  z-index: var(--header-z-index);
+}
+.modal {
+  z-index: var(--modal-z-index);
+}
+.sidebar {
+  z-index: var(--sidebar-z-index);
 }

@@ -7,7 +7,7 @@ import React from "react";
 const LandingContentHeader = () => {
   return (
     <div>
-      <div className="flex min-h-[325px] w-full flex-col border tablet:flex-row ">
+      <div className="flex min-h-[325px] w-full flex-col tablet:flex-row ">
         <div className="box-border flex w-full flex-col justify-center gap-5 px-3 tablet:w-1/2 tablet:gap-5 ">
           <div className="flex flex-col gap-2">
             <Typography.Head1 className="font-semibold text-mos-main-500 ">
@@ -47,7 +47,7 @@ const LandingContentHeader = () => {
           </div>
         </div>
       </div>
-      <div className="box-border flex size-full flex-col  gap-3 border  py-6">
+      <div className="box-border flex size-full flex-col  gap-3   py-6">
         <div className="flex w-full flex-wrap items-center justify-center gap-2 ">
           <LandingHeaderButton color="Main" active>
             전체

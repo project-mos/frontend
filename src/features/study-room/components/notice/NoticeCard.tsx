@@ -1,8 +1,12 @@
+"use client";
+
 import Card from "@/components/atoms/Card";
 import Typography from "@/components/atoms/Typography";
 import Button from "@/components/atoms/Button";
 import { MockNoticeCardApiResult } from "@/app/mock/api/study-room";
 import { StudyNoticeCardInterface } from "@/types/api/study-room";
+import NoticeModal from "./NoticeModal";
+import useModal from "@/app/hooks/useModal";
 
 const List = () => {
   const data: StudyNoticeCardInterface[] = MockNoticeCardApiResult;
@@ -28,23 +32,23 @@ const List = () => {
 };
 
 const NoticeCard = () => {
+  const { modal, openModal, closeModal } = useModal();
   return (
-    <Card className="col-span-12 h-fit gap-3 tablet:col-span-10">
-      <Card.Header className="mb-[10px] justify-between">
-        <Typography.SubTitle1>공지사항</Typography.SubTitle1>
-        <Button.Solid
-          color="Main"
-          active
-          className="h-[30px] p-0 pl-1.5 pr-3 text-[14px]"
-        >
-          <i className="bi bi-plus text-[22px]"></i>
-          공지 작성
-        </Button.Solid>
-      </Card.Header>
-      <Card.Content>
-        <List />
-      </Card.Content>
-    </Card>
+    <>
+      <NoticeModal isOpen={modal} onClose={closeModal} />
+      <Card className="col-span-12 h-fit gap-3 tablet:col-span-9 laptop:col-span-10">
+        <Card.Header className="mb-[10px] justify-between">
+          <Typography.SubTitle1>공지사항</Typography.SubTitle1>
+          <Button.Solid color="Main" active size="sm" onClick={openModal}>
+            <i className="bi bi-plus text-[22px]"></i>
+            공지 작성
+          </Button.Solid>
+        </Card.Header>
+        <Card.Content>
+          <List />
+        </Card.Content>
+      </Card>
+    </>
   );
 };
 

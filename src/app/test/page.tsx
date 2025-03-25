@@ -15,14 +15,14 @@ import {
 } from "../mock/api/studies";
 import Badge from "@/components/atoms/Badge";
 import CustomImage from "@/components/atoms/Image";
-import Modal from "@/components/atoms/Modal";
+import ConfirmModal from "@/components/atoms/ConfirmModal";
 import { useState } from "react";
 import Input from "@/components/atoms/Input";
 import { FormProvider, useForm } from "react-hook-form";
-import LabelInput from "@/features/create-study/components/LabelInput";
-import LabelSelectInput from "@/features/create-study/components/LabelSelectInput";
-import LabelDateInput from "@/features/create-study/components/LabelDateInput";
-import LabelNumberInput from "@/features/create-study/components/LabelNumberInput";
+import LabelInput from "@/components/molecules/LabelInput";
+import LabelSelectInput from "@/components/molecules/LabelSelectInput";
+import LabelInputDate from "@/components/molecules/LabelInputDate";
+import LabelNumberInput from "@/components/molecules/LabelNumberInput";
 import RadioButton from "@/components/atoms/RadioButton";
 import RadioGroup from "@/components/molecules/RadioGroup";
 import Tab from "@/components/atoms/Tab";
@@ -208,12 +208,12 @@ export default function TestPage() {
         모달열기
       </Button.Solid>
       {isOpenModal && (
-        <Modal setIsOpenModal={setIsOpenModal}>
-          <Modal.Content>
+        <ConfirmModal setIsOpenModal={setIsOpenModal}>
+          <ConfirmModal.Content>
             <Typography.Head3>title</Typography.Head3>
             <Typography.P3>content</Typography.P3>
-          </Modal.Content>
-          <Modal.Button>
+          </ConfirmModal.Content>
+          <ConfirmModal.Button>
             <Button.Solid
               active
               color="Main"
@@ -231,8 +231,8 @@ export default function TestPage() {
             >
               취소
             </Button.Solid>
-          </Modal.Button>
-        </Modal>
+          </ConfirmModal.Button>
+        </ConfirmModal>
       )}
 
       {/* Input */}
@@ -272,13 +272,13 @@ export default function TestPage() {
           <p>{category}</p>
 
           <div className="flex w-full gap-3">
-            <LabelDateInput
+            <LabelInputDate
               name="startDate"
               label="모집 시작일"
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
             />
-            <LabelDateInput
+            <LabelInputDate
               name="endDate"
               label="모집 마감일"
               value={endDate}
@@ -294,7 +294,9 @@ export default function TestPage() {
           name="studyMethod"
           options={studyMethods}
           selectedValue={studyMethod}
-          onChange={setStudyMethod}
+          onChange={(event) => {
+            setStudyMethod(event.target.value);
+          }}
         />
       </FormProvider>
       {/* MDXEditor */}

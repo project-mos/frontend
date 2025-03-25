@@ -1,14 +1,10 @@
 "use client";
+import { QuillEditorHandle } from "@/components/QuillEditor";
 import dynamic from "next/dynamic";
 import { useRef, useState } from "react";
 const QuillEditor = dynamic(() => import("@/components/QuillEditor"), {
   ssr: false,
 });
-
-// Define the QuillEditorHandle type
-type QuillEditorHandle = {
-  getContent: () => string;
-};
 
 export default function Home() {
   const editorRef = useRef<QuillEditorHandle>(null); // Ref for QuillEditor

@@ -1,15 +1,12 @@
 import ErrorMessage from "@/components/atoms/ErrorMessage";
 import Label from "@/components/molecules/Label";
+import { QuillEditorHandle } from "@/components/QuillEditor";
 import dynamic from "next/dynamic";
 import { useFormContext } from "react-hook-form";
 
 const QuillEditor = dynamic(() => import("@/components/QuillEditor"), {
   ssr: false,
 });
-
-type QuillEditorHandle = {
-  getContent: () => string;
-};
 
 interface LabelEditorProps {
   label: string;

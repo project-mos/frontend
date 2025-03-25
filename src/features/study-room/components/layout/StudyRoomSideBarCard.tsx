@@ -69,7 +69,7 @@ const StudyRoomSideBarCard = () => {
   );
 
   return (
-    <div className="col-span-12 tablet:col-span-2">
+    <div className="hidden tablet:col-span-3 tablet:block laptop:col-span-2">
       {/* 기본 메뉴 */}
       <Card className="mb-3 gap-3">
         <Card.Header>

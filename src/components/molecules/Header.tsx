@@ -4,35 +4,20 @@ import SvgIcons from "@/app/asset/icon/SvgIcons";
 import Button from "@/components/atoms/Button";
 import Link from "next/link";
 import Typography from "../atoms/Typography";
-import { useState } from "react";
 import LoginModal from "@/features/login/components/LoginModal";
 import URL from "@/constants/URL";
-
-interface NavItemProps {
-  href: string;
-  label: string;
-  className?: string;
-}
-
-const NavItem = ({ href, label, className }: NavItemProps) => {
-  return (
-    <Link href={href} passHref>
-      <Typography.P1
-        className={`cursor-pointer font-bold text-mos-gray-500 ${className}`}
-      >
-        {label}
-      </Typography.P1>
-    </Link>
-  );
-};
+import useModal from "@/app/hooks/useModal";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 const Header = () => {
-  const isLoggedIn = false;
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState<boolean>(false);
+  const isLoggedIn = true;
+  const { modal, openModal, closeModal } = useModal();
 
   return (
     <>
-      <header className="fixed left-0 top-0 z-50  flex h-[55px] w-full justify-center border-b border-gray-200 bg-white">
+      <LoginModal isOpen={modal} onClose={closeModal} />
+      <header className="header fixed left-0 top-0 flex h-[55px] w-full justify-center border-b border-gray-200 bg-white">
         <div className="flex w-[90%] max-w-[1300px] items-center justify-between">
           {/* 왼쪽: 로고 */}
           <div>
@@ -41,36 +26,123 @@ const Header = () => {
             </Link>
           </div>
 
-          {/* 중간: 스터디 만들기 버튼 */}
-          <div>
-            <NavItem href={URL.STUDY.CREATE} label="스터디 만들기" />
-          </div>
-
           {/* 오른쪽: 마이페이지, 로그인 버튼 */}
-          <div className="flex items-center gap-[20px]">
-            <NavItem href={URL.MYPAGE} label="마이페이지" />
+          <nav className="flex items-center gap-[20px]">
             {isLoggedIn ? (
-              <Button.Solid color="Main" active className="h-[29px]">
-                로그아웃
-              </Button.Solid>
+              <>
+                <Link href={`${URL.STUDY.CREATE}?step=1`}>
+                  <i className="bi bi-pencil-square hidden text-[28px] active:text-mos-main-500 tablet:inline-block" />
+                </Link>
+                <Link href={URL.MYPAGE}>
+                  <i className="bi-person hidden text-[30px] active:text-mos-main-500 tablet:inline-block" />
+                </Link>
+
+                <Sidebar />
+              </>
             ) : (
               <Button.Solid
                 color="Main"
                 active
                 className="h-[29px]"
-                onClick={() => setIsLoginModalOpen(true)}
+                onClick={openModal}
               >
                 로그인
               </Button.Solid>
             )}
-          </div>
+          </nav>
         </div>
       </header>
-      {isLoginModalOpen && (
-        <LoginModal setIsLoginModalOpen={setIsLoginModalOpen} />
-      )}
     </>
   );
 };
+
+export function Sidebar() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const close = () => {
+    setIsOpen(false);
+  };
+
+  return (
+    <>
+      {/* tablet 사이즈 부터 없어짐 */}
+      <div className="tablet:hidden">
+        {/* 햄버거 버튼 */}
+        <button
+          onClick={() => setIsOpen(true)}
+          type="button"
+          className={cn(
+            "inline-flex size-10 items-center justify-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-mos-main-100 dark:focus:ring-gray-600"
+          )}
+          aria-controls="navbar-hamburger"
+          aria-expanded={isOpen}
+        >
+          <span className="sr-only">Open main menu</span>
+          <svg
+            className="size-5"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 17 14"
+          >
+            <path
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M1 1h15M1 7h15M1 13h15"
+            />
+          </svg>
+        </button>
+      </div>
+
+      {/* 오버레이 (사이드바 열렸을 때만 표시) */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 z-10 bg-black bg-opacity-50"
+          onClick={close}
+        ></div>
+      )}
+
+      {/* 사이드바 */}
+      <div
+        className={cn(
+          "sidebar fixed right-0 top-0 h-full w-64 bg-white text-black transition-transform duration-200 ease-in-out",
+          isOpen ? "translate-x-0" : "translate-x-full"
+        )}
+      >
+        <div className="p-4">
+          <h2 className="text-xl font-bold">
+            <SvgIcons.Logo />
+          </h2>
+        </div>
+        <ul className="mt-4 flex flex-col justify-between">
+          <div>
+            <li className="p-3 hover:bg-mos-main-100" onClick={close}>
+              <Link href={URL.MYPAGE}>
+                <Typography.P1 className="font-bold">
+                  🏠 마이 페이지
+                </Typography.P1>
+              </Link>
+            </li>
+            <li className="p-3 hover:bg-mos-main-100" onClick={close}>
+              <Link href={`${URL.STUDY.CREATE}?step=1`}>
+                <Typography.P1 className="font-bold">
+                  📄 스터디 만들기
+                </Typography.P1>
+              </Link>
+            </li>
+            {/* 추후 로그아웃 기능 들어갈지 미정 */}
+            {/* <li className="p-3 hover:bg-mos-main-100" onClick={close}>
+              <Link href={URL.STUDY.CREATE}>
+                <Typography.P1 className="font-bold">⚙️ 설정</Typography.P1>
+              </Link>
+            </li> */}
+          </div>
+        </ul>
+      </div>
+    </>
+  );
+}
 
 export default Header;

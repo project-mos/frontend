@@ -1,22 +1,35 @@
 import { cn } from "@/lib/utils";
 import React, { ButtonHTMLAttributes } from "react";
 
+export type ButtonSize = "sm" | "md" | "lg";
+
 const DefaultButtonClass =
-  "box-border px-4 py-2 border rounded-md border-gray-200 transition-all duration-200 text-sm bg-white text-black flex items-center gap-2 h-[40px] w-fit min-w-fit justify-center";
+  "box-border border rounded-md border-gray-200 transition-all duration-200 bg-white text-black flex items-center gap-2 w-fit min-w-fit justify-center";
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
   active?: boolean;
+  size?: ButtonSize;
 }
 
 const DefaultButton: React.FC<ButtonProps> = ({
   className,
   children,
   active = false,
+  size = "md",
   ...props
 }) => {
+  const DefaultButtonSizeClass = {
+    sm: "px-3 py-1 h-[30px] text-[14px] ",
+    md: "px-4 py-2 h-[40px]  text-sm ",
+    lg: "px-6 py-4 h-[50px]  text-md ",
+  };
   return (
     <button
-      className={cn(DefaultButtonClass, className)}
+      className={cn(
+        DefaultButtonClass,
+        DefaultButtonSizeClass[size],
+        className
+      )}
       data-active={active}
       {...props}
     >
@@ -27,12 +40,12 @@ const DefaultButton: React.FC<ButtonProps> = ({
 
 const SolidButtonClass = {
   // 미완. 작업하면서 필요하면 추가할 예정
-  Main: "text-mos-gray-500 data-[active=true]:bg-mos-main-500 data-[active=true]:text-white data-[active=true]:border-mos-main-500",
-  Gray: "text-mos-gray-500 data-[active=true]:bg-mos-gray-500 data-[active=true]:text-white data-[active=true]:border-mos-gray-500",
+  Main: "bg-mos-gray-100 text-white data-[active=true]:bg-mos-main-500 data-[active=true]:text-white data-[active=true]:border-mos-main-500",
+  Gray: "bg-mos-gray-100 text-white data-[active=true]:bg-mos-gray-500 data-[active=true]:text-white data-[active=true]:border-mos-gray-500",
   Green:
-    "text-mos-gray-500 data-[active=true]:bg-mos-green-500 data-[active=true]:text-white data-[active=true]:border-mos-green-500",
-  Blue: "text-mos-gray-500 data-[active=true]:bg-mos-blue-500 data-[active=true]:text-white data-[active=true]:border-mos-blue-500",
-  Red: "text-mos-gray-500 data-[active=true]:bg-red-500 data-[active=true]:text-white data-[active=true]:border-red-500",
+    "bg-mos-gray-100 text-white data-[active=true]:bg-mos-green-500 data-[active=true]:text-white data-[active=true]:border-mos-green-500",
+  Blue: "bg-mos-gray-100 text-white data-[active=true]:bg-mos-blue-500 data-[active=true]:text-white data-[active=true]:border-mos-blue-500",
+  Red: "bg-mos-gray-100 text-white data-[active=true]:bg-red-500 data-[active=true]:text-white data-[active=true]:border-red-500",
 };
 
 export interface SolidButtonProps extends ButtonProps {
@@ -102,6 +115,7 @@ const IconButtonClass = {
 
 interface IconButtonProps extends Omit<SolidButtonProps, "color"> {
   color?: keyof typeof IconButtonClass;
+  size?: ButtonSize;
 }
 
 const IconButton: React.FC<IconButtonProps> = ({
@@ -109,11 +123,21 @@ const IconButton: React.FC<IconButtonProps> = ({
   children,
   active = false,
   color = "Gray",
+  size = "sm",
   ...props
 }) => {
+  const IconButtonSizeClass = {
+    sm: "size-2 px-2 !py-4",
+    md: "size-3 px-3 !py-5",
+    lg: "size-4 px-4 !py-6",
+  };
   return (
     <DefaultButton
-      className={cn("size-10 p-3", IconButtonClass[color], className)}
+      className={cn(
+        IconButtonSizeClass[size],
+        IconButtonClass[color],
+        className
+      )}
       active={active}
       {...props}
     >

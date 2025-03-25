@@ -8,8 +8,8 @@ const StudyRoomIntendedCard = () => {
     <Card className="col-span-12 tablet:col-span-4">
       <Card.Header className="flex justify-between">
         <Typography.SubTitle1>다음 스터디 일정</Typography.SubTitle1>
-        <Button.Solid color="Green" active>
-          <i className="bi bi-person-check text-[24px]"></i>
+        <Button.Solid color="Green" active size="sm">
+          <i className="bi bi-person-check text-[18px]"></i>
           출석하기
         </Button.Solid>
       </Card.Header>

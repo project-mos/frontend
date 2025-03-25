@@ -1,7 +1,7 @@
 const URL = {
   HOME: "/",
   STUDY: {
-    CREATE: "/create-study?step=1",
+    CREATE: "/create-study",
     DETAIL: "/studies",
   },
   STUDY_ROOM: {

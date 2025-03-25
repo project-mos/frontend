@@ -6,8 +6,8 @@ import LandingStudyCard from "./LandingStudyCard";
 
 const LandingContentCards = () => {
   return (
-    <div>
-      <div className="w-full border">
+    <div className="flex flex-col gap-8">
+      <div>
         <div className="mb-3 flex items-center gap-3">
           <i className="bi bi-star-fill text-3xl text-yellow-400"></i>
           <Typography.Head3>인기 스터디</Typography.Head3>
@@ -19,8 +19,9 @@ const LandingContentCards = () => {
           <LandingStudyCard />
         </LandingGrid>
       </div>
-      <div className="flex flex-col gap-3 border">
+      <div className="flex flex-col gap-3">
         <div className="flex items-center gap-3">
+          <i className="bi bi-star-fill text-3xl text-yellow-400" />
           <Typography.Head3>전체 스터디</Typography.Head3>
         </div>
         <LandingGrid>
