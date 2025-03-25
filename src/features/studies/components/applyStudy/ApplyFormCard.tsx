@@ -1,7 +1,7 @@
 import Button from "@/components/atoms/Button";
 import Card from "@/components/atoms/Card";
-import Textarea from "@/components/atoms/Textarea";
 import Typography from "@/components/atoms/Typography";
+import LabelTextAreaInput from "@/components/molecules/LabelTextAreaInput";
 import { Dispatch, SetStateAction } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
@@ -16,17 +16,12 @@ interface formDataInterface {
 }
 
 const ApplyFormCard = ({ setIsApplyVisible }: ApplyFormCardInterface) => {
-  const methods = useForm<formDataInterface>();
-  const { watch } = methods;
+  const methods = useForm<formDataInterface>({
+    defaultValues: { motivation: "", experience: "", goal: "" },
+    mode: "onChange",
+  });
 
-  const [motivation, experience, goal] = watch([
-    "motivation",
-    "experience",
-    "goal",
-  ]);
-
-  // 모든 필드가 채워졌는지 여부
-  const isAllFilled = motivation && experience && goal;
+  const { handleSubmit, formState } = methods;
 
   const onSubmit = (data: formDataInterface) => {
     console.log("form data", data);
@@ -40,19 +35,12 @@ const ApplyFormCard = ({ setIsApplyVisible }: ApplyFormCardInterface) => {
 
       <Card.Content>
         <FormProvider {...methods}>
-          <form onSubmit={methods.handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             {TextareaField("스터디를 지원하게 된 동기", "motivation")}
             {TextareaField("관련 경험 및 보유 기술", "experience")}
             {TextareaField("스터디를 통해 이루고 싶은 목표", "goal")}
 
             <div className="flex justify-center gap-[10px]">
-              <Button.Solid
-                color="Main"
-                active={!!isAllFilled}
-                disabled={!isAllFilled}
-              >
-                제출하기
-              </Button.Solid>
               <Button.Ghost
                 color="Gray"
                 className="w-[90px]"
@@ -60,6 +48,13 @@ const ApplyFormCard = ({ setIsApplyVisible }: ApplyFormCardInterface) => {
               >
                 취소
               </Button.Ghost>
+              <Button.Solid
+                color="Main"
+                active={formState.isValid}
+                disabled={!formState.isValid}
+              >
+                제출하기
+              </Button.Solid>
             </div>
           </form>
         </FormProvider>
@@ -75,8 +70,13 @@ const ApplyFormCard = ({ setIsApplyVisible }: ApplyFormCardInterface) => {
 const TextareaField = (label: string, name: string) => {
   return (
     <div className="mb-[10px]">
-      <Typography.P3 className="mb-[5px]">{label}</Typography.P3>
-      <Textarea name={name} />
+      <LabelTextAreaInput
+        label={label}
+        name={name}
+        placeholder="내용을 입력해 주세요."
+        required
+        registerOptions={{ required: "필수 입력입니다." }}
+      />
     </div>
   );
 };
