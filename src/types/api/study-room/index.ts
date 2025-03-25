@@ -13,5 +13,7 @@ export interface StudyNoticeCardInterface {
 export interface StudyManageCardInterface {
   name: string,
   date: string,
+  email: string,
+  experience: string,
   questionList: {question:string, answer:string}[]
 }
