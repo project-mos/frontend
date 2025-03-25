@@ -107,10 +107,12 @@ const GhostButton: React.FC<GhostButtonProps> = ({
 
 const IconButtonClass = {
   // active 시 추가 효과 기입 가능
-  Gray: "text-mos-gray-700 text-mos-gray-700",
-  Blue: "text-mos-blue-700 border-mos-blue-500",
-  Green: "bg-mos-green-500 text-white border-mos-green-500",
-  Red: "text-red-700 border-red-500",
+  Main: "border border-mos-gray-100 text-mos-gray-500 hover:text-mos-main-500 hover:border-mos-main-500 hover:hover:bg-white",
+  Gray: "text-mos-gray-700 text-mos-gray-700 hover:text-black hover:border-mos-gray-500 hover:hover:bg-white",
+  Blue: "text-mos-blue-700 border-mos-blue-500 hover:text-mos-blue-500 hover:border-mos-blue-500 hover:bg-white",
+  Green:
+    "bg-mos-green-500 text-white border-mos-green-500 hover:text-mos-green-500 hover:border-mos-green-500 hover:bg-white",
+  Red: "text-red-700 border-red-500 hover:text-red-500 hover:border-red-500 hover:bg-white",
 };
 
 interface IconButtonProps extends Omit<SolidButtonProps, "color"> {
