@@ -34,11 +34,11 @@ const Header = () => {
             {isLoggedIn ? (
               <>
                 {/* 반응형 */}
-                <Link href={`${URL.STUDY.CREATE}?step=1`}>
-                  <i className="bi bi-pencil-square hidden text-[28px] active:text-mos-main-500 tablet:inline-block" />
+                <Link href={`${URL.STUDY.CREATE}?step=1`} title="스터디 만들기">
+                  <i className="bi-marker-tip hidden text-[28px] text-mos-gray-700 active:text-mos-main-500 tablet:inline-block" />
                 </Link>
-                <Link href={URL.MYPAGE}>
-                  <i className="bi-person hidden text-[30px] active:text-mos-main-500 tablet:inline-block" />
+                <Link href={URL.MYPAGE} title="마이페이지">
+                  <i className="bi-person-circle hidden text-[28px] text-mos-gray-700 active:text-mos-main-500 tablet:inline-block" />
                 </Link>
 
                 <Sidebar />
