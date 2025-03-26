@@ -10,6 +10,7 @@ import { useRef, useState } from "react";
 import { FormProvider, useForm, Controller } from "react-hook-form";
 
 interface ProfileModalProps extends ModalProps {
+  preview?: string; // 프로필 사진 미리보기 url string
   onClose: ModalOnClose;
 }
 
@@ -20,7 +21,7 @@ interface ProfileData {
   tags: string[];
 }
 
-const ProfileModal = ({ onClose, ...props }: ProfileModalProps) => {
+const ProfileModal = ({ preview, onClose, ...props }: ProfileModalProps) => {
   const methods = useForm<ProfileData>({
     defaultValues: {
       nickname: "",
@@ -29,7 +30,7 @@ const ProfileModal = ({ onClose, ...props }: ProfileModalProps) => {
     },
     mode: "onChange",
   });
-  const [preview, setPreview] = useState<string | null>(null);
+  const [previewState, setPreviewState] = useState<string | undefined>(preview);
 
   const { handleSubmit, reset, control, formState } = methods;
 
@@ -37,11 +38,13 @@ const ProfileModal = ({ onClose, ...props }: ProfileModalProps) => {
 
   const onSubmit = (data: ProfileData) => {
     console.log("data", data);
+    setPreviewState(undefined);
     reset();
     onClose();
   };
 
   const onClickCloseBtn = () => {
+    setPreviewState(preview);
     reset();
     onClose();
   };
@@ -80,15 +83,15 @@ const ProfileModal = ({ onClose, ...props }: ProfileModalProps) => {
                   }}
                   render={({ field: { onChange }, fieldState: { error } }) => (
                     <>
-                      {preview ? (
+                      {previewState ? (
                         <img
-                          src={preview}
+                          src={previewState}
                           className="size-40 rounded-full bg-cover bg-center shadow-md"
                           onClick={handleImageClick}
                         />
                       ) : (
                         <div
-                          className="size-40 rounded-full bg-slate-500"
+                          className="size-40 cursor-pointer rounded-full bg-slate-500"
                           onClick={handleImageClick}
                         />
                       )}
@@ -101,7 +104,7 @@ const ProfileModal = ({ onClose, ...props }: ProfileModalProps) => {
                         onChange={(e) => {
                           const file = e.target.files?.[0];
                           if (file) {
-                            setPreview(URL.createObjectURL(file));
+                            setPreviewState(URL.createObjectURL(file));
                             onChange(file);
                           }
                         }}
