@@ -17,7 +17,7 @@ const InfoModal = ({ onClose, data, ...props }: CurriculumModalProps) => {
   };
 
   return (
-    <Modal {...props} onClose={onClickCloseBtn} className="w-1/5">
+    <Modal {...props} onClose={onClickCloseBtn} className="w-[22%]">
       <Modal.Header onClose={onClickCloseBtn}>
         <Typography.Head3>지원자 상세 정보</Typography.Head3>
       </Modal.Header>

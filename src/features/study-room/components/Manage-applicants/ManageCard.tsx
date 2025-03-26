@@ -6,6 +6,7 @@ import { StudyManageCardInterface } from "@/types/api/study-room";
 import useModal from "@/app/hooks/useModal";
 import InfoModal from "./InfoModal";
 import { useState } from "react";
+import Button from "@/components/atoms/Button";
 
 const List = () => {
   const data: StudyManageCardInterface[] = MockManageCardApiResult;
@@ -39,9 +40,18 @@ const List = () => {
             onClick={() => handleClick(list)}
           >
             {/* 지원자, 지원일시 */}
-            <div className="flex w-full justify-between">
-              <Typography.P3 className="text-[16px]">{list.name}</Typography.P3>
-              <Typography.P3 className="text-[14px]">{list.date}</Typography.P3>
+            <div className="flex w-full items-center justify-between">
+              <div className="flex flex-col gap-1">
+                <Typography.P3 className="text-[16px]">
+                  {list.name}
+                </Typography.P3>
+                <Typography.P3 className="text-[14px]">
+                  {list.date}
+                </Typography.P3>
+              </div>
+              <Button.Ghost color="Main" size="sm">
+                더보기
+              </Button.Ghost>
             </div>
           </div>
         ))}
