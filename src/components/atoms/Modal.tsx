@@ -22,7 +22,6 @@ const Modal = ({
 }: ModalProps) => {
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
-      console.log(event);
       if (onClose) {
         if (event.key === "Escape") {
           onClose();
@@ -51,12 +50,15 @@ const Modal = ({
   // 포탈 박스 있으면 이동
   return createPortal(
     <div
-      className="modal fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+      className="modal fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
       role="dialog"
       aria-modal="true"
     >
       <div
-        className={cn("rounded-2xl bg-white p-5", className)}
+        className={cn(
+          "w-[85%] max-w-[700px] rounded-2xl bg-white p-5",
+          className
+        )}
         onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
         {...props}
       >
@@ -101,7 +103,7 @@ const Footer = ({
   children,
   ...props
 }: HTMLAttributes<HTMLDivElement>) => (
-  <div className={cn("flex justify-center gap-4", className)} {...props}>
+  <div className={cn("flex justify-end gap-2", className)} {...props}>
     {children}
   </div>
 );
