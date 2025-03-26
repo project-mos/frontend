@@ -36,7 +36,7 @@ const CurriculumModal = ({ onClose, ...props }: CurriculumModalProps) => {
 
   return (
     <FormProvider {...methods}>
-      <Modal {...props} onClose={onClickCloseBtn} className="w-[35%]">
+      <Modal {...props} onClose={onClickCloseBtn}>
         <Modal.Header onClose={onClickCloseBtn}>
           <Typography.Head3>커리큘럼 추가</Typography.Head3>
         </Modal.Header>
@@ -72,7 +72,7 @@ const CurriculumModal = ({ onClose, ...props }: CurriculumModalProps) => {
             </div>
           </Modal.Content>
 
-          <Modal.Footer className="flex justify-end gap-2">
+          <Modal.Footer>
             <Button.Default onClick={onClickCloseBtn}>취소</Button.Default>
             <Button.Solid
               type="submit"
