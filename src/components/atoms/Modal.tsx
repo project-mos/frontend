@@ -56,7 +56,7 @@ const Modal = ({
     >
       <div
         className={cn(
-          "w-[85%] max-w-[700px] rounded-2xl bg-white p-5",
+          "w-[85%] max-w-[700px] rounded-2xl bg-white px-7 py-5",
           className
         )}
         onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
