@@ -1,62 +1,62 @@
+"use client";
 import Card from "@/components/atoms/Card";
 import Typography from "@/components/atoms/Typography";
-import Button from "@/components/atoms/Button";
 import { MockManageCardApiResult } from "@/app/mock/api/study-room";
 import { StudyManageCardInterface } from "@/types/api/study-room";
+import useModal from "@/app/hooks/useModal";
+import InfoModal from "./InfoModal";
+import { useState } from "react";
+import Button from "@/components/atoms/Button";
 
 const List = () => {
   const data: StudyManageCardInterface[] = MockManageCardApiResult;
+  const { modal, openModal, closeModal } = useModal();
+
+  // 선택된 사용자 정보를 상태로 관리
+  const [selectedUser, setSelectedUser] = useState<StudyManageCardInterface>({
+    name: "",
+    date: "",
+    email: "",
+    experience: "",
+    questionList: [{ question: "", answer: "" }],
+  });
+
+  const handleClick = (user: StudyManageCardInterface) => {
+    setSelectedUser(user);
+    openModal();
+  };
+
   return (
-    <div className="flex flex-col gap-3">
-      {data.map((list) => (
-        <div
-          key={list.date}
-          className="rounded-md bg-mos-white-gray-100 px-[20px] py-[15] "
-        >
-          <div className="mb-3 flex justify-between">
+    <>
+      {/* 지원자 상세 정보 모달 */}
+      <InfoModal isOpen={modal} onClose={closeModal} data={selectedUser} />
+
+      {/* 지원자 리스트 */}
+      <div className="flex flex-col gap-3">
+        {data.map((list) => (
+          <div
+            key={list.date}
+            className="cursor-pointer rounded-md border border-mos-gray-100 px-[20px] py-[15] transition-all duration-200 hover:border-mos-main"
+            onClick={() => handleClick(list)}
+          >
             {/* 지원자, 지원일시 */}
-            <div>
-              <Typography.P3 className="text-[16px]">{list.name}</Typography.P3>
-              <Typography.P3 className="text-[14px] text-mos-gray-500">
-                {list.date}
-              </Typography.P3>
-            </div>
-
-            {/* 버튼 */}
-            <div className="flex gap-2">
-              <Button.Solid
-                color="Green"
-                active
-                className="h-[30px] p-0 px-2 text-[14px]"
-              >
-                승인
-              </Button.Solid>
-              <Button.Solid
-                color="Red"
-                active
-                className="h-[30px] p-0 px-2 text-[14px]"
-              >
-                차단
-              </Button.Solid>
-            </div>
-          </div>
-
-          {/* 질의응답 */}
-          <div className="flex flex-col gap-3 rounded-md bg-white px-[15px] py-[10]">
-            {list.questionList.map((questionList) => (
-              <div key={questionList.answer}>
+            <div className="flex w-full items-center justify-between">
+              <div className="flex flex-col gap-1">
                 <Typography.P3 className="text-[16px]">
-                  {questionList.question}
+                  {list.name}
                 </Typography.P3>
-                <Typography.P3 className="text-[16px] text-mos-gray-500">
-                  {questionList.answer}
+                <Typography.P3 className="text-[14px]">
+                  {list.date}
                 </Typography.P3>
               </div>
-            ))}
+              <Button.Ghost color="Main" size="sm">
+                더보기
+              </Button.Ghost>
+            </div>
           </div>
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
+    </>
   );
 };
 
