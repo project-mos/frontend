@@ -4,9 +4,10 @@ import Modal, { ModalProps } from "../atoms/Modal";
 import Typography from "../atoms/Typography";
 
 interface ConfirmModalProps extends ModalProps {
+  type: "danger" | "action";
   title: string;
   content: string;
-  type: "danger" | "action";
+  buttonLabel: string;
   onClose: () => void;
 }
 
@@ -14,6 +15,7 @@ const ActionConfirmModal = ({
   type,
   title,
   content,
+  buttonLabel,
   onClose,
   ...props
 }: ConfirmModalProps) => {
@@ -44,7 +46,7 @@ const ActionConfirmModal = ({
           취소
         </Button.Solid>
         <Button.Solid color={danger ? "Red" : "Blue"} active size="sm">
-          {danger ? "삭제" : "확인"}
+          {buttonLabel}
         </Button.Solid>
       </Modal.Footer>
     </Modal>

@@ -295,6 +295,7 @@ export default function TestPage() {
         onClose={closeModal}
         title="삭제 확인"
         content="정말로 삭제하시겠습니까?"
+        buttonLabel="삭제"
       />
       <Button.Solid color="Main" active onClick={openModal}>
         삭제 확인 모달
@@ -306,6 +307,7 @@ export default function TestPage() {
         onClose={closeModal}
         title="숭인 확인"
         content="정말로 승인하시겠습니까?"
+        buttonLabel="승인"
       />
       <Button.Solid color="Main" active onClick={openModal}>
         승인 확인 모달
