@@ -15,7 +15,6 @@ import {
 } from "../mock/api/studies";
 import Badge from "@/components/atoms/Badge";
 import CustomImage from "@/components/atoms/Image";
-import ConfirmModal from "@/components/atoms/ConfirmModal";
 import { useState } from "react";
 import Input from "@/components/atoms/Input";
 import { FormProvider, useForm } from "react-hook-form";
@@ -30,6 +29,8 @@ import Tab from "@/components/atoms/Tab";
 import Calendar from "@/components/molecules/Calendar";
 import Skeleton from "@/components/atoms/Skeleton";
 import SkeletonCard from "@/components/molecules/SkeletonCard";
+import useModal from "../hooks/useModal";
+import ActionConfirmModal from "@/components/molecules/ActionConfirmModal";
 
 interface FormData {
   test: string; // 'test' 필드 타입을 string으로 설정
@@ -37,7 +38,6 @@ interface FormData {
 
 export default function TestPage() {
   const study = MockStudyCardApiResult.study;
-  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
 
   // input 에시용
   const methods = useForm<FormData>();
@@ -64,6 +64,10 @@ export default function TestPage() {
     { label: "대면", value: "offline" },
     { label: "혼합", value: "hybrid" },
   ];
+
+  // modal
+  const { modal, openModal, closeModal } = useModal();
+
   return (
     <div className="border-10 flex min-h-screen flex-col items-center gap-5 border-red-500 bg-white text-black">
       {/* Typography */}
@@ -201,42 +205,6 @@ export default function TestPage() {
         alt="Next.js Logo"
         unoptimized
       />
-      {/* modal */}
-      <Button.Solid
-        active
-        color="Main"
-        onClick={() => setIsOpenModal((prev) => !prev)}
-      >
-        모달열기
-      </Button.Solid>
-      {isOpenModal && (
-        <ConfirmModal setIsOpenModal={setIsOpenModal}>
-          <ConfirmModal.Content>
-            <Typography.Head3>title</Typography.Head3>
-            <Typography.P3>content</Typography.P3>
-          </ConfirmModal.Content>
-          <ConfirmModal.Button>
-            <Button.Solid
-              active
-              color="Main"
-              onClick={() => {
-                alert("확인");
-                setIsOpenModal(false);
-              }}
-            >
-              확인
-            </Button.Solid>
-            <Button.Solid
-              active
-              color="Gray"
-              onClick={() => setIsOpenModal(false)}
-            >
-              취소
-            </Button.Solid>
-          </ConfirmModal.Button>
-        </ConfirmModal>
-      )}
-
       {/* Input */}
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
@@ -302,7 +270,6 @@ export default function TestPage() {
         />
       </FormProvider>
       {/* MDXEditor */}
-
       {/* Tab */}
       <Tab
         tabList={["잠여 중인 스터디", "지원 현황"]}
@@ -321,6 +288,30 @@ export default function TestPage() {
         <Skeleton.Profile />
         <SkeletonCard />
       </div>
+      {/* 석재 확인 모달 */}
+      <ActionConfirmModal
+        type="danger"
+        isOpen={modal}
+        onClose={closeModal}
+        title="삭제 확인"
+        content="정말로 삭제하시겠습니까?"
+        buttonLabel="삭제"
+      />
+      <Button.Solid color="Main" active onClick={openModal}>
+        삭제 확인 모달
+      </Button.Solid>
+      {/* 승인 확인 모달 */}
+      {/* <ActionConfirmModal
+        type="action"
+        isOpen={modal}
+        onClose={closeModal}
+        title="숭인 확인"
+        content="정말로 승인하시겠습니까?"
+        buttonLabel="승인"
+      />
+      <Button.Solid color="Main" active onClick={openModal}>
+        승인 확인 모달
+      </Button.Solid> */}
     </div>
   );
 }
