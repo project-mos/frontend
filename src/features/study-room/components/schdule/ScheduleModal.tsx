@@ -51,7 +51,7 @@ const ScheduleModal = ({
 
   return (
     <FormProvider {...methods}>
-      <Modal {...props} className="w-[85%] max-w-[700px]" onClose={onCloses}>
+      <Modal {...props} onClose={onCloses}>
         <Modal.Header onClose={onClose}>
           <Typography.Head3>스터디 일정 등록</Typography.Head3>
         </Modal.Header>
@@ -110,9 +110,14 @@ const ScheduleModal = ({
             </div>
           </Modal.Content>
 
-          <Modal.Footer className="flex justify-end gap-2">
+          <Modal.Footer>
             <Button.Default onClick={onClose}>취소</Button.Default>
-            <Button.Solid type="submit" color="Main" active>
+            <Button.Solid
+              type="submit"
+              color="Main"
+              active={methods.formState.isValid}
+              disabled={!methods.formState.isValid}
+            >
               확인
             </Button.Solid>
           </Modal.Footer>

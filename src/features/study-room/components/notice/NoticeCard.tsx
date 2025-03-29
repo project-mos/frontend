@@ -11,14 +11,17 @@ import useModal from "@/app/hooks/useModal";
 const List = () => {
   const data: StudyNoticeCardInterface[] = MockNoticeCardApiResult;
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-2">
       {data.map((item) => (
         <div
           key={item.content}
           className="rounded-md border border-mos-gray-100 px-[15px] py-[10px]"
         >
-          <Typography.P3 className="text-[16px]">{item.title}</Typography.P3>
-          <Typography.P3 className="text-[16px] text-mos-gray-500">
+          <div className="mb-2 flex items-center gap-1">
+            <i className="bi bi-exclamation-circle text-orange-600"></i>
+            <Typography.P3 className="text-[18px]">{item.title}</Typography.P3>
+          </div>
+          <Typography.P3 className="text-[16px] text-mos-gray-700">
             {item.content}
           </Typography.P3>
           <div className="my-2 border-b border-mos-gray-100"></div>

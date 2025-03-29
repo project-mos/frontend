@@ -37,7 +37,7 @@ const StudyLeaderCard = () => {
       </Card.Content>
 
       <Card.Footer>
-        <Button.Icon active={true} className="w-full">
+        <Button.Icon color="Main" active={true} className="w-full">
           <i className="bi bi-chat-dots"></i>
           메시지 보내기
         </Button.Icon>

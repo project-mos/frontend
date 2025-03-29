@@ -38,17 +38,21 @@ export const MockManageCardApiResult: StudyManageCardInterface[] = [
   {
     name: '홍길동',
     date: '지원일시: 2024-03-20 14:30',
+    email: 'test@example.com',
+    experience: '소프트웨어 개발 경력 2년',
     questionList:[
-      {question: '스터디를 지원하게 된 동기는 무엇인가요?', answer: '알고리즘 실력 향상을 위해 함께 공부하고 싶습니다.'},
-      {question: '일주일에 몇 시간 정도 스터디에 투자할 수 있나요?', answer: '10시간 이상'}
+      {question: '지원동기', answer: '알고리즘 실력 향상을 위해 함께 공부하고 싶습니다.'},
+      {question: '스터디 투자 시간', answer: '10시간 이상'}
     ]
   },
   {
     name: '김연정',
-    date: '지원일시: 2024-03-3 14:33',
+    date: '지원일시: 2024-03-03 14:33',
+    email: 'test@example.com',
+    experience: '프론트엔드 개발 경력 2년',
     questionList:[
-      {question: '스터디를 지원하게 된 동기는 무엇인가요?', answer: '알고리즘 실력 향상을 위해 함께 공부하고 싶습니다!'},
-      {question: '일주일에 몇 시간 정도 스터디에 투자할 수 있나요?', answer: '8시간 이상'}
+      {question: '지원동기', answer: '알고리즘 실력 향상을 위해 함께 공부하고 싶습니다!'},
+      {question: '스터디 투자 시간', answer: '8시간 이상'}
     ]
   },
 ]
