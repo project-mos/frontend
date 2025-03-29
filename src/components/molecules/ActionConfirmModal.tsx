@@ -22,7 +22,7 @@ const ActionConfirmModal = ({
   const danger = type === "danger";
 
   return (
-    <Modal {...props} onClose={onClose} className="w-[15%]">
+    <Modal {...props} onClose={onClose} className="w-1/5">
       <Modal.Header onClose={onClose}>
         <div className="flex items-center gap-1">
           <i
