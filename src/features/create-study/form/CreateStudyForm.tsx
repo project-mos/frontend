@@ -15,7 +15,7 @@ export interface StudyFormInterface {
   category: string;
   meetingType: string;
   name: string;
-  person: string;
+  person: number;
   recruitmentEndDate: string;
   recruitmentStartDate: string;
   schedule: string;
@@ -45,7 +45,7 @@ const CreateStudyForm = () => {
       category: "",
       meetingType: "",
       name: "",
-      person: "",
+      person: 4,
       recruitmentEndDate: "",
       recruitmentStartDate: "",
       schedule: "",
