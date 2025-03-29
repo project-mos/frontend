@@ -1,16 +1,15 @@
 import Badge from "@/components/atoms/Badge";
 import Typography from "@/components/atoms/Typography";
+import { QuillEditorHandle } from "@/components/QuillEditor";
+import URL from "@/constants/URL";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { FormProvider, useFormContext } from "react-hook-form";
 import StudyActions from "../components/StudyActions";
 import StudyBenefits from "../components/StudyBenefits";
-import StudyCurriculum from "../components/StudyCurriculum";
 import StudyDescription from "../components/StudyDescription";
 import StudyRules from "../components/StudyRules";
 import { StudyFormInterface } from "./CreateStudyForm";
-import URL from "@/constants/URL";
-import { QuillEditorHandle } from "@/components/QuillEditor";
 
 const CreateStudyForm2 = () => {
   const methods = useFormContext<StudyFormInterface>();
@@ -57,7 +56,7 @@ const CreateStudyForm2 = () => {
           className="flex flex-col gap-[30px]"
         >
           <StudyDescription editorRef={editorRef} />
-          <StudyCurriculum />
+          {/* <StudyCurriculum /> */}
           <StudyRules />
           <StudyBenefits />
           <StudyActions
