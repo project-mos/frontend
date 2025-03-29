@@ -3,13 +3,18 @@
 import MDEditor, { commands } from "@uiw/react-md-editor";
 import { useFormContext } from "react-hook-form";
 
-const Editor = () => {
-  const { setValue, watch } = useFormContext();
-  const contents = watch("contents");
+interface EditorProps {
+  name: string;
+}
+
+const Editor = ({ name }: EditorProps) => {
+  const { setValue, watch, clearErrors } = useFormContext();
+  const contents = watch(name);
 
   const handleChange = (value?: string) => {
     if (value !== undefined) {
-      setValue("contents", value);
+      setValue(name, value, { shouldValidate: true });
+      clearErrors("content");
     }
   };
 
@@ -60,7 +65,7 @@ const Editor = () => {
       className="mt-[20px]"
       value={contents}
       onChange={handleChange}
-      height={800}
+      height={530}
       //   commands={[...commands.getCommands(), customImageCommand]}
       commands={[...commands.getCommands()]}
     />
