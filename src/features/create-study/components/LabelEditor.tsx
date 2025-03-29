@@ -31,7 +31,7 @@ const LabelEditor = ({
       <Label label={label} required={required} />
       <div className="h-[500px]">
         {/* <QuillEditor ref={editorRef} /> */}
-        <Editor />
+        <Editor name={name} />
       </div>
       {errors[name] && (
         <ErrorMessage>{errors[name]?.message as string}</ErrorMessage>

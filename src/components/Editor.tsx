@@ -3,13 +3,17 @@
 import MDEditor, { commands } from "@uiw/react-md-editor";
 import { useFormContext } from "react-hook-form";
 
-const Editor = () => {
+interface EditorProps {
+  name: string;
+}
+
+const Editor = ({ name }: EditorProps) => {
   const { setValue, watch } = useFormContext();
-  const contents = watch("contents");
+  const contents = watch(name);
 
   const handleChange = (value?: string) => {
     if (value !== undefined) {
-      setValue("contents", value);
+      setValue(name, value);
     }
   };
 

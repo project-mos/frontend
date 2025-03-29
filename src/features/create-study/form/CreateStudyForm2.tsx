@@ -19,7 +19,7 @@ const CreateStudyForm2 = () => {
   const onSubmit = () => {
     handleGetContent();
     methods.setValue("step2Completed", true);
-    // router.push(`${URL.STUDY.CREATE}?step=3`);
+    router.push(`${URL.STUDY.CREATE}?step=3`);
   };
 
   const handleClickBackButton = () => {

@@ -259,7 +259,7 @@ export default function TestPage() {
           <p>{startDate}</p>
           <p>{endDate}</p>
           <LabelNumberInput name="person" label="모집 인원" />
-          <Editor />
+          <Editor name="test" />
         </form>
         <RadioButton label="test label" />
         <RadioGroup
