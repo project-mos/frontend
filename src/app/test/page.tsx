@@ -1,36 +1,37 @@
 "use client";
 
+import Badge from "@/components/atoms/Badge";
 import Button from "@/components/atoms/Button";
 import Card from "@/components/atoms/Card";
+import CustomImage from "@/components/atoms/Image";
+import Input from "@/components/atoms/Input";
+import RadioButton from "@/components/atoms/RadioButton";
 import Select from "@/components/atoms/Select";
+import Tab from "@/components/atoms/Tab";
 import Tag from "@/components/atoms/Tag";
 import Typography from "@/components/atoms/Typography";
-import Pagination from "@/components/molecules/Pagination";
-import StudyCard from "@/features/studies/components/StudyCard";
+import LabelInput from "@/components/molecules/LabelInput";
+import LabelInputDate from "@/components/molecules/LabelInputDate";
+import LabelNumberInput from "@/components/molecules/LabelNumberInput";
+import LabelSelectInput from "@/components/molecules/LabelSelectInput";
 import Meta from "@/components/molecules/Meta";
+import Pagination from "@/components/molecules/Pagination";
+import RadioGroup from "@/components/molecules/RadioGroup";
+import StudyCard from "@/features/studies/components/StudyCard";
 import StudyDescriptionCard from "@/features/studies/components/StudyDescriptionCard";
+import { useState } from "react";
+import { FormProvider, useForm } from "react-hook-form";
 import {
   MockStudiesApiResult,
   MockStudyCardApiResult,
 } from "../mock/api/studies";
-import Badge from "@/components/atoms/Badge";
-import CustomImage from "@/components/atoms/Image";
-import { useState } from "react";
-import Input from "@/components/atoms/Input";
-import { FormProvider, useForm } from "react-hook-form";
-import LabelInput from "@/components/molecules/LabelInput";
-import LabelSelectInput from "@/components/molecules/LabelSelectInput";
-import LabelInputDate from "@/components/molecules/LabelInputDate";
-import LabelNumberInput from "@/components/molecules/LabelNumberInput";
-import RadioButton from "@/components/atoms/RadioButton";
-import RadioGroup from "@/components/molecules/RadioGroup";
-import Tab from "@/components/atoms/Tab";
 
-import Calendar from "@/components/molecules/Calendar";
 import Skeleton from "@/components/atoms/Skeleton";
+import Editor from "@/components/Editor";
+import ActionConfirmModal from "@/components/molecules/ActionConfirmModal";
+import Calendar from "@/components/molecules/Calendar";
 import SkeletonCard from "@/components/molecules/SkeletonCard";
 import useModal from "../hooks/useModal";
-import ActionConfirmModal from "@/components/molecules/ActionConfirmModal";
 
 interface FormData {
   test: string; // 'test' 필드 타입을 string으로 설정
@@ -258,6 +259,7 @@ export default function TestPage() {
           <p>{startDate}</p>
           <p>{endDate}</p>
           <LabelNumberInput name="person" label="모집 인원" />
+          <Editor />
         </form>
         <RadioButton label="test label" />
         <RadioGroup
