@@ -52,14 +52,14 @@ const LabelTagInput = ({
           className="w-full rounded-r-none placeholder:text-mos-gray-500"
           placeholder={placeholder}
         />
-        <Button.Solid
+        <Button.Ghost
           type="button"
           onClick={handleClickAddButton}
           color="Main"
-          className="h-[42px] w-[50px] rounded-l-none"
+          className="h-[47px] w-[50px] rounded-l-none"
         >
           추가
-        </Button.Solid>
+        </Button.Ghost>
       </div>
 
       <div
