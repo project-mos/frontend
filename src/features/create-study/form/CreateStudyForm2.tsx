@@ -9,39 +9,29 @@ import StudyActions from "../components/StudyActions";
 import StudyBenefits from "../components/StudyBenefits";
 import StudyDescription from "../components/StudyDescription";
 import StudyRules from "../components/StudyRules";
+import useValidateForm2 from "../hooks/usdValidateForm2";
 import { StudyFormInterface } from "./CreateStudyForm";
 
 const CreateStudyForm2 = () => {
   const methods = useFormContext<StudyFormInterface>();
   const router = useRouter();
   const editorRef = useRef<QuillEditorHandle>(null);
+  const validateForm = useValidateForm2();
 
-  const onSubmit = () => {
-    handleGetContent();
-    methods.setValue("step2Completed", true);
-    router.push(`${URL.STUDY.CREATE}?step=3`);
+  const onSubmit = (data: StudyFormInterface) => {
+    console.log(data);
+    if (validateForm(data)) {
+      methods.setValue("step2Completed", true);
+      router.push(`${URL.STUDY.CREATE}?step=3`);
+    }
   };
 
   const handleClickBackButton = () => {
     router.push(`${URL.STUDY.CREATE}?step=1`);
   };
 
-  const handleGetContent = () => {
-    if (editorRef.current) {
-      const content = editorRef.current.getContent();
-      methods.setValue("content", content);
-      localStorage.setItem("content", content);
-    }
-  };
-
   useEffect(() => {
     window.scrollTo(0, 0);
-    const storedContent = localStorage.getItem("content");
-
-    if (storedContent && editorRef.current) {
-      methods.setValue("content", storedContent);
-      editorRef.current.setContent(storedContent);
-    }
   }, []);
 
   return (

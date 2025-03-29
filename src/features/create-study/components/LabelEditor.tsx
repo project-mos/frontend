@@ -34,7 +34,9 @@ const LabelEditor = ({
         <Editor name={name} />
       </div>
       {errors[name] && (
-        <ErrorMessage>{errors[name]?.message as string}</ErrorMessage>
+        <div className="mt-[40px]">
+          <ErrorMessage>{errors[name]?.message as string}</ErrorMessage>
+        </div>
       )}
     </div>
   );

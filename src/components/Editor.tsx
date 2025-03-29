@@ -8,12 +8,13 @@ interface EditorProps {
 }
 
 const Editor = ({ name }: EditorProps) => {
-  const { setValue, watch } = useFormContext();
+  const { setValue, watch, clearErrors } = useFormContext();
   const contents = watch(name);
 
   const handleChange = (value?: string) => {
     if (value !== undefined) {
-      setValue(name, value);
+      setValue(name, value, { shouldValidate: true });
+      clearErrors("content");
     }
   };
 
