@@ -1,12 +1,12 @@
-import React from "react";
-import { cn } from "@/lib/utils";
 import Input from "@/components/atoms/Input";
 import Label from "@/components/molecules/Label";
+import { cn } from "@/lib/utils";
+import React from "react";
 import {
-  useFormContext,
   FieldValues,
   Path,
   RegisterOptions,
+  useFormContext,
 } from "react-hook-form";
 
 import ErrorMessage from "@/components/atoms/ErrorMessage";
@@ -44,7 +44,6 @@ const LabelInputDate = <T extends FieldValues>({
         {...register(name, registerOptions)}
         {...props}
       />
-      {/* <Typography.P1 className="text-red-600">asdasd</Typography.P1> */}
       {errors[name]?.message && (
         <ErrorMessage>{String(errors[name]?.message)}</ErrorMessage>
       )}
