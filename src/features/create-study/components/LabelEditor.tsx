@@ -1,12 +1,13 @@
 import ErrorMessage from "@/components/atoms/ErrorMessage";
+import Editor from "@/components/Editor";
 import Label from "@/components/molecules/Label";
 import { QuillEditorHandle } from "@/components/QuillEditor";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 import { useFormContext } from "react-hook-form";
 
-const QuillEditor = dynamic(() => import("@/components/QuillEditor"), {
-  ssr: false,
-});
+// const QuillEditor = dynamic(() => import("@/components/QuillEditor"), {
+//   ssr: false,
+// });
 
 interface LabelEditorProps {
   label: string;
@@ -18,7 +19,7 @@ interface LabelEditorProps {
 const LabelEditor = ({
   label,
   name,
-  editorRef,
+  // editorRef,
   required,
 }: LabelEditorProps) => {
   const {
@@ -29,7 +30,8 @@ const LabelEditor = ({
     <div className="mb-[35px] gap-[5px]">
       <Label label={label} required={required} />
       <div className="h-[500px]">
-        <QuillEditor ref={editorRef} />
+        {/* <QuillEditor ref={editorRef} /> */}
+        <Editor />
       </div>
       {errors[name] && (
         <ErrorMessage>{errors[name]?.message as string}</ErrorMessage>

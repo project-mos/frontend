@@ -60,7 +60,7 @@ const Editor = () => {
       className="mt-[20px]"
       value={contents}
       onChange={handleChange}
-      height={800}
+      height={530}
       //   commands={[...commands.getCommands(), customImageCommand]}
       commands={[...commands.getCommands()]}
     />
