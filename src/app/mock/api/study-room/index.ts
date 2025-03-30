@@ -1,58 +1,105 @@
-import { StudyCurriculumCardInterface, StudyManageCardInterface, StudyNoticeCardInterface } from "@/types/api/study-room"
+import {
+  StudyCurriculumCardInterface,
+  StudyManageCardInterface,
+  StudyMemberCardInterface,
+  StudyNoticeCardInterface,
+} from "@/types/api/study-room";
 
 // <CurriculumCard/> 에 쓰일 mock data
-export const MockCurriculumCardApiResult: StudyCurriculumCardInterface[] = [ 
+export const MockCurriculumCardApiResult: StudyCurriculumCardInterface[] = [
   {
-    step: '알고리즘 기초',
-    title: '알고리즘 기초와 복잡도',
-    content: '시간 복잡도, 공간 복잡도, 빅오 표기법에 대해 학습합니다.',
+    step: "알고리즘 기초",
+    title: "알고리즘 기초와 복잡도",
+    content: "시간 복잡도, 공간 복잡도, 빅오 표기법에 대해 학습합니다.",
   },
   {
-    step: '자료구조',
-    title: '배열과 연결 리스트',
-    content: '기본 자료구조인 배열과 연결 리스트의 특징과 활용법을 학습합니다.',
+    step: "자료구조",
+    title: "배열과 연결 리스트",
+    content: "기본 자료구조인 배열과 연결 리스트의 특징과 활용법을 학습합니다.",
   },
   {
-    step: '자료구조',
-    title: '스택과 큐',
-    content: '스택과 큐의 개념, 구현 방법, 실전 문제 풀이를 진행합니다.',
-  }
-]
+    step: "자료구조",
+    title: "스택과 큐",
+    content: "스택과 큐의 개념, 구현 방법, 실전 문제 풀이를 진행합니다.",
+  },
+];
 
 // <NoticeCard/> 에 쓰일 mock data
-export const MockNoticeCardApiResult: StudyNoticeCardInterface[] = [ 
+export const MockNoticeCardApiResult: StudyNoticeCardInterface[] = [
   {
-    title: '스터디 진행 방식 안내',
-    content: '매주 화요일 오후 8시에 진행되며, 스터디 전 자료를 미리 읽어와 주시기 바랍니다!',
-    writer:'작성자: 홍길동 • 2024-02-20'
+    title: "스터디 진행 방식 안내",
+    content:
+      "매주 화요일 오후 8시에 진행되며, 스터디 전 자료를 미리 읽어와 주시기 바랍니다!",
+    writer: "작성자: 홍길동 • 2024-02-20",
   },
   {
-    title: '스터디 진행 방식 안내2',
-    content: '매주 화요일 오후 8시에 진행되며, 스터디 전 자료를 미리 읽어와 주시기 바랍니다.',
-    writer:'작성자: 홍길동 • 2024-02-25'
+    title: "스터디 진행 방식 안내2",
+    content:
+      "매주 화요일 오후 8시에 진행되며, 스터디 전 자료를 미리 읽어와 주시기 바랍니다.",
+    writer: "작성자: 홍길동 • 2024-02-25",
   },
-]
+];
 
 // <ManageCard/> 에 쓰일 mock data
-export const MockManageCardApiResult: StudyManageCardInterface[] = [ 
+export const MockManageCardApiResult: StudyManageCardInterface[] = [
   {
-    name: '홍길동',
-    date: '지원일시: 2024-03-20 14:30',
-    email: 'test@example.com',
-    experience: '소프트웨어 개발 경력 2년',
-    questionList:[
-      {question: '지원동기', answer: '알고리즘 실력 향상을 위해 함께 공부하고 싶습니다.'},
-      {question: '스터디 투자 시간', answer: '10시간 이상'}
-    ]
+    name: "홍길동",
+    date: "지원일시: 2024-03-20 14:30",
+    email: "test@example.com",
+    experience: "소프트웨어 개발 경력 2년",
+    questionList: [
+      {
+        question: "지원동기",
+        answer: "알고리즘 실력 향상을 위해 함께 공부하고 싶습니다.",
+      },
+      { question: "스터디 투자 시간", answer: "10시간 이상" },
+    ],
   },
   {
-    name: '김연정',
-    date: '지원일시: 2024-03-03 14:33',
-    email: 'test@example.com',
-    experience: '프론트엔드 개발 경력 2년',
-    questionList:[
-      {question: '지원동기', answer: '알고리즘 실력 향상을 위해 함께 공부하고 싶습니다!'},
-      {question: '스터디 투자 시간', answer: '8시간 이상'}
-    ]
+    name: "김연정",
+    date: "지원일시: 2024-03-03 14:33",
+    email: "test@example.com",
+    experience: "프론트엔드 개발 경력 2년",
+    questionList: [
+      {
+        question: "지원동기",
+        answer: "알고리즘 실력 향상을 위해 함께 공부하고 싶습니다!",
+      },
+      { question: "스터디 투자 시간", answer: "8시간 이상" },
+    ],
   },
-]
+];
+
+// <MemberCard/> 에 쓰일 mock data 'role' Enum이나 다른 값 필요함.
+export const MockStudyMembers: StudyMemberCardInterface[] = [
+  {
+    role: "스터디장",
+    name: "홍길동",
+    date: "2024-03-25",
+    progress: 80,
+  },
+  {
+    role: "스터디원",
+    name: "김철수",
+    date: "2024-03-24",
+    progress: 60,
+  },
+  {
+    role: "스터디원",
+    name: "이영희",
+    date: "2024-03-23",
+    progress: 90,
+  },
+  {
+    role: "스터디장",
+    name: "박서준",
+    date: "2024-03-22",
+    progress: 70,
+  },
+  {
+    role: "스터디원",
+    name: "최민호",
+    date: "2024-03-21",
+    progress: 50,
+  },
+];
