@@ -18,9 +18,25 @@ export interface StudyManageCardInterface {
   questionList: { question: string; answer: string }[];
 }
 
-export interface StudyMemberCardInterface {
-  role: "스터디장" | "스터디원";
-  name: string;
-  date: string;
-  progress: number;
+export interface StudyMemberInterface {
+  userId: number;
+  nickname: string;
+  studyMemberRoleType: "스터디장" | "스터디원";
+  lastAttendanceDate: string;
+  participationRate: number;
+}
+
+export interface StudyMemberAttendanceInterface {
+  studyMemberId: number;
+  userId: number;
+  nickname: string;
+  attendanceRes: Attendance[];
+  attendanceRate: number;
+}
+
+export interface Attendance {
+  attendanceId: number;
+  isAttended: boolean;
+  studyScheduleId: number;
+  StudyScheduleStartDateTime: string;
 }
