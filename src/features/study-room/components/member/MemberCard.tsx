@@ -1,5 +1,5 @@
 "use client";
-import useModal from "@/app/hooks/useModal";
+
 import Badge from "@/components/atoms/Badge";
 import Button from "@/components/atoms/Button";
 import Card from "@/components/atoms/Card";
@@ -12,6 +12,7 @@ import {
   MockStudyMembers,
 } from "@/app/mock/api/study-room";
 import { StudyMemberInterface } from "@/types/api/study-room";
+import useEnhancedModal from "@/app/hooks/useEnhancedModal";
 // import {
 //   LineChart,
 //   Line,
@@ -26,7 +27,7 @@ import { StudyMemberInterface } from "@/types/api/study-room";
 // import profileImg from "../../../../app/asset/images/profile_example.jpeg";
 
 const MemberCard = () => {
-  const { modal, openModal, closeModal } = useModal();
+  const { isOpen, openModal, closeModal } = useEnhancedModal();
   // 스터디원 조회
   const [membersState] = useState(MockStudyMembers);
   // 스터디원의 출석률 조회
@@ -92,7 +93,7 @@ const MemberCard = () => {
   return (
     <>
       <MemberModal
-        isOpen={modal}
+        isOpen={isOpen}
         data={selectMemberAttendanceState}
         onClose={onClose}
       />
@@ -130,6 +131,7 @@ const MemberCard = () => {
           <Typography.SubTitle1>이 달의 우수 멤버</Typography.SubTitle1>
         </Card.Header>
         <Card.Content className="max-h-[450px]">
+          {/* 임시 데이터 */}
           {membersState.length > 0 && (
             <StudyMemberCard
               data={membersState[0]}
@@ -200,7 +202,7 @@ const StudyMemberCard = ({
         )}
         {onMore && (
           <Button.Icon color="Main" onClick={onMore} className="flex">
-            <i className="bi bi-journal-check"></i>
+            <i className="bi bi-three-dots"></i>
           </Button.Icon>
         )}
       </Card.Footer>
