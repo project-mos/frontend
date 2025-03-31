@@ -17,10 +17,30 @@ interface MemberModalProps extends ModalProps {
 }
 
 const MemberModal = ({ onClose, data, ...props }: MemberModalProps) => {
+  const onDelete = () => {
+    console.log("onDelete");
+    onClose();
+  };
+  const onEdit = () => {
+    console.log("onEdit");
+    onClose();
+  };
+
+  const formatDate = (isoString: string): string => {
+    const date = new Date(isoString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+
+    return `${year}-${month}-${day} ${hours}:${minutes}`;
+  };
+
   return (
     <Modal {...props} onClose={onClose}>
       <Modal.Header onClose={onClose}>
-        <Typography.Head3>출석 기록</Typography.Head3>
+        <Typography.Head3>멤버 상세보기</Typography.Head3>
       </Modal.Header>
 
       <Modal.Content className="flex flex-col items-center gap-4 p-4">
@@ -52,7 +72,7 @@ const MemberModal = ({ onClose, data, ...props }: MemberModalProps) => {
                   {data.attendanceRes.map((record, index) => (
                     <tr key={index} className="border-b">
                       <td className="p-2 text-center">
-                        {record.StudyScheduleStartDateTime}
+                        {formatDate(record.StudyScheduleStartDateTime)}
                       </td>
                       <td className="p-2 text-center">
                         {record.isAttended === true && (
@@ -77,6 +97,22 @@ const MemberModal = ({ onClose, data, ...props }: MemberModalProps) => {
       </Modal.Content>
 
       <Modal.Footer className="flex justify-end gap-2">
+        <Button.Solid
+          color="Blue"
+          active
+          className="text-[14px]"
+          onClick={onEdit}
+        >
+          스터디장 위임
+        </Button.Solid>
+        <Button.Solid
+          color="Red"
+          active
+          className="text-[14px]"
+          onClick={onDelete}
+        >
+          탈퇴
+        </Button.Solid>
         <Button.Solid
           color="Main"
           active
