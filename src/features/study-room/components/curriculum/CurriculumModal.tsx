@@ -73,7 +73,9 @@ const CurriculumModal = ({ onClose, ...props }: CurriculumModalProps) => {
           </Modal.Content>
 
           <Modal.Footer>
-            <Button.Default onClick={onClickCloseBtn}>취소</Button.Default>
+            <Button.Ghost color="Gray" onClick={onClickCloseBtn}>
+              취소
+            </Button.Ghost>
             <Button.Solid
               type="submit"
               color="Main"
