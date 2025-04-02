@@ -3,23 +3,40 @@ import Card from "../../../components/atoms/Card";
 import Tag from "../../../components/atoms/Tag";
 import Typography from "../../../components/atoms/Typography";
 import { StudyCurriculumCardInterface } from "@/types/api/study-room";
+import Input from "@/components/atoms/Input";
+import Textarea from "@/components/atoms/Textarea";
+import { Dispatch, SetStateAction } from "react";
 
 interface CurriculumProps {
   data: StudyCurriculumInterface[] | StudyCurriculumCardInterface[];
+  isModify?: boolean;
+  setCurriculumList?: Dispatch<SetStateAction<StudyCurriculumCardInterface[]>>;
 }
 
-const Curriculum = ({ data }: CurriculumProps) => {
+const Curriculum = ({ data, isModify, setCurriculumList }: CurriculumProps) => {
+  const handleDelete = (index: number) => {
+    if (setCurriculumList)
+      setCurriculumList((prev) => prev.filter((_, i) => i !== index));
+  };
+
   return (
     <>
-      {data.map((curriculum) => {
+      {data.map((curriculum, index) => {
         return (
-          <div className="flex gap-[20px]" key={curriculum.content}>
+          <div className="flex gap-[20px]" key={index}>
             <div>
-              <Tag.Main className="flex h-[30px] w-[100px] flex-col text-nowrap pt-[4px]">
-                <Typography.P3 className="pt-px font-bold">
-                  {curriculum.step}
-                </Typography.P3>
-              </Tag.Main>
+              {isModify ? (
+                <Input
+                  defaultValue={curriculum.step}
+                  className="h-[30px] w-[107px] min-w-0 border border-mos-main"
+                />
+              ) : (
+                <Tag.Main className="flex h-[30px] w-[100px] flex-col text-nowrap pt-[4px]">
+                  <Typography.P3 className="pt-px font-bold">
+                    {curriculum.step}
+                  </Typography.P3>
+                </Tag.Main>
+              )}
 
               {/* 동적으로 Card.Content 높이에 맞춰서 height 조정 */}
               <div
@@ -31,15 +48,37 @@ const Curriculum = ({ data }: CurriculumProps) => {
             <div className="w-full">
               <Card className="col-span-12 mb-[20px] flex flex-col border-none bg-mos-white-gray-100 shadow-none">
                 <Card.Header>
-                  <Typography.SubTitle1 className="-mt-px mb-[5px] text-[18px]">
-                    {curriculum.title}
-                  </Typography.SubTitle1>
+                  {isModify ? (
+                    <>
+                      <Input
+                        defaultValue={curriculum.title}
+                        className="mb-2 h-[30px] w-[99%]"
+                      />
+                      <i
+                        className="bi bi-trash3 cursor-pointer text-mos-coral-500"
+                        onClick={() => handleDelete(index)}
+                      />
+                    </>
+                  ) : (
+                    <Typography.SubTitle1 className="-mt-px mb-[5px] text-[18px]">
+                      {curriculum.title}
+                    </Typography.SubTitle1>
+                  )}
                 </Card.Header>
+
                 <Card.Content>
-                  <Typography.P3 className="mb-[10px] text-mos-gray-700">
-                    {curriculum.content}
-                  </Typography.P3>
+                  {isModify ? (
+                    <Textarea
+                      name="content"
+                      defaultValue={curriculum.content}
+                    />
+                  ) : (
+                    <Typography.P3 className="mb-[10px] text-mos-gray-700">
+                      {curriculum.content}
+                    </Typography.P3>
+                  )}
                 </Card.Content>
+
                 <Card.Footer>
                   {"task" in curriculum && (
                     <div className="flex gap-[50px]">
