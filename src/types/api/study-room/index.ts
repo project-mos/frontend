@@ -1,4 +1,5 @@
 export interface StudyCurriculumCardInterface {
+  id: string,
   step: string,
   title: string,
   content: string,
