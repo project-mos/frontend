@@ -1,14 +1,13 @@
-import React, { HTMLAttributes } from "react";
+import Select from "@/components/atoms/Select";
 import { cn } from "@/lib/utils";
+import { HTMLAttributes } from "react";
 import {
   FieldValues,
   Path,
   RegisterOptions,
   useFormContext,
 } from "react-hook-form";
-import Select from "@/components/atoms/Select";
 import Label from "./Label";
-import ErrorMessage from "@/components/atoms/ErrorMessage";
 interface LabelSelectInputProps<T extends FieldValues>
   extends HTMLAttributes<HTMLDivElement> {
   label: string;
@@ -31,17 +30,13 @@ const LabelSelectInput = <T extends FieldValues>({
 }: LabelSelectInputProps<T>) => {
   const inputId = id ?? `input-${name.replace(/\s+/g, "-").toLowerCase()}`;
 
-  const {
-    register,
-    formState: { errors },
-  } = useFormContext<T>();
+  const { register } = useFormContext<T>();
   return (
     <div className={cn("flex w-full flex-col gap-[5px]", className)} {...props}>
       <Label label={label} required={required} htmlFor={id} />
       <Select
         id={inputId}
         {...register(name, registerOptions)}
-        // onChange={(e) => setValue(name, (e.target as HTMLSelectElement).value)}
         className={cn(
           "w-full placeholder:text-mos-gray-500 focus:border-mos-main-500 focus:outline-none"
         )}
@@ -52,9 +47,9 @@ const LabelSelectInput = <T extends FieldValues>({
           </Select.Option>
         ))}
       </Select>
-      {errors[name]?.message && (
+      {/* {errors[name]?.message && (
         <ErrorMessage>{String(errors[name]?.message)}</ErrorMessage>
-      )}
+      )} */}
     </div>
   );
 };

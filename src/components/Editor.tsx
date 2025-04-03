@@ -1,67 +1,19 @@
-"use client";
-
 import { uploadImage } from "@/features/create-study/services/uploadImage.service";
 import MDEditor, {
   commands,
   TextAreaTextApi,
   TextState,
 } from "@uiw/react-md-editor";
-import { useEffect, useRef } from "react";
-import { useFormContext } from "react-hook-form";
+import { useRef } from "react";
+import { Controller, useFormContext } from "react-hook-form";
 
 interface EditorProps {
   name: string;
 }
 
 const Editor = ({ name }: EditorProps) => {
-  const { setValue, watch, clearErrors } = useFormContext();
-  const contents = watch(name);
+  const { control } = useFormContext();
   const editorRef = useRef<HTMLDivElement>(null);
-
-  const handleChange = (value?: string) => {
-    if (value !== undefined) {
-      setValue(name, value, { shouldValidate: true });
-      clearErrors(name);
-    }
-  };
-
-  const uploadImageAndInsert = async (file: File) => {
-    try {
-      const url = await uploadImage(file);
-      const insert = `![image](${url})`;
-      const newValue = (contents ?? "") + "\n" + insert;
-      setValue(name, newValue, { shouldValidate: true });
-    } catch (error) {
-      alert(error);
-    }
-  };
-
-  useEffect(() => {
-    const handleDrop = async (e: DragEvent) => {
-      e.preventDefault();
-      if (!e.dataTransfer?.files?.length) return;
-      const file = e.dataTransfer.files[0];
-      if (!file.type.startsWith("image/")) return;
-      await uploadImageAndInsert(file);
-    };
-
-    const handleDragOver = (e: DragEvent) => {
-      e.preventDefault();
-    };
-
-    const wrapper = editorRef.current;
-    if (wrapper) {
-      wrapper.addEventListener("drop", handleDrop);
-      wrapper.addEventListener("dragover", handleDragOver);
-    }
-
-    return () => {
-      if (wrapper) {
-        wrapper.removeEventListener("drop", handleDrop);
-        wrapper.removeEventListener("dragover", handleDragOver);
-      }
-    };
-  }, [contents]);
 
   const imageHandler = (
     api: TextAreaTextApi,
@@ -99,20 +51,28 @@ const Editor = ({ name }: EditorProps) => {
     buttonProps: { "aria-label": "Insert image" },
     icon: <i className="bi bi-image" />,
     execute: (state: TextState, api: TextAreaTextApi) => {
-      imageHandler(api, contents, handleChange);
+      imageHandler(api, state.text, api.replaceSelection);
     },
   };
 
   return (
-    <div ref={editorRef}>
-      <MDEditor
-        className="mt-[20px]"
-        value={contents}
-        onChange={handleChange}
-        height={530}
-        commands={[...commands.getCommands(), customImageCommand]}
-      />
-    </div>
+    <Controller
+      name={name}
+      control={control}
+      rules={{ required: "스터디 설명은 필수 입력사항입니다." }}
+      render={({ field }) => (
+        <div ref={editorRef}>
+          <MDEditor
+            value={field.value}
+            onChange={(value) => {
+              field.onChange(value);
+            }}
+            height={530}
+            commands={[...commands.getCommands(), customImageCommand]}
+          />
+        </div>
+      )}
+    />
   );
 };
 
