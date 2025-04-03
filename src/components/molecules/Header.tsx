@@ -113,11 +113,11 @@ export function Sidebar() {
       {/* 사이드바 */}
       <div
         className={cn(
-          "sidebar fixed right-0 top-0 h-full w-64 bg-white text-black transition-transform duration-200 ease-in-out",
+          "sidebar fixed right-0 top-0 h-full w-64 rounded-l-xl bg-white text-black transition-transform duration-300 ease-in-out",
           isOpen ? "translate-x-0" : "translate-x-full"
         )}
       >
-        <div className="p-4">
+        <div className="pl-7 pt-7">
           <h2 className="text-xl font-bold">
             <SvgIcons.Logo />
           </h2>
@@ -125,16 +125,20 @@ export function Sidebar() {
         <ul className="mt-4 flex flex-col justify-between">
           <div>
             <li className="p-3 hover:bg-mos-main-100" onClick={close}>
-              <Link href={URL.MYPAGE}>
-                <Typography.P1 className="font-bold">
-                  🏠 마이 페이지
-                </Typography.P1>
+              <Link href={URL.MYPAGE} className="flex items-center gap-3">
+                <i className="bi bi-house-door pl-4 text-[20px]" />
+                <Typography.P1 className="font-bold">마이페이지</Typography.P1>
               </Link>
             </li>
             <li className="p-3 hover:bg-mos-main-100" onClick={close}>
-              <Link href={`${URL.STUDY.CREATE}?step=1`}>
+              <Link
+                href={`${URL.STUDY.CREATE}?step=1`}
+                className="flex items-center gap-3"
+              >
+                <i className="bi bi-pen pl-4 text-[19px]" />
+
                 <Typography.P1 className="font-bold">
-                  📄 스터디 만들기
+                  스터디 만들기
                 </Typography.P1>
               </Link>
             </li>
