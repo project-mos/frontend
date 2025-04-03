@@ -1,6 +1,6 @@
 "use client";
 
-import Curriculum from "../../../studies/components/Curriculum";
+import Curriculum from "./Curriculum";
 import Card from "@/components/atoms/Card";
 import Typography from "@/components/atoms/Typography";
 import Button from "@/components/atoms/Button";

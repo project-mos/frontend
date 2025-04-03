@@ -1,13 +1,19 @@
-import { StudyCurriculumInterface } from "@/types/api/studies/detail";
 import { StudyCurriculumCardInterface } from "@/types/api/study-room";
 import { MockCurriculumCardApiResult } from "@/app/mock/api/study-room";
-import Card from "../../../components/atoms/Card";
-import Tag from "../../../components/atoms/Tag";
-import Typography from "../../../components/atoms/Typography";
+import Card from "../../../../components/atoms/Card";
+import Tag from "../../../../components/atoms/Tag";
+import Typography from "../../../../components/atoms/Typography";
 import Input from "@/components/atoms/Input";
 import Textarea from "@/components/atoms/Textarea";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { useFormContext } from "react-hook-form";
+import {
+  Dispatch,
+  memo,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
+import { FieldValues, useFormContext, UseFormRegister } from "react-hook-form";
 
 interface CurriculumProps {
   isModify?: boolean;
@@ -17,11 +23,12 @@ interface CurriculumProps {
 
 interface CurriculumItemProps {
   index: number;
-  curriculum: StudyCurriculumInterface | StudyCurriculumCardInterface;
+  curriculum: StudyCurriculumCardInterface;
 }
 
 interface CurriculumEditProps extends CurriculumItemProps {
   handleDeleteCurriculum: (id: string) => void;
+  register: UseFormRegister<FieldValues>;
 }
 
 const CurriculumView = ({ index, curriculum }: CurriculumItemProps) => (
@@ -51,18 +58,6 @@ const CurriculumView = ({ index, curriculum }: CurriculumItemProps) => (
             {curriculum.content}
           </Typography.P3>
         </Card.Content>
-
-        {"task" in curriculum && (
-          <Card.Footer>
-            <div className="flex gap-[50px]">
-              {curriculum.task?.map((task) => (
-                <Typography.P3 className="text-[14px] font-bold" key={task}>
-                  {task}
-                </Typography.P3>
-              ))}
-            </div>
-          </Card.Footer>
-        )}
       </Card>
     </div>
   </div>
@@ -72,9 +67,8 @@ const CurriculumEditView = ({
   index,
   curriculum,
   handleDeleteCurriculum,
+  register,
 }: CurriculumEditProps) => {
-  const { register } = useFormContext();
-
   return (
     <div className="flex gap-[20px]">
       <div>
@@ -99,11 +93,7 @@ const CurriculumEditView = ({
             />
             <i
               className="bi bi-trash3 cursor-pointer text-mos-coral-500"
-              onClick={() =>
-                handleDeleteCurriculum(
-                  (curriculum as StudyCurriculumCardInterface).id
-                )
-              }
+              onClick={() => handleDeleteCurriculum(curriculum.id)}
             />
           </Card.Header>
 
@@ -128,29 +118,36 @@ const Curriculum = ({
     StudyCurriculumCardInterface[]
   >(MockCurriculumCardApiResult);
 
-  const { setValue } = useFormContext();
+  const { setValue, register } = useFormContext();
 
+  // 커리큘럼 추가 버튼 클릭 시 동작
   useEffect(() => {
     if (isAddingCurriculum) {
       handleAddCurriculum();
-      setIsAddingCurriculum?.(false);
     }
   }, [isAddingCurriculum]);
 
-  const handleAddCurriculum = () => {
+  const handleAddCurriculum = useCallback(() => {
+    // 빈 리스트 추가
     setCurriculumList((prev) => [
       ...prev,
       { id: crypto.randomUUID(), step: "", title: "", content: "" },
     ]);
-  };
 
-  const handleDeleteCurriculum = (id: string) => {
-    setCurriculumList((prev) => {
-      const updatedList = prev.filter((item) => item.id !== id);
-      setValue("curriculumList", updatedList); // react-hook-form의 상태도 동기화
-      return updatedList;
-    });
-  };
+    setIsAddingCurriculum?.(false);
+  }, [setIsAddingCurriculum]);
+
+  // 커리큘럼 삭제
+  const handleDeleteCurriculum = useCallback(
+    (id: string) => {
+      setCurriculumList((prev) => {
+        const updatedList = prev.filter((item) => item.id !== id);
+        setValue("curriculumList", updatedList); // react-hook-form의 상태도 동기화
+        return updatedList;
+      });
+    },
+    [setValue]
+  );
 
   return curriculumList.map((curriculum, index) =>
     isModify ? (
@@ -159,6 +156,7 @@ const Curriculum = ({
         index={index}
         curriculum={curriculum}
         handleDeleteCurriculum={handleDeleteCurriculum}
+        register={register}
       />
     ) : (
       <CurriculumView
@@ -170,4 +168,4 @@ const Curriculum = ({
   );
 };
 
-export default Curriculum;
+export default memo(Curriculum);
