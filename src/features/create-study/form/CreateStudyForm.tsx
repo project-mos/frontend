@@ -38,6 +38,7 @@ const CreateStudyForm = () => {
   const stepNumber = Number(step);
 
   const methods = useForm<StudyFormInterface>({
+    mode: "onChange",
     defaultValues: {
       step1Completed: false,
       step2Completed: false,
