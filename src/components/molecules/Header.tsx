@@ -1,16 +1,16 @@
 "use client";
 
 import SvgIcons from "@/app/asset/icon/SvgIcons";
-import Button from "@/components/atoms/Button";
-import Link from "next/link";
-import Typography from "../atoms/Typography";
-import LoginModal from "@/features/login/components/LoginModal";
-import URL from "@/constants/URL";
 import useModal from "@/app/hooks/useModal";
-import { useState } from "react";
-import { cn } from "@/lib/utils";
+import Button from "@/components/atoms/Button";
 import { ADMIN_MENU_ITEMS, MENU_ITEMS } from "@/constants/SidebarItems";
+import URL from "@/constants/URL";
+import LoginModal from "@/features/login/components/LoginModal";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
+import Typography from "../atoms/Typography";
 
 const Header = () => {
   const isLoggedIn = true;
@@ -35,10 +35,10 @@ const Header = () => {
               <>
                 {/* 반응형 */}
                 <Link href={`${URL.STUDY.CREATE}?step=1`} title="스터디 만들기">
-                  <i className="bi-marker-tip hidden text-[28px] text-mos-gray-700 active:text-mos-main-500 tablet:inline-block" />
+                  <i className="bi-marker-tip hidden text-[34px] text-mos-gray-700 transition-all duration-200 hover:text-mos-main-500 active:text-mos-main-500 tablet:inline-block" />
                 </Link>
                 <Link href={URL.MYPAGE} title="마이페이지">
-                  <i className="bi-person-circle hidden text-[28px] text-mos-gray-700 active:text-mos-main-500 tablet:inline-block" />
+                  <i className="bi-person-circle hidden text-[34px] text-mos-gray-700 transition-all duration-200 hover:text-mos-main-500 active:text-mos-main-500 tablet:inline-block" />
                 </Link>
 
                 <Sidebar />
