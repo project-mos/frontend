@@ -1,24 +1,15 @@
 import { StudyCurriculumCardInterface } from "@/types/api/study-room";
-import { MockCurriculumCardApiResult } from "@/app/mock/api/study-room";
 import Card from "../../../../components/atoms/Card";
 import Tag from "../../../../components/atoms/Tag";
 import Typography from "../../../../components/atoms/Typography";
 import Input from "@/components/atoms/Input";
 import Textarea from "@/components/atoms/Textarea";
-import {
-  Dispatch,
-  memo,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
-import { FieldValues, useFormContext, UseFormRegister } from "react-hook-form";
+import { memo, useCallback } from "react";
+import { useFormContext } from "react-hook-form";
+import ErrorMessage from "@/components/atoms/ErrorMessage";
 
 interface CurriculumProps {
-  isModify?: boolean;
-  isAddingCurriculum?: boolean;
-  setIsAddingCurriculum?: Dispatch<SetStateAction<boolean>>;
+  isModify: boolean;
 }
 
 interface CurriculumItemProps {
@@ -26,10 +17,9 @@ interface CurriculumItemProps {
   curriculum: StudyCurriculumCardInterface;
 }
 
-interface CurriculumEditProps extends CurriculumItemProps {
-  handleDeleteCurriculum: (id: string) => void;
-  register: UseFormRegister<FieldValues>;
-}
+type FormValues = {
+  curriculumList: StudyCurriculumCardInterface[];
+};
 
 const CurriculumView = ({ index, curriculum }: CurriculumItemProps) => (
   <div className="flex gap-[20px]" key={index}>
@@ -41,7 +31,7 @@ const CurriculumView = ({ index, curriculum }: CurriculumItemProps) => (
       </Tag.Main>
       <div
         className="ml-[10px] w-[2px] bg-[#DCDCDC]"
-        style={{ height: "calc(70%)" }}
+        style={{ height: "calc(75%)" }}
       ></div>
     </div>
 
@@ -63,45 +53,80 @@ const CurriculumView = ({ index, curriculum }: CurriculumItemProps) => (
   </div>
 );
 
-const CurriculumEditView = ({
-  index,
-  curriculum,
-  handleDeleteCurriculum,
-  register,
-}: CurriculumEditProps) => {
+const CurriculumEditView = ({ index, curriculum }: CurriculumItemProps) => {
+  // react-hook-form
+  const {
+    register,
+    getValues,
+    setValue,
+    formState: { errors },
+  } = useFormContext<FormValues>();
+  const curriculumList = getValues("curriculumList");
+
+  // 커리큘럼 삭제
+  const deleteCurriculum = useCallback(
+    (id: string) => {
+      const updatedList = curriculumList.filter((item) => item.id !== id);
+      setValue("curriculumList", updatedList);
+    },
+    [curriculumList, setValue]
+  );
+
+  // step, title, content 중 하나라도 에러가 있으면 true 에러가 없으면 false
+  const hasAnyFieldError = (index: number) => {
+    const error = errors?.curriculumList?.[index];
+    return error?.step || error?.title || error?.content;
+  };
+
   return (
     <div className="flex gap-[20px]">
       <div>
+        {/* 카테고리 */}
         <Input
-          {...register(`curriculumList.${index}.step`)}
+          {...register(`curriculumList.${index}.step`, {
+            required: "필수 입력입니다.",
+          })}
           defaultValue={curriculum.step}
           className="h-[30px] w-[107px] min-w-0 border border-mos-main"
         />
         <div
           className="ml-[10px] w-[2px] bg-[#DCDCDC]"
-          style={{ height: "calc(70%)" }}
+          style={{ height: "calc(85%)" }}
         ></div>
       </div>
 
       <div className="w-full">
-        <Card className="col-span-12 mb-[20px] flex flex-col border-none bg-mos-white-gray-100 shadow-none">
-          <Card.Header>
+        <Card className="mb-[20px] flex h-auto flex-col border border-none bg-mos-white-gray-100 shadow-none">
+          <Card.Header className="mb-3 flex w-full">
+            {/* 제목 */}
             <Input
-              {...register(`curriculumList.${index}.title`)}
+              {...register(`curriculumList.${index}.title`, {
+                required: "필수 입력입니다.",
+              })}
               defaultValue={curriculum.title}
-              className="mb-2 h-[30px] w-[99%]"
+              className="h-[30px] w-[99%]"
             />
+            {/* 삭제 아이콘 */}
             <i
               className="bi bi-trash3 cursor-pointer text-mos-coral-500"
-              onClick={() => handleDeleteCurriculum(curriculum.id)}
+              onClick={() => deleteCurriculum(curriculum.id)}
             />
           </Card.Header>
 
-          <Card.Content>
-            <Textarea
-              {...register(`curriculumList.${index}.content`)}
-              defaultValue={curriculum.content}
-            />
+          <Card.Content className="flex flex-col gap-1">
+            <div className="mb-6 flex w-full flex-col gap-1">
+              {/* 내용 */}
+              <Textarea
+                {...register(`curriculumList.${index}.content`, {
+                  required: "필수 입력입니다.",
+                })}
+                defaultValue={curriculum.content}
+              />
+              <ErrorMessage>
+                {hasAnyFieldError(index) &&
+                  "해당 커리큘럼 항목의 모든 정보를 입력해주세요."}
+              </ErrorMessage>
+            </div>
           </Card.Content>
         </Card>
       </div>
@@ -109,45 +134,11 @@ const CurriculumEditView = ({
   );
 };
 
-const Curriculum = ({
-  isModify,
-  isAddingCurriculum,
-  setIsAddingCurriculum,
-}: CurriculumProps) => {
-  const [curriculumList, setCurriculumList] = useState<
-    StudyCurriculumCardInterface[]
-  >(MockCurriculumCardApiResult);
-
-  const { setValue, register } = useFormContext();
-
-  // 커리큘럼 추가 버튼 클릭 시 동작
-  useEffect(() => {
-    if (isAddingCurriculum) {
-      handleAddCurriculum();
-    }
-  }, [isAddingCurriculum]);
-
-  const handleAddCurriculum = useCallback(() => {
-    // 빈 리스트 추가
-    setCurriculumList((prev) => [
-      ...prev,
-      { id: crypto.randomUUID(), step: "", title: "", content: "" },
-    ]);
-
-    setIsAddingCurriculum?.(false);
-  }, [setIsAddingCurriculum]);
-
-  // 커리큘럼 삭제
-  const handleDeleteCurriculum = useCallback(
-    (id: string) => {
-      setCurriculumList((prev) => {
-        const updatedList = prev.filter((item) => item.id !== id);
-        setValue("curriculumList", updatedList); // react-hook-form의 상태도 동기화
-        return updatedList;
-      });
-    },
-    [setValue]
-  );
+const Curriculum = ({ isModify }: CurriculumProps) => {
+  const { watch } = useFormContext<{
+    curriculumList: StudyCurriculumCardInterface[];
+  }>();
+  const curriculumList = watch("curriculumList");
 
   return curriculumList.map((curriculum, index) =>
     isModify ? (
@@ -155,8 +146,6 @@ const Curriculum = ({
         key={curriculum.id}
         index={index}
         curriculum={curriculum}
-        handleDeleteCurriculum={handleDeleteCurriculum}
-        register={register}
       />
     ) : (
       <CurriculumView

@@ -12,22 +12,36 @@ import { FormProvider, useForm } from "react-hook-form";
 const CurriculumCard = () => {
   // 수정 여부 플래그
   const [isModify, setIsModify] = useState<boolean>(false);
-  // 커리큘럼 추가 액션 플래그
-  const [isAddingCurriculum, setIsAddingCurriculum] = useState<boolean>(false);
-
   // react-hook-form
   const methods = useForm<{ curriculumList: StudyCurriculumCardInterface[] }>({
     defaultValues: { curriculumList: MockCurriculumCardApiResult },
     mode: "onChange",
   });
+  const { handleSubmit, setValue, getValues, watch } = methods;
+  const curriculumList = watch("curriculumList");
 
-  const { handleSubmit, reset } = methods;
+  // 커리큘럼 추가 함수
+  const addCurriculum = () => {
+    const currentValues = getValues("curriculumList");
+    const newItem = {
+      id: crypto.randomUUID(),
+      step: "",
+      title: "",
+      content: "",
+    };
+    const updated = [...currentValues, newItem];
+    setValue("curriculumList", updated);
+  };
+
+  // 빈 항목이 하나라도 있으면 false
+  const isValidCurriculum = curriculumList.every(
+    (item) => item.step.trim() && item.title.trim() && item.content.trim()
+  );
 
   const onSubmit = (formData: {
     curriculumList: StudyCurriculumCardInterface[];
   }) => {
     console.log("data", formData);
-    reset();
   };
 
   return (
@@ -42,7 +56,8 @@ const CurriculumCard = () => {
                   color="Main"
                   active
                   className="h-[30px] p-0 pl-1.5 pr-3 text-[14px]"
-                  onClick={() => setIsAddingCurriculum(true)}
+                  onClick={addCurriculum}
+                  type="button"
                 >
                   <i className="bi bi-plus text-[22px]"></i>
                   커리큘럼 추가
@@ -50,27 +65,19 @@ const CurriculumCard = () => {
               )}
               <Button.Solid
                 color="Main"
-                active
                 className="h-[30px] text-[14px]"
                 onClick={() => {
                   setIsModify((prev) => !prev);
                 }}
                 type={isModify ? "button" : "submit"}
+                active={isValidCurriculum}
               >
                 {isModify ? "저장" : "수정"}
               </Button.Solid>
-              {/* <Button.Ghost color="Blue" active className="h-[30px] text-[14px]">
-              <i className="bi bi-upload"></i>
-              파일업로드
-            </Button.Ghost> */}
             </div>
           </Card.Header>
           <Card.Content>
-            <Curriculum
-              isModify={isModify}
-              isAddingCurriculum={isAddingCurriculum}
-              setIsAddingCurriculum={setIsAddingCurriculum}
-            />
+            <Curriculum isModify={isModify} />
           </Card.Content>
         </form>
       </FormProvider>
