@@ -20,7 +20,7 @@ const CurriculumCard = () => {
   const { handleSubmit, setValue, getValues, watch } = methods;
   const curriculumList = watch("curriculumList");
 
-  // 커리큘럼 추가 함수
+  // 커리큘럼 추가
   const addCurriculum = () => {
     const currentValues = getValues("curriculumList");
     const newItem = {
