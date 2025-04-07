@@ -111,7 +111,9 @@ const ScheduleModal = ({
           </Modal.Content>
 
           <Modal.Footer>
-            <Button.Default onClick={onClose}>취소</Button.Default>
+            <Button.Ghost color="Gray" onClick={onClose}>
+              취소
+            </Button.Ghost>
             <Button.Solid
               type="submit"
               color="Main"
