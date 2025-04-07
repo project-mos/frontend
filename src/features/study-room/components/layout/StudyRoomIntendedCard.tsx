@@ -3,6 +3,7 @@ import Card from "@/components/atoms/Card";
 import Typography from "@/components/atoms/Typography";
 import React from "react";
 import StudyRoomSessionCard from "./StudyRoomSessionCard";
+import { MockStudyScheduleApiResult } from "@/app/mock/api/studies";
 
 const StudyRoomIntendedCard = () => {
   return (
@@ -17,7 +18,7 @@ const StudyRoomIntendedCard = () => {
         </Button.Solid>
       </Card.Header>
       <Card.Content>
-        <StudyRoomSessionCard />
+        <StudyRoomSessionCard data={MockStudyScheduleApiResult[0]} />
       </Card.Content>
     </Card>
   );
