@@ -8,38 +8,47 @@ import LabelDateInput from "@/components/molecules/LabelInputDate";
 import LabelInput from "@/components/molecules/LabelInput";
 
 import LabelTimeInput from "@/components/molecules/LabelInputTime";
-import React from "react";
+import React, { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import LabelTextAreaInput from "@/components/molecules/LabelTextAreaInput";
 import Modal, { ModalOnClose, ModalProps } from "@/components/atoms/Modal";
+import { StudyScheduleInterface } from "@/types/api/studies/detail";
+import Checkbox from "@/components/atoms/Checkbox";
+import Card from "@/components/atoms/Card";
 
 // success, close 시 실행할 함수들을 부모로부터 받음
 interface ScheduleModalProps extends ModalProps {
+  selectData?: StudyScheduleInterface;
   onSuccess: () => void;
   onClose: ModalOnClose;
 }
-interface CreateStudySchedule {
+interface StudyScheduleForm {
   date: string;
-  start_time: string;
-  end_time: string;
+  curriculumIds?: number[];
   title: string;
-  description: string;
+  description?: string;
+  startDateTime: string;
+  endDateTime?: string;
 }
 const ScheduleModal = ({
   onSuccess,
   onClose,
+  selectData,
   ...props
 }: ScheduleModalProps) => {
-  const methods = useForm<CreateStudySchedule>({
+  const methods = useForm<StudyScheduleForm>({
     defaultValues: {
       date: "",
-      start_time: "",
-      end_time: "",
+      startDateTime: "",
+      endDateTime: "",
       title: "",
       description: "",
+      curriculumIds: [],
     },
   });
-  const onSubmit = (data: CreateStudySchedule) => {
+  const [isUsingCurriculum, setIsUsingCurriculum] = useState(false);
+  const isSelect = !!selectData;
+  const onSubmit = (data: StudyScheduleForm) => {
     console.log("data", data);
     onSuccess();
   };
@@ -49,11 +58,17 @@ const ScheduleModal = ({
     onClose();
   };
 
+  const checkboxChangeHandler = () => {
+    setIsUsingCurriculum(!isUsingCurriculum);
+  };
+
   return (
     <FormProvider {...methods}>
       <Modal {...props} onClose={onCloses}>
         <Modal.Header onClose={onClose}>
-          <Typography.Head3>스터디 일정 등록</Typography.Head3>
+          <Typography.Head3>
+            스터디 일정 {isSelect ? "수정" : "등록"}
+          </Typography.Head3>
         </Modal.Header>
         <form
           onSubmit={methods.handleSubmit(onSubmit)}
@@ -62,7 +77,7 @@ const ScheduleModal = ({
           <Modal.Content className="flex max-h-[300px] flex-col gap-5 overflow-y-scroll mobile:max-h-[505px]">
             <div className="flex flex-col gap-2">
               <Typography.SubTitle1>스터디 시간</Typography.SubTitle1>
-              <LabelDateInput<CreateStudySchedule>
+              <LabelDateInput<StudyScheduleForm>
                 label="일자"
                 name="date"
                 required
@@ -70,43 +85,68 @@ const ScheduleModal = ({
               />
 
               <div className="flex flex-col gap-2 mobile:flex-row">
-                <LabelTimeInput<CreateStudySchedule>
-                  name="start_time"
+                <LabelTimeInput<StudyScheduleForm>
+                  name="startDateTime"
                   label="시작 시간"
                   registerOptions={{ required: "그만하쇼" }}
                   required
                 />
-                <LabelTimeInput<CreateStudySchedule>
-                  name="end_time"
+                <LabelTimeInput<StudyScheduleForm>
+                  name="endDateTime"
                   label="종료 시간"
-                  registerOptions={{ required: "그만하쇼" }}
+                  registerOptions={{
+                    required: "그만하쇼",
+                    value: selectData?.endDateTime,
+                  }}
                   required
                 />
               </div>
             </div>
 
             <div className="flex flex-col gap-2">
-              <div className="flex justify-between">
+              <div className="flex flex-col gap-2 ">
                 <Typography.SubTitle1>스터디 내용</Typography.SubTitle1>
-                {/* <Button.Solid type="button" color="Blue" size="sm" active>
-                  내용 추가
-                </Button.Solid> */}
+                <div className="flex items-center gap-2">
+                  <Checkbox
+                    onChange={checkboxChangeHandler}
+                    defaultChecked={isUsingCurriculum}
+                  />
+                  <Typography.P3 className="text-[12px]">
+                    커리큘럼에서 가져오기
+                  </Typography.P3>
+                </div>
               </div>
 
-              <LabelInput<CreateStudySchedule>
-                label="제목"
-                name="title"
-                placeholder="제목을 입력하세요"
-                registerOptions={{ required: "그만하쇼" }}
-                required
-              />
-              <LabelTextAreaInput
-                label="내용"
-                name="description"
-                className="w-full"
-                placeholder="내용을 입력하세요"
-                registerOptions={{ required: "그만하쇼" }}
-              />
+              {isUsingCurriculum ? (
+                <div className="flex gap-2 overflow-x-scroll">
+                  {selectData?.studyCurriculumResList.map((item, index) => {
+                    return (
+                      <CurriCulumCard
+                        key={`${item.title}_${index}`}
+                        title={item.title}
+                        content={item.content}
+                        // description={item.content}
+                      />
+                    );
+                  })}
+                </div>
+              ) : (
+                <>
+                  <LabelInput<StudyScheduleForm>
+                    label="제목"
+                    name="title"
+                    placeholder="제목을 입력하세요"
+                    registerOptions={{ required: "그만하쇼" }}
+                    required
+                  />
+                  <LabelTextAreaInput
+                    label="내용"
+                    name="description"
+                    className="w-full"
+                    placeholder="내용을 입력하세요"
+                  />
+                </>
+              )}
             </div>
           </Modal.Content>
 
@@ -128,5 +168,26 @@ const ScheduleModal = ({
     </FormProvider>
   );
 };
-
+export const CurriCulumCard = ({
+  title,
+  content,
+}: {
+  title: string;
+  content: string;
+}) => {
+  return (
+    <Card className="mb-2 min-w-[180px] max-w-[180px] p-3 shadow-none">
+      <Card.Header>
+        <Typography.P3 className="font-bold text-mos-main">
+          {title}
+        </Typography.P3>
+      </Card.Header>
+      <Card.Footer>
+        <Typography.P3 className="text-[12px] text-mos-gray-500">
+          {content}
+        </Typography.P3>
+      </Card.Footer>
+    </Card>
+  );
+};
 export default ScheduleModal;
