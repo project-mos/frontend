@@ -4,10 +4,13 @@ import Modal, { ModalOnClose, ModalProps } from "@/components/atoms/Modal";
 import Typography from "@/components/atoms/Typography";
 import LabelInput from "@/components/molecules/LabelInput";
 import LabelTextAreaInput from "@/components/molecules/LabelTextAreaInput";
+import { StudyNoticeCardInterface } from "@/types/api/study-room";
+import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
 interface NoticeModalProps extends ModalProps {
   onClose: ModalOnClose;
+  data?: StudyNoticeCardInterface;
 }
 
 interface NoticeData {
@@ -15,12 +18,22 @@ interface NoticeData {
   content: string;
 }
 
-const NoticeModal = ({ onClose, ...props }: NoticeModalProps) => {
+const NoticeModal = ({ onClose, data, ...props }: NoticeModalProps) => {
   const methods = useForm<NoticeData>({
-    defaultValues: { title: "", content: "" },
+    defaultValues: {
+      title: "",
+      content: "",
+    },
     mode: "onChange",
   });
-  const { handleSubmit, reset, formState } = methods;
+  const { handleSubmit, reset, formState, setValue } = methods;
+
+  useEffect(() => {
+    if (data) {
+      setValue("title", data.title);
+      setValue("content", data.content);
+    }
+  }, [data, setValue]);
 
   const onSubmit = (data: NoticeData) => {
     console.log("data", data);
@@ -37,7 +50,7 @@ const NoticeModal = ({ onClose, ...props }: NoticeModalProps) => {
     <FormProvider {...methods}>
       <Modal {...props} onClose={onClickCloseBtn}>
         <Modal.Header onClose={onClickCloseBtn}>
-          <Typography.Head3>공지사항 추가</Typography.Head3>
+          <Typography.Head3>공지사항 {data ? "수정" : "추가"}</Typography.Head3>
         </Modal.Header>
 
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -63,7 +76,9 @@ const NoticeModal = ({ onClose, ...props }: NoticeModalProps) => {
           </Modal.Content>
 
           <Modal.Footer>
-            <Button.Default onClick={onClickCloseBtn}>취소</Button.Default>
+            <Button.Ghost color="Gray" onClick={onClickCloseBtn}>
+              취소
+            </Button.Ghost>
             <Button.Solid
               type="submit"
               color="Main"

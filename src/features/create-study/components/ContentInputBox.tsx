@@ -35,14 +35,14 @@ const InlineInput = ({
         className="w-full rounded-r-none placeholder:text-mos-gray-500"
         placeholder={placeholder}
       />
-      <Button.Solid
+      <Button.Ghost
         type="button"
         color="Main"
-        className="h-[42px] w-[50px] rounded-l-none"
+        className="h-[47px] w-[50px] rounded-l-none"
         onClick={onRemove}
       >
         <i className="bi bi-trash text-mos-coral-500"></i>
-      </Button.Solid>
+      </Button.Ghost>
     </div>
   );
 };
@@ -86,19 +86,19 @@ const ContentInputBox = ({
             <i className="bi bi-plus"></i>
             {buttonText}
           </Button.Default>
-          <Button.Solid
+          <Button.Ghost
+            color="Main"
             onClick={() => {
               setIsInputBoxOpened(false);
               setValue(name, [""]);
               watch(name, [""]);
             }}
             type="button"
-            color="Main"
             className="h-[35px]"
           >
             <i className="bi bi-x"></i>
             취소
-          </Button.Solid>
+          </Button.Ghost>
         </div>
       </Card.Header>
       <Card.Content className="mb-[20px] flex flex-col gap-[13px]">

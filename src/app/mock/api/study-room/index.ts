@@ -22,11 +22,13 @@ export const MockCurriculumCardApiResult: StudyCurriculumCardInterface[] = [
 // <NoticeCard/> 에 쓰일 mock data
 export const MockNoticeCardApiResult: StudyNoticeCardInterface[] = [ 
   {
+    id: 1,
     title: '스터디 진행 방식 안내',
     content: '매주 화요일 오후 8시에 진행되며, 스터디 전 자료를 미리 읽어와 주시기 바랍니다!',
     writer:'작성자: 홍길동 • 2024-02-20'
   },
   {
+    id: 2,
     title: '스터디 진행 방식 안내2',
     content: '매주 화요일 오후 8시에 진행되며, 스터디 전 자료를 미리 읽어와 주시기 바랍니다.',
     writer:'작성자: 홍길동 • 2024-02-25'

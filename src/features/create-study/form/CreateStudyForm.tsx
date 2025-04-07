@@ -15,7 +15,7 @@ export interface StudyFormInterface {
   category: string;
   meetingType: string;
   name: string;
-  person: string;
+  person: number;
   recruitmentEndDate: string;
   recruitmentStartDate: string;
   schedule: string;
@@ -38,6 +38,7 @@ const CreateStudyForm = () => {
   const stepNumber = Number(step);
 
   const methods = useForm<StudyFormInterface>({
+    mode: "onChange",
     defaultValues: {
       step1Completed: false,
       step2Completed: false,
@@ -45,7 +46,7 @@ const CreateStudyForm = () => {
       category: "",
       meetingType: "",
       name: "",
-      person: "",
+      person: 4,
       recruitmentEndDate: "",
       recruitmentStartDate: "",
       schedule: "",

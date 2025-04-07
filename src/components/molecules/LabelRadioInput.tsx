@@ -1,4 +1,3 @@
-import ErrorMessage from "@/components/atoms/ErrorMessage";
 import Label from "@/components/molecules/Label";
 import RadioGroup from "@/components/molecules/RadioGroup";
 import { HTMLAttributes } from "react";
@@ -26,13 +25,8 @@ const LabelRadioInput = <T extends FieldValues>({
   registerOptions,
   ...props
 }: LabelRadioInputProps<T>) => {
-  const {
-    watch,
-    register,
-    formState: { errors },
-  } = useFormContext<T>();
+  const { watch, register } = useFormContext<T>();
 
-  // const inputId = id ?? `input-${name.replace(/\s+/g, "-").toLowerCase()}`;
   const selectedValue = watch(name) || "";
 
   return (
@@ -45,9 +39,9 @@ const LabelRadioInput = <T extends FieldValues>({
         selectedValue={selectedValue}
         {...props}
       />
-      {errors[name]?.message && (
+      {/* {errors[name]?.message && (
         <ErrorMessage>{String(errors[name]?.message)}</ErrorMessage>
-      )}
+      )} */}
     </div>
   );
 };

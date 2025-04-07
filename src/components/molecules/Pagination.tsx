@@ -1,21 +1,39 @@
 "use client";
+import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 import Button from "../atoms/Button";
-import { usePathname, useRouter } from "next/navigation";
 
-type PaginationType = {
-  activePage: number;
+interface PaginationProps {
   totalPage: number;
-};
-const Pagination = ({ activePage, totalPage }: PaginationType) => {
+  activePage: number;
+}
+
+const Pagination: React.FC<PaginationProps> = ({ totalPage, activePage }) => {
   const router = useRouter();
   const pathname = usePathname();
+
   const prevPage = activePage - 1;
   const nextPage = activePage + 1;
 
-  const generatePagination = Array.from({ length: 5 }, (_, i) => {
-    const pageNumber = activePage + i;
-    if (pageNumber <= totalPage) {
+  const maxPageToShow = 5;
+  let startPage = Math.max(1, activePage - 2);
+  let endPage = startPage + maxPageToShow - 1;
+
+  if (activePage <= 3) {
+    // 처음 3페이지는 무조건 1부터 시작
+    startPage = 1;
+    endPage = maxPageToShow;
+  }
+
+  if (endPage > totalPage) {
+    endPage = totalPage;
+    startPage = Math.max(1, endPage - maxPageToShow + 1);
+  }
+
+  const generatePagination = Array.from(
+    { length: endPage - startPage + 1 },
+    (_, i) => {
+      const pageNumber = startPage + i;
       return (
         <Button.Ghost
           color="Main"
@@ -27,17 +45,18 @@ const Pagination = ({ activePage, totalPage }: PaginationType) => {
         </Button.Ghost>
       );
     }
-    return null;
-  }).filter(Boolean); // undefined/null 제거
+  );
 
   function pushPage(pathname: string, route: string | number) {
-    router.push(`${pathname}?page=${route}`);
+    const searchParams = new URLSearchParams(window.location.search);
+    searchParams.set("page", String(route));
+    router.push(`${pathname}?${searchParams.toString()}`);
   }
 
   return (
     <div className="flex flex-wrap justify-center gap-2">
       <Button.Ghost
-        color="Gray"
+        color="Main"
         disabled={activePage === 1}
         onClick={() => {
           pushPage(pathname, 1);
@@ -46,7 +65,7 @@ const Pagination = ({ activePage, totalPage }: PaginationType) => {
         처음
       </Button.Ghost>
       <Button.Ghost
-        color="Gray"
+        color="Main"
         disabled={activePage === 1}
         onClick={() => {
           pushPage(pathname, prevPage);
@@ -56,7 +75,7 @@ const Pagination = ({ activePage, totalPage }: PaginationType) => {
       </Button.Ghost>
       {generatePagination}
       <Button.Ghost
-        color="Gray"
+        color="Main"
         disabled={activePage === totalPage}
         onClick={() => {
           pushPage(pathname, nextPage);
@@ -65,7 +84,7 @@ const Pagination = ({ activePage, totalPage }: PaginationType) => {
         다음
       </Button.Ghost>
       <Button.Ghost
-        color="Gray"
+        color="Main"
         disabled={activePage === totalPage}
         onClick={() => {
           pushPage(pathname, totalPage);

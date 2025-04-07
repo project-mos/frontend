@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 import Typography from "./Typography";
 
 interface ErrorMessageProps {
@@ -6,7 +6,7 @@ interface ErrorMessageProps {
 }
 const ErrorMessage = ({ children }: ErrorMessageProps) => {
   return (
-    <Typography.P1 className="text-[14px] text-mos-coral-500">
+    <Typography.P1 className="mb-[-24px] text-[12px] text-mos-coral-500">
       {children}
     </Typography.P1>
   );

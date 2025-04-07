@@ -12,10 +12,10 @@ const useValidateForm = () => {
       isValid = false;
     }
 
-    if (!data.person?.trim()) {
+    if (!data.person) {
       setError("person", { message: "모집 인원은 필수 입력사항입니다." });
       isValid = false;
-    } else if (parseInt(data.person) <= 0) {
+    } else if (data.person <= 0) {
       setError("person", { message: "모집 인원은 1명 이상이어야 합니다." });
       isValid = false;
     }

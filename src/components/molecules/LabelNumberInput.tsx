@@ -1,14 +1,13 @@
-import React, { HTMLAttributes } from "react";
-import { cn } from "@/lib/utils";
 import Input from "@/components/atoms/Input";
-import Label from "./Label";
+import { cn } from "@/lib/utils";
+import { HTMLAttributes } from "react";
 import {
   FieldValues,
   Path,
   RegisterOptions,
   useFormContext,
 } from "react-hook-form";
-import ErrorMessage from "@/components/atoms/ErrorMessage";
+import Label from "./Label";
 
 interface LabelNumberInputProps<T extends FieldValues>
   extends HTMLAttributes<HTMLInputElement> {
@@ -30,10 +29,7 @@ const LabelNumberInput = <T extends FieldValues>({
   placeholder,
   ...props
 }: LabelNumberInputProps<T>) => {
-  const {
-    register,
-    formState: { errors },
-  } = useFormContext<T>();
+  const { register } = useFormContext<T>();
   const inputId = id ?? `input-${name.replace(/\s+/g, "-").toLowerCase()}`;
   return (
     <div className={cn("flex w-full flex-col gap-[5px]", className)}>
@@ -48,9 +44,9 @@ const LabelNumberInput = <T extends FieldValues>({
         {...props}
         min={1}
       />
-      {errors[name]?.message && (
+      {/* {errors[name]?.message && (
         <ErrorMessage>{String(errors[name]?.message)}</ErrorMessage>
-      )}
+      )} */}
     </div>
   );
 };
