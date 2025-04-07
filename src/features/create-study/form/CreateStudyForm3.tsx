@@ -47,6 +47,7 @@ const CreateStudyForm3 = () => {
             solidLabel="스터디 만들기"
             ghostLabel="이전 단계"
             onClickBackButton={handleClickBackButton}
+            active={true}
           />
         </form>
         {isOpenModal && (

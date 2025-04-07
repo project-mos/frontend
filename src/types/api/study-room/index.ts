@@ -6,6 +6,7 @@ export interface StudyCurriculumCardInterface {
 }
 
 export interface StudyNoticeCardInterface {
+  id: number,
   title: string,
   content: string,
   writer: string

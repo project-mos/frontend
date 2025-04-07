@@ -9,8 +9,6 @@ import {
   useFormContext,
 } from "react-hook-form";
 
-import ErrorMessage from "@/components/atoms/ErrorMessage";
-
 interface LabelInputDateProps<T extends FieldValues>
   extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
@@ -29,10 +27,7 @@ const LabelInputDate = <T extends FieldValues>({
   ...props
 }: LabelInputDateProps<T>) => {
   const inputId = id ?? `input-${name.replace(/\s+/g, "-").toLowerCase()}`;
-  const {
-    register,
-    formState: { errors },
-  } = useFormContext<T>();
+  const { register } = useFormContext<T>();
 
   return (
     <div className={cn("mb-2 flex w-full flex-col gap-[5px]", className)}>
@@ -44,9 +39,9 @@ const LabelInputDate = <T extends FieldValues>({
         {...register(name, registerOptions)}
         {...props}
       />
-      {errors[name]?.message && (
+      {/* {errors[name]?.message && (
         <ErrorMessage>{String(errors[name]?.message)}</ErrorMessage>
-      )}
+      )} */}
     </div>
   );
 };

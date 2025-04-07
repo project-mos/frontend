@@ -1,14 +1,13 @@
-import React from "react";
-import { cn } from "@/lib/utils";
 import Input from "@/components/atoms/Input";
-import Label from "./Label";
+import { cn } from "@/lib/utils";
+import React from "react";
 import {
   FieldValues,
   Path,
   RegisterOptions,
   useFormContext,
 } from "react-hook-form";
-import ErrorMessage from "@/components/atoms/ErrorMessage";
+import Label from "./Label";
 
 interface LabelInputProps<T extends FieldValues>
   extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -27,10 +26,7 @@ const LabelInput = <T extends FieldValues>({
   registerOptions,
   ...props
 }: LabelInputProps<T>) => {
-  const {
-    register,
-    formState: { errors },
-  } = useFormContext<T>();
+  const { register } = useFormContext<T>();
   const inputId = id ?? `input-${name.replace(/\s+/g, "-").toLowerCase()}`;
 
   return (
@@ -42,9 +38,9 @@ const LabelInput = <T extends FieldValues>({
         className="w-full placeholder:text-mos-gray-500"
         {...props}
       />
-      {errors[name]?.message && (
+      {/* {errors[name]?.message && (
         <ErrorMessage>{String(errors[name]?.message)}</ErrorMessage>
-      )}
+      )} */}
     </div>
   );
 };

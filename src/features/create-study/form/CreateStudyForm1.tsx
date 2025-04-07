@@ -7,6 +7,7 @@ import CreateStudyModal from "../components/CreateStudyModal";
 import StudyActions from "../components/StudyActions";
 import StudyBasicInfo from "../components/StudyBasicInfo";
 import StudyMethod from "../components/StudyMethod";
+import useStep1ButtonState from "../hooks/useStep1ButtonState";
 import useValidateForm from "../hooks/useValidateForm";
 import { StudyFormInterface } from "./CreateStudyForm";
 
@@ -15,6 +16,7 @@ const CreateStudyForm1 = () => {
   const router = useRouter();
   const validateForm = useValidateForm();
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+  const isStep1Valid = useStep1ButtonState();
 
   const onSubmit = (data: StudyFormInterface) => {
     if (validateForm(data)) {
@@ -53,6 +55,7 @@ const CreateStudyForm1 = () => {
             solidLabel="다음 단계"
             ghostLabel="취소"
             onClickBackButton={handleClickBackButton}
+            active={isStep1Valid}
           />
         </form>
       </FormProvider>
