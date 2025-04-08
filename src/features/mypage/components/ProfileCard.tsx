@@ -5,15 +5,15 @@ import profileImg from "../../../app/asset/images/profile_example.jpeg";
 import Typography from "@/components/atoms/Typography";
 import Tag from "@/components/atoms/Tag";
 import Button from "@/components/atoms/Button";
-import useModal from "@/app/hooks/useModal";
 import ProfileModal from "./ProfileModal";
+import useMultiModal from "@/app/hooks/useMultiModal";
+import ActionConfirmModal from "@/components/molecules/ActionConfirmModal";
 
 const ProfileCard = () => {
-  const { modal, openModal, closeModal } = useModal();
+  const { modal, openModal, closeModal } = useMultiModal();
 
   return (
     <>
-      <ProfileModal isOpen={modal} onClose={closeModal} />
       <Card>
         <Card.Content className="mb-[15px] items-center gap-[15px]">
           <Profile
@@ -30,8 +30,19 @@ const ProfileCard = () => {
             <Tag.Green border={true}>프로그래밍</Tag.Green>
             <Tag.Green border={true}>어학</Tag.Green>
           </div>
-          <Button.Ghost color="Main" className="w-full" onClick={openModal}>
+          <Button.Ghost
+            color="Main"
+            className="w-full"
+            onClick={() => openModal("updateProfile")}
+          >
             프로필 수정
+          </Button.Ghost>
+          <Button.Ghost
+            color="Gray"
+            className="w-full"
+            onClick={() => openModal("logout")}
+          >
+            로그아웃
           </Button.Ghost>
         </Card.Content>
         <Card.Footer>
@@ -40,6 +51,19 @@ const ProfileCard = () => {
           </Typography.P3>
         </Card.Footer>
       </Card>
+
+      <ProfileModal
+        isOpen={modal.get("updateProfile")!}
+        onClose={() => closeModal("updateProfile")}
+      />
+      <ActionConfirmModal
+        isOpen={modal.get("logout")!}
+        onClose={() => closeModal("logout")}
+        type="action"
+        content="정말 로그아웃 하시겠습니까?"
+        title="로그아웃"
+        buttonLabel="로그아웃"
+      />
     </>
   );
 };
