@@ -1,5 +1,6 @@
 "use client";
 import Button from "@/components/atoms/Button";
+import Checkbox from "@/components/atoms/Checkbox";
 import Modal, { ModalOnClose, ModalProps } from "@/components/atoms/Modal";
 import Typography from "@/components/atoms/Typography";
 import LabelInput from "@/components/molecules/LabelInput";
@@ -55,23 +56,25 @@ const NoticeModal = ({ onClose, data, ...props }: NoticeModalProps) => {
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <Modal.Content className="flex flex-col gap-5">
-            <div className="flex flex-col gap-2">
-              <LabelInput
-                label="제목"
-                name="title"
-                placeholder="제목을 입력하세요."
-                required
-                registerOptions={{ required: "필수 입력입니다." }}
-              />
-            </div>
-            <div className="flex flex-col gap-2">
-              <LabelTextAreaInput
-                label="내용"
-                name="content"
-                placeholder="내용울 입력하세요."
-                required
-                registerOptions={{ required: "필수 입력입니다." }}
-              />
+            <LabelInput
+              label="제목"
+              name="title"
+              placeholder="제목을 입력하세요."
+              required
+              registerOptions={{ required: "필수 입력입니다." }}
+            />
+            <LabelTextAreaInput
+              label="내용"
+              name="content"
+              placeholder="내용울 입력하세요."
+              required
+              registerOptions={{ required: "필수 입력입니다." }}
+            />
+            <div className="mb-2 mt-[-10px] flex justify-end gap-2">
+              <Checkbox />
+              <Typography.P3 className="text-[14px]">
+                중요 공지로 설정
+              </Typography.P3>
             </div>
           </Modal.Content>
 
