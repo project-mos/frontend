@@ -1,6 +1,6 @@
 import Input from "@/components/atoms/Input";
 import Label from "@/components/molecules/Label";
-import { cn } from "@/lib/utils";
+import cn from "@/utils/cn";
 import React from "react";
 import {
   FieldValues,

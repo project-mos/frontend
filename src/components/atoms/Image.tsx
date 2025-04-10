@@ -1,6 +1,6 @@
-import React, { forwardRef } from "react";
+import cn from "@/utils/cn";
 import Image from "next/image";
-import { cn } from "@/lib/utils";
+import React, { forwardRef } from "react";
 
 interface ImageProps extends React.ComponentPropsWithoutRef<typeof Image> {
   className?: string;
@@ -9,7 +9,7 @@ interface ImageProps extends React.ComponentPropsWithoutRef<typeof Image> {
 const CustomImage = forwardRef<HTMLImageElement, ImageProps>(
   ({ className, ...props }, ref) => {
     return (
-      <div className="relative w-full h-64">
+      <div className="relative h-64 w-full">
         <Image
           ref={ref}
           className={cn("object-cover", className)}

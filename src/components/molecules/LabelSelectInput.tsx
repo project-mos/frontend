@@ -1,5 +1,5 @@
 import Select from "@/components/atoms/Select";
-import { cn } from "@/lib/utils";
+import cn from "@/utils/cn";
 import { HTMLAttributes } from "react";
 import {
   FieldValues,

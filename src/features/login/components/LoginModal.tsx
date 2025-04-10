@@ -1,8 +1,8 @@
-import Typography from "@/components/atoms/Typography";
-import { JSX } from "react";
 import SvgIcons from "@/app/asset/icon/SvgIcons";
-import { cn } from "@/lib/utils";
 import Modal, { ModalOnClose, ModalProps } from "@/components/atoms/Modal";
+import Typography from "@/components/atoms/Typography";
+import cn from "@/utils/cn";
+import { JSX } from "react";
 
 interface ScheduleModalProps extends ModalProps {
   onClose: ModalOnClose;

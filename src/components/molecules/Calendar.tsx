@@ -1,10 +1,9 @@
 "use client";
-import React, { useState } from "react";
+import cn from "@/utils/cn";
+import { useState } from "react";
 import Button from "../atoms/Button";
-import Typography from "../atoms/Typography";
 import Grid from "../atoms/Grid";
-import { cn } from "@/lib/utils";
-
+import Typography from "../atoms/Typography";
 interface CalendarProps {
   [key: string]: {
     id: number;

@@ -1,7 +1,6 @@
-import React, { HTMLAttributes, ReactNode } from "react";
 import Typography from "@/components/atoms/Typography";
-import { cn } from "@/lib/utils";
-
+import cn from "@/utils/cn";
+import { HTMLAttributes, ReactNode } from "react";
 interface MetaProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
   icon: string;
