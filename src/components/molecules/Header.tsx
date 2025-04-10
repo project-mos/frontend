@@ -6,7 +6,7 @@ import Button from "@/components/atoms/Button";
 import { ADMIN_MENU_ITEMS, MENU_ITEMS } from "@/constants/SidebarItems";
 import URL from "@/constants/URL";
 import LoginModal from "@/features/login/components/LoginModal";
-import { cn } from "@/lib/utils";
+import cn from "@/utils/cn";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";

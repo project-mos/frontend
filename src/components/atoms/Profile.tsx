@@ -1,5 +1,5 @@
+import cn from "@/utils/cn";
 import Image, { StaticImageData } from "next/image";
-import { cn } from "@/lib/utils";
 
 interface ProfileProps {
   width: number;

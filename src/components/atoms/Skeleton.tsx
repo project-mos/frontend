@@ -1,6 +1,6 @@
 import SvgIcons from "@/app/asset/icon/SvgIcons";
-import { cn } from "@/lib/utils";
-import React, { HTMLAttributes } from "react";
+import cn from "@/utils/cn";
+import { HTMLAttributes } from "react";
 
 interface SkeletonProps extends HTMLAttributes<HTMLDivElement> {
   className?: string;

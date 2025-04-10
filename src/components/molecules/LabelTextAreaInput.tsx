@@ -1,7 +1,6 @@
-import React from "react";
-import { cn } from "@/lib/utils";
-import Label from "./Label";
 import Textarea from "@/components/atoms/Textarea";
+import cn from "@/utils/cn";
+import React from "react";
 import {
   FieldValues,
   Path,
@@ -9,6 +8,7 @@ import {
   useFormContext,
 } from "react-hook-form";
 import ErrorMessage from "../atoms/ErrorMessage";
+import Label from "./Label";
 
 interface LabelTextAreaInputProps<T extends FieldValues>
   extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {

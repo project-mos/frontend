@@ -1,5 +1,5 @@
+import cn from "@/utils/cn";
 import { Dispatch, HTMLAttributes, SetStateAction } from "react";
-import { cn } from "@/lib/utils";
 
 interface ModalProps extends HTMLAttributes<HTMLDivElement> {
   setIsOpenModal?: Dispatch<SetStateAction<boolean>>;
