@@ -193,7 +193,13 @@ export function Sidebar() {
               </div>
             )}
 
-            {/* 추후 로그아웃 기능 들어갈지 미정 */}
+            <Button.Solid
+              className="fixed bottom-5 left-[50%] w-4/5 translate-x-[-50%] "
+              color="Main"
+              active
+            >
+              로그아웃
+            </Button.Solid>
             {/* <li className="p-3 hover:bg-mos-main-100" onClick={close}>
               <Link href={URL.STUDY.CREATE}>
                 <Typography.P1 className="font-bold">⚙️ 설정</Typography.P1>
