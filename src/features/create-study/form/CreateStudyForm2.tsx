@@ -2,7 +2,6 @@ import Badge from "@/components/atoms/Badge";
 import Typography from "@/components/atoms/Typography";
 import URL from "@/constants/URL";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import StudyActions from "../components/StudyActions";
 import StudyBenefits from "../components/StudyBenefits";
@@ -21,21 +20,6 @@ const CreateStudyForm2 = () => {
   const handleClickBackButton = () => {
     router.push(`${URL.STUDY.CREATE}?step=1`);
   };
-
-  const { watch } = methods;
-  const isStep1Completed =
-    watch("name") &&
-    watch("category") &&
-    watch("recruitmentStartDate") &&
-    watch("recruitmentEndDate") &&
-    watch("meetingType") &&
-    watch("schedule");
-
-  useEffect(() => {
-    if (!isStep1Completed) {
-      router.push(`${URL.STUDY.CREATE}?step=1`);
-    }
-  }, []);
 
   return (
     <div className="m-auto flex w-full flex-col gap-[20px] tablet:w-[85%]">
