@@ -7,6 +7,7 @@ import {
   RegisterOptions,
   useFormContext,
 } from "react-hook-form";
+import ErrorMessage from "../atoms/ErrorMessage";
 import Label from "./Label";
 
 interface LabelInputProps<T extends FieldValues>
@@ -26,21 +27,23 @@ const LabelInput = <T extends FieldValues>({
   registerOptions,
   ...props
 }: LabelInputProps<T>) => {
-  const { register } = useFormContext<T>();
-  const inputId = id ?? `input-${name.replace(/\s+/g, "-").toLowerCase()}`;
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext<T>();
 
   return (
     <div className={cn("flex w-full flex-col gap-[5px]", className)}>
-      <Label label={label} required={required} htmlFor={inputId} />
+      <Label label={label} required={required} htmlFor={id} />
       <Input
-        id={inputId}
+        id={id}
         {...register(name, registerOptions)}
         className="w-full placeholder:text-mos-gray-500"
         {...props}
       />
-      {/* {errors[name]?.message && (
+      {errors[name]?.message && (
         <ErrorMessage>{String(errors[name]?.message)}</ErrorMessage>
-      )} */}
+      )}
     </div>
   );
 };
