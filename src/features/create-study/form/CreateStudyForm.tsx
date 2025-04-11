@@ -5,6 +5,7 @@ import CreateStudyForm3 from "@/features/create-study/form/CreateStudyForm3";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import useStudyStepProtection from "../hooks/useStudyStepProtection";
 import CreateStudyForm4 from "./CreateStudyForm4";
 
 export interface StudyFormInterface {
@@ -50,6 +51,8 @@ const CreateStudyForm = () => {
       questions: [],
     },
   });
+
+  useStudyStepProtection(methods.watch);
 
   /** 폼 데이터 변경 시마다 localStorage에 저장 */
   useEffect(() => {

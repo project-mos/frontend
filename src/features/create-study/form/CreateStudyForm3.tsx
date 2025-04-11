@@ -1,8 +1,7 @@
 import Badge from "@/components/atoms/Badge";
 import Typography from "@/components/atoms/Typography";
-import URL from "@/constants/URL";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FormProvider, useFormContext } from "react-hook-form";
 import CreateStudyModal from "../components/CreateStudyModal";
 import StudyActions from "../components/StudyActions";
@@ -26,15 +25,6 @@ const CreateStudyForm3 = () => {
     setIsOpenModal(false);
     router.push("/create-study?step=4");
   };
-
-  const { watch } = methods;
-  const isStep2Completed = watch("content");
-
-  useEffect(() => {
-    if (!isStep2Completed) {
-      router.push(`${URL.STUDY.CREATE}?step=2`);
-    }
-  }, []);
 
   return (
     <div className="m-auto flex w-full flex-col gap-[20px] tablet:w-[85%]">
