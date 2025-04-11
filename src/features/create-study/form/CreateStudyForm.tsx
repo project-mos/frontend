@@ -2,11 +2,11 @@
 import CreateStudyForm1 from "@/features/create-study/form/CreateStudyForm1";
 import CreateStudyForm2 from "@/features/create-study/form/CreateStudyForm2";
 import CreateStudyForm3 from "@/features/create-study/form/CreateStudyForm3";
+import CreateStudyForm4 from "@/features/create-study/form/CreateStudyForm4";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import useStudyStepProtection from "../hooks/useStudyStepProtection";
-import CreateStudyForm4 from "./CreateStudyForm4";
 
 export interface StudyFormInterface {
   category: string;

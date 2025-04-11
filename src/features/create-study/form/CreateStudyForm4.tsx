@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import { StudyFormInterface } from "./CreateStudyForm";
 
-const CreatStudyForm4 = () => {
+const CreateStudyForm4 = () => {
   const { watch } = useFormContext<StudyFormInterface>();
   const formData = watch();
   const router = useRouter();
@@ -99,4 +99,4 @@ const CreatStudyForm4 = () => {
   );
 };
 
-export default CreatStudyForm4;
+export default CreateStudyForm4;

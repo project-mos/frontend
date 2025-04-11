@@ -1,9 +1,9 @@
+import useModal from "@/app/hooks/useModal";
 import Badge from "@/components/atoms/Badge";
 import Typography from "@/components/atoms/Typography";
+import ActionConfirmModal from "@/components/molecules/ActionConfirmModal";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { FormProvider, useFormContext } from "react-hook-form";
-import CreateStudyModal from "../components/CreateStudyModal";
 import StudyActions from "../components/StudyActions";
 import StudyApply from "../components/StudyApply";
 import { StudyFormInterface } from "./CreateStudyForm";
@@ -11,10 +11,11 @@ import { StudyFormInterface } from "./CreateStudyForm";
 const CreateStudyForm3 = () => {
   const methods = useFormContext<StudyFormInterface>();
   const router = useRouter();
-  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+
+  const { modal, openModal, closeModal } = useModal();
 
   const onSubmit = () => {
-    setIsOpenModal(true);
+    openModal();
   };
 
   const handleClickBackButton = () => {
@@ -22,7 +23,7 @@ const CreateStudyForm3 = () => {
   };
 
   const handleClickCreateButton = () => {
-    setIsOpenModal(false);
+    closeModal();
     router.push("/create-study?step=4");
   };
 
@@ -44,14 +45,16 @@ const CreateStudyForm3 = () => {
             onClickBackButton={handleClickBackButton}
           />
         </form>
-        {isOpenModal && (
-          <CreateStudyModal
-            title="스터디를 생성하시겠습니까?"
-            descriptions={[]}
-            setIsOpenModal={setIsOpenModal}
-            confirmFunction={handleClickCreateButton}
-          />
-        )}
+
+        <ActionConfirmModal
+          isOpen={modal}
+          onClose={closeModal}
+          onSuccess={handleClickCreateButton}
+          type="action"
+          title="스터디 생성"
+          content="스터디를 생성하시겠습니까?"
+          buttonLabel="확인"
+        />
       </FormProvider>
     </div>
   );
