@@ -124,13 +124,19 @@ export function Sidebar() {
         </div>
         <ul className="mt-4 flex flex-col justify-between">
           <div>
-            <li className="p-3 hover:bg-mos-main-100" onClick={close}>
+            <li
+              className="p-3 hover:rounded-xl hover:bg-mos-main-100"
+              onClick={close}
+            >
               <Link href={URL.MYPAGE} className="flex items-center gap-3">
                 <i className="bi bi-house-door pl-4 text-[20px]" />
                 <Typography.P1 className="font-bold">마이페이지</Typography.P1>
               </Link>
             </li>
-            <li className="p-3 hover:bg-mos-main-100" onClick={close}>
+            <li
+              className="p-3 hover:rounded-xl hover:bg-mos-main-100"
+              onClick={close}
+            >
               <Link
                 href={`${URL.STUDY.CREATE}?step=1`}
                 className="flex items-center gap-3"
@@ -144,19 +150,19 @@ export function Sidebar() {
             </li>
             {/* 스터디룸 메뉴 */}
             {isStudyRoom && (
-              <>
-                <Typography.P1 className="p-3 font-bold">
+              <div>
+                <Typography.P1 className="px-7 py-3 font-bold">
                   스터디 룸
                 </Typography.P1>
                 {MENU_ITEMS.map((item, index) => {
                   return (
                     <li
-                      className="px-8 py-1.5 hover:bg-mos-main-100"
+                      className="px-12 py-1.5 hover:rounded-xl hover:bg-mos-main-100"
                       onClick={close}
                       key={`${item}_${index}`}
                     >
                       <Link href={item.path}>
-                        <Typography.P1 className="flex gap-2 font-semibold">
+                        <Typography.P1 className="flex gap-3 font-semibold">
                           <i className={cn(item.icon)} />
                           {item.name}
                         </Typography.P1>
@@ -164,19 +170,19 @@ export function Sidebar() {
                     </li>
                   );
                 })}
-                <Typography.P1 className="p-3 font-bold">
+                <Typography.P1 className="px-7 py-3 font-bold">
                   스터디 룸 관리자
                 </Typography.P1>
 
                 {ADMIN_MENU_ITEMS.map((item, index) => {
                   return (
                     <li
-                      className=" px-8 hover:bg-mos-main-100"
+                      className="px-12 py-1.5 hover:rounded-xl hover:bg-mos-main-100"
                       onClick={close}
                       key={`${item}_${index}`}
                     >
                       <Link href={item.path}>
-                        <Typography.P1 className="flex gap-2 font-semibold">
+                        <Typography.P1 className="flex gap-3 font-semibold">
                           <i className={cn(item.icon)} />
                           {item.name}
                         </Typography.P1>
@@ -184,7 +190,7 @@ export function Sidebar() {
                     </li>
                   );
                 })}
-              </>
+              </div>
             )}
 
             {/* 추후 로그아웃 기능 들어갈지 미정 */}
