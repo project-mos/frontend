@@ -7,6 +7,7 @@ import {
   RegisterOptions,
   useFormContext,
 } from "react-hook-form";
+import ErrorMessage from "../atoms/ErrorMessage";
 
 interface LabelRadioInputProps<T extends FieldValues>
   extends HTMLAttributes<HTMLInputElement> {
@@ -25,7 +26,11 @@ const LabelRadioInput = <T extends FieldValues>({
   registerOptions,
   ...props
 }: LabelRadioInputProps<T>) => {
-  const { watch, register } = useFormContext<T>();
+  const {
+    watch,
+    register,
+    formState: { errors },
+  } = useFormContext<T>();
 
   const selectedValue = watch(name) || "";
 
@@ -39,9 +44,9 @@ const LabelRadioInput = <T extends FieldValues>({
         selectedValue={selectedValue}
         {...props}
       />
-      {/* {errors[name]?.message && (
+      {errors[name]?.message && (
         <ErrorMessage>{String(errors[name]?.message)}</ErrorMessage>
-      )} */}
+      )}
     </div>
   );
 };

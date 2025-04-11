@@ -1,5 +1,6 @@
 import Badge from "@/components/atoms/Badge";
 import Typography from "@/components/atoms/Typography";
+import URL from "@/constants/URL";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FormProvider, useFormContext } from "react-hook-form";
@@ -14,7 +15,6 @@ const CreateStudyForm3 = () => {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
 
   const onSubmit = () => {
-    methods.setValue("step3Completed", true);
     setIsOpenModal(true);
   };
 
@@ -27,8 +27,13 @@ const CreateStudyForm3 = () => {
     router.push("/create-study?step=4");
   };
 
+  const { watch } = methods;
+  const isStep2Completed = watch("content");
+
   useEffect(() => {
-    window.scrollTo(0, 0);
+    if (!isStep2Completed) {
+      router.push(`${URL.STUDY.CREATE}?step=2`);
+    }
   }, []);
 
   return (
@@ -47,7 +52,6 @@ const CreateStudyForm3 = () => {
             solidLabel="스터디 만들기"
             ghostLabel="이전 단계"
             onClickBackButton={handleClickBackButton}
-            active={true}
           />
         </form>
         {isOpenModal && (

@@ -7,7 +7,9 @@ import {
   RegisterOptions,
   useFormContext,
 } from "react-hook-form";
+import ErrorMessage from "../atoms/ErrorMessage";
 import Label from "./Label";
+
 interface LabelSelectInputProps<T extends FieldValues>
   extends HTMLAttributes<HTMLDivElement> {
   label: string;
@@ -28,14 +30,15 @@ const LabelSelectInput = <T extends FieldValues>({
   registerOptions,
   ...props
 }: LabelSelectInputProps<T>) => {
-  const inputId = id ?? `input-${name.replace(/\s+/g, "-").toLowerCase()}`;
-
-  const { register } = useFormContext<T>();
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext<T>();
   return (
     <div className={cn("flex w-full flex-col gap-[5px]", className)} {...props}>
       <Label label={label} required={required} htmlFor={id} />
       <Select
-        id={inputId}
+        id={id}
         {...register(name, registerOptions)}
         className={cn(
           "w-full placeholder:text-mos-gray-500 focus:border-mos-main-500 focus:outline-none"
@@ -47,9 +50,9 @@ const LabelSelectInput = <T extends FieldValues>({
           </Select.Option>
         ))}
       </Select>
-      {/* {errors[name]?.message && (
+      {errors[name]?.message && (
         <ErrorMessage>{String(errors[name]?.message)}</ErrorMessage>
-      )} */}
+      )}
     </div>
   );
 };

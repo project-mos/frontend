@@ -46,7 +46,6 @@ const StudyBasicInfo = () => {
             required
             registerOptions={{
               required: "모집 시작일을 선택해주세요",
-              // valueAsDate: true,
             }}
           />
           <LabelInputDate
@@ -55,7 +54,6 @@ const StudyBasicInfo = () => {
             required
             registerOptions={{
               required: "모집 마감일을 선택해주세요",
-              // valueAsDate: true,
             }}
           />
         </div>
