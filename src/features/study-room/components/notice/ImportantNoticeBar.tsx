@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import Typography from "@/components/atoms/Typography";
 import { useNoticeStore } from "@/app/store/useNoticeStore";
 
@@ -8,7 +8,13 @@ const ImportantNoticeBar = () => {
   // 전역 상태 관리
   const { importantNotice, setImportantNotice } = useNoticeStore();
 
+  useEffect(() => {
+    const content = localStorage.getItem("importantNoticeContent");
+    setImportantNotice(content);
+  }, []);
+
   const onDeleteBarClick = () => {
+    localStorage.removeItem("importantNoticeContent");
     setImportantNotice(null);
   };
 

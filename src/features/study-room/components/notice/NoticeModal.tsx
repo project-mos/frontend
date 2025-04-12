@@ -47,6 +47,7 @@ const NoticeModal = ({ onClose, data, ...props }: NoticeModalProps) => {
     console.log("data", data);
     // 중요 공지로 설정 시 내용 저장
     if (data.isImportantNoticeChecked) {
+      localStorage.setItem("importantNoticeContent", data.content);
       setImportantNotice(data.content);
     }
     reset();
