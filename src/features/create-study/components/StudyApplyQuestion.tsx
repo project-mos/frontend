@@ -2,7 +2,7 @@ import Button from "@/components/atoms/Button";
 import Input from "@/components/atoms/Input";
 import RadioButton from "@/components/atoms/RadioButton";
 import Typography from "@/components/atoms/Typography";
-import { cn } from "@/lib/utils";
+import cn from "@/utils/cn";
 import { useFormContext } from "react-hook-form";
 
 interface QuestionProps {

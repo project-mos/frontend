@@ -1,5 +1,5 @@
 import Input from "@/components/atoms/Input";
-import { cn } from "@/lib/utils";
+import cn from "@/utils/cn";
 import { HTMLAttributes } from "react";
 import {
   FieldValues,
@@ -7,6 +7,7 @@ import {
   RegisterOptions,
   useFormContext,
 } from "react-hook-form";
+import ErrorMessage from "../atoms/ErrorMessage";
 import Label from "./Label";
 
 interface LabelNumberInputProps<T extends FieldValues>
@@ -29,13 +30,16 @@ const LabelNumberInput = <T extends FieldValues>({
   placeholder,
   ...props
 }: LabelNumberInputProps<T>) => {
-  const { register } = useFormContext<T>();
-  const inputId = id ?? `input-${name.replace(/\s+/g, "-").toLowerCase()}`;
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext<T>();
+
   return (
     <div className={cn("flex w-full flex-col gap-[5px]", className)}>
-      <Label label={label} required={required} htmlFor={inputId} />
+      <Label label={label} required={required} htmlFor={id} />
       <Input
-        id={inputId}
+        id={id}
         type="number"
         className="w-full placeholder:text-mos-gray-500"
         required={required}
@@ -44,9 +48,9 @@ const LabelNumberInput = <T extends FieldValues>({
         {...props}
         min={1}
       />
-      {/* {errors[name]?.message && (
+      {errors[name]?.message && (
         <ErrorMessage>{String(errors[name]?.message)}</ErrorMessage>
-      )} */}
+      )}
     </div>
   );
 };

@@ -1,8 +1,7 @@
-import React, { HTMLAttributes } from "react";
+import cn from "@/utils/cn";
+import { HTMLAttributes } from "react";
 import Card from "../atoms/Card";
 import Skeleton from "../atoms/Skeleton";
-import { cn } from "@/lib/utils";
-
 interface SkeletonCardProps extends HTMLAttributes<HTMLDivElement> {
   className?: string;
 }

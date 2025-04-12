@@ -1,7 +1,7 @@
 "use client";
 
-import { HTMLAttributes, useEffect, useCallback } from "react";
-import { cn } from "@/lib/utils";
+import cn from "@/utils/cn";
+import { HTMLAttributes, useCallback, useEffect } from "react";
 import { createPortal } from "react-dom";
 
 export type ModalOnClose = () => void;

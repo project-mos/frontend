@@ -1,7 +1,6 @@
+import cn from "@/utils/cn";
 import React from "react";
 import Typography from "./Typography";
-import { cn } from "@/lib/utils";
-
 export interface RadioButtonProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;

@@ -1,5 +1,5 @@
-import React, { ReactNode } from "react";
-import { cn } from "@/lib/utils";
+import cn from "@/utils/cn";
+import { ReactNode } from "react";
 
 type TypoType = "Head1" | "Head2" | "Head3" | "SubTitle1" | "P1" | "P2" | "P3";
 
