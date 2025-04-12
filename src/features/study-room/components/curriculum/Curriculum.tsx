@@ -79,7 +79,7 @@ const CurriculumEditView = ({ index, curriculum }: CurriculumItemProps) => {
   };
 
   return (
-    <div className="flex gap-[20px]">
+    <div className="flex gap-[5px]">
       <div>
         {/* 카테고리 */}
         <Input
@@ -95,8 +95,9 @@ const CurriculumEditView = ({ index, curriculum }: CurriculumItemProps) => {
         ></div>
       </div>
 
-      <div className="w-full">
-        <Card className="mb-[20px] flex h-auto flex-col border border-none bg-mos-white-gray-100 shadow-none">
+      <div className="flex w-full">
+        <i className="bi bi-arrow-down-up h-6 cursor-grab text-[16px] text-mos-gray-500 hover:text-mos-main active:cursor-grabbing"></i>
+        <Card className="mb-[20px] flex h-auto w-full flex-col border border-none bg-mos-white-gray-100 shadow-none">
           <Card.Header className="mb-3 flex w-full">
             {/* 제목 */}
             <Input
