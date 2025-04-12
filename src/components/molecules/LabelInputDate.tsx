@@ -1,6 +1,6 @@
 import Input from "@/components/atoms/Input";
 import Label from "@/components/molecules/Label";
-import { cn } from "@/lib/utils";
+import cn from "@/utils/cn";
 import React from "react";
 import {
   FieldValues,
@@ -8,6 +8,7 @@ import {
   RegisterOptions,
   useFormContext,
 } from "react-hook-form";
+import ErrorMessage from "../atoms/ErrorMessage";
 
 interface LabelInputDateProps<T extends FieldValues>
   extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -27,7 +28,10 @@ const LabelInputDate = <T extends FieldValues>({
   ...props
 }: LabelInputDateProps<T>) => {
   const inputId = id ?? `input-${name.replace(/\s+/g, "-").toLowerCase()}`;
-  const { register } = useFormContext<T>();
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext<T>();
 
   return (
     <div className={cn("mb-2 flex w-full flex-col gap-[5px]", className)}>
@@ -39,9 +43,9 @@ const LabelInputDate = <T extends FieldValues>({
         {...register(name, registerOptions)}
         {...props}
       />
-      {/* {errors[name]?.message && (
+      {errors[name]?.message && (
         <ErrorMessage>{String(errors[name]?.message)}</ErrorMessage>
-      )} */}
+      )}
     </div>
   );
 };
