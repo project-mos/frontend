@@ -1,5 +1,7 @@
 "use client";
+import { useNoticeStore } from "@/app/store/useNoticeStore";
 import Button from "@/components/atoms/Button";
+import Checkbox from "@/components/atoms/Checkbox";
 import Modal, { ModalOnClose, ModalProps } from "@/components/atoms/Modal";
 import Typography from "@/components/atoms/Typography";
 import LabelInput from "@/components/molecules/LabelInput";
@@ -16,6 +18,7 @@ interface NoticeModalProps extends ModalProps {
 interface NoticeData {
   title: string;
   content: string;
+  isImportantNoticeChecked: boolean;
 }
 
 const NoticeModal = ({ onClose, data, ...props }: NoticeModalProps) => {
@@ -26,7 +29,12 @@ const NoticeModal = ({ onClose, data, ...props }: NoticeModalProps) => {
     },
     mode: "onChange",
   });
-  const { handleSubmit, reset, formState, setValue } = methods;
+  const { handleSubmit, formState, setValue, watch, register, reset } = methods;
+  const noticeData = watch();
+  // 빈 항목이 하나라도 있으면 false
+  const isActiveBtn = !!noticeData.title && !!noticeData.content;
+  // 전역 상태 관리
+  const { setImportantNotice } = useNoticeStore();
 
   useEffect(() => {
     if (data) {
@@ -37,12 +45,16 @@ const NoticeModal = ({ onClose, data, ...props }: NoticeModalProps) => {
 
   const onSubmit = (data: NoticeData) => {
     console.log("data", data);
+    // 중요 공지로 설정 시 내용 저장
+    if (data.isImportantNoticeChecked) {
+      localStorage.setItem("importantNoticeContent", data.content);
+      setImportantNotice(data.content);
+    }
     reset();
     onClose();
   };
 
   const onClickCloseBtn = () => {
-    reset();
     onClose();
   };
 
@@ -55,23 +67,25 @@ const NoticeModal = ({ onClose, data, ...props }: NoticeModalProps) => {
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <Modal.Content className="flex flex-col gap-5">
-            <div className="flex flex-col gap-2">
-              <LabelInput
-                label="제목"
-                name="title"
-                placeholder="제목을 입력하세요."
-                required
-                registerOptions={{ required: "필수 입력입니다." }}
-              />
-            </div>
-            <div className="flex flex-col gap-2">
-              <LabelTextAreaInput
-                label="내용"
-                name="content"
-                placeholder="내용울 입력하세요."
-                required
-                registerOptions={{ required: "필수 입력입니다." }}
-              />
+            <LabelInput
+              label="제목"
+              name="title"
+              placeholder="제목을 입력하세요."
+              required
+              registerOptions={{ required: "필수 입력입니다." }}
+            />
+            <LabelTextAreaInput
+              label="내용"
+              name="content"
+              placeholder="내용울 입력하세요."
+              required
+              registerOptions={{ required: "필수 입력입니다." }}
+            />
+            <div className="mb-2 mt-[-10px] flex justify-end gap-2">
+              <Checkbox {...register("isImportantNoticeChecked")} />
+              <Typography.P3 className="text-[14px]">
+                중요 공지로 설정
+              </Typography.P3>
             </div>
           </Modal.Content>
 
@@ -82,7 +96,7 @@ const NoticeModal = ({ onClose, data, ...props }: NoticeModalProps) => {
             <Button.Solid
               type="submit"
               color="Main"
-              active={formState.isValid}
+              active={isActiveBtn}
               disabled={!formState.isValid}
             >
               확인

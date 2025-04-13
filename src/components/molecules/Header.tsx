@@ -29,16 +29,16 @@ const Header = () => {
           </div>
 
           {/* 오른쪽: 마이페이지, 로그인 버튼 */}
-          <nav className="flex items-center gap-[20px]">
+          <nav className="flex items-center gap-[10px]">
             {/* 로그인 했을 때 */}
             {isLoggedIn ? (
               <>
                 {/* 반응형 */}
                 <Link href={`${URL.STUDY.CREATE}?step=1`} title="스터디 만들기">
-                  <i className="bi-marker-tip hidden text-[34px] text-mos-gray-700 transition-all duration-200 hover:text-mos-main-500 active:text-mos-main-500 tablet:inline-block" />
+                  <i className="bi-marker-tip hidden text-[24px] text-mos-gray-700 transition-all duration-200 hover:text-mos-main-500 active:text-mos-main-500 tablet:inline-block" />
                 </Link>
                 <Link href={URL.MYPAGE} title="마이페이지">
-                  <i className="bi-person-circle hidden text-[34px] text-mos-gray-700 transition-all duration-200 hover:text-mos-main-500 active:text-mos-main-500 tablet:inline-block" />
+                  <i className="bi-person-circle hidden text-[24px] text-mos-gray-700 transition-all duration-200 hover:text-mos-main-500 active:text-mos-main-500 tablet:inline-block" />
                 </Link>
 
                 <Sidebar />

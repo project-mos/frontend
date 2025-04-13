@@ -72,7 +72,7 @@ const CurriculumCard = () => {
                 type={isModify ? "button" : "submit"}
                 active={isValidCurriculum}
               >
-                {isModify ? "저장" : "수정"}
+                {isModify ? "확인" : "수정"}
               </Button.Solid>
             </div>
           </Card.Header>
