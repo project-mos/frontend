@@ -4,9 +4,13 @@ import Tag from "../../../../components/atoms/Tag";
 import Typography from "../../../../components/atoms/Typography";
 import Input from "@/components/atoms/Input";
 import Textarea from "@/components/atoms/Textarea";
-import { memo, useCallback } from "react";
+import { memo, useCallback, useRef } from "react";
 import { useFormContext } from "react-hook-form";
 import ErrorMessage from "@/components/atoms/ErrorMessage";
+import { DndProvider, useDrag, useDrop } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+
+const ItemType = "CURRICULUM_ITEM";
 
 interface CurriculumProps {
   isModify: boolean;
@@ -135,18 +139,87 @@ const CurriculumEditView = ({ index, curriculum }: CurriculumItemProps) => {
   );
 };
 
+const DraggableCurriculumEditView = ({
+  index,
+  curriculum,
+  moveItem,
+}: CurriculumItemProps & {
+  moveItem: (dragIndex: number, hoverIndex: number) => void;
+}) => {
+  // DnD를 연결할 대상
+  const ref = useRef<HTMLDivElement>(null);
+
+  // 해당 항목이 드롭 대상이 되도록 설정
+  const [, drop] = useDrop({
+    accept: ItemType,
+    // 이 항목이 드래그된 요소가 위에 올라왔을 때 반응할 수 있도록 설정
+    hover(item: { index: number }, monitor) {
+      if (!ref.current) return;
+      const dragIndex = item.index;
+      const hoverIndex = index;
+
+      if (dragIndex === hoverIndex) return; // 위치가 그대로면 무시
+
+      //  마우스 위치 계산
+      const hoverBoundingRect = ref.current?.getBoundingClientRect();
+      const hoverMiddleY =
+        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+      const clientOffset = monitor.getClientOffset();
+      const hoverClientY = clientOffset!.y - hoverBoundingRect.top;
+
+      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) return;
+      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) return;
+
+      // 위 조건을 통과하면 실제로 moveItem 호출해서 순서 바꿈
+      moveItem(dragIndex, hoverIndex);
+      item.index = hoverIndex;
+    },
+  });
+
+  // 해당 항목이 드래그 가능한 항목이 되도록 설정
+  const [{ isDragging }, drag] = useDrag({
+    type: ItemType,
+    item: { index },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(), // isDragging: 드래그 항목의 투명도 조절 기능
+    }),
+  });
+
+  drag(drop(ref));
+
+  return (
+    <div ref={ref} style={{ opacity: isDragging ? 0.5 : 1 }}>
+      <CurriculumEditView index={index} curriculum={curriculum} />
+    </div>
+  );
+};
+
 const Curriculum = ({ isModify }: CurriculumProps) => {
-  const { watch } = useFormContext<{
+  const { watch, setValue } = useFormContext<{
     curriculumList: StudyCurriculumCardInterface[];
   }>();
   const curriculumList = watch("curriculumList");
 
-  return curriculumList.map((curriculum, index) =>
+  // dnd 아이템 이동
+  // dragIndex: 드래그한 아이템의 인덱스 (클릭한 항목)
+  // hoverIndex: 드래그한 아이템을 놓을 목표 인덱스
+  const moveItem = (dragIndex: number, hoverIndex: number) => {
+    const updatedList = [...curriculumList];
+    const [draggedItem] = updatedList.splice(dragIndex, 1); // draggedItem: 기존 배열에서 이동시킬 아이템을 뽑아옴
+    updatedList.splice(hoverIndex, 0, draggedItem); // 기존 배열의 hoverIndex 위치에 draggedItem을 삽입
+    setValue("curriculumList", updatedList);
+  };
+
+  const renderItem = (
+    curriculum: StudyCurriculumCardInterface,
+    index: number
+  ) =>
     isModify ? (
-      <CurriculumEditView
+      <DraggableCurriculumEditView
         key={curriculum.id}
         index={index}
         curriculum={curriculum}
+        moveItem={moveItem}
       />
     ) : (
       <CurriculumView
@@ -154,7 +227,12 @@ const Curriculum = ({ isModify }: CurriculumProps) => {
         index={index}
         curriculum={curriculum}
       />
-    )
+    );
+
+  return (
+    <DndProvider backend={HTML5Backend}>
+      {curriculumList.map((curriculum, index) => renderItem(curriculum, index))}
+    </DndProvider>
   );
 };
 
