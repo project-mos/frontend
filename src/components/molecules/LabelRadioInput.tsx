@@ -1,4 +1,4 @@
-import ErrorMessage from "@/components/atoms/ErrorMessage";
+import Typography from "@/components/atoms/Typography";
 import Label from "@/components/molecules/Label";
 import RadioGroup from "@/components/molecules/RadioGroup";
 import { HTMLAttributes } from "react";
@@ -46,7 +46,7 @@ const LabelRadioInput = <T extends FieldValues>({
         {...props}
       />
       {errors[name]?.message && (
-        <ErrorMessage>{String(errors[name]?.message)}</ErrorMessage>
+        <Typography.Error>{String(errors[name]?.message)}</Typography.Error>
       )}
     </div>
   );

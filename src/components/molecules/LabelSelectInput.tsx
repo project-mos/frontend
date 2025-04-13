@@ -8,7 +8,8 @@ import {
 } from "react-hook-form";
 import Select from "@/components/atoms/Select";
 import Label from "./Label";
-import ErrorMessage from "@/components/atoms/ErrorMessage";
+import Typography from "@/components/atoms/Typography";
+
 interface LabelSelectInputProps<T extends FieldValues>
   extends HTMLAttributes<HTMLDivElement> {
   label: string;
@@ -53,7 +54,7 @@ const LabelSelectInput = <T extends FieldValues>({
         ))}
       </Select>
       {errors[name]?.message && (
-        <ErrorMessage>{String(errors[name]?.message)}</ErrorMessage>
+        <Typography.Error>{String(errors[name]?.message)}</Typography.Error>
       )}
     </div>
   );
