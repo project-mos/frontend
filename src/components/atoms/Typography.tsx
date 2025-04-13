@@ -37,6 +37,13 @@ const Typography = {
   P1: (props: TypographyProps) => <BaseTypography type="P1" {...props} />,
   P2: (props: TypographyProps) => <BaseTypography type="P2" {...props} />,
   P3: (props: TypographyProps) => <BaseTypography type="P3" {...props} />,
+  Error: (props: TypographyProps) => (
+    <BaseTypography
+      type="P1"
+      className="mb-[-26px] text-[14px] text-mos-coral-500"
+      {...props}
+    />
+  ),
 };
 
 export default Typography;
