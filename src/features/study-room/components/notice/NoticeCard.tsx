@@ -35,10 +35,10 @@ const List = () => {
 };
 
 const NoticeCard = () => {
-  const { modal, openModal, closeModal } = useModal();
+  const { isModalOpenState, openModal, closeModal } = useModal();
   return (
     <>
-      <NoticeModal isOpen={modal} onClose={closeModal} />
+      <NoticeModal isOpen={isModalOpenState} onClose={closeModal} />
       <Card className="col-span-12 h-fit gap-3 tablet:col-span-9 laptop:col-span-10">
         <Card.Header className="mb-[10px] justify-between">
           <Typography.SubTitle1>공지사항</Typography.SubTitle1>

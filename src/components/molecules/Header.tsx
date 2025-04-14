@@ -14,11 +14,11 @@ import { usePathname } from "next/navigation";
 
 const Header = () => {
   const isLoggedIn = true;
-  const { modal, openModal, closeModal } = useModal();
+  const { isModalOpenState, openModal, closeModal } = useModal();
 
   return (
     <>
-      <LoginModal isOpen={modal} onClose={closeModal} />
+      <LoginModal isOpen={isModalOpenState} onClose={closeModal} />
       <header className="header fixed left-0 top-0 flex h-[55px] w-full justify-center border-b border-gray-200 bg-white">
         <div className="flex w-[90%] max-w-[1300px] items-center justify-between">
           {/* 왼쪽: 로고 */}

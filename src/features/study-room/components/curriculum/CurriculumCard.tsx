@@ -9,10 +9,10 @@ import CurriculumModal from "./CurriculumModal";
 import useModal from "@/app/hooks/useModal";
 
 const CurriculumCard = () => {
-  const { modal, openModal, closeModal } = useModal();
+  const { isModalOpenState, openModal, closeModal } = useModal();
   return (
     <>
-      <CurriculumModal isOpen={modal} onClose={closeModal} />
+      <CurriculumModal isOpen={isModalOpenState} onClose={closeModal} />
       <Card className="col-span-12 h-fit gap-3 tablet:col-span-9 laptop:col-span-10">
         <Card.Header className="mb-[20px] justify-between">
           <Typography.SubTitle1>커리큘럼</Typography.SubTitle1>

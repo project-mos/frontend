@@ -67,7 +67,7 @@ export default function TestPage() {
   ];
 
   // modal
-  const { modal, openModal, closeModal } = useModal();
+  const { isModalOpenState, openModal, closeModal } = useModal();
 
   return (
     <div className="border-10 flex min-h-screen flex-col items-center gap-5 border-red-500 bg-white text-black">
@@ -293,7 +293,7 @@ export default function TestPage() {
       {/* 석재 확인 모달 */}
       <ActionConfirmModal
         type="danger"
-        isOpen={modal}
+        isOpen={isModalOpenState}
         onClose={closeModal}
         title="삭제 확인"
         content="정말로 삭제하시겠습니까?"

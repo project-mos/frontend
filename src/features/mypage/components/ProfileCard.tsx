@@ -9,11 +9,11 @@ import useModal from "@/app/hooks/useModal";
 import ProfileModal from "./ProfileModal";
 
 const ProfileCard = () => {
-  const { modal, openModal, closeModal } = useModal();
+  const { isModalOpenState, openModal, closeModal } = useModal();
 
   return (
     <>
-      <ProfileModal isOpen={modal} onClose={closeModal} />
+      <ProfileModal isOpen={isModalOpenState} onClose={closeModal} />
       <Card>
         <Card.Content className="mb-[15px] items-center gap-[15px]">
           <Profile

@@ -9,12 +9,12 @@ import ScheduleModal from "./ScheduleModal";
 import useModal from "@/app/hooks/useModal";
 
 const ScheduleCard = () => {
-  const { modal, openModal, closeModal } = useModal();
+  const { isModalOpenState, openModal, closeModal } = useModal();
 
   return (
     <>
       <ScheduleModal
-        isOpen={modal}
+        isOpen={isModalOpenState}
         onClose={closeModal}
         onSuccess={() => {
           console.log("success!!");
