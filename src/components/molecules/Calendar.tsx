@@ -17,7 +17,7 @@ const cellStyle =
   "h-16 w-full min-w-10 mobile:min-w-20 border border-gray-200 p-2 mobile:h-20 tablet:min-w-[50px] ";
 
 function Calendar() {
-  const [currentDate, setCurrentDate] = useState(new Date());
+  const [currentDateState, setCurrentDateState] = useState(new Date());
   const today = new Date();
 
   // 예시 일정 데이터 (키: "YYYY-MM-DD" Parameters)
@@ -49,8 +49,8 @@ function Calendar() {
 
   // 캘린더 셀 렌더링 (오늘 날짜는 색이 있는 동그라미로 감싸고, 이벤트는 날짜 숫자 바로 아래에 표시)
   const renderCalendarCells = () => {
-    const year = currentDate.getFullYear();
-    const month = currentDate.getMonth();
+    const year = currentDateState.getFullYear();
+    const month = currentDateState.getMonth();
     const daysInMonth = getDaysInMonth(year, month);
     const firstDay = getFirstDayOfMonth(year, month);
 
@@ -123,21 +123,21 @@ function Calendar() {
   // 이전 달로 이동
   const handlePrevMonth = () => {
     const prevMonthDate = new Date(
-      currentDate.getFullYear(),
-      currentDate.getMonth() - 1,
+      currentDateState.getFullYear(),
+      currentDateState.getMonth() - 1,
       1
     );
-    setCurrentDate(prevMonthDate);
+    setCurrentDateState(prevMonthDate);
   };
 
   // 다음 달로 이동
   const handleNextMonth = () => {
     const nextMonthDate = new Date(
-      currentDate.getFullYear(),
-      currentDate.getMonth() + 1,
+      currentDateState.getFullYear(),
+      currentDateState.getMonth() + 1,
       1
     );
-    setCurrentDate(nextMonthDate);
+    setCurrentDateState(nextMonthDate);
   };
 
   return (
@@ -147,7 +147,7 @@ function Calendar() {
           &lt;
         </Button.Solid>
         <Typography.SubTitle1>
-          {currentDate.getFullYear()}년 {currentDate.getMonth() + 1}월
+          {currentDateState.getFullYear()}년 {currentDateState.getMonth() + 1}월
         </Typography.SubTitle1>
         <Button.Solid color="Main" active onClick={handleNextMonth}>
           &gt;

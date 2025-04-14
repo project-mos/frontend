@@ -21,14 +21,14 @@ const LabelTagInput = ({
 }: LabelTagInputProps) => {
   const { setValue, watch } = useFormContext();
   const tags: string[] = watch(name, []);
-  const [tagInput, setTagInput] = useState("");
+  const [tagInputState, setTagInputState] = useState("");
   const inputId = id ?? `input-${name.replace(/\s+/g, "-").toLowerCase()}`;
 
   const handleClickAddButton = () => {
-    if (tagInput.trim() === "") return;
+    if (tagInputState.trim() === "") return;
 
-    setValue(name, [...tags, tagInput.trim()]);
-    setTagInput("");
+    setValue(name, [...tags, tagInputState.trim()]);
+    setTagInputState("");
   };
 
   const handleRemoveTag = (index: number) => {
@@ -47,8 +47,8 @@ const LabelTagInput = ({
       <div className="flex">
         <Input
           id={inputId}
-          value={tagInput}
-          onChange={(e) => setTagInput(e.target.value)}
+          value={tagInputState}
+          onChange={(e) => setTagInputState(e.target.value)}
           className="w-full rounded-r-none placeholder:text-mos-gray-500"
           placeholder={placeholder}
         />

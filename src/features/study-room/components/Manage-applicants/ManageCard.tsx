@@ -13,16 +13,17 @@ const List = () => {
   const { isModalOpenState, openModal, closeModal } = useModal();
 
   // 선택된 사용자 정보를 상태로 관리
-  const [selectedUser, setSelectedUser] = useState<StudyManageCardInterface>({
-    name: "",
-    date: "",
-    email: "",
-    experience: "",
-    questionList: [{ question: "", answer: "" }],
-  });
+  const [selectedUserState, setSelectedUserState] =
+    useState<StudyManageCardInterface>({
+      name: "",
+      date: "",
+      email: "",
+      experience: "",
+      questionList: [{ question: "", answer: "" }],
+    });
 
   const handleClick = (user: StudyManageCardInterface) => {
-    setSelectedUser(user);
+    setSelectedUserState(user);
     openModal();
   };
 
@@ -32,7 +33,7 @@ const List = () => {
       <InfoModal
         isOpen={isModalOpenState}
         onClose={closeModal}
-        data={selectedUser}
+        data={selectedUserState}
       />
 
       {/* 지원자 리스트 */}

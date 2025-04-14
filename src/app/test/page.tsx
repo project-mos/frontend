@@ -51,15 +51,15 @@ export default function TestPage() {
   };
 
   // Tab
-  const [selectedTab, setSelectedTab] = useState<string>("");
+  const [selectedTabState, setSelectedTabState] = useState<string>("");
 
-  const [studyName, setStudyName] = useState<string>("");
-  const [category, setCategory] = useState<string>("");
+  const [studyNameState, setStudyNameState] = useState<string>("");
+  const [categoryState, setCategoryState] = useState<string>("");
   const categoryList = ["ex1", "ex2", "ex3"];
-  const [startDate, setStartDate] = useState<string>("");
-  const [endDate, setEndDate] = useState<string>("");
+  const [startDateState, setStartDateState] = useState<string>("");
+  const [endDateState, setEndDateState] = useState<string>("");
 
-  const [studyMethod, setStudyMethod] = useState("online");
+  const [studyMethodState, setStudyMethodState] = useState("online");
   const studyMethods = [
     { label: "비대면", value: "online" },
     { label: "대면", value: "offline" },
@@ -222,42 +222,44 @@ export default function TestPage() {
           <LabelInput
             name="name"
             label="스터디명"
-            value={studyName}
-            onChange={(e) => setStudyName(e.target.value)}
+            value={studyNameState}
+            onChange={(e) => setStudyNameState(e.target.value)}
             required
           />
           <LabelInput
             name="duration"
             label="진행 시간"
-            value={studyName}
-            onChange={(e) => setStudyName(e.target.value)}
+            value={studyNameState}
+            onChange={(e) => setStudyNameState(e.target.value)}
             placeholder="예: 매주 화요일 오후 8시"
           />
           <LabelSelectInput
             name="category"
             label="카테고리"
             selectList={categoryList}
-            onChange={(e) => setCategory((e.target as HTMLSelectElement).value)}
+            onChange={(e) =>
+              setCategoryState((e.target as HTMLSelectElement).value)
+            }
             required
           />
-          <p>{category}</p>
+          <p>{categoryState}</p>
 
           <div className="flex w-full gap-3">
             <LabelInputDate
               name="startDate"
               label="모집 시작일"
-              value={startDate}
-              onChange={(e) => setStartDate(e.target.value)}
+              value={startDateState}
+              onChange={(e) => setStartDateState(e.target.value)}
             />
             <LabelInputDate
               name="endDate"
               label="모집 마감일"
-              value={endDate}
-              onChange={(e) => setEndDate(e.target.value)}
+              value={endDateState}
+              onChange={(e) => setEndDateState(e.target.value)}
             />
           </div>
-          <p>{startDate}</p>
-          <p>{endDate}</p>
+          <p>{startDateState}</p>
+          <p>{endDateState}</p>
           <LabelNumberInput name="person" label="모집 인원" />
           <Editor name="test" />
         </form>
@@ -265,9 +267,9 @@ export default function TestPage() {
         <RadioGroup
           name="studyMethod"
           options={studyMethods}
-          selectedValue={studyMethod}
+          selectedValue={studyMethodState}
           onChange={(event) => {
-            setStudyMethod(event.target.value);
+            setStudyMethodState(event.target.value);
           }}
         />
       </FormProvider>
@@ -275,8 +277,8 @@ export default function TestPage() {
       {/* Tab */}
       <Tab
         tabList={["잠여 중인 스터디", "지원 현황"]}
-        selectedTab={selectedTab}
-        setSelectedTab={setSelectedTab}
+        selectedTab={selectedTabState}
+        setSelectedTab={setSelectedTabState}
       />
       {/* Calendar */}
       <Calendar />

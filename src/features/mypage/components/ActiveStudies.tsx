@@ -15,19 +15,20 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const ActiveStudies = () => {
-  const [selectedTab, setSelectedTab] = useState<string>("참여 중인 스터디");
+  const [selectedTabState, setSelectedTabState] =
+    useState<string>("참여 중인 스터디");
 
   return (
     <Card className="col-span-12">
       <Card.Header className="mb-[20px]">
         <Tab
           tabList={["참여 중인 스터디", "지원 현황"]}
-          selectedTab={selectedTab}
-          setSelectedTab={setSelectedTab}
+          selectedTab={selectedTabState}
+          setSelectedTab={setSelectedTabState}
         />
       </Card.Header>
       <Card.Content>
-        {selectedTab === "참여 중인 스터디" ? (
+        {selectedTabState === "참여 중인 스터디" ? (
           <StudyList data={MockActiveStudiesApiResult} type="active" />
         ) : (
           <StudyList data={MockApplyStatusApiResult} type="apply" />

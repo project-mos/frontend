@@ -11,11 +11,11 @@ import { StudyFormInterface } from "./CreateStudyForm";
 const CreateStudyForm3 = () => {
   const methods = useFormContext<StudyFormInterface>();
   const router = useRouter();
-  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+  const [isOpenModalState, setIsOpenModalState] = useState<boolean>(false);
 
   const onSubmit = () => {
     methods.setValue("step3Completed", true);
-    setIsOpenModal(true);
+    setIsOpenModalState(true);
   };
 
   const handleClickBackButton = () => {
@@ -23,7 +23,7 @@ const CreateStudyForm3 = () => {
   };
 
   const handleClickCreateButton = () => {
-    setIsOpenModal(false);
+    setIsOpenModalState(false);
     router.push("/create-study?step=4");
   };
 
@@ -49,11 +49,11 @@ const CreateStudyForm3 = () => {
             onClickBackButton={handleClickBackButton}
           />
         </form>
-        {isOpenModal && (
+        {isOpenModalState && (
           <CreateStudyModal
             title="스터디를 생성하시겠습니까?"
             descriptions={[]}
-            setIsOpenModal={setIsOpenModal}
+            setIsOpenModal={setIsOpenModalState}
             confirmFunction={handleClickCreateButton}
           />
         )}

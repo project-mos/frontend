@@ -61,12 +61,12 @@ const Header = () => {
 };
 
 export function Sidebar() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpenState, setIsOpenState] = useState(false);
   const pathname = usePathname();
   const isStudyRoom = pathname.split("/")?.[1] === "study-room"; // 첫 번째 경로 추출
 
   const close = () => {
-    setIsOpen(false);
+    setIsOpenState(false);
   };
 
   return (
@@ -75,13 +75,13 @@ export function Sidebar() {
       <div className="tablet:hidden">
         {/* 햄버거 버튼 */}
         <button
-          onClick={() => setIsOpen(true)}
+          onClick={() => setIsOpenState(true)}
           type="button"
           className={cn(
             "inline-flex size-10 items-center justify-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-mos-main-100 dark:focus:ring-gray-600"
           )}
           aria-controls="navbar-hamburger"
-          aria-expanded={isOpen}
+          aria-expanded={isOpenState}
         >
           <span className="sr-only">Open main menu</span>
           <svg
@@ -103,7 +103,7 @@ export function Sidebar() {
       </div>
 
       {/* 오버레이 (사이드바 열렸을 때만 표시) */}
-      {isOpen && (
+      {isOpenState && (
         <div
           className="fixed inset-0 z-10 bg-black bg-opacity-50"
           onClick={close}
@@ -114,7 +114,7 @@ export function Sidebar() {
       <div
         className={cn(
           "sidebar fixed right-0 top-0 h-full w-64 bg-white text-black transition-transform duration-200 ease-in-out",
-          isOpen ? "translate-x-0" : "translate-x-full"
+          isOpenState ? "translate-x-0" : "translate-x-full"
         )}
       >
         <div className="p-4">

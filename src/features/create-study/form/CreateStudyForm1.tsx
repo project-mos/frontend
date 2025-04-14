@@ -14,7 +14,7 @@ const CreateStudyForm1 = () => {
   const methods = useFormContext<StudyFormInterface>();
   const router = useRouter();
   const validateForm = useValidateForm();
-  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+  const [isOpenModalState, setIsOpenModalState] = useState<boolean>(false);
 
   const onSubmit = (data: StudyFormInterface) => {
     if (validateForm(data)) {
@@ -24,11 +24,11 @@ const CreateStudyForm1 = () => {
   };
 
   const handleClickBackButton = () => {
-    setIsOpenModal(true);
+    setIsOpenModalState(true);
   };
 
   const handleClickCancelButton = () => {
-    setIsOpenModal(false);
+    setIsOpenModalState(false);
     router.push("/");
   };
 
@@ -56,11 +56,11 @@ const CreateStudyForm1 = () => {
           />
         </form>
       </FormProvider>
-      {isOpenModal && (
+      {isOpenModalState && (
         <CreateStudyModal
           title="취소하시겠습니까?"
           descriptions={["현재까지 작성하신 내용은", "저장되지않습니다."]}
-          setIsOpenModal={setIsOpenModal}
+          setIsOpenModal={setIsOpenModalState}
           confirmFunction={handleClickCancelButton}
         />
       )}
