@@ -68,7 +68,7 @@ const List = (
 };
 
 const NoticeCard = () => {
-  const { isModalOpenState, openModal, closeModal } = useMultiModal();
+  const { modal, openModal, closeModal } = useMultiModal();
   const [selectedNotice, setSelectedNotice] = useState<
     StudyNoticeCardInterface[]
   >([]);
@@ -86,7 +86,6 @@ const NoticeCard = () => {
 
   return (
     <>
-      <NoticeModal isOpen={isModalOpenState} onClose={closeModal} />
       <Card className="col-span-12 h-fit gap-3 tablet:col-span-9 laptop:col-span-10">
         <Card.Header className="mb-[10px] justify-between">
           <Typography.SubTitle1>공지사항</Typography.SubTitle1>

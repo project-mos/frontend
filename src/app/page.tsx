@@ -4,7 +4,7 @@ import LandingContentCards from "@/features/landing/components/LandingContentCar
 import LandingContentHeader from "@/features/landing/components/LandingContentHeader";
 
 interface HomeProps {
-  searchParams: { page?: string };
+  searchParams: Promise<{ page?: string }>;
 }
 
 export default async function Home({ searchParams }: HomeProps) {
