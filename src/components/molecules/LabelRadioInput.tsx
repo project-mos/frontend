@@ -32,7 +32,6 @@ const LabelRadioInput = <T extends FieldValues>({
     formState: { errors },
   } = useFormContext<T>();
 
-  // const inputId = id ?? `input-${name.replace(/\s+/g, "-").toLowerCase()}`;
   const selectedValue = watch(name) || "";
 
   return (

@@ -1,5 +1,5 @@
-import React, { ReactNode } from "react";
-import { cn } from "@/lib/utils";
+import cn from "@/utils/cn";
+import { ReactNode } from "react";
 
 type TypoType = "Head1" | "Head2" | "Head3" | "SubTitle1" | "P1" | "P2" | "P3";
 
@@ -40,7 +40,7 @@ const Typography = {
   Error: (props: TypographyProps) => (
     <BaseTypography
       type="P1"
-      className="mb-[-26px] text-[14px] text-mos-coral-500"
+      className="mb-[-24px] text-[12px] text-mos-coral-500"
       {...props}
     />
   ),

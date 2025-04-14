@@ -1,14 +1,14 @@
-import React from "react";
-import { cn } from "@/lib/utils";
 import Input from "@/components/atoms/Input";
-import Label from "./Label";
+import cn from "@/utils/cn";
+import React from "react";
 import {
   FieldValues,
   Path,
   RegisterOptions,
   useFormContext,
 } from "react-hook-form";
-import Typography from "@/components/atoms/Typography";
+import Typography from "../atoms/Typography";
+import Label from "./Label";
 
 interface LabelInputProps<T extends FieldValues>
   extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -31,13 +31,12 @@ const LabelInput = <T extends FieldValues>({
     register,
     formState: { errors },
   } = useFormContext<T>();
-  const inputId = id ?? `input-${name.replace(/\s+/g, "-").toLowerCase()}`;
 
   return (
     <div className={cn("flex w-full flex-col gap-[5px]", className)}>
-      <Label label={label} required={required} htmlFor={inputId} />
+      <Label label={label} required={required} htmlFor={id} />
       <Input
-        id={inputId}
+        id={id}
         {...register(name, registerOptions)}
         className="w-full placeholder:text-mos-gray-500"
         {...props}

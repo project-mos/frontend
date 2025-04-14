@@ -2,7 +2,7 @@ import Button from "@/components/atoms/Button";
 import Input from "@/components/atoms/Input";
 import Tag from "@/components/atoms/Tag";
 import Typography from "@/components/atoms/Typography";
-import { cn } from "@/lib/utils";
+import cn from "@/utils/cn";
 import { useState } from "react";
 import { useFormContext } from "react-hook-form";
 

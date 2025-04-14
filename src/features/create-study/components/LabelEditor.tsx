@@ -1,8 +1,7 @@
 import Typography from "@/components/atoms/Typography";
 import Editor from "@/components/Editor";
 import Label from "@/components/molecules/Label";
-
-// import dynamic from "next/dynamic";
+import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 
 interface LabelEditorProps {
@@ -16,8 +15,14 @@ const LabelEditor = ({ label, name, required }: LabelEditorProps) => {
     formState: { errors },
   } = useFormContext();
 
+  useEffect(() => {
+    if (errors[name]) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, [errors[name]]);
+
   return (
-    <div className="mb-[35px] gap-[5px]">
+    <div className="mb-[35px] gap-[5px]" id="scroll-container">
       <Label label={label} required={required} />
       <div className="h-[500px]">
         <Editor name={name} />

@@ -1,12 +1,12 @@
-import React, { HTMLAttributes } from "react";
-import { cn } from "@/lib/utils";
+import Select from "@/components/atoms/Select";
+import cn from "@/utils/cn";
+import { HTMLAttributes } from "react";
 import {
   FieldValues,
   Path,
   RegisterOptions,
   useFormContext,
 } from "react-hook-form";
-import Select from "@/components/atoms/Select";
 import Label from "./Label";
 import Typography from "@/components/atoms/Typography";
 
@@ -30,8 +30,6 @@ const LabelSelectInput = <T extends FieldValues>({
   registerOptions,
   ...props
 }: LabelSelectInputProps<T>) => {
-  const inputId = id ?? `input-${name.replace(/\s+/g, "-").toLowerCase()}`;
-
   const {
     register,
     formState: { errors },
@@ -40,9 +38,8 @@ const LabelSelectInput = <T extends FieldValues>({
     <div className={cn("flex w-full flex-col gap-[5px]", className)} {...props}>
       <Label label={label} required={required} htmlFor={id} />
       <Select
-        id={inputId}
+        id={id}
         {...register(name, registerOptions)}
-        // onChange={(e) => setValue(name, (e.target as HTMLSelectElement).value)}
         className={cn(
           "w-full placeholder:text-mos-gray-500 focus:border-mos-main-500 focus:outline-none"
         )}

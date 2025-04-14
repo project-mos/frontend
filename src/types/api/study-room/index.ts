@@ -1,10 +1,12 @@
 export interface StudyCurriculumCardInterface {
+  id: string,
   step: string,
   title: string,
   content: string,
 }
 
 export interface StudyNoticeCardInterface {
+  id: number,
   title: string,
   content: string,
   writer: string

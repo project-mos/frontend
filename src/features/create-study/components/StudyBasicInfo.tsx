@@ -1,7 +1,7 @@
 import Card from "@/components/atoms/Card";
 import Typography from "@/components/atoms/Typography";
-import LabelInputDate from "../../../components/molecules/LabelInputDate";
 import LabelInput from "../../../components/molecules/LabelInput";
+import LabelInputDate from "../../../components/molecules/LabelInputDate";
 import LabelNumberInput from "../../../components/molecules/LabelNumberInput";
 import LabelSelectInput from "../../../components/molecules/LabelSelectInput";
 import LabelTagInput from "./LabelTagInput";
@@ -46,7 +46,6 @@ const StudyBasicInfo = () => {
             required
             registerOptions={{
               required: "모집 시작일을 선택해주세요",
-              // valueAsDate: true,
             }}
           />
           <LabelInputDate
@@ -55,7 +54,6 @@ const StudyBasicInfo = () => {
             required
             registerOptions={{
               required: "모집 마감일을 선택해주세요",
-              // valueAsDate: true,
             }}
           />
         </div>

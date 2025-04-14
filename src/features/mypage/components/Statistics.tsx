@@ -9,7 +9,7 @@ const Statistics = () => {
       </Card.Header>
       <Card.Content>
         <div className="flex gap-3 py-[40px]">
-          <div className="flex w-[50%] flex-col items-center">
+          <div className="flex w-[50%] flex-col items-center border-r border-mos-gray-700 pr-3">
             <Typography.Head2>2</Typography.Head2>
             <Typography.P1 className="text-mos-gray-300">
               참여 스터디

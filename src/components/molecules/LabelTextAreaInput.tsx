@@ -1,7 +1,6 @@
-import React from "react";
-import { cn } from "@/lib/utils";
-import Label from "./Label";
 import Textarea from "@/components/atoms/Textarea";
+import cn from "@/utils/cn";
+import React from "react";
 import {
   FieldValues,
   Path,
@@ -9,9 +8,10 @@ import {
   useFormContext,
 } from "react-hook-form";
 import Typography from "@/components/atoms/Typography";
+import Label from "./Label";
 
 interface LabelTextAreaInputProps<T extends FieldValues>
-  extends React.InputHTMLAttributes<HTMLInputElement> {
+  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   label: string;
   name: Path<T>;
   id?: string;
@@ -34,13 +34,14 @@ const LabelTextAreaInput = <T extends FieldValues>({
   } = useFormContext<T>();
 
   return (
-    <div className={cn("flex w-full flex-col gap-[5px]", className)} {...props}>
+    <div className={cn("flex w-full flex-col gap-[5px]", className)}>
       <Label label={label} required={required} />
       <Textarea
         className="h-[130px] resize-none"
         placeholder={placeholder}
         required={false}
         {...register(name, registerOptions)}
+        {...props}
       />
       {errors[name]?.message && (
         <Typography.Error>{String(errors[name]?.message)}</Typography.Error>

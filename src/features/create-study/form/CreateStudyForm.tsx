@@ -2,16 +2,13 @@
 import CreateStudyForm1 from "@/features/create-study/form/CreateStudyForm1";
 import CreateStudyForm2 from "@/features/create-study/form/CreateStudyForm2";
 import CreateStudyForm3 from "@/features/create-study/form/CreateStudyForm3";
+import CreateStudyForm4 from "@/features/create-study/form/CreateStudyForm4";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import CreateStudyForm4 from "./CreateStudyForm4";
-import StepProtection from "./StepProtection";
+import useStudyStepProtection from "../hooks/useStudyStepProtection";
 
 export interface StudyFormInterface {
-  step1Completed: boolean;
-  step2Completed: boolean;
-  step3Completed: boolean;
   category: string;
   meetingType: string;
   name: string;
@@ -38,10 +35,8 @@ const CreateStudyForm = () => {
   const stepNumber = Number(step);
 
   const methods = useForm<StudyFormInterface>({
+    mode: "onChange",
     defaultValues: {
-      step1Completed: false,
-      step2Completed: false,
-      step3Completed: false,
       category: "",
       meetingType: "",
       name: "",
@@ -56,6 +51,8 @@ const CreateStudyForm = () => {
       questions: [],
     },
   });
+
+  useStudyStepProtection(methods.watch);
 
   /** 폼 데이터 변경 시마다 localStorage에 저장 */
   useEffect(() => {
@@ -83,7 +80,6 @@ const CreateStudyForm = () => {
 
   return (
     <FormProvider {...methods}>
-      <StepProtection />
       {stepNumber === 1 && <CreateStudyForm1 />}
       {stepNumber === 2 && <CreateStudyForm2 />}
       {stepNumber === 3 && <CreateStudyForm3 />}

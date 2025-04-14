@@ -1,16 +1,16 @@
 "use client";
 
 import SvgIcons from "@/app/asset/icon/SvgIcons";
-import Button from "@/components/atoms/Button";
-import Link from "next/link";
-import Typography from "../atoms/Typography";
-import LoginModal from "@/features/login/components/LoginModal";
-import URL from "@/constants/URL";
 import useModal from "@/app/hooks/useModal";
-import { useState } from "react";
-import { cn } from "@/lib/utils";
+import Button from "@/components/atoms/Button";
 import { ADMIN_MENU_ITEMS, MENU_ITEMS } from "@/constants/SidebarItems";
+import URL from "@/constants/URL";
+import LoginModal from "@/features/login/components/LoginModal";
+import cn from "@/utils/cn";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
+import Typography from "../atoms/Typography";
 
 const Header = () => {
   const isLoggedIn = true;
@@ -29,16 +29,16 @@ const Header = () => {
           </div>
 
           {/* 오른쪽: 마이페이지, 로그인 버튼 */}
-          <nav className="flex items-center gap-[20px]">
+          <nav className="flex items-center gap-[10px]">
             {/* 로그인 했을 때 */}
             {isLoggedIn ? (
               <>
                 {/* 반응형 */}
                 <Link href={`${URL.STUDY.CREATE}?step=1`} title="스터디 만들기">
-                  <i className="bi-marker-tip hidden text-[28px] text-mos-gray-700 active:text-mos-main-500 tablet:inline-block" />
+                  <i className="bi-marker-tip hidden text-[24px] text-mos-gray-700 transition-all duration-200 hover:text-mos-main-500 active:text-mos-main-500 tablet:inline-block" />
                 </Link>
                 <Link href={URL.MYPAGE} title="마이페이지">
-                  <i className="bi-person-circle hidden text-[28px] text-mos-gray-700 active:text-mos-main-500 tablet:inline-block" />
+                  <i className="bi-person-circle hidden text-[24px] text-mos-gray-700 transition-all duration-200 hover:text-mos-main-500 active:text-mos-main-500 tablet:inline-block" />
                 </Link>
 
                 <Sidebar />
@@ -117,42 +117,52 @@ export function Sidebar() {
           isOpenState ? "translate-x-0" : "translate-x-full"
         )}
       >
-        <div className="p-4">
+        <div className="pl-7 pt-7">
           <h2 className="text-xl font-bold">
             <SvgIcons.Logo />
           </h2>
         </div>
         <ul className="mt-4 flex flex-col justify-between">
           <div>
-            <li className="p-3 hover:bg-mos-main-100" onClick={close}>
-              <Link href={URL.MYPAGE}>
-                <Typography.P1 className="font-bold">
-                  🏠 마이 페이지
-                </Typography.P1>
+            <li
+              className="p-3 hover:rounded-xl hover:bg-mos-main-100"
+              onClick={close}
+            >
+              <Link href={URL.MYPAGE} className="flex items-center gap-3">
+                <i className="bi bi-house-door pl-4 text-[20px]" />
+                <Typography.P1 className="font-bold">마이페이지</Typography.P1>
               </Link>
             </li>
-            <li className="p-3 hover:bg-mos-main-100" onClick={close}>
-              <Link href={`${URL.STUDY.CREATE}?step=1`}>
+            <li
+              className="p-3 hover:rounded-xl hover:bg-mos-main-100"
+              onClick={close}
+            >
+              <Link
+                href={`${URL.STUDY.CREATE}?step=1`}
+                className="flex items-center gap-3"
+              >
+                <i className="bi bi-pen pl-4 text-[19px]" />
+
                 <Typography.P1 className="font-bold">
-                  📄 스터디 만들기
+                  스터디 만들기
                 </Typography.P1>
               </Link>
             </li>
             {/* 스터디룸 메뉴 */}
             {isStudyRoom && (
-              <>
-                <Typography.P1 className="p-3 font-bold">
+              <div>
+                <Typography.P1 className="px-7 py-3 font-bold">
                   스터디 룸
                 </Typography.P1>
                 {MENU_ITEMS.map((item, index) => {
                   return (
                     <li
-                      className="px-8 py-1.5 hover:bg-mos-main-100"
+                      className="px-12 py-1.5 hover:rounded-xl hover:bg-mos-main-100"
                       onClick={close}
                       key={`${item}_${index}`}
                     >
                       <Link href={item.path}>
-                        <Typography.P1 className="flex gap-2 font-semibold">
+                        <Typography.P1 className="flex gap-3 font-semibold">
                           <i className={cn(item.icon)} />
                           {item.name}
                         </Typography.P1>
@@ -160,19 +170,19 @@ export function Sidebar() {
                     </li>
                   );
                 })}
-                <Typography.P1 className="p-3 font-bold">
+                <Typography.P1 className="px-7 py-3 font-bold">
                   스터디 룸 관리자
                 </Typography.P1>
 
                 {ADMIN_MENU_ITEMS.map((item, index) => {
                   return (
                     <li
-                      className=" px-8 hover:bg-mos-main-100"
+                      className="px-12 py-1.5 hover:rounded-xl hover:bg-mos-main-100"
                       onClick={close}
                       key={`${item}_${index}`}
                     >
                       <Link href={item.path}>
-                        <Typography.P1 className="flex gap-2 font-semibold">
+                        <Typography.P1 className="flex gap-3 font-semibold">
                           <i className={cn(item.icon)} />
                           {item.name}
                         </Typography.P1>
@@ -180,10 +190,16 @@ export function Sidebar() {
                     </li>
                   );
                 })}
-              </>
+              </div>
             )}
 
-            {/* 추후 로그아웃 기능 들어갈지 미정 */}
+            <Button.Solid
+              className="fixed bottom-5 left-[50%] w-4/5 translate-x-[-50%] "
+              color="Main"
+              active
+            >
+              로그아웃
+            </Button.Solid>
             {/* <li className="p-3 hover:bg-mos-main-100" onClick={close}>
               <Link href={URL.STUDY.CREATE}>
                 <Typography.P1 className="font-bold">⚙️ 설정</Typography.P1>

@@ -1,13 +1,13 @@
-import React from "react";
-import { cn } from "@/lib/utils";
 import Input from "@/components/atoms/Input";
-import Label from "./Label";
+import cn from "@/utils/cn";
+import React from "react";
 import {
   FieldValues,
   Path,
   RegisterOptions,
   useFormContext,
 } from "react-hook-form";
+import Label from "./Label";
 
 import Typography from "@/components/atoms/Typography";
 

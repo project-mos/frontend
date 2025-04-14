@@ -1,5 +1,5 @@
-import { cn } from "@/lib/utils";
-import React, { HTMLAttributes } from "react";
+import cn from "@/utils/cn";
+import { HTMLAttributes } from "react";
 
 const BadgeColors = {
   Blue: "bg-mos-blue-500 text-white ",
