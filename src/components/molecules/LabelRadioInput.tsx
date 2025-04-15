@@ -1,3 +1,4 @@
+import Typography from "@/components/atoms/Typography";
 import Label from "@/components/molecules/Label";
 import RadioGroup from "@/components/molecules/RadioGroup";
 import { HTMLAttributes } from "react";
@@ -7,7 +8,6 @@ import {
   RegisterOptions,
   useFormContext,
 } from "react-hook-form";
-import ErrorMessage from "../atoms/ErrorMessage";
 
 interface LabelRadioInputProps<T extends FieldValues>
   extends HTMLAttributes<HTMLInputElement> {
@@ -45,7 +45,7 @@ const LabelRadioInput = <T extends FieldValues>({
         {...props}
       />
       {errors[name]?.message && (
-        <ErrorMessage>{String(errors[name]?.message)}</ErrorMessage>
+        <Typography.Error>{String(errors[name]?.message)}</Typography.Error>
       )}
     </div>
   );

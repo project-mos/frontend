@@ -12,7 +12,7 @@ const CreateStudyForm3 = () => {
   const methods = useFormContext<StudyFormInterface>();
   const router = useRouter();
 
-  const { modal, openModal, closeModal } = useModal();
+  const { isModalOpenState, openModal, closeModal } = useModal();
 
   const onSubmit = () => {
     openModal();
@@ -47,7 +47,7 @@ const CreateStudyForm3 = () => {
         </form>
 
         <ActionConfirmModal
-          isOpen={modal}
+          isOpen={isModalOpenState}
           onClose={closeModal}
           onSuccess={handleClickCreateButton}
           type="action"

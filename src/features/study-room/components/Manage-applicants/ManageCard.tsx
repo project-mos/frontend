@@ -10,26 +10,31 @@ import Button from "@/components/atoms/Button";
 
 const List = () => {
   const data: StudyManageCardInterface[] = MockManageCardApiResult;
-  const { modal, openModal, closeModal } = useModal();
+  const { isModalOpenState, openModal, closeModal } = useModal();
 
   // 선택된 사용자 정보를 상태로 관리
-  const [selectedUser, setSelectedUser] = useState<StudyManageCardInterface>({
-    name: "",
-    date: "",
-    email: "",
-    experience: "",
-    questionList: [{ question: "", answer: "" }],
-  });
+  const [selectedUserState, setSelectedUserState] =
+    useState<StudyManageCardInterface>({
+      name: "",
+      date: "",
+      email: "",
+      experience: "",
+      questionList: [{ question: "", answer: "" }],
+    });
 
   const handleClick = (user: StudyManageCardInterface) => {
-    setSelectedUser(user);
+    setSelectedUserState(user);
     openModal();
   };
 
   return (
     <>
       {/* 지원자 상세 정보 모달 */}
-      <InfoModal isOpen={modal} onClose={closeModal} data={selectedUser} />
+      <InfoModal
+        isOpen={isModalOpenState}
+        onClose={closeModal}
+        data={selectedUserState}
+      />
 
       {/* 지원자 리스트 */}
       <div className="flex flex-col gap-3">

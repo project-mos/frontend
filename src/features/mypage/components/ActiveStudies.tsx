@@ -3,7 +3,6 @@ import {
   MockActiveStudiesApiResult,
   MockApplyStatusApiResult,
 } from "@/app/mock/api/mypage";
-import Button from "@/components/atoms/Button";
 import Card from "@/components/atoms/Card";
 import Tab from "@/components/atoms/Tab";
 import Tag from "@/components/atoms/Tag";
@@ -15,22 +14,23 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const ActiveStudies = () => {
-  const [selectedTab, setSelectedTab] = useState<string>("참여 중인 스터디");
+  const [selectedTabState, setSelectedTabState] =
+    useState<string>("참여 중인 스터디");
 
   return (
     <Card className="col-span-12">
       <Card.Header className="mb-[20px]">
         <Tab
           tabList={["참여 중인 스터디", "지원 현황"]}
-          selectedTab={selectedTab}
-          setSelectedTab={setSelectedTab}
+          selectedTab={selectedTabState}
+          setSelectedTab={setSelectedTabState}
         />
       </Card.Header>
       <Card.Content>
-        {selectedTab === "참여 중인 스터디" ? (
-          <StudyList data={MockActiveStudiesApiResult} type="active" />
+        {selectedTabState === "참여 중인 스터디" ? (
+          <StudyList data={MockActiveStudiesApiResult} />
         ) : (
-          <StudyList data={MockApplyStatusApiResult} type="apply" />
+          <StudyList data={MockApplyStatusApiResult} />
         )}
       </Card.Content>
     </Card>
@@ -39,10 +39,8 @@ const ActiveStudies = () => {
 
 const StudyList = ({
   data,
-  type,
 }: {
   data: activeStudiesProps[] | applyStatusProps[];
-  type: "active" | "apply";
 }) => {
   const router = useRouter();
 
@@ -58,7 +56,8 @@ const StudyList = ({
       {data.map((data) => (
         <div
           key={data.title}
-          className="mb-[20px] flex flex-col gap-[10px] rounded-[10px] border border-mos-gray-100 p-[20px] transition-colors duration-200 hover:border-mos-main-500"
+          className="mb-[20px] flex cursor-pointer flex-col gap-[10px] rounded-[10px] border border-mos-gray-100 p-[20px] transition-colors duration-200 hover:border-mos-main-500 active:bg-gray-50"
+          onClick={() => router.push(URL.STUDY_ROOM.DETAIL_SCHEDULE("1"))}
         >
           <div className="flex justify-between">
             {data.tag.map((tag) => {
@@ -76,7 +75,7 @@ const StudyList = ({
           <div className="flex items-end justify-between">
             <div className="flex items-center gap-[10px]">
               {"meta" in data ? (
-                <div className="flex flex-col  gap-1 mobile:flex-row">
+                <div className="flex flex-col gap-1 mobile:flex-row">
                   <Meta icon="person">{data.meta.members}</Meta>
                   <span className="hidden mobile:inline-block">•</span>
                   <Meta icon="calendar">{data.meta.nextMeeting}</Meta>
@@ -85,14 +84,8 @@ const StudyList = ({
                 <Typography.P3>지원일 : {data.date}</Typography.P3>
               )}
             </div>
-            <div>
-              <Button.Ghost
-                color="Main"
-                size="sm"
-                onClick={() => router.push(URL.STUDY_ROOM.DETAIL_SCHEDULE("1"))}
-              >
-                {type === "active" ? "스터디룸 입장" : "상세보기"}
-              </Button.Ghost>
+            <div className="flex items-center ">
+              <i className="bi bi-chevron-right text-xl text-mos-gray-500"></i>
             </div>
           </div>
         </div>

@@ -1,13 +1,15 @@
 import Badge from "@/components/atoms/Badge";
 import Typography from "@/components/atoms/Typography";
 import URL from "@/constants/URL";
-import { useRouter } from "next/navigation";
+
 import { useFormContext } from "react-hook-form";
 import StudyActions from "../components/StudyActions";
 import StudyBenefits from "../components/StudyBenefits";
-import StudyDescription from "../components/StudyDescription";
+
 import StudyRules from "../components/StudyRules";
 import { StudyFormInterface } from "./CreateStudyForm";
+import { useRouter } from "next/navigation";
+import StudyDescription from "../components/StudyDescription";
 
 const CreateStudyForm2 = () => {
   const methods = useFormContext<StudyFormInterface>();

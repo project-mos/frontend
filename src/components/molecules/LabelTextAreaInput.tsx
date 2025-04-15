@@ -7,7 +7,7 @@ import {
   RegisterOptions,
   useFormContext,
 } from "react-hook-form";
-import ErrorMessage from "../atoms/ErrorMessage";
+import Typography from "@/components/atoms/Typography";
 import Label from "./Label";
 
 interface LabelTextAreaInputProps<T extends FieldValues>
@@ -44,7 +44,7 @@ const LabelTextAreaInput = <T extends FieldValues>({
         {...props}
       />
       {errors[name]?.message && (
-        <ErrorMessage>{String(errors[name]?.message)}</ErrorMessage>
+        <Typography.Error>{String(errors[name]?.message)}</Typography.Error>
       )}
     </div>
   );

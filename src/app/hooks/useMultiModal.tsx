@@ -2,14 +2,14 @@
 import { useState, useCallback } from "react";
 
 const useMultiModal = () => {
-  const [modal, setModal] = useState(new Map<string, boolean>());
+  const [modalState, setModalState] = useState(new Map<string, boolean>());
 
   const openModal = useCallback((id: string) => {
-    setModal((prev) => new Map(prev).set(id, true));
+    setModalState((prev) => new Map(prev).set(id, true));
   }, []);
 
   const closeModal = useCallback((id: string) => {
-    setModal((prev) => {
+    setModalState((prev) => {
       const newModals = new Map(prev);
       newModals.delete(id);
       return newModals;
@@ -17,7 +17,7 @@ const useMultiModal = () => {
   }, []);
 
   const toggleModal = useCallback((id: string) => {
-    setModal((prev) => {
+    setModalState((prev) => {
       const newModals = new Map(prev);
       newModals.set(id, !prev.get(id));
       return newModals;
@@ -25,7 +25,7 @@ const useMultiModal = () => {
   }, []);
 
   return {
-    modal,
+    modal: modalState,
     openModal,
     closeModal,
     toggleModal,

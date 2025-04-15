@@ -14,11 +14,11 @@ import Typography from "../atoms/Typography";
 
 const Header = () => {
   const isLoggedIn = true;
-  const { modal, openModal, closeModal } = useModal();
+  const { isModalOpenState, openModal, closeModal } = useModal();
 
   return (
     <>
-      <LoginModal isOpen={modal} onClose={closeModal} />
+      <LoginModal isOpen={isModalOpenState} onClose={closeModal} />
       <header className="header fixed left-0 top-0 flex h-[55px] w-full justify-center border-b border-gray-200 bg-white">
         <div className="flex w-[90%] max-w-[1300px] items-center justify-between">
           {/* 왼쪽: 로고 */}
@@ -61,12 +61,12 @@ const Header = () => {
 };
 
 export function Sidebar() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpenState, setIsOpenState] = useState(false);
   const pathname = usePathname();
   const isStudyRoom = pathname.split("/")?.[1] === "study-room"; // 첫 번째 경로 추출
 
   const close = () => {
-    setIsOpen(false);
+    setIsOpenState(false);
   };
 
   return (
@@ -75,13 +75,13 @@ export function Sidebar() {
       <div className="tablet:hidden">
         {/* 햄버거 버튼 */}
         <button
-          onClick={() => setIsOpen(true)}
+          onClick={() => setIsOpenState(true)}
           type="button"
           className={cn(
             "inline-flex size-10 items-center justify-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-mos-main-100 dark:focus:ring-gray-600"
           )}
           aria-controls="navbar-hamburger"
-          aria-expanded={isOpen}
+          aria-expanded={isOpenState}
         >
           <span className="sr-only">Open main menu</span>
           <svg
@@ -103,7 +103,7 @@ export function Sidebar() {
       </div>
 
       {/* 오버레이 (사이드바 열렸을 때만 표시) */}
-      {isOpen && (
+      {isOpenState && (
         <div
           className="fixed inset-0 z-10 bg-black bg-opacity-50"
           onClick={close}
@@ -113,8 +113,8 @@ export function Sidebar() {
       {/* 사이드바 */}
       <div
         className={cn(
-          "sidebar fixed right-0 top-0 h-full w-64 rounded-l-xl bg-white text-black transition-transform duration-300 ease-in-out",
-          isOpen ? "translate-x-0" : "translate-x-full"
+          "sidebar fixed right-0 top-0 h-full w-64 bg-white text-black transition-transform duration-200 ease-in-out",
+          isOpenState ? "translate-x-0" : "translate-x-full"
         )}
       >
         <div className="pl-7 pt-7">

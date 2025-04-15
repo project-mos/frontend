@@ -4,20 +4,21 @@ import { useState } from "react";
 import ApplyFormCard from "./ApplyFormCard";
 
 const Apply = () => {
-  const [isApplyVisible, setIsApplyVisible] = useState<boolean>(false);
+  const [isApplyVisibleState, setIsApplyVisibleState] =
+    useState<boolean>(false);
   return (
     <div className="col-span-12 flex flex-col items-center gap-5 tablet:col-span-8">
-      {!isApplyVisible && (
+      {!isApplyVisibleState && (
         <Button.Solid
           color="Main"
           active
-          onClick={() => setIsApplyVisible(true)}
+          onClick={() => setIsApplyVisibleState(true)}
         >
           지원하기
         </Button.Solid>
       )}
-      {isApplyVisible && (
-        <ApplyFormCard setIsApplyVisible={setIsApplyVisible} />
+      {isApplyVisibleState && (
+        <ApplyFormCard setIsApplyVisible={setIsApplyVisibleState} />
       )}
     </div>
   );

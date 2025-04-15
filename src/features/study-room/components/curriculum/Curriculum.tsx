@@ -6,7 +6,7 @@ import Input from "@/components/atoms/Input";
 import Textarea from "@/components/atoms/Textarea";
 import { memo, useCallback, useRef } from "react";
 import { useFormContext } from "react-hook-form";
-import ErrorMessage from "@/components/atoms/ErrorMessage";
+
 import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
@@ -127,10 +127,10 @@ const CurriculumEditView = ({ index, curriculum }: CurriculumItemProps) => {
                 })}
                 defaultValue={curriculum.content}
               />
-              <ErrorMessage>
+              <Typography.Error>
                 {hasAnyFieldError(index) &&
                   "해당 커리큘럼 항목의 모든 정보를 입력해주세요."}
-              </ErrorMessage>
+              </Typography.Error>
             </div>
           </Card.Content>
         </Card>

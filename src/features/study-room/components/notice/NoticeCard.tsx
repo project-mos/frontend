@@ -13,18 +13,18 @@ import ActionConfirmModal from "@/components/molecules/ActionConfirmModal";
 
 const List = (
   data: StudyNoticeCardInterface[],
-  setSelectedNotice: Dispatch<SetStateAction<StudyNoticeCardInterface[]>>,
+  setSelectedNoticeState: Dispatch<SetStateAction<StudyNoticeCardInterface[]>>,
   openModal: (is: string) => void
 ) => {
   const handleCheckbox = (item: StudyNoticeCardInterface) => {
-    setSelectedNotice((prev) => {
+    setSelectedNoticeState((prev) => {
       return [...prev, item];
     });
   };
 
   const handleEdit = (item: StudyNoticeCardInterface) => {
     openModal("notice_update");
-    setSelectedNotice([item]);
+    setSelectedNoticeState([item]);
   };
 
   return (
@@ -69,18 +69,18 @@ const List = (
 
 const NoticeCard = () => {
   const { modal, openModal, closeModal } = useMultiModal();
-  const [selectedNotice, setSelectedNotice] = useState<
+  const [selectedNoticeState, setSelectedNoticeState] = useState<
     StudyNoticeCardInterface[]
   >([]);
 
   const data: StudyNoticeCardInterface[] = MockNoticeCardApiResult;
 
   const onClickDeleteBtn = () => {
-    if (selectedNotice.length === 0) {
+    if (selectedNoticeState.length === 0) {
       alert("삭제할 공지사항을 선택해주세요.");
     } else {
       openModal("notice_delete_confirm");
-      // console.log(selectedNotice);
+      // console.log(selectedNoticeState);
     }
   };
 
@@ -104,7 +104,9 @@ const NoticeCard = () => {
             </Button.Solid>
           </div>
         </Card.Header>
-        <Card.Content>{List(data, setSelectedNotice, openModal)}</Card.Content>
+        <Card.Content>
+          {List(data, setSelectedNoticeState, openModal)}
+        </Card.Content>
       </Card>
 
       {/* 공지사항 생성 모달 */}
@@ -117,7 +119,7 @@ const NoticeCard = () => {
       <NoticeModal
         isOpen={modal.get("notice_update")!}
         onClose={() => closeModal("notice_update")}
-        data={selectedNotice[0]}
+        data={selectedNoticeState[0]}
       />
 
       {/* 공지사항 삭제 확인 모달 */}

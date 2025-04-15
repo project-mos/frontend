@@ -11,7 +11,7 @@ import { FormProvider, useForm } from "react-hook-form";
 
 const CurriculumCard = () => {
   // 수정 여부 플래그
-  const [isModify, setIsModify] = useState<boolean>(false);
+  const [isModifyState, setIsModifyState] = useState<boolean>(false);
   // react-hook-form
   const methods = useForm<{ curriculumList: StudyCurriculumCardInterface[] }>({
     defaultValues: { curriculumList: MockCurriculumCardApiResult },
@@ -51,7 +51,7 @@ const CurriculumCard = () => {
           <Card.Header className="mb-[20px] justify-between">
             <Typography.SubTitle1>커리큘럼</Typography.SubTitle1>
             <div className="flex gap-2">
-              {isModify && (
+              {isModifyState && (
                 <Button.Ghost
                   color="Main"
                   active
@@ -67,17 +67,17 @@ const CurriculumCard = () => {
                 color="Main"
                 className="h-[30px] text-[14px]"
                 onClick={() => {
-                  setIsModify((prev) => !prev);
+                  setIsModifyState((prev) => !prev);
                 }}
-                type={isModify ? "button" : "submit"}
+                type={isModifyState ? "button" : "submit"}
                 active={isValidCurriculum}
               >
-                {isModify ? "확인" : "수정"}
+                {isModifyState ? "확인" : "수정"}
               </Button.Solid>
             </div>
           </Card.Header>
           <Card.Content>
-            <Curriculum isModify={isModify} />
+            <Curriculum isModify={isModifyState} />
           </Card.Content>
         </form>
       </FormProvider>

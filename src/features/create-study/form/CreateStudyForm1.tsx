@@ -12,7 +12,7 @@ import { StudyFormInterface } from "./CreateStudyForm";
 const CreateStudyForm1 = () => {
   const methods = useFormContext<StudyFormInterface>();
   const router = useRouter();
-  const { modal, openModal, closeModal } = useModal();
+  const { isModalOpenState, openModal, closeModal } = useModal();
 
   const onSubmit = () => {
     router.push("/create-study?step=2");
@@ -44,7 +44,7 @@ const CreateStudyForm1 = () => {
       </form>
 
       <ActionConfirmModal
-        isOpen={modal}
+        isOpen={isModalOpenState}
         onClose={closeModal}
         onSuccess={onClickCancelButton}
         type="danger"

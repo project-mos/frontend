@@ -7,11 +7,11 @@ import { useRouter } from "next/navigation";
 import { ADMIN_MENU_ITEMS, MENU_ITEMS } from "@/constants/SidebarItems";
 
 const StudyRoomSideBarCard = () => {
-  const [activeTab, setActiveTab] = useState<string>("일정");
+  const [activeTabState, setActiveTabState] = useState<string>("일정");
   const router = useRouter();
 
   const handleTabClick = (tabName: string, path?: string) => {
-    setActiveTab(tabName);
+    setActiveTabState(tabName);
     if (path) router.push(path);
   };
 
@@ -19,7 +19,7 @@ const StudyRoomSideBarCard = () => {
   const renderTab = (item: { name: string; icon: string; path?: string }) => (
     <StudyRoomTabListWrapper
       key={item.name}
-      active={activeTab === item.name}
+      active={activeTabState === item.name}
       onClick={() => handleTabClick(item.name, item.path)}
     >
       <i className={`bi ${item.icon}`} />

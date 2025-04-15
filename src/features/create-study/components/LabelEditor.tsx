@@ -1,4 +1,4 @@
-import ErrorMessage from "@/components/atoms/ErrorMessage";
+import Typography from "@/components/atoms/Typography";
 import Editor from "@/components/Editor";
 import Label from "@/components/molecules/Label";
 import { useEffect } from "react";
@@ -29,7 +29,7 @@ const LabelEditor = ({ label, name, required }: LabelEditorProps) => {
       </div>
       {errors[name] && (
         <div className="mt-[40px]">
-          <ErrorMessage>{errors[name]?.message as string}</ErrorMessage>
+          <Typography.Error>{errors[name]?.message as string}</Typography.Error>
         </div>
       )}
     </div>
