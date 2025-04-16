@@ -1,6 +1,5 @@
-import MemberAttendanceCard from "@/features/study-room/components/member/MemberAttendanceCard";
-import MemberCard from "@/features/study-room/components/member/MemberCard";
-import React from "react";
+import MemberAttendanceCard from "@/app/study-room/components/member/MemberAttendanceCard";
+import MemberCard from "@/app/study-room/components/member/MemberCard";
 
 const MemberPage = () => {
   return (

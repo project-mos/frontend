@@ -1,15 +1,16 @@
-import Badge from "@/components/atoms/Badge";
-import Typography from "@/components/atoms/Typography";
-import URL from "@/constants/URL";
-
-import { useFormContext } from "react-hook-form";
-import StudyActions from "../components/StudyActions";
-import StudyBenefits from "../components/StudyBenefits";
-
-import StudyRules from "../components/StudyRules";
-import { StudyFormInterface } from "./CreateStudyForm";
 import { useRouter } from "next/navigation";
-import StudyDescription from "../components/StudyDescription";
+import { useFormContext } from "react-hook-form";
+
+import Badge from "@/shared/components/atoms/Badge";
+import Typography from "@/shared/components/atoms/Typography";
+import URL from "@/shared/constants/URL";
+
+import StudyActions from "@/app/create-study/components/StudyActions";
+import StudyBenefits from "@/app/create-study/components/StudyBenefits";
+import StudyDescription from "@/app/create-study/components/StudyDescription";
+import StudyRules from "@/app/create-study/components/StudyRules";
+
+import { StudyFormInterface } from "./CreateStudyForm";
 
 const CreateStudyForm2 = () => {
   const methods = useFormContext<StudyFormInterface>();

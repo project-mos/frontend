@@ -1,6 +1,6 @@
 // import { NextResponse } from "next/server";
 import { NextResponse, type NextRequest } from "next/server";
-import URL_PATH from "./constants/URL";
+import URL_PATH from "./shared/constants/URL";
 
 // This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest) {

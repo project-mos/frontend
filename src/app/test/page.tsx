@@ -1,37 +1,39 @@
 "use client";
-
-import Badge from "@/components/atoms/Badge";
-import Button from "@/components/atoms/Button";
-import Card from "@/components/atoms/Card";
-import CustomImage from "@/components/atoms/Image";
-import Input from "@/components/atoms/Input";
-import RadioButton from "@/components/atoms/RadioButton";
-import Select from "@/components/atoms/Select";
-import Tab from "@/components/atoms/Tab";
-import Tag from "@/components/atoms/Tag";
-import Typography from "@/components/atoms/Typography";
-import LabelInput from "@/components/molecules/LabelInput";
-import LabelInputDate from "@/components/molecules/LabelInputDate";
-import LabelNumberInput from "@/components/molecules/LabelNumberInput";
-import LabelSelectInput from "@/components/molecules/LabelSelectInput";
-import Meta from "@/components/molecules/Meta";
-import Pagination from "@/components/molecules/Pagination";
-import RadioGroup from "@/components/molecules/RadioGroup";
-import StudyCard from "@/features/studies/components/StudyCard";
-import StudyDescriptionCard from "@/features/studies/components/StudyDescriptionCard";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+
+import Badge from "@/shared/components/atoms/Badge";
+import Button from "@/shared/components/atoms/Button";
+import Card from "@/shared/components/atoms/Card";
+import Editor from "@/shared/components/atoms/Editor";
+import CustomImage from "@/shared/components/atoms/Image";
+import Input from "@/shared/components/atoms/Input";
+import RadioButton from "@/shared/components/atoms/RadioButton";
+import Select from "@/shared/components/atoms/Select";
+import Skeleton from "@/shared/components/atoms/Skeleton";
+import Tab from "@/shared/components/atoms/Tab";
+import Tag from "@/shared/components/atoms/Tag";
+import Typography from "@/shared/components/atoms/Typography";
+
+import ActionConfirmModal from "@/shared/components/molecules/ActionConfirmModal";
+import Calendar from "@/shared/components/molecules/Calendar";
+import LabelInput from "@/shared/components/molecules/LabelInput";
+import LabelInputDate from "@/shared/components/molecules/LabelInputDate";
+import LabelNumberInput from "@/shared/components/molecules/LabelNumberInput";
+import LabelSelectInput from "@/shared/components/molecules/LabelSelectInput";
+import Meta from "@/shared/components/molecules/Meta";
+import Pagination from "@/shared/components/molecules/Pagination";
+import RadioGroup from "@/shared/components/molecules/RadioGroup";
+import SkeletonCard from "@/shared/components/molecules/SkeletonCard";
+
+import StudyCard from "@/app/studies/components/StudyCard";
+import StudyDescriptionCard from "@/app/studies/components/StudyDescriptionCard";
+
+import useModal from "@/shared/hooks/useModal";
 import {
   MockStudiesApiResult,
   MockStudyCardApiResult,
-} from "../mock/api/studies";
-
-import Skeleton from "@/components/atoms/Skeleton";
-import Editor from "@/components/Editor";
-import ActionConfirmModal from "@/components/molecules/ActionConfirmModal";
-import Calendar from "@/components/molecules/Calendar";
-import SkeletonCard from "@/components/molecules/SkeletonCard";
-import useModal from "../hooks/useModal";
+} from "@/shared/mock/api/studies";
 
 interface FormData {
   test: string; // 'test' 필드 타입을 string으로 설정

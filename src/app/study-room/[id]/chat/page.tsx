@@ -1,5 +1,4 @@
-import ChatCard from "@/features/study-room/components/chat/ChatCard";
-import React from "react";
+import ChatCard from "@/app/study-room/components/chat/ChatCard";
 
 const ChatPage = () => {
   return <ChatCard />;
