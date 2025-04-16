@@ -3,23 +3,24 @@ import {
   StudyManageCardInterface,
   StudyNoticeCardInterface,
 } from "@/shared/types/api/study-room";
+import { generateUUID } from "@/shared/utils/generateUUID";
 
 // <CurriculumCard/> 에 쓰일 mock data
 export const MockCurriculumCardApiResult: StudyCurriculumCardInterface[] = [
   {
-    id: crypto.randomUUID(),
+    id: generateUUID(),
     step: "알고리즘 기초",
     title: "알고리즘 기초와 복잡도",
     content: "시간 복잡도, 공간 복잡도, 빅오 표기법에 대해 학습합니다.",
   },
   {
-    id: crypto.randomUUID(),
+    id: generateUUID(),
     step: "자료구조",
     title: "배열과 연결 리스트",
     content: "기본 자료구조인 배열과 연결 리스트의 특징과 활용법을 학습합니다.",
   },
   {
-    id: crypto.randomUUID(),
+    id: generateUUID(),
     step: "자료구조",
     title: "스택과 큐",
     content: "스택과 큐의 개념, 구현 방법, 실전 문제 풀이를 진행합니다.",
