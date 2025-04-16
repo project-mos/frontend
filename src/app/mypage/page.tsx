@@ -1,7 +1,7 @@
-import ActiveStudies from "@/features/mypage/components/ActiveStudies";
-import ProfileCard from "@/features/mypage/components/ProfileCard";
-import Statistics from "@/features/mypage/components/Statistics";
-import StudySchedule from "@/features/mypage/components/StudySchedule";
+import ActiveStudies from "@/app/mypage/components/ActiveStudies";
+import ProfileCard from "@/app/mypage/components/ProfileCard";
+import Statistics from "@/app/mypage/components/Statistics";
+import StudySchedule from "@/app/mypage/components/StudySchedule";
 
 const MyPage = () => {
   return (

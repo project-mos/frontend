@@ -1,4 +1,4 @@
-import CurriculumCard from "@/features/study-room/components/curriculum/CurriculumCard";
+import CurriculumCard from "@/app/study-room/components/curriculum/CurriculumCard";
 
 const Curriculum = () => {
   return <CurriculumCard />;
