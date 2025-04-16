@@ -1,5 +1,5 @@
-import Pagination from "@/components/molecules/Pagination";
 import LandingContentCards from "@/features/landing/components/LandingContentCards";
+import Pagination from "@/shared/components/molecules/Pagination";
 
 import LandingContentHeader from "@/features/landing/components/LandingContentHeader";
 

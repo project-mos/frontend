@@ -1,7 +1,8 @@
-import Grid from "@/components/atoms/Grid";
-import Typography from "@/components/atoms/Typography";
-
 import React from "react";
+
+import Grid from "@/shared/components/atoms/Grid";
+import Typography from "@/shared/components/atoms/Typography";
+
 import LandingStudyCard from "./LandingStudyCard";
 
 const LandingContentCards = () => {

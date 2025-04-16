@@ -1,8 +1,8 @@
 "use client";
-
-import URL from "@/constants/URL";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
+
+import URL from "@/shared/constants/URL";
 import { StudyFormInterface } from "../form/CreateStudyForm";
 
 const useStudyStepProtection = (

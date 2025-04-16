@@ -1,11 +1,14 @@
-import useModal from "@/app/hooks/useModal";
-import Badge from "@/components/atoms/Badge";
-import Typography from "@/components/atoms/Typography";
-import ActionConfirmModal from "@/components/molecules/ActionConfirmModal";
 import { useRouter } from "next/navigation";
 import { FormProvider, useFormContext } from "react-hook-form";
-import StudyActions from "../components/StudyActions";
-import StudyApply from "../components/StudyApply";
+
+import Badge from "@/shared/components/atoms/Badge";
+import Typography from "@/shared/components/atoms/Typography";
+import ActionConfirmModal from "@/shared/components/molecules/ActionConfirmModal";
+
+import StudyActions from "@/app/create-study/components/StudyActions";
+import StudyApply from "@/app/create-study/components/StudyApply";
+import useModal from "@/shared/hooks/useModal";
+
 import { StudyFormInterface } from "./CreateStudyForm";
 
 const CreateStudyForm3 = () => {
