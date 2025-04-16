@@ -1,15 +1,13 @@
 "use client";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-
 import Button from "@/shared/components/atoms/Button";
 import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
-
 import { MockCurriculumCardApiResult } from "@/shared/mock/api/study-room";
 import { StudyCurriculumCardInterface } from "@/shared/types/api/study-room";
-
 import Curriculum from "./Curriculum";
+import { generateUUID } from "@/shared/utils/generateUUID";
 
 const CurriculumCard = () => {
   // 수정 여부 플래그
@@ -26,7 +24,7 @@ const CurriculumCard = () => {
   const addCurriculum = () => {
     const currentValues = getValues("curriculumList");
     const newItem = {
-      id: crypto.randomUUID(),
+      id: generateUUID(),
       step: "",
       title: "",
       content: "",
