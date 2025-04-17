@@ -1,0 +1,51 @@
+name: Deploy to AWS EC2
+
+on:
+  push:
+    branches:
+      - main # main 브랜치에 push 될 때마다 실행!
+      - release/**/*
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4 # 코드 가져오기
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.18.2" # Next.js에 맞는 Node.js 버전
+
+      - name: Install pnpm
+        run: npm install -g pnpm@9.15.4
+
+      - name: Install dependencies
+        run: pnpm install # ✅
+
+      - name: Build project & Zip
+        run: |
+          pnpm run build
+           zip -r build.zip .next public package.json
+
+      - name: Deploy to EC2
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: "build.zip"
+          target: "/home/ubuntu/fe-build/"
+
+      - name: SSH into EC2 and deploy
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            unzip -o /home/ubuntu/fe-build/build.zip -d /home/ubuntu/fe-build/frontend
+            cd /home/ubuntu/fe-build/frontend
+            pnpm install
+            pm2 restart mos-front || pm2 start pnpm --name mos-front -- run start
