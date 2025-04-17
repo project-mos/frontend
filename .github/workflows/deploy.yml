@@ -4,8 +4,7 @@ on:
   push:
     branches:
       - main # main 브랜치에 push 될 때마다 실행!
-      - feature/action # test용
-
+      - release/**/*
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -26,7 +25,9 @@ jobs:
         run: pnpm install # ✅
 
       - name: Build project & Zip
-        run: pnpm build && zip -r build.zip .next package.json public # ✅
+        run: |
+          pnpm run build
+           zip -r build.zip .next public package.json
 
       - name: Deploy to EC2
         uses: appleboy/scp-action@v0.1.7
@@ -35,17 +36,16 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           source: "build.zip"
-          target: "/home/ubuntu/frontend/build.zip"
+          target: "/home/ubuntu/fe-build/"
 
-      # - name: SSH into EC2 and deploy
-      #   uses: appleboy/ssh-action@v1.0.0
-      #   with:
-      #     host: ${{ secrets.EC2_HOST }}
-      #     username: ${{ secrets.EC2_USER }}
-      #     key: ${{ secrets.EC2_SSH_KEY }}
-      #     script: |
-      #       unzip -o /home/ubuntu/app.zip -d /home/ubuntu/app
-      #       cd /home/ubuntu/app
-      #       npm install
-      #       pm2 stop all || true
-      #       pm2 start npm --name "next-app" -- start
+      - name: SSH into EC2 and deploy
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            unzip -o /home/ubuntu/fe-build/build.zip -d /home/ubuntu/fe-build/frontend
+            cd /home/ubuntu/fe-build/frontend
+            pnpm install
+            pm2 restart mos-front || pm2 start pnpm --name mos-front -- run start
