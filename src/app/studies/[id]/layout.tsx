@@ -1,6 +1,6 @@
-import Grid from "@/components/atoms/Grid";
-
 import React from "react";
+
+import Grid from "@/shared/components/atoms/Grid";
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (

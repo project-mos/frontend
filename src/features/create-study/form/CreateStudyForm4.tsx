@@ -1,13 +1,15 @@
 "use client";
-import Button from "@/components/atoms/Button";
-import Card from "@/components/atoms/Card";
-import Typography from "@/components/atoms/Typography";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
+
+import Button from "@/shared/components/atoms/Button";
+import Card from "@/shared/components/atoms/Card";
+import Typography from "@/shared/components/atoms/Typography";
+
 import { StudyFormInterface } from "./CreateStudyForm";
 
-const CreatStudyForm4 = () => {
+const CreateStudyForm4 = () => {
   const { watch } = useFormContext<StudyFormInterface>();
   const formData = watch();
   const router = useRouter();
@@ -99,4 +101,4 @@ const CreatStudyForm4 = () => {
   );
 };
 
-export default CreatStudyForm4;
+export default CreateStudyForm4;

@@ -1,8 +1,8 @@
-import Button, { SolidButtonProps } from "@/components/atoms/Button";
-import Select from "@/components/atoms/Select";
-import Typography from "@/components/atoms/Typography";
-import { cn } from "@/lib/utils";
-import React from "react";
+import cn from "@/shared/utils/cn";
+
+import Button, { SolidButtonProps } from "@/shared/components/atoms/Button";
+import Select from "@/shared/components/atoms/Select";
+import Typography from "@/shared/components/atoms/Typography";
 
 const LandingContentHeader = () => {
   return (

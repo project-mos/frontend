@@ -1,5 +1,4 @@
-import ArchiveCard from "@/features/study-room/components/archive/ArchiveCard";
-import React from "react";
+import ArchiveCard from "@/app/study-room/components/archive/ArchiveCard";
 
 const ArchivePage = () => {
   return <ArchiveCard />;

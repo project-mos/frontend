@@ -1,15 +1,21 @@
-import Pagination from "@/components/molecules/Pagination";
 import LandingContentCards from "@/features/landing/components/LandingContentCards";
+import Pagination from "@/shared/components/molecules/Pagination";
 
 import LandingContentHeader from "@/features/landing/components/LandingContentHeader";
 
-export default function Home() {
+interface HomeProps {
+  searchParams: Promise<{ page?: string }>;
+}
+
+export default async function Home({ searchParams }: HomeProps) {
+  const activePage = Number((await searchParams).page) || 1;
+
   return (
     <div className="flex flex-col gap-10 ">
       <LandingContentHeader />
       <LandingContentCards />
       <div className="flex justify-center">
-        <Pagination activePage={1} totalPage={2} />
+        <Pagination activePage={activePage} totalPage={19} />
       </div>
     </div>
   );

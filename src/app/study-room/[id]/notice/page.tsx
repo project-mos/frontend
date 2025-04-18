@@ -1,4 +1,4 @@
-import NoticeCard from "@/features/study-room/components/notice/NoticeCard";
+import NoticeCard from "@/app/study-room/components/notice/NoticeCard";
 
 const Notice = () => {
   return <NoticeCard />;

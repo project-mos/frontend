@@ -12,7 +12,8 @@
     "build-storybook": "storybook build",
     "prepare": "husky",
     "postinstall": "husky install",
-    "pre-commit": "lint-staged"
+    "pre-commit": "lint-staged",
+    "zip": "next build && zip -r build.zip .next package.json public"
   },
   "dependencies": {
     "@hookform/devtools": "^4.3.3",
@@ -24,9 +25,9 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "next": "15.2.3",
-    "quill": "^2.0.3",
-    "quill-image-resize-module-ts": "^3.0.3",
     "react": "^19.0.0",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.54.2",
     "recharts": "^2.15.1",
