@@ -1,10 +1,9 @@
 "use client";
-import { MockStudyCardApiResult } from "@/app/mock/api/studies";
-import URL from "@/constants/URL";
-import StudyCard from "@/features/studies/components/StudyCard";
 import { useRouter } from "next/navigation";
 
-import React from "react";
+import StudyCard from "@/app/studies/components/StudyCard";
+import URL from "@/shared/constants/URL";
+import { MockStudyCardApiResult } from "@/shared/mock/api/studies";
 
 const LandingStudyCard = () => {
   const router = useRouter();

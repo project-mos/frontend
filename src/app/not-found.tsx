@@ -1,7 +1,9 @@
-import Button from "@/components/atoms/Button";
-import Typography from "@/components/atoms/Typography";
-import URL from "@/constants/URL";
 import Link from "next/link";
+
+import Button from "@/shared/components/atoms/Button";
+import Typography from "@/shared/components/atoms/Typography";
+
+import URL from "@/shared/constants/URL";
 
 export default function NotFound() {
   return (

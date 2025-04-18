@@ -1,37 +1,39 @@
 "use client";
-
-import Badge from "@/components/atoms/Badge";
-import Button from "@/components/atoms/Button";
-import Card from "@/components/atoms/Card";
-import CustomImage from "@/components/atoms/Image";
-import Input from "@/components/atoms/Input";
-import RadioButton from "@/components/atoms/RadioButton";
-import Select from "@/components/atoms/Select";
-import Tab from "@/components/atoms/Tab";
-import Tag from "@/components/atoms/Tag";
-import Typography from "@/components/atoms/Typography";
-import LabelInput from "@/components/molecules/LabelInput";
-import LabelInputDate from "@/components/molecules/LabelInputDate";
-import LabelNumberInput from "@/components/molecules/LabelNumberInput";
-import LabelSelectInput from "@/components/molecules/LabelSelectInput";
-import Meta from "@/components/molecules/Meta";
-import Pagination from "@/components/molecules/Pagination";
-import RadioGroup from "@/components/molecules/RadioGroup";
-import StudyCard from "@/features/studies/components/StudyCard";
-import StudyDescriptionCard from "@/features/studies/components/StudyDescriptionCard";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+
+import Badge from "@/shared/components/atoms/Badge";
+import Button from "@/shared/components/atoms/Button";
+import Card from "@/shared/components/atoms/Card";
+import Editor from "@/shared/components/atoms/Editor";
+import CustomImage from "@/shared/components/atoms/Image";
+import Input from "@/shared/components/atoms/Input";
+import RadioButton from "@/shared/components/atoms/RadioButton";
+import Select from "@/shared/components/atoms/Select";
+import Skeleton from "@/shared/components/atoms/Skeleton";
+import Tab from "@/shared/components/atoms/Tab";
+import Tag from "@/shared/components/atoms/Tag";
+import Typography from "@/shared/components/atoms/Typography";
+
+import ActionConfirmModal from "@/shared/components/molecules/ActionConfirmModal";
+import Calendar from "@/shared/components/molecules/Calendar";
+import LabelInput from "@/shared/components/molecules/LabelInput";
+import LabelInputDate from "@/shared/components/molecules/LabelInputDate";
+import LabelNumberInput from "@/shared/components/molecules/LabelNumberInput";
+import LabelSelectInput from "@/shared/components/molecules/LabelSelectInput";
+import Meta from "@/shared/components/molecules/Meta";
+import Pagination from "@/shared/components/molecules/Pagination";
+import RadioGroup from "@/shared/components/molecules/RadioGroup";
+import SkeletonCard from "@/shared/components/molecules/SkeletonCard";
+
+import StudyCard from "@/app/studies/components/StudyCard";
+import StudyDescriptionCard from "@/app/studies/components/StudyDescriptionCard";
+
+import useModal from "@/shared/hooks/useModal";
 import {
   MockStudiesApiResult,
   MockStudyCardApiResult,
-} from "../mock/api/studies";
-
-import Skeleton from "@/components/atoms/Skeleton";
-import Editor from "@/components/Editor";
-import ActionConfirmModal from "@/components/molecules/ActionConfirmModal";
-import Calendar from "@/components/molecules/Calendar";
-import SkeletonCard from "@/components/molecules/SkeletonCard";
-import useModal from "../hooks/useModal";
+} from "@/shared/mock/api/studies";
 
 interface FormData {
   test: string; // 'test' 필드 타입을 string으로 설정
@@ -51,15 +53,15 @@ export default function TestPage() {
   };
 
   // Tab
-  const [selectedTab, setSelectedTab] = useState<string>("");
+  const [selectedTabState, setSelectedTabState] = useState<string>("");
 
-  const [studyName, setStudyName] = useState<string>("");
-  const [category, setCategory] = useState<string>("");
+  const [studyNameState, setStudyNameState] = useState<string>("");
+  const [categoryState, setCategoryState] = useState<string>("");
   const categoryList = ["ex1", "ex2", "ex3"];
-  const [startDate, setStartDate] = useState<string>("");
-  const [endDate, setEndDate] = useState<string>("");
+  const [startDateState, setStartDateState] = useState<string>("");
+  const [endDateState, setEndDateState] = useState<string>("");
 
-  const [studyMethod, setStudyMethod] = useState("online");
+  const [studyMethodState, setStudyMethodState] = useState("online");
   const studyMethods = [
     { label: "비대면", value: "online" },
     { label: "대면", value: "offline" },
@@ -67,7 +69,7 @@ export default function TestPage() {
   ];
 
   // modal
-  const { modal, openModal, closeModal } = useModal();
+  const { isModalOpenState, openModal, closeModal } = useModal();
 
   return (
     <div className="border-10 flex min-h-screen flex-col items-center gap-5 border-red-500 bg-white text-black">
@@ -222,42 +224,44 @@ export default function TestPage() {
           <LabelInput
             name="name"
             label="스터디명"
-            value={studyName}
-            onChange={(e) => setStudyName(e.target.value)}
+            value={studyNameState}
+            onChange={(e) => setStudyNameState(e.target.value)}
             required
           />
           <LabelInput
             name="duration"
             label="진행 시간"
-            value={studyName}
-            onChange={(e) => setStudyName(e.target.value)}
+            value={studyNameState}
+            onChange={(e) => setStudyNameState(e.target.value)}
             placeholder="예: 매주 화요일 오후 8시"
           />
           <LabelSelectInput
             name="category"
             label="카테고리"
             selectList={categoryList}
-            onChange={(e) => setCategory((e.target as HTMLSelectElement).value)}
+            onChange={(e) =>
+              setCategoryState((e.target as HTMLSelectElement).value)
+            }
             required
           />
-          <p>{category}</p>
+          <p>{categoryState}</p>
 
           <div className="flex w-full gap-3">
             <LabelInputDate
               name="startDate"
               label="모집 시작일"
-              value={startDate}
-              onChange={(e) => setStartDate(e.target.value)}
+              value={startDateState}
+              onChange={(e) => setStartDateState(e.target.value)}
             />
             <LabelInputDate
               name="endDate"
               label="모집 마감일"
-              value={endDate}
-              onChange={(e) => setEndDate(e.target.value)}
+              value={endDateState}
+              onChange={(e) => setEndDateState(e.target.value)}
             />
           </div>
-          <p>{startDate}</p>
-          <p>{endDate}</p>
+          <p>{startDateState}</p>
+          <p>{endDateState}</p>
           <LabelNumberInput name="person" label="모집 인원" />
           <Editor name="test" />
         </form>
@@ -265,9 +269,9 @@ export default function TestPage() {
         <RadioGroup
           name="studyMethod"
           options={studyMethods}
-          selectedValue={studyMethod}
+          selectedValue={studyMethodState}
           onChange={(event) => {
-            setStudyMethod(event.target.value);
+            setStudyMethodState(event.target.value);
           }}
         />
       </FormProvider>
@@ -275,8 +279,8 @@ export default function TestPage() {
       {/* Tab */}
       <Tab
         tabList={["잠여 중인 스터디", "지원 현황"]}
-        selectedTab={selectedTab}
-        setSelectedTab={setSelectedTab}
+        selectedTab={selectedTabState}
+        setSelectedTab={setSelectedTabState}
       />
       {/* Calendar */}
       <Calendar />
@@ -293,7 +297,7 @@ export default function TestPage() {
       {/* 석재 확인 모달 */}
       <ActionConfirmModal
         type="danger"
-        isOpen={modal}
+        isOpen={isModalOpenState}
         onClose={closeModal}
         title="삭제 확인"
         content="정말로 삭제하시겠습니까?"

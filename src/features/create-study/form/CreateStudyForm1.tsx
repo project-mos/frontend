@@ -1,42 +1,30 @@
-import Badge from "@/components/atoms/Badge";
-import Typography from "@/components/atoms/Typography";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { FormProvider, useFormContext } from "react-hook-form";
-import CreateStudyModal from "../components/CreateStudyModal";
-import StudyActions from "../components/StudyActions";
-import StudyBasicInfo from "../components/StudyBasicInfo";
-import StudyMethod from "../components/StudyMethod";
-import useStep1ButtonState from "../hooks/useStep1ButtonState";
-import useValidateForm from "../hooks/useValidateForm";
+import { useFormContext } from "react-hook-form";
+
+import Badge from "@/shared/components/atoms/Badge";
+import Typography from "@/shared/components/atoms/Typography";
+import ActionConfirmModal from "@/shared/components/molecules/ActionConfirmModal";
+import useModal from "@/shared/hooks/useModal";
+
+import StudyActions from "@/app/create-study/components/StudyActions";
+import StudyBasicInfo from "@/app/create-study/components/StudyBasicInfo";
+import StudyMethod from "@/app/create-study/components/StudyMethod";
+
 import { StudyFormInterface } from "./CreateStudyForm";
 
 const CreateStudyForm1 = () => {
   const methods = useFormContext<StudyFormInterface>();
   const router = useRouter();
-  const validateForm = useValidateForm();
-  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
-  const isStep1Valid = useStep1ButtonState();
+  const { isModalOpenState, openModal, closeModal } = useModal();
 
-  const onSubmit = (data: StudyFormInterface) => {
-    if (validateForm(data)) {
-      methods.setValue("step1Completed", true);
-      router.push("/create-study?step=2");
-    }
+  const onSubmit = () => {
+    router.push("/create-study?step=2");
   };
 
-  const handleClickBackButton = () => {
-    setIsOpenModal(true);
-  };
-
-  const handleClickCancelButton = () => {
-    setIsOpenModal(false);
+  const onClickCancelButton = () => {
+    closeModal();
     router.push("/");
   };
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
 
   return (
     <div className="m-auto flex w-full flex-col gap-[20px] tablet:w-[85%]">
@@ -44,29 +32,29 @@ const CreateStudyForm1 = () => {
         <Typography.Head3>스터디 만들기</Typography.Head3>
         <Badge>1/3 단계</Badge>
       </div>
-      <FormProvider {...methods}>
-        <form
-          onSubmit={methods.handleSubmit(onSubmit)}
-          className="flex flex-col gap-[30px]"
-        >
-          <StudyBasicInfo />
-          <StudyMethod />
-          <StudyActions
-            solidLabel="다음 단계"
-            ghostLabel="취소"
-            onClickBackButton={handleClickBackButton}
-            active={isStep1Valid}
-          />
-        </form>
-      </FormProvider>
-      {isOpenModal && (
-        <CreateStudyModal
-          title="취소하시겠습니까?"
-          descriptions={["현재까지 작성하신 내용은", "저장되지않습니다."]}
-          setIsOpenModal={setIsOpenModal}
-          confirmFunction={handleClickCancelButton}
+
+      <form
+        onSubmit={methods.handleSubmit(onSubmit)}
+        className="flex flex-col gap-[30px]"
+      >
+        <StudyBasicInfo />
+        <StudyMethod />
+        <StudyActions
+          solidLabel="다음 단계"
+          ghostLabel="취소"
+          onClickBackButton={openModal}
         />
-      )}
+      </form>
+
+      <ActionConfirmModal
+        isOpen={isModalOpenState}
+        onClose={closeModal}
+        onSuccess={onClickCancelButton}
+        type="danger"
+        title="취소하시겠습니까?"
+        content="현재까지 작성하신 내용은 저장되지않습니다."
+        buttonLabel="확인"
+      />
     </div>
   );
 };
