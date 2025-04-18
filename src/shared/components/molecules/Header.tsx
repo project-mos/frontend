@@ -12,6 +12,7 @@ import LoginModal from "@/features/login/components/LoginModal";
 import { ADMIN_MENU_ITEMS, MENU_ITEMS } from "@/shared/constants/SidebarItems";
 import URL from "@/shared/constants/URL";
 import useModal from "@/shared/hooks/useModal";
+import { Tooltip } from "@heroui/tooltip";
 
 const Header = () => {
   const isLoggedIn = true;
@@ -35,12 +36,22 @@ const Header = () => {
             {isLoggedIn ? (
               <>
                 {/* 반응형 */}
-                <Link href={`${URL.STUDY.CREATE}?step=1`} title="스터디 만들기">
-                  <i className="bi-marker-tip hidden text-[24px] text-mos-gray-700 transition-all duration-200 hover:text-mos-main-500 active:text-mos-main-500 tablet:inline-block" />
-                </Link>
-                <Link href={URL.MYPAGE} title="마이페이지">
-                  <i className="bi-person-circle hidden text-[24px] text-mos-gray-700 transition-all duration-200 hover:text-mos-main-500 active:text-mos-main-500 tablet:inline-block" />
-                </Link>
+                <Tooltip
+                  content="스터디 만들기"
+                  className="rounded-md bg-mos-main-500 px-3 py-1.5 text-[14px] text-white shadow-md"
+                >
+                  <Link href={`${URL.STUDY.CREATE}?step=1`}>
+                    <i className="bi-marker-tip hidden text-[24px] text-mos-gray-700 transition-all duration-200 hover:text-mos-main-500 active:text-mos-main-500 tablet:inline-block" />
+                  </Link>
+                </Tooltip>
+                <Tooltip
+                  content="마이페이지"
+                  className="rounded-md bg-mos-main-500 px-3 py-1.5 text-[14px] text-white shadow-md"
+                >
+                  <Link href={URL.MYPAGE}>
+                    <i className="bi-person-circle hidden text-[24px] text-mos-gray-700 transition-all duration-200 hover:text-mos-main-500 active:text-mos-main-500 tablet:inline-block" />
+                  </Link>
+                </Tooltip>
 
                 <Sidebar />
               </>
