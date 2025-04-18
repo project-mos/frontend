@@ -8,13 +8,14 @@ import Modal, {
 } from "@/shared/components/atoms/Modal";
 import Typography from "@/shared/components/atoms/Typography";
 import LabelInput from "@/shared/components/molecules/LabelInput";
-import LabelDateInput from "@/shared/components/molecules/LabelInputDate";
-import LabelTimeInput from "@/shared/components/molecules/LabelInputTime";
+
 import LabelTextAreaInput from "@/shared/components/molecules/LabelTextAreaInput";
 import { StudyScheduleInterface } from "@/shared/types/api/studies/detail";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Checkbox from "@/shared/components/atoms/Checkbox";
 import Card from "@/shared/components/atoms/Card";
+import LabelInputDateLocal from "@/shared/components/molecules/LabelDateTimeLocal";
+import { formatNowDate } from "@/shared/utils/date";
 
 // success, close 시 실행할 함수들을 부모로부터 받음
 interface ScheduleModalProps extends ModalProps {
@@ -22,39 +23,41 @@ interface ScheduleModalProps extends ModalProps {
   onSuccess: () => void;
   onClose: ModalOnClose;
 }
-interface StudyScheduleForm {
-  date: string;
-  curriculumIds?: number[];
-  title: string;
-  description?: string;
-  startDateTime: string;
-  endDateTime?: string;
-}
+
 const ScheduleModal = ({
   onSuccess,
   onClose,
   selectData,
   ...props
 }: ScheduleModalProps) => {
-  const methods = useForm<StudyScheduleForm>({
+  const methods = useForm<StudyScheduleInterface>({
     defaultValues: {
-      date: "",
-      startDateTime: "",
+      startDateTime: formatNowDate("YYYY-MM-DDTHH:mm"),
       endDateTime: "",
       title: "",
       description: "",
-      curriculumIds: [],
+      studyCurriculumResList: [],
     },
   });
   const [isUsingCurriculum, setIsUsingCurriculum] = useState(false);
+  const startDateTime = methods.watch("startDateTime");
+  const endDateTime = methods.watch("endDateTime");
+
   const isSelect = !!selectData;
-  const onSubmit = (data: StudyScheduleForm) => {
+  const onSubmit = (data: StudyScheduleInterface) => {
     console.log("data", data);
     onSuccess();
   };
 
   const onCloses = () => {
     methods.clearErrors();
+    methods.reset({
+      startDateTime: formatNowDate("YYYY-MM-DDTHH:mm"),
+      endDateTime: "",
+      title: "",
+      description: "",
+      studyCurriculumResList: [],
+    });
     onClose();
   };
 
@@ -62,10 +65,29 @@ const ScheduleModal = ({
     setIsUsingCurriculum(!isUsingCurriculum);
   };
 
+  useEffect(() => {
+    if (selectData) {
+      methods.reset({
+        ...selectData,
+      });
+    }
+  }, [selectData, methods]);
+
+  useEffect(() => {
+    if (new Date(endDateTime) < new Date(startDateTime)) {
+      methods.setError("endDateTime", {
+        type: "validate",
+        message: "종료일자는 시작일자보다 이후여야 합니다.",
+      });
+    } else {
+      methods.clearErrors("endDateTime");
+    }
+  }, [endDateTime, methods, startDateTime]);
+
   return (
     <FormProvider {...methods}>
       <Modal {...props} onClose={onCloses}>
-        <Modal.Header onClose={onClose}>
+        <Modal.Header onClose={onCloses}>
           <Typography.Head3>
             스터디 일정 {isSelect ? "수정" : "등록"}
           </Typography.Head3>
@@ -77,30 +99,22 @@ const ScheduleModal = ({
           <Modal.Content className="flex max-h-[300px] flex-col gap-5 overflow-y-scroll mobile:max-h-[505px]">
             <div className="flex flex-col gap-2">
               <Typography.SubTitle1>스터디 시간</Typography.SubTitle1>
-              <LabelDateInput<StudyScheduleForm>
-                label="일자"
-                name="date"
+              <LabelInputDateLocal<StudyScheduleInterface>
+                label="시작 일자"
+                name="startDateTime"
+                min={formatNowDate("YYYY-MM-DDTHH:mm")}
                 required
-                registerOptions={{ required: "그만하쇼", valueAsDate: true }}
+                registerOptions={{ required: "시작일자를 입력해주세요." }}
               />
-
-              <div className="flex flex-col gap-2 mobile:flex-row">
-                <LabelTimeInput<StudyScheduleForm>
-                  name="startDateTime"
-                  label="시작 시간"
-                  registerOptions={{ required: "그만하쇼" }}
-                  required
-                />
-                <LabelTimeInput<StudyScheduleForm>
-                  name="endDateTime"
-                  label="종료 시간"
-                  registerOptions={{
-                    required: "그만하쇼",
-                    value: selectData?.endDateTime,
-                  }}
-                  required
-                />
-              </div>
+              <LabelInputDateLocal<StudyScheduleInterface>
+                label="종료 일자"
+                min={startDateTime}
+                name="endDateTime"
+                required
+                registerOptions={{
+                  required: "종료일자를 입력해주세요.",
+                }}
+              />
             </div>
 
             <div className="flex flex-col gap-2">
@@ -131,8 +145,8 @@ const ScheduleModal = ({
                   })}
                 </div>
               ) : (
-                <>
-                  <LabelInput<StudyScheduleForm>
+                <div className="flex flex-col gap-7">
+                  <LabelInput<StudyScheduleInterface>
                     label="제목"
                     name="title"
                     placeholder="제목을 입력하세요"
@@ -145,13 +159,13 @@ const ScheduleModal = ({
                     className="w-full"
                     placeholder="내용을 입력하세요"
                   />
-                </>
+                </div>
               )}
             </div>
           </Modal.Content>
 
           <Modal.Footer>
-            <Button.Ghost color="Gray" onClick={onClose}>
+            <Button.Ghost color="Gray" onClick={onCloses}>
               취소
             </Button.Ghost>
             <Button.Solid
