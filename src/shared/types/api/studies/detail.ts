@@ -55,3 +55,20 @@ export interface StudyCurriculumInterface {
   content: string;
   task: string[];
 }
+
+export interface StudyScheduleInterface {
+  studyScheduleId: number;
+  title: string;
+  description: string;
+  startDateTime: string;
+  endDateTime: string;
+  studyId: number;
+  studyCurriculumResList: StudyCurriculumResList[];
+}
+
+export interface StudyCurriculumResList {
+  studyCurriculumId: number;
+  sectionId: number;
+  title: string;
+  content: string;
+}
