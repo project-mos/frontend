@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
 import Checkbox from "@/shared/components/atoms/Checkbox";
 import Card from "@/shared/components/atoms/Card";
 import LabelInputDateLocal from "@/shared/components/molecules/LabelDateTimeLocal";
-import { formatNowDate } from "@/shared/utils/date";
+import { formatNowDate, formatSeoulDate, nowDate } from "@/shared/utils/date";
 
 // success, close 시 실행할 함수들을 부모로부터 받음
 interface ScheduleModalProps extends ModalProps {
@@ -47,6 +47,7 @@ const ScheduleModal = ({
   const onSubmit = (data: StudyScheduleInterface) => {
     console.log("data", data);
     onSuccess();
+    onCloses();
   };
 
   const onCloses = () => {
@@ -74,7 +75,15 @@ const ScheduleModal = ({
   }, [selectData, methods]);
 
   useEffect(() => {
-    if (new Date(endDateTime) < new Date(startDateTime)) {
+    if (nowDate() > formatSeoulDate(startDateTime)) {
+      methods.setError("startDateTime", {
+        type: "validate",
+        message: "시작일자는 현재 시간보다 이후여야 합니다.",
+      });
+    } else {
+      methods.clearErrors("startDateTime");
+    }
+    if (formatSeoulDate(endDateTime) < formatSeoulDate(startDateTime)) {
       methods.setError("endDateTime", {
         type: "validate",
         message: "종료일자는 시작일자보다 이후여야 합니다.",
@@ -99,22 +108,24 @@ const ScheduleModal = ({
           <Modal.Content className="flex max-h-[300px] flex-col gap-5 overflow-y-scroll mobile:max-h-[505px]">
             <div className="flex flex-col gap-2">
               <Typography.SubTitle1>스터디 시간</Typography.SubTitle1>
-              <LabelInputDateLocal<StudyScheduleInterface>
-                label="시작 일자"
-                name="startDateTime"
-                min={formatNowDate("YYYY-MM-DDTHH:mm")}
-                required
-                registerOptions={{ required: "시작일자를 입력해주세요." }}
-              />
-              <LabelInputDateLocal<StudyScheduleInterface>
-                label="종료 일자"
-                min={startDateTime}
-                name="endDateTime"
-                required
-                registerOptions={{
-                  required: "종료일자를 입력해주세요.",
-                }}
-              />
+              <div className="flex flex-col gap-5">
+                <LabelInputDateLocal<StudyScheduleInterface>
+                  label="시작 일자"
+                  name="startDateTime"
+                  min={formatNowDate("YYYY-MM-DDTHH:mm")}
+                  required
+                  registerOptions={{ required: "시작일자를 입력해주세요." }}
+                />
+                <LabelInputDateLocal<StudyScheduleInterface>
+                  label="종료 일자"
+                  min={startDateTime}
+                  name="endDateTime"
+                  required
+                  registerOptions={{
+                    required: "종료일자를 입력해주세요.",
+                  }}
+                />
+              </div>
             </div>
 
             <div className="flex flex-col gap-2">
