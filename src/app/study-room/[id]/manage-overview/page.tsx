@@ -1,9 +1,7 @@
+import ManageOverviewCard from "../../components/manage-overview/ManageOverviewCard";
+
 const ManageOverview = () => {
-  return (
-    <div>
-      <p>ManageOverview</p>
-    </div>
-  );
+  return <ManageOverviewCard />;
 };
 
 export default ManageOverview;
