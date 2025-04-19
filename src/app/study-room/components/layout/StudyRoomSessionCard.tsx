@@ -2,6 +2,7 @@ import Badge from "@/shared/components/atoms/Badge";
 import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
 import { StudyScheduleInterface } from "@/shared/types/api/studies/detail";
+import { formatDate } from "@/shared/utils/date";
 import React from "react";
 
 const StudyRoomSessionCard = ({
@@ -19,11 +20,11 @@ const StudyRoomSessionCard = ({
         <div className="flex flex-col gap-1 mobile:flex-row">
           <Badge color="Blue">
             <i className="bi bi-calendar3 mr-1"></i>
-            {data.startDateTime}
+            {formatDate("YYYY-MM-DD HH:mm", data.startDateTime)}
           </Badge>
           <Badge color="Gray">
-            <i className="bi bi-clock mr-1"></i>
-            {data.endDateTime}
+            <i className="bi bi-calendar3 mr-1"></i>
+            {formatDate("YYYY-MM-DD HH:mm", data.endDateTime)}
           </Badge>
         </div>
 
