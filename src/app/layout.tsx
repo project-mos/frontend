@@ -5,6 +5,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 
 import Footer from "@/shared/components/molecules/Footer";
 import Header from "@/shared/components/molecules/Header";
+import Chat from "@/features/landing/components/chat/Chat";
 
 export default function RootLayout({
   children,
@@ -21,6 +22,7 @@ export default function RootLayout({
           </div>
           <Footer />
         </QueryClientProvider>
+        <Chat />
         <div id="portal"></div>
       </body>
     </html>
