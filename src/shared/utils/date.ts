@@ -1,3 +1,27 @@
+// 날짜를 서울(Asia/Seoul) 기준으로 변환해주는 함수
+export function formatSeoulDate(date?: Date | string) {
+  // 전달받은 date가 있으면 그것을 사용하고, 없으면 현재 시간으로 설정
+  const baseDate = date ? new Date(date) : new Date();
+
+  // 해당 날짜를 'Asia/Seoul' 타임존 기준의 문자열로 변환 후 다시 Date 객체로 생성
+  // 이렇게 하면 시스템 타임존에 관계없이 항상 서울 기준 시간이 반환됨
+  const seoulTime = new Date(
+    baseDate.toLocaleString("en-US", { timeZone: "Asia/Seoul" })
+  );
+
+  // 변환된 서울 시간 반환
+  return seoulTime;
+}
+
+// 현재 시간을 서울 기준으로 반환하는 함수
+export function nowDate() {
+  // 현재 시간 (로컬 타임존 기준)
+  const now = new Date();
+
+  // formatSeoulDate를 이용해 서울 기준 시간으로 변환
+  return formatSeoulDate(now);
+}
+
 /**
  * 서울 시간 기준으로 날짜를 포맷합니다.
  * @param format 출력 포맷 (기본값: "YYYY-MM-DDTHH:mm")
@@ -8,12 +32,8 @@ export function formatDate(
   format: string = "YYYY-MM-DDTHH:mm",
   date?: Date | string
 ): string {
-  const baseDate = date ? new Date(date) : new Date();
-
   // 서울 시간으로 변환된 Date 객체 생성
-  const seoulTime = new Date(
-    baseDate.toLocaleString("en-US", { timeZone: "Asia/Seoul" })
-  );
+  const seoulTime = formatSeoulDate(date);
 
   const map: Record<string, string> = {
     YYYY: String(seoulTime.getFullYear()),
@@ -52,10 +72,7 @@ export function formatNowDate(format: string = "YYYY-MM-DDTHH:mm"): string {
   const now = new Date();
 
   // 서울 시간 기준으로 Date 객체 생성
-  const seoulTime = new Date(
-    now.toLocaleString("en-US", { timeZone: "Asia/Seoul" })
-  );
-
+  const seoulTime = formatSeoulDate(now);
   // 포맷 키워드와 실제 값 매핑
   const map: Record<string, string | number> = {
     YYYY: seoulTime.getFullYear(),
