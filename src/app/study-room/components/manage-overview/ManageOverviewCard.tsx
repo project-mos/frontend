@@ -11,9 +11,8 @@ const ManageOverviewCard = () => {
   const tap = Number(searchParams.get("tap") ?? "1");
 
   const tabs = [
-    { id: 1, label: "커리큘럼" },
-    { id: 2, label: "규칙" },
-    { id: 3, label: "혜택" },
+    { id: 1, label: "규칙" },
+    { id: 2, label: "혜택" },
   ];
 
   const onClickTab = (id: number) => {
