@@ -22,7 +22,7 @@ const ImportantNoticeBar = () => {
   if (importantNotice) {
     return (
       <>
-        <div className="fixed left-0 top-0 mt-[55px] flex h-[35px] w-full items-center justify-center border-b border-orange-200 bg-orange-50">
+        <div className="fixed left-0 top-0 mt-[55px] flex w-full items-center justify-center border-b border-orange-200 bg-orange-50">
           <div className="flex w-[90%] max-w-[1300px] items-center justify-between">
             <Typography.P3 className="text-orange-400">
               <i className="bi bi-info-circle mr-2 text-orange-500"></i>
