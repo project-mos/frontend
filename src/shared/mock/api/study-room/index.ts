@@ -216,3 +216,17 @@ export const MockStudyMemberAttendance: StudyMemberAttendanceInterface[] = [
     attendanceRate: 100.0,
   },
 ];
+
+/**
+ * <ManageOverviewCard />에 쓰일 mock data
+ * /study-room/components/ManageOverviewCard.tsx
+ */
+
+export const MockManageOverviewCardData = [
+  { id: 1, text: "example text" },
+  { id: 2, text: "example text" },
+  { id: 3, text: "example text" },
+  { id: 4, text: "example text" },
+  { id: 5, text: "example text" },
+  { id: 6, text: "example text" },
+];
