@@ -13,20 +13,25 @@ const ManageOverviewCard = () => {
   const searchParams = useSearchParams();
   const tab = Number(searchParams.get("tap") ?? "1");
 
-  const [benefits, setBenefits] = useState<string[]>([""]);
-  const [rules, setRules] = useState<string[]>([""]);
-
-  const [benefitsEdit, setBenefitsEdit] = useState<boolean>(false);
-  const [rulesEdit, setRulesEdit] = useState<boolean>(false);
-
-  const data = [
+  const [benefits, setBenefits] = useState<{ id: number; text: string }[]>([
     { id: 1, text: "example text" },
     { id: 2, text: "example text" },
     { id: 3, text: "example text" },
     { id: 4, text: "example text" },
     { id: 5, text: "example text" },
     { id: 6, text: "example text" },
-  ];
+  ]);
+  const [rules, setRules] = useState<{ id: number; text: string }[]>([
+    { id: 1, text: "example text" },
+    { id: 2, text: "example text" },
+    { id: 3, text: "example text" },
+    { id: 4, text: "example text" },
+    { id: 5, text: "example text" },
+    { id: 6, text: "example text" },
+  ]);
+
+  const [benefitsEdit, setBenefitsEdit] = useState<boolean>(false);
+  const [rulesEdit, setRulesEdit] = useState<boolean>(false);
 
   const tabs = [
     { id: 1, label: "규칙" },
@@ -70,7 +75,7 @@ const ManageOverviewCard = () => {
               placeholder="스터디 규칙을 입력하세요"
             />
           ) : (
-            <PreviewBox data={data} setState={setRulesEdit} />
+            <PreviewBox data={rules} setState={setRulesEdit} />
           )
         ) : benefitsEdit == true ? (
           <ContentInputBox
@@ -81,7 +86,7 @@ const ManageOverviewCard = () => {
             placeholder="스터디 혜택을 입력하세요"
           />
         ) : (
-          <PreviewBox data={data} setState={setBenefitsEdit} />
+          <PreviewBox data={benefits} setState={setBenefitsEdit} />
         )}
       </Card.Content>
     </Card>

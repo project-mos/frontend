@@ -6,15 +6,17 @@ import Button from "@/shared/components/atoms/Button";
 import Input from "@/shared/components/atoms/Input";
 
 interface ContentInputBoxProps {
-  value: string[];
-  setValue: React.Dispatch<React.SetStateAction<string[]>>;
+  value: { id: number; text: string }[];
+  setValue: React.Dispatch<
+    React.SetStateAction<{ id: number; text: string }[]>
+  >;
   setState: React.Dispatch<SetStateAction<boolean>>;
   buttonText: string;
   placeholder: string;
 }
 
 interface InlineInputProps {
-  value: string;
+  value: { id: number; text: string };
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onRemove: () => void;
   placeholder: string;
@@ -28,7 +30,7 @@ const InlineInput = ({
 }: InlineInputProps) => (
   <div className="flex">
     <Input
-      value={value}
+      value={value.text}
       onChange={onChange}
       className="w-full rounded-r-none placeholder:text-mos-gray-500"
       placeholder={placeholder}
@@ -52,12 +54,12 @@ const ContentInputBox = ({
   placeholder,
 }: ContentInputBoxProps) => {
   const handleAddValue = () => {
-    setValue([...value, ""]);
+    setValue([...value, { id: value.length + 1, text: "" }]);
   };
 
   const handleEditValue = (index: number, text: string) => {
     const newValue = [...value];
-    newValue[index] = text;
+    newValue[index].text = text;
     setValue(newValue);
   };
 
@@ -69,10 +71,11 @@ const ContentInputBox = ({
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(value);
+    setState(false);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="px-4">
       <div className="flex w-full justify-end gap-2 py-4">
         <Button.Default
           type="button"
@@ -82,13 +85,7 @@ const ContentInputBox = ({
           <i className="bi bi-plus" />
           {buttonText}
         </Button.Default>
-        <Button.Solid
-          onClick={() => setState(false)}
-          active
-          color="Main"
-          type="submit"
-          className="h-[35px]"
-        >
+        <Button.Solid active color="Main" type="submit" className="h-[35px]">
           저장하기
         </Button.Solid>
       </div>
@@ -96,7 +93,7 @@ const ContentInputBox = ({
       <div className="flex flex-col gap-3">
         {value.map((data, index) => (
           <InlineInput
-            key={index}
+            key={data.id}
             value={data}
             onChange={(e) => handleEditValue(index, e.target.value)}
             onRemove={() => handleDeleteValue(index)}

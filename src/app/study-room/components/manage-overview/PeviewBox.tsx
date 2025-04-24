@@ -9,8 +9,8 @@ interface PreviewBoxProps {
 
 const PreviewBox = ({ data, setState }: PreviewBoxProps) => {
   return (
-    <div className="p-4">
-      <div className="flex w-full justify-end gap-2 py-4">
+    <div className="px-4">
+      <div className="flex w-full justify-end py-4">
         <Button.Solid
           onClick={() => setState(true)}
           active
