@@ -5,6 +5,7 @@ import { useState } from "react";
 
 import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
+import { MockManageOverviewCardData } from "@/shared/mock/api/study-room";
 import ContentInputBox from "./ContentInputBox";
 import PreviewBox from "./PeviewBox";
 
@@ -12,23 +13,11 @@ const ManageOverviewCard = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const tab = Number(searchParams.get("tap") ?? "1");
+  const data = MockManageOverviewCardData;
 
-  const [benefits, setBenefits] = useState<{ id: number; text: string }[]>([
-    { id: 1, text: "example text" },
-    { id: 2, text: "example text" },
-    { id: 3, text: "example text" },
-    { id: 4, text: "example text" },
-    { id: 5, text: "example text" },
-    { id: 6, text: "example text" },
-  ]);
-  const [rules, setRules] = useState<{ id: number; text: string }[]>([
-    { id: 1, text: "example text" },
-    { id: 2, text: "example text" },
-    { id: 3, text: "example text" },
-    { id: 4, text: "example text" },
-    { id: 5, text: "example text" },
-    { id: 6, text: "example text" },
-  ]);
+  const [benefits, setBenefits] =
+    useState<{ id: number; text: string }[]>(data);
+  const [rules, setRules] = useState<{ id: number; text: string }[]>(data);
 
   const [benefitsEdit, setBenefitsEdit] = useState<boolean>(false);
   const [rulesEdit, setRulesEdit] = useState<boolean>(false);
