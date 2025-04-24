@@ -21,9 +21,11 @@ const PreviewBox = ({ data, setState }: PreviewBoxProps) => {
           수정하기
         </Button.Solid>
       </div>
-      {data.map((d) => (
+      {data.map((d, index) => (
         <div className="py-2" key={d.id}>
-          <Typography.P2>{d.text}</Typography.P2>
+          <Typography.P2>
+            {index + 1}. {d.text}
+          </Typography.P2>
         </div>
       ))}
     </div>
