@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { SetStateAction } from "react";
 
 import Button from "@/shared/components/atoms/Button";
 import Input from "@/shared/components/atoms/Input";
@@ -8,6 +8,7 @@ import Input from "@/shared/components/atoms/Input";
 interface ContentInputBoxProps {
   value: string[];
   setValue: React.Dispatch<React.SetStateAction<string[]>>;
+  setState: React.Dispatch<SetStateAction<boolean>>;
   buttonText: string;
   placeholder: string;
 }
@@ -46,7 +47,7 @@ const InlineInput = ({
 const ContentInputBox = ({
   value,
   setValue,
-
+  setState,
   buttonText,
   placeholder,
 }: ContentInputBoxProps) => {
@@ -81,7 +82,13 @@ const ContentInputBox = ({
           <i className="bi bi-plus" />
           {buttonText}
         </Button.Default>
-        <Button.Solid active color="Main" type="submit" className="h-[35px]">
+        <Button.Solid
+          onClick={() => setState(false)}
+          active
+          color="Main"
+          type="submit"
+          className="h-[35px]"
+        >
           저장하기
         </Button.Solid>
       </div>

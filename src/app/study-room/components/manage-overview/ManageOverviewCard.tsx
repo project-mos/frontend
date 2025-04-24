@@ -1,11 +1,12 @@
 "use client";
 import cn from "@/shared/utils/cn";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
 
 import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
-import { useState } from "react";
 import ContentInputBox from "./ContentInputBox";
+import PreviewBox from "./PeviewBox";
 
 const ManageOverviewCard = () => {
   const router = useRouter();
@@ -14,6 +15,18 @@ const ManageOverviewCard = () => {
 
   const [benefits, setBenefits] = useState<string[]>([""]);
   const [rules, setRules] = useState<string[]>([""]);
+
+  const [benefitsEdit, setBenefitsEdit] = useState<boolean>(false);
+  const [rulesEdit, setRulesEdit] = useState<boolean>(false);
+
+  const data = [
+    { id: 1, text: "example text" },
+    { id: 2, text: "example text" },
+    { id: 3, text: "example text" },
+    { id: 4, text: "example text" },
+    { id: 5, text: "example text" },
+    { id: 6, text: "example text" },
+  ];
 
   const tabs = [
     { id: 1, label: "규칙" },
@@ -48,19 +61,27 @@ const ManageOverviewCard = () => {
         </div>
 
         {tab == 1 ? (
-          <ContentInputBox
-            value={rules}
-            setValue={setRules}
-            buttonText="규칙 추가"
-            placeholder="스터디 규칙을 입력하세요"
-          />
-        ) : (
+          rulesEdit == true ? (
+            <ContentInputBox
+              value={rules}
+              setValue={setRules}
+              setState={setRulesEdit}
+              buttonText="규칙 추가"
+              placeholder="스터디 규칙을 입력하세요"
+            />
+          ) : (
+            <PreviewBox data={data} setState={setRulesEdit} />
+          )
+        ) : benefitsEdit == true ? (
           <ContentInputBox
             value={benefits}
             setValue={setBenefits}
+            setState={setBenefitsEdit}
             buttonText="혜택 추가"
             placeholder="스터디 혜택을 입력하세요"
           />
+        ) : (
+          <PreviewBox data={data} setState={setBenefitsEdit} />
         )}
       </Card.Content>
     </Card>
