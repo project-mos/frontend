@@ -75,7 +75,18 @@ const ContentInputBox = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="px-4">
+    <form onSubmit={handleSubmit} className="mt-4 px-4">
+      <div className="flex flex-col gap-3">
+        {value.map((data, index) => (
+          <InlineInput
+            key={data.id}
+            value={data}
+            onChange={(e) => handleEditValue(index, e.target.value)}
+            onRemove={() => handleDeleteValue(index)}
+            placeholder={placeholder}
+          />
+        ))}
+      </div>
       <div className="flex w-full justify-end gap-2 py-4">
         <Button.Default
           type="button"
@@ -88,18 +99,6 @@ const ContentInputBox = ({
         <Button.Solid active color="Main" type="submit" className="h-[35px]">
           저장하기
         </Button.Solid>
-      </div>
-
-      <div className="flex flex-col gap-3">
-        {value.map((data, index) => (
-          <InlineInput
-            key={data.id}
-            value={data}
-            onChange={(e) => handleEditValue(index, e.target.value)}
-            onRemove={() => handleDeleteValue(index)}
-            placeholder={placeholder}
-          />
-        ))}
       </div>
     </form>
   );

@@ -9,7 +9,16 @@ interface PreviewBoxProps {
 
 const PreviewBox = ({ data, setState }: PreviewBoxProps) => {
   return (
-    <div className="px-4">
+    <div className="mt-4 px-4">
+      <div className="flex flex-col gap-3">
+        {data.map((d) => (
+          <div className="rounded-md border p-3 " key={d.id}>
+            <Typography.P3 className="text-[14px]">{d.text}</Typography.P3>
+          </div>
+        ))}
+      </div>
+
+      {/* 관리자만 볼 수 있는 버튼 */}
       <div className="flex w-full justify-end py-4">
         <Button.Solid
           onClick={() => setState(true)}
@@ -21,13 +30,6 @@ const PreviewBox = ({ data, setState }: PreviewBoxProps) => {
           수정하기
         </Button.Solid>
       </div>
-      {data.map((d, index) => (
-        <div className="py-2" key={d.id}>
-          <Typography.P2>
-            {index + 1}. {d.text}
-          </Typography.P2>
-        </div>
-      ))}
     </div>
   );
 };
