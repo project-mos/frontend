@@ -27,7 +27,7 @@ const URL = {
       return `/study-room/${id}/manage-applicants`;
     },
     DETAIL_MANAGE_OVERVIEW(id: string) {
-      return `/study-room/${id}/manage-overview`;
+      return `/study-room/${id}/overview`;
     },
   },
   MYPAGE: "/mypage",

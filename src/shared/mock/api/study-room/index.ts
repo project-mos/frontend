@@ -223,10 +223,10 @@ export const MockStudyMemberAttendance: StudyMemberAttendanceInterface[] = [
  */
 
 export const MockManageOverviewCardData = [
-  { id: 1, text: "example text" },
+  { id: 1, text: "example text example text example text" },
   { id: 2, text: "example text" },
-  { id: 3, text: "example text" },
-  { id: 4, text: "example text" },
+  { id: 3, text: "example text example text" },
+  { id: 4, text: "example text example text" },
   { id: 5, text: "example text" },
-  { id: 6, text: "example text" },
+  { id: 6, text: "example text example text example text" },
 ];

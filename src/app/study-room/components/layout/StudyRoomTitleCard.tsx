@@ -20,7 +20,7 @@ const StudyRoomTitleCard = () => {
 
       <Card.Footer className="flex-col gap-1">
         <div className="flex justify-between">
-          <Typography.P3 className="text-mos-gray-500">진행율</Typography.P3>
+          <Typography.P3 className="text-mos-gray-500">진행률</Typography.P3>
           <Typography.P3 className="text-mos-gray-500">50%</Typography.P3>
         </div>
 
