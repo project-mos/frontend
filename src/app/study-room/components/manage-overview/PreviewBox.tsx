@@ -17,6 +17,8 @@ const PreviewBox = ({ data, setState }: PreviewBoxProps) => {
           </div>
         ))}
       </div>
+
+      {/* 관리자만 볼 수 있는 버튼 */}
       <div className="flex w-full justify-end py-4">
         <Button.Solid
           onClick={() => setState(true)}
