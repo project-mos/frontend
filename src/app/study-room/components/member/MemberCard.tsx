@@ -1,9 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import MemberModal from "./MemberModal";
 
-import useEnhancedModal from "@/app/hooks/useEnhancedModal";
 // import {
 //   LineChart,
 //   Line,
@@ -21,15 +20,16 @@ import Badge from "@/shared/components/atoms/Badge";
 import Button from "@/shared/components/atoms/Button";
 import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
-import { StudyMemberInterface } from "@/shared/types/api/study-room";
-import cn from "@/shared/utils/cn";
+import useModal from "@/shared/hooks/useModal";
 import {
   MockStudyMemberAttendance,
   MockStudyMembers,
 } from "@/shared/mock/api/study-room";
+import { StudyMemberInterface } from "@/shared/types/api/study-room";
+import cn from "@/shared/utils/cn";
 
 const MemberCard = () => {
-  const { isOpen, openModal, closeModal } = useEnhancedModal();
+  const { isModalOpenState, openModal, closeModal } = useModal();
   // 스터디원 조회
   const [membersState] = useState(MockStudyMembers);
   // 스터디원의 출석률 조회
@@ -95,7 +95,7 @@ const MemberCard = () => {
   return (
     <>
       <MemberModal
-        isOpen={isOpen}
+        isOpen={isModalOpenState}
         data={selectMemberAttendanceState}
         onClose={onClose}
       />
