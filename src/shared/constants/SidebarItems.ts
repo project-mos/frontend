@@ -45,4 +45,9 @@ export const ADMIN_MENU_ITEMS: MenuItems = [
     icon: "bi-person-plus",
     path: URL.STUDY_ROOM.DETAIL_MANAGE_APPLICANTS("1"),
   },
+  {
+    name: "규칙/혜택 관리",
+    icon: "bi-book",
+    path: URL.STUDY_ROOM.DETAIL_MANAGE_OVERVIEW("1"),
+  },
 ];

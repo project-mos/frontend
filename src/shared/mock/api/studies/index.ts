@@ -2,6 +2,7 @@ import {
   StudiesDescription,
   StudyCardInterface,
   StudyCurriculumInterface,
+  StudyScheduleInterface,
 } from "@/shared/types/api/studies/detail";
 
 // <StudyDescriptionCard/> 에 쓰일 mock data
@@ -80,3 +81,40 @@ export const MockStudyCurriculumApiResult: StudyCurriculumInterface[] = [
     task: ["백준 1463번", "백준 9095번"],
   },
 ];
+
+// <StudyRoomSessionCard/>에 쓰일 mock data
+export const MockStudyScheduleApiResult: StudyScheduleInterface[] = [
+  {
+    studyScheduleId: 1,
+    title: "알고리즘 스터디",
+    description: "DP 문제 풀이",
+    startDateTime: "2025-03-20T10:00:00",
+    endDateTime: "2025-03-20T12:00:00",
+    studyId: 100,
+    studyCurriculumResList: [],
+  },
+  {
+    studyScheduleId: 2,
+    title: "CS 스터디",
+    description: "네트워크 기초",
+    startDateTime: "2025-03-22T14:00:00",
+    endDateTime: "2025-03-22T16:00:00",
+    studyId: 101,
+    studyCurriculumResList: [
+      {
+        studyCurriculumId: 20,
+        sectionId: 1,
+        title: "TCP/IP 개념",
+        content: "TCP와 UDP의 차이점 및 특징을 학습",
+      },
+      {
+        studyCurriculumId: 21,
+        sectionId: 2,
+        title: "HTTP 프로토콜",
+        content: "HTTP 요청과 응답 과정 분석",
+      },
+    ],
+  },
+];
+
+// 스터디 일정은 스터디 커리큘럼을 선택할 수 있기 때문에, 스터디 커리큘럼이 존재하는 스터디 일정은 studyCurriculumResList이 존재

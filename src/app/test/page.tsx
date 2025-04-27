@@ -35,6 +35,7 @@ import {
   MockStudyCardApiResult,
 } from "@/shared/mock/api/studies";
 import Toast from "@/shared/components/molecules/Toast";
+import LabelInputDateLocal from "@/shared/components/molecules/LabelDateTimeLocal";
 
 interface FormData {
   test: string; // 'test' 필드 타입을 string으로 설정
@@ -264,6 +265,7 @@ export default function TestPage() {
           <p>{startDateState}</p>
           <p>{endDateState}</p>
           <LabelNumberInput name="person" label="모집 인원" />
+          <LabelInputDateLocal name="asd" label="시작 시간" />
           <Editor name="test" />
         </form>
         <RadioButton label="test label" />
