@@ -34,6 +34,7 @@ import {
   MockStudiesApiResult,
   MockStudyCardApiResult,
 } from "@/shared/mock/api/studies";
+import Toast from "@/shared/components/molecules/Toast";
 
 interface FormData {
   test: string; // 'test' 필드 타입을 string으로 설정
@@ -318,6 +319,8 @@ export default function TestPage() {
       <Button.Solid color="Main" active onClick={openModal}>
         승인 확인 모달
       </Button.Solid> */}
+      {/* toast */}
+      <Toast content="성공입니다요요요요" type="success" />
     </div>
   );
 }
