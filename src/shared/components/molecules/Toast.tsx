@@ -5,6 +5,7 @@ export interface ToastInterface {
   content: string;
   type?: "success" | "info" | "warning" | "error";
   duration?: number;
+  index?: number;
 }
 
 const typeConfig = {
@@ -38,6 +39,7 @@ const Toast = ({
   content,
   type = "success",
   duration = 3000,
+  index = 0,
 }: ToastInterface) => {
   const { color, icon, title, iconColor } = typeConfig[type];
   const [visible, setVisible] = useState(false);
@@ -55,10 +57,13 @@ const Toast = ({
   return (
     <div
       className={cn(
-        "fixed left-1/2 top-5 z-10 w-[350px] -translate-x-1/2 rounded-xl border transition-all duration-500 ease-in-out",
+        "fixed left-1/2 z-50 w-[350px] -translate-x-1/2 rounded-xl border transition-all duration-500 ease-in-out",
         visible ? "translate-y-0 opacity-100" : "-translate-y-5 opacity-0",
         color
       )}
+      style={{
+        top: `${20 + index * 70}px`,
+      }}
     >
       <div className="flex items-center gap-3 px-3 py-2">
         <div>

@@ -8,12 +8,13 @@ const ToastRenderer = () => {
 
   return (
     <div className="fixed bottom-4 right-4 z-20 space-y-2">
-      {toasts.map((toast) => (
+      {toasts.map((toast, index) => (
         <Toast
           key={toast.id}
           content={toast.content}
           type={toast.type}
           duration={toast.duration || 3000}
+          index={index}
         />
       ))}
     </div>
