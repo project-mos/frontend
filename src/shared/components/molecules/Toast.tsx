@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import cn from "@/shared/utils/cn";
 
-interface ToastInterface {
+export interface ToastInterface {
   content: string;
   type?: "success" | "info" | "warning" | "error";
   duration?: number;
