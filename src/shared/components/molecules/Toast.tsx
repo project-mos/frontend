@@ -62,7 +62,7 @@ const Toast = ({
         color
       )}
       style={{
-        top: `${20 + index * 70}px`,
+        top: index == 0 ? 28 : 20 + index * 70,
       }}
     >
       <div className="flex items-center gap-3 px-3 py-2">

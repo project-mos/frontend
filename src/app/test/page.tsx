@@ -34,7 +34,6 @@ import {
   MockStudiesApiResult,
   MockStudyCardApiResult,
 } from "@/shared/mock/api/studies";
-import Toast from "@/shared/components/molecules/Toast";
 import LabelInputDateLocal from "@/shared/components/molecules/LabelDateTimeLocal";
 import { useToast } from "@/shared/hooks/useToast";
 import ToastRenderer from "@/shared/components/ToastRenderer";
@@ -325,7 +324,6 @@ export default function TestPage() {
         승인 확인 모달
       </Button.Solid> */}
       {/* toast */}
-      <Toast content="성공입니다요요요요" type="success" />
       <button
         onClick={() => {
           toast.success("성공했어!", 3000);
