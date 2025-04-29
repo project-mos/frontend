@@ -7,20 +7,15 @@ export const useToast = () => {
 
   const showToast = (
     content: string,
-    type: "success" | "error" | "warning" | "info",
-    duration = 3000
+    type: "success" | "error" | "warning" | "info"
   ) => {
-    addToast({ content, type, duration });
+    addToast({ content, type });
   };
 
   return {
-    success: (content: string, duration?: number) =>
-      showToast(content, "success", duration),
-    error: (content: string, duration?: number) =>
-      showToast(content, "error", duration),
-    warning: (content: string, duration?: number) =>
-      showToast(content, "warning", duration),
-    info: (content: string, duration?: number) =>
-      showToast(content, "info", duration),
+    success: (content: string) => showToast(content, "success"),
+    error: (content: string) => showToast(content, "error"),
+    warning: (content: string) => showToast(content, "warning"),
+    info: (content: string) => showToast(content, "info"),
   };
 };

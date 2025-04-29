@@ -13,7 +13,6 @@ const ToastRenderer = () => {
           key={toast.id}
           content={toast.content}
           type={toast.type}
-          duration={toast.duration || 3000}
           index={index}
         />
       ))}
