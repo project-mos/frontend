@@ -326,7 +326,7 @@ export default function TestPage() {
       {/* toast */}
       <button
         onClick={() => {
-          toast.success("성공했어!", 3000);
+          toast.success("성공했어!");
         }}
       >
         토스트 띄우기
