@@ -81,7 +81,7 @@ const Option = ({
         <i className="bi bi-record-circle"></i>
       </div>
       <Input
-        className="w-full rounded-none placeholder:text-mos-gray-500"
+        className="h-[42px] w-full rounded-none placeholder:text-mos-gray-500"
         placeholder="옵션을 입력하세요"
         value={options[optionIndex]}
         onChange={(e) => {
