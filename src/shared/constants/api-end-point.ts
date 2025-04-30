@@ -5,7 +5,7 @@ export const API_ENDPOINT = {
     // 로그인
     signIn: () => {
       return {
-        url:`${process.env.MOS_API_BASE_URL}/oauth2/login`, // 임시 URL
+        url: `${process.env.MOS_API_BASE_URL}/oauth2/login`, // 임시 URL
         method: Method.POST,
       };
     },
@@ -21,18 +21,27 @@ export const API_ENDPOINT = {
     // 유저 정보 조회
     getUser: (id: number) => {
       return {
-        url:`${process.env.MOS_API_BASE_URL}/user/${id}`, // 임시 URL
+        url: `${process.env.MOS_API_BASE_URL}/user/${id}`, // 임시 URL
         method: Method.GET,
       };
     },
     // 유저 정보 수정
     updateUser: (id: number) => {
       return {
-        url:`${process.env.MOS_API_BASE_URL}/user/${id}`, // 임시 URL
+        url: `${process.env.MOS_API_BASE_URL}/user/${id}`, // 임시 URL
         method: Method.PATCH,
       };
-    }
-  }
+    },
+  },
+  study: {
+    // 스터디 생성
+    createStudy: () => {
+      return {
+        url: `${process.env.MOS_API_BASE_URL}/studies`,
+        method: Method.POST,
+      };
+    },
+  },
 
   // 필요에 따라 추가
 };
