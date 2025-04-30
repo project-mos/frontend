@@ -7,6 +7,8 @@ interface createStudyProps {
 }
 
 export default async function createStudy({ form }: createStudyProps) {
+  console.log(form);
+  return;
   const response = await fetchData({
     endpoint: API_ENDPOINT.study.createStudy(),
     data: {
