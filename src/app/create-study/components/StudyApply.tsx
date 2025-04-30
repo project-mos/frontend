@@ -31,7 +31,7 @@ const StudyApply = () => {
     setValue("applicationQuestions", [
       ...questions,
       {
-        questionNum: questions.length,
+        questionNum: questions.length + 1,
         question: "",
         required: false,
         type: "주관식",

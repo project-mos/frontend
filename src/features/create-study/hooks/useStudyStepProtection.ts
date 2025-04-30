@@ -15,7 +15,7 @@ const useStudyStepProtection = (
   const formValues = watch();
 
   const isStep1Completed =
-    !!formValues.name &&
+    !!formValues.title &&
     !!formValues.category &&
     !!formValues.recruitmentStartDate &&
     !!formValues.recruitmentEndDate &&
