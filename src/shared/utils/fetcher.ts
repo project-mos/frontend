@@ -1,13 +1,13 @@
-import { AxiosRequestConfig } from 'axios';
-import { revalidatePath } from 'next/cache';
-import axiosInstance from '../lib/axios';
+import { AxiosRequestConfig } from "axios";
+
+import axiosInstance from "../lib/axios";
 
 export enum Method {
-  GET = 'GET',
-  POST = 'POST',
-  PUT = 'PUT',
-  DELETE = 'DELETE',
-  PATCH = 'PATCH',
+  GET = "GET",
+  POST = "POST",
+  PUT = "PUT",
+  DELETE = "DELETE",
+  PATCH = "PATCH",
 }
 
 export type ApiEndpoint = {
@@ -46,7 +46,13 @@ interface FetchOptionsInterface extends AxiosRequestConfig {
   }
  */
 
-export async function fetchData<T>({ endpoint, data, params, revalidatePathName, ...rest }: FetchOptionsInterface): Promise<T> {
+export async function fetchData<T>({
+  endpoint,
+  data,
+  params,
+  revalidatePathName,
+  ...rest
+}: FetchOptionsInterface): Promise<T> {
   const { url, method } = endpoint;
 
   try {
@@ -55,11 +61,12 @@ export async function fetchData<T>({ endpoint, data, params, revalidatePathName,
       method,
       data,
       params,
-      ...rest
+      ...rest,
     });
 
     // 캐시 무효화 (서버 환경일 때만 실행)
-    if (revalidatePathName && typeof window === 'undefined') {
+    if (revalidatePathName && typeof window === "undefined") {
+      const { revalidatePath } = await import("next/cache");
       revalidatePath(revalidatePathName);
     }
 

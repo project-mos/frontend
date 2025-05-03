@@ -11,21 +11,23 @@ import CreateStudyForm4 from "@/features/create-study/form/CreateStudyForm4";
 import useStudyStepProtection from "../hooks/useStudyStepProtection";
 
 export interface StudyFormInterface {
+  title: string;
   category: string;
-  meetingType: string;
-  name: string;
-  person: number;
-  recruitmentEndDate: string;
+  maxStudyMemberCount: number;
   recruitmentStartDate: string;
+  recruitmentEndDate: string;
+  tags: string[];
+  meetingType: string;
   schedule: string;
   content: string;
-  requirements?: string;
-  rules?: string[];
-  benefits?: string[];
-  questions: {
+  requirements: string;
+  rules: { ruleNum: number; content: string }[];
+  benefits: { benefitNum: number; content: string }[];
+  applicationQuestions: {
+    questionNum: number;
     question: string;
-    answerType: string;
-    isRequired: boolean;
+    required: boolean;
+    type: string;
     options: string[];
   }[];
 }
@@ -39,18 +41,19 @@ const CreateStudyForm = () => {
   const methods = useForm<StudyFormInterface>({
     mode: "onChange",
     defaultValues: {
+      title: "",
       category: "",
-      meetingType: "",
-      name: "",
-      person: 4,
-      recruitmentEndDate: "",
+      maxStudyMemberCount: 4,
       recruitmentStartDate: "",
+      recruitmentEndDate: "",
+      tags: [],
+      meetingType: "",
       schedule: "",
       content: "",
       requirements: "",
-      rules: [""],
-      benefits: [""],
-      questions: [],
+      rules: [{ ruleNum: 1, content: "" }],
+      benefits: [{ benefitNum: 1, content: "" }],
+      applicationQuestions: [],
     },
   });
 

@@ -35,6 +35,8 @@ import {
   MockStudyCardApiResult,
 } from "@/shared/mock/api/studies";
 import LabelInputDateLocal from "@/shared/components/molecules/LabelDateTimeLocal";
+import { useToast } from "@/shared/hooks/useToast";
+import ToastRenderer from "@/shared/components/ToastRenderer";
 
 interface FormData {
   test: string; // 'test' 필드 타입을 string으로 설정
@@ -68,6 +70,7 @@ export default function TestPage() {
     { label: "대면", value: "offline" },
     { label: "혼합", value: "hybrid" },
   ];
+  const toast = useToast();
 
   // modal
   const { isModalOpenState, openModal, closeModal } = useModal();
@@ -320,6 +323,16 @@ export default function TestPage() {
       <Button.Solid color="Main" active onClick={openModal}>
         승인 확인 모달
       </Button.Solid> */}
+      {/* toast */}
+      <button
+        onClick={() => {
+          toast.success("성공했어!");
+        }}
+      >
+        토스트 띄우기
+      </button>
+      {/* renderer로 전역상태 추가 */}
+      <ToastRenderer />
     </div>
   );
 }

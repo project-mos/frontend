@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "node server.mjs",
+    "dev:https": "NODE_ENV=development node server.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -69,5 +70,6 @@
       "plugin:storybook/recommended",
       "plugin:storybook/recommended"
     ]
-  }
+  },
+  "type": "module"
 }

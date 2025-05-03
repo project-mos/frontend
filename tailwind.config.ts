@@ -73,6 +73,12 @@ export default {
         naver: "#02C75B",
         "naver-hover": "#04B253",
         "google-hover": "#F2F2F2",
+        toast: {
+          success: {border: "#4FDF69", bg: "#EFF9F1"},
+          info: {border: "#3488EA", bg: "#E8EDF9"},
+          warning: {border: "#FABD28", bg: "#FDF7EA"},
+          error: {border: "#FB5959", bg: "#FAEFEC"},
+        }
       },
     },
   },
