@@ -15,7 +15,7 @@ import useModal from "@/shared/hooks/useModal";
 import { Tooltip } from "@heroui/tooltip";
 
 const Header = () => {
-  const isLoggedIn = true;
+  const isLoggedIn = false;
   const { isModalOpenState, openModal, closeModal } = useModal();
 
   return (

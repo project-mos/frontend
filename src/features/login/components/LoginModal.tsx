@@ -12,7 +12,7 @@ interface ScheduleModalProps extends ModalProps {
   onClose: ModalOnClose;
 }
 
-interface SnsButtonProps {
+interface SnsButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   platform: string;
   icon: JSX.Element;
   bgColor: string;
@@ -21,6 +21,10 @@ interface SnsButtonProps {
 }
 
 const LoginModal = ({ onClose, ...props }: ScheduleModalProps) => {
+  const onClickKakaoLoginButton = async () => {
+    window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URI}&state=KAKAO`;
+  };
+
   return (
     <Modal {...props} onClose={onClose}>
       <Modal.Header onClose={onClose}></Modal.Header>
@@ -42,6 +46,7 @@ const LoginModal = ({ onClose, ...props }: ScheduleModalProps) => {
           bgColor="bg-kakao"
           hoverColor="hover:bg-kakao-hover"
           textColor="text-black"
+          onClick={onClickKakaoLoginButton}
         />
         <SnsLoginButton
           platform="Naver"
@@ -57,13 +62,13 @@ const LoginModal = ({ onClose, ...props }: ScheduleModalProps) => {
           hoverColor="hover:bg-google-hover"
           textColor="text-black"
         />
-        <SnsLoginButton
+        {/* <SnsLoginButton
           platform="Github"
           icon={<i className="bi bi-github text-white"></i>}
           bgColor="bg-black"
           hoverColor="hover:bg-black"
           textColor="text-white"
-        />
+        /> */}
       </Modal.Footer>
     </Modal>
   );
@@ -75,9 +80,11 @@ const SnsLoginButton = ({
   bgColor,
   hoverColor,
   textColor,
+  onClick,
 }: SnsButtonProps) => {
   return (
     <button
+      onClick={onClick}
       className={cn(
         bgColor,
         hoverColor,
