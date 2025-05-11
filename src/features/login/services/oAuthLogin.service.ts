@@ -23,4 +23,13 @@ export default async function oAuthLogin({ code, provider }: oAuthLoginProps) {
   const token = result.headers.get("Authorization")?.split(" ")[1];
   localStorage.setItem("access_token", token!);
   return result;
+
+  // fetcher.ts 가 data를 반환하는 형식이라 보류
+  // const response = await fetchData({
+  //   endpoint: API_ENDPOINT.auth.signIn(),
+  //   data: {
+  //     code: code,
+  //     oauthProvider: provider,
+  //   }
+  // })
 }
