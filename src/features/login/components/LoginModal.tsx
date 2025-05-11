@@ -25,8 +25,16 @@ const LoginModal = ({ onClose, ...props }: ScheduleModalProps) => {
     window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URI}&state=KAKAO`;
   };
 
+  const onClickGoogleLoginButton = async () => {
+    window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URI}&response_type=code&scope=email%20profile&state=GOOGLE`;
+  };
+
+  const onClickNaverLoginButton = async () => {
+    window.location.href = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_NAVER_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URI}&state=NAVER`;
+  };
+
   return (
-    <Modal {...props} onClose={onClose}>
+    <Modal {...props} onClose={onClose} className="max-w-[400px]">
       <Modal.Header onClose={onClose}></Modal.Header>
       <Modal.Content className="w-[350px] text-center">
         <SvgIcons.Logo width={183} height={50} className="mx-auto" />
@@ -54,6 +62,7 @@ const LoginModal = ({ onClose, ...props }: ScheduleModalProps) => {
           bgColor="bg-naver"
           hoverColor="hover:bg-naver-hover"
           textColor="text-white"
+          onClick={onClickNaverLoginButton}
         />
         <SnsLoginButton
           platform="Google"
@@ -61,6 +70,7 @@ const LoginModal = ({ onClose, ...props }: ScheduleModalProps) => {
           bgColor="bg-white"
           hoverColor="hover:bg-google-hover"
           textColor="text-black"
+          onClick={onClickGoogleLoginButton}
         />
         {/* <SnsLoginButton
           platform="Github"
