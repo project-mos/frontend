@@ -19,7 +19,12 @@ export default async function oAuthLogin({ code, provider }: oAuthLoginProps) {
         }),
       }
     );
-    console.log(result);
+
+    if (!result.ok) {
+      const errorMessage = await result.text();
+      console.error("Server error:", errorMessage);
+      throw new Error(`HTTP ${result.status}: ${errorMessage}`);
+    }
 
     const token = result.headers.get("Authorization")?.split(" ")[1];
     localStorage.setItem("access_token", token!);
