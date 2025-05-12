@@ -34,6 +34,15 @@ export const API_ENDPOINT = {
       };
     },
   },
+  study: {
+    // 스터디 생성
+    createStudy: () => {
+      return {
+        url: `${process.env.MOS_API_BASE_URL}/studies`,
+        method: Method.POST,
+      };
+    },
+  },
   studies: {
     getStudies: ({
       page = "1",

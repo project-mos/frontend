@@ -22,6 +22,10 @@ interface InlineInputProps {
   placeholder: string;
 }
 
+type RuleItem = { ruleNum: number; content: string };
+type BenefitItem = { benefitNum: number; content: string };
+type InputItem = RuleItem | BenefitItem;
+
 const InlineInput = ({
   value,
   onChange,
@@ -56,24 +60,40 @@ const ContentInputBox = ({
   setIsInputBoxOpened,
 }: ContentInputBoxProps) => {
   const { watch, setValue } = useFormContext();
-  const rules: string[] = watch(name, [""]);
+  const values: InputItem[] = watch(name, []);
 
-  const handleAddRule = () => {
-    setValue(name, [...rules, ""]);
+  const handleAddInput = () => {
+    const nextIndex = values.length + 1;
+    const newItem =
+      name === "rules"
+        ? { ruleNum: nextIndex, content: "" }
+        : { benefitNum: nextIndex, content: "" };
+
+    setValue(name, [...values, newItem]);
   };
 
-  const handleChangeRule = (index: number, value: string) => {
-    const newRules = [...rules];
-    newRules[index] = value;
-    setValue(name, newRules);
+  const handleChangeInput = (index: number, content: string) => {
+    const newArray = [...values];
+    newArray[index] = {
+      ...(name === "rules"
+        ? { ruleNum: index + 1 }
+        : { benefitNum: index + 1 }),
+      content,
+    };
+    setValue(name, newArray);
   };
 
-  const handleRemoveRule = (index: number) => {
-    setValue(
-      name,
-      rules.filter((_, i) => i !== index)
+  const handleRemoveInput = (index: number) => {
+    const filtered = values.filter((_, i) => i !== index);
+    const updated = filtered.map(
+      (item, i): InputItem => ({
+        ...(name === "rules" ? { ruleNum: i + 1 } : { benefitNum: i + 1 }),
+        content: item.content,
+      })
     );
+    setValue(name, updated);
   };
+
   return (
     <Card>
       <Card.Header className="mb-[30px] flex justify-between">
@@ -82,7 +102,7 @@ const ContentInputBox = ({
           <Button.Default
             type="button"
             className="h-[35px]"
-            onClick={handleAddRule}
+            onClick={handleAddInput}
           >
             <i className="bi bi-plus"></i>
             {buttonText}
@@ -91,8 +111,7 @@ const ContentInputBox = ({
             color="Main"
             onClick={() => {
               setIsInputBoxOpened(false);
-              setValue(name, [""]);
-              watch(name, [""]);
+              setValue(name, []);
             }}
             type="button"
             className="h-[35px]"
@@ -103,12 +122,12 @@ const ContentInputBox = ({
         </div>
       </Card.Header>
       <Card.Content className="mb-[20px] flex flex-col gap-[13px]">
-        {rules.map((rule, index) => (
+        {values.map((item: InputItem, index: number) => (
           <InlineInput
             key={index}
-            value={rule}
-            onChange={(e) => handleChangeRule(index, e.target.value)}
-            onRemove={() => handleRemoveRule(index)}
+            value={item.content}
+            onChange={(e) => handleChangeInput(index, e.target.value)}
+            onRemove={() => handleRemoveInput(index)}
             placeholder={placeholder}
           />
         ))}

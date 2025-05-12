@@ -19,7 +19,7 @@ interface ToggleSwitchProps {
 
 const ToggleSwitch = ({ index }: ToggleSwitchProps) => {
   const { watch, setValue } = useFormContext();
-  const answerType = watch(`questions.${index}.answerType`) || "주관식";
+  const type = watch(`applicationQuestions.${index}.type`) || "주관식";
 
   const defaultStyle = "border border-gray-300 text-gray-500";
   const hoverStyle =
@@ -31,12 +31,12 @@ const ToggleSwitch = ({ index }: ToggleSwitchProps) => {
       <div
         className={cn(
           "cursor-pointer rounded-l-md px-[7px] py-[5px] transition-all duration-100",
-          answerType === "주관식" ? activeStyle : defaultStyle,
-          answerType !== "주관식" && hoverStyle
+          type === "주관식" ? activeStyle : defaultStyle,
+          type !== "주관식" && hoverStyle
         )}
         onClick={() => {
-          setValue(`questions.${index}.answerType`, "주관식");
-          setValue(`questions.${index}.options`, []);
+          setValue(`applicationQuestions.${index}.type`, "주관식");
+          setValue(`applicationQuestions.${index}.options`, []);
         }}
       >
         <Typography.P1 className="text-[14px]">주관식</Typography.P1>
@@ -45,11 +45,11 @@ const ToggleSwitch = ({ index }: ToggleSwitchProps) => {
       <div
         className={cn(
           "cursor-pointer rounded-r-md px-[7px] py-[5px] transition-all duration-100",
-          answerType === "객관식" ? activeStyle : defaultStyle,
-          answerType !== "객관식" && hoverStyle
+          type === "객관식" ? activeStyle : defaultStyle,
+          type !== "객관식" && hoverStyle
         )}
         onClick={() => {
-          setValue(`questions.${index}.answerType`, "객관식");
+          setValue(`applicationQuestions.${index}.type`, "객관식");
         }}
       >
         <Typography.P1 className="text-[14px]">객관식</Typography.P1>
@@ -66,11 +66,11 @@ const Option = ({
   optionIndex: number;
 }) => {
   const { watch, setValue } = useFormContext();
-  const options = watch(`questions.${index}.options`) || [];
+  const options = watch(`applicationQuestions.${index}.options`) || [];
 
   const handleRemoveOption = () => {
     setValue(
-      `questions.${index}.options`,
+      `applicationQuestions.${index}.options`,
       options.filter((_: string, i: number) => i !== optionIndex)
     );
   };
@@ -81,13 +81,13 @@ const Option = ({
         <i className="bi bi-record-circle"></i>
       </div>
       <Input
-        className="w-full rounded-none placeholder:text-mos-gray-500"
+        className="h-[42px] w-full rounded-none placeholder:text-mos-gray-500"
         placeholder="옵션을 입력하세요"
         value={options[optionIndex]}
         onChange={(e) => {
           const newOptions = [...options];
           newOptions[optionIndex] = e.target.value;
-          setValue(`questions.${index}.options`, newOptions);
+          setValue(`applicationQuestions.${index}.options`, newOptions);
         }}
       />
       <Button.Ghost
@@ -104,10 +104,10 @@ const Option = ({
 
 const OptionBox = ({ index }: { index: number }) => {
   const { watch, setValue } = useFormContext();
-  const options = watch(`questions.${index}.options`) || [];
+  const options = watch(`applicationQuestions.${index}.options`) || [];
 
   const handleAddOption = () => {
-    setValue(`questions.${index}.options`, [...options, ""]);
+    setValue(`applicationQuestions.${index}.options`, [...options, ""]);
   };
 
   return (
@@ -130,7 +130,7 @@ const OptionBox = ({ index }: { index: number }) => {
 
 const StudyApplyQuestion = ({ i, index, onRemove }: QuestionProps) => {
   const { register, watch } = useFormContext();
-  const answerType = watch(`questions.${index}.answerType`);
+  const type = watch(`applicationQuestions.${index}.type`);
 
   return (
     <div className="flex flex-col gap-[12px] rounded-md border border-gray-100 bg-gray-100 p-4">
@@ -148,17 +148,17 @@ const StudyApplyQuestion = ({ i, index, onRemove }: QuestionProps) => {
       <Input
         placeholder="질문을 입력하세요"
         className="w-full placeholder:text-mos-gray-500"
-        {...register(`questions.${index}.question`)}
+        {...register(`applicationQuestions.${index}.question`)}
       />
       <div className="flex items-center gap-3">
         <RadioButton
           label="필수 답변"
           type="checkbox"
-          {...register(`questions.${index}.isRequired`)}
+          {...register(`applicationQuestions.${index}.required`)}
         />
         <ToggleSwitch index={index} />
       </div>
-      {answerType === "객관식" && <OptionBox index={index} />}
+      {type === "객관식" && <OptionBox index={index} />}
     </div>
   );
 };

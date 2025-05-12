@@ -9,11 +9,14 @@ import StudyActions from "@/app/create-study/components/StudyActions";
 import StudyApply from "@/app/create-study/components/StudyApply";
 import useModal from "@/shared/hooks/useModal";
 
+import createStudy from "../services/createStudy.service";
 import { StudyFormInterface } from "./CreateStudyForm";
 
 const CreateStudyForm3 = () => {
   const methods = useFormContext<StudyFormInterface>();
   const router = useRouter();
+  const { watch } = useFormContext<StudyFormInterface>();
+  const formData = watch();
 
   const { isModalOpenState, openModal, closeModal } = useModal();
 
@@ -26,6 +29,7 @@ const CreateStudyForm3 = () => {
   };
 
   const handleClickCreateButton = () => {
+    createStudy({ form: formData });
     closeModal();
     router.push("/create-study?step=4");
   };

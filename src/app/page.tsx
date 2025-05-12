@@ -2,6 +2,7 @@ import LandingContentCards from "@/features/landing/components/LandingContentCar
 import Pagination from "@/shared/components/molecules/Pagination";
 
 import LandingContentHeader from "@/features/landing/components/LandingContentHeader";
+import LandingLoginToast from "@/features/landing/components/LandingLoginToast";
 
 interface HomeProps {
   searchParams: Promise<{ page?: string }>;
@@ -12,6 +13,7 @@ export default async function Home({ searchParams }: HomeProps) {
 
   return (
     <div className="flex flex-col gap-10 ">
+      <LandingLoginToast />
       <LandingContentHeader />
       <LandingContentCards />
       <div className="flex justify-center">

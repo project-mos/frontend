@@ -17,7 +17,7 @@ const StudyBasicInfo = () => {
       </Card.Header>
       <Card.Content className="flex flex-col gap-[25px]">
         <LabelInput
-          name="name"
+          name="title"
           label="스터디명"
           required
           placeholder="스터디명을 입력하세요"
@@ -31,7 +31,7 @@ const StudyBasicInfo = () => {
           registerOptions={{ required: "카테고리를 선택해주세요" }}
         />
         <LabelNumberInput
-          name="person"
+          name="maxStudyMemberCount"
           label="모집 인원"
           placeholder="모집 인원을 입력하세요"
           required
