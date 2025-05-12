@@ -4,25 +4,31 @@ interface oAuthLoginProps {
 }
 
 export default async function oAuthLogin({ code, provider }: oAuthLoginProps) {
-  const result = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/oauth2/login`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify({
-        code: code,
-        oauthProvider: provider,
-      }),
-    }
-  );
-  console.log(result);
+  try {
+    const result = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/oauth2/login`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          code: code,
+          oauthProvider: provider,
+        }),
+      }
+    );
+    console.log(result);
 
-  const token = result.headers.get("Authorization")?.split(" ")[1];
-  localStorage.setItem("access_token", token!);
-  return result;
+    const token = result.headers.get("Authorization")?.split(" ")[1];
+    localStorage.setItem("access_token", token!);
+
+    return result;
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
 
   // fetcher.ts 가 data를 반환하는 형식이라 보류
   // const response = await fetchData({
