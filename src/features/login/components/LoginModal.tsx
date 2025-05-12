@@ -7,6 +7,7 @@ import Modal, {
   ModalProps,
 } from "@/shared/components/atoms/Modal";
 import Typography from "@/shared/components/atoms/Typography";
+import URL from "@/shared/constants/URL";
 
 interface ScheduleModalProps extends ModalProps {
   onClose: ModalOnClose;
@@ -22,15 +23,15 @@ interface SnsButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 const LoginModal = ({ onClose, ...props }: ScheduleModalProps) => {
   const onClickKakaoLoginButton = async () => {
-    window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URI}&state=KAKAO`;
+    window.location.href = `${URL.LOGIN.KAKAO}?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URI}&state=KAKAO`;
   };
 
   const onClickGoogleLoginButton = async () => {
-    window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URI}&response_type=code&scope=email%20profile&state=GOOGLE`;
+    window.location.href = `${URL.LOGIN.GOOGLE}?client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URI}&response_type=code&scope=email%20profile&state=GOOGLE`;
   };
 
   const onClickNaverLoginButton = async () => {
-    window.location.href = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_NAVER_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URI}&state=NAVER`;
+    window.location.href = `${URL.LOGIN.NAVER}?response_type=code&client_id=${process.env.NEXT_PUBLIC_NAVER_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URI}&state=NAVER`;
   };
 
   return (
