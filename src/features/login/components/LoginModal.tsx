@@ -13,7 +13,7 @@ interface ScheduleModalProps extends ModalProps {
 }
 
 interface SnsButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  platform: string;
+  platform: "Kakao" | "Google" | "Naver";
   icon: JSX.Element;
   bgColor: string;
   hoverColor: string;
