@@ -21,17 +21,18 @@ export default async function oAuthLogin({ code, provider }: oAuthLoginProps) {
     );
 
     if (!result.ok) {
-      const errorMessage = await result.text();
-      console.error("Server error:", errorMessage);
-      throw new Error(`HTTP ${result.status}: ${errorMessage}`);
+      return null;
     }
 
     const token = result.headers.get("Authorization")?.split(" ")[1];
-    localStorage.setItem("access_token", token!);
+    if (!token) {
+      return null;
+    }
 
+    localStorage.setItem("access_token", token);
     return result;
-  } catch (e) {
-    console.error(e);
+  } catch (error) {
+    console.error("OAuth 요청 중 오류 발생:", error);
     return null;
   }
 

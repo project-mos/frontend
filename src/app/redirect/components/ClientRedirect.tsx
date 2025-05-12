@@ -1,9 +1,9 @@
 "use client";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 
 import oAuthLogin from "@/features/login/services/oAuthLogin.service";
 import URL from "@/shared/constants/URL";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
 
 const ClientRedirect = () => {
   const searchParams = useSearchParams();
@@ -13,7 +13,14 @@ const ClientRedirect = () => {
 
   const login = async () => {
     const result = await oAuthLogin({ code: code!, provider: state! });
-    console.log(result);
+
+    if (!result) {
+      router.replace(URL.HOME);
+      localStorage.setItem("login", "false");
+
+      return;
+    }
+    localStorage.setItem("login", "true");
     router.replace(URL.HOME);
   };
 
