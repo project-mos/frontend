@@ -1,5 +1,10 @@
 const URL = {
   HOME: "/",
+  LOGIN: {
+    KAKAO: "https://kauth.kakao.com/oauth/authorize",
+    GOOGLE: "https://accounts.google.com/o/oauth2/v2/auth",
+    NAVER: "https://nid.naver.com/oauth2.0/authorize",
+  },
   STUDY: {
     CREATE: "/create-study",
     DETAIL: "/studies",

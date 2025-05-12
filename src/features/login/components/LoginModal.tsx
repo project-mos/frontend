@@ -7,13 +7,14 @@ import Modal, {
   ModalProps,
 } from "@/shared/components/atoms/Modal";
 import Typography from "@/shared/components/atoms/Typography";
+import URL from "@/shared/constants/URL";
 
 interface ScheduleModalProps extends ModalProps {
   onClose: ModalOnClose;
 }
 
-interface SnsButtonProps {
-  platform: string;
+interface SnsButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  platform: "Kakao" | "Google" | "Naver";
   icon: JSX.Element;
   bgColor: string;
   hoverColor: string;
@@ -21,10 +22,22 @@ interface SnsButtonProps {
 }
 
 const LoginModal = ({ onClose, ...props }: ScheduleModalProps) => {
+  const onClickKakaoLoginButton = async () => {
+    window.location.href = `${URL.LOGIN.KAKAO}?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URI}&state=KAKAO`;
+  };
+
+  const onClickGoogleLoginButton = async () => {
+    window.location.href = `${URL.LOGIN.GOOGLE}?client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URI}&response_type=code&scope=email%20profile&state=GOOGLE`;
+  };
+
+  const onClickNaverLoginButton = async () => {
+    window.location.href = `${URL.LOGIN.NAVER}?response_type=code&client_id=${process.env.NEXT_PUBLIC_NAVER_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URI}&state=NAVER`;
+  };
+
   return (
-    <Modal {...props} onClose={onClose}>
+    <Modal {...props} onClose={onClose} className="max-w-[400px]">
       <Modal.Header onClose={onClose}></Modal.Header>
-      <Modal.Content className="w-[350px] text-center">
+      <Modal.Content className="w-full text-center">
         <SvgIcons.Logo width={183} height={50} className="mx-auto" />
         <Typography.P1 className="my-[5px] text-[20px]">
           스터디 모집부터 진행까지
@@ -42,6 +55,7 @@ const LoginModal = ({ onClose, ...props }: ScheduleModalProps) => {
           bgColor="bg-kakao"
           hoverColor="hover:bg-kakao-hover"
           textColor="text-black"
+          onClick={onClickKakaoLoginButton}
         />
         <SnsLoginButton
           platform="Naver"
@@ -49,6 +63,7 @@ const LoginModal = ({ onClose, ...props }: ScheduleModalProps) => {
           bgColor="bg-naver"
           hoverColor="hover:bg-naver-hover"
           textColor="text-white"
+          onClick={onClickNaverLoginButton}
         />
         <SnsLoginButton
           platform="Google"
@@ -56,14 +71,15 @@ const LoginModal = ({ onClose, ...props }: ScheduleModalProps) => {
           bgColor="bg-white"
           hoverColor="hover:bg-google-hover"
           textColor="text-black"
+          onClick={onClickGoogleLoginButton}
         />
-        <SnsLoginButton
+        {/* <SnsLoginButton
           platform="Github"
           icon={<i className="bi bi-github text-white"></i>}
           bgColor="bg-black"
           hoverColor="hover:bg-black"
           textColor="text-white"
-        />
+        /> */}
       </Modal.Footer>
     </Modal>
   );
@@ -75,9 +91,11 @@ const SnsLoginButton = ({
   bgColor,
   hoverColor,
   textColor,
+  onClick,
 }: SnsButtonProps) => {
   return (
     <button
+      onClick={onClick}
       className={cn(
         bgColor,
         hoverColor,
