@@ -12,11 +12,12 @@ import LoginModal from "@/features/login/components/LoginModal";
 import { ADMIN_MENU_ITEMS, MENU_ITEMS } from "@/shared/constants/SidebarItems";
 import URL from "@/shared/constants/URL";
 import useModal from "@/shared/hooks/useModal";
+import useUserStore from "@/shared/store/useUserStore";
 import { Tooltip } from "@heroui/tooltip";
 
 const Header = () => {
-  const isLoggedIn = false;
   const { isModalOpenState, openModal, closeModal } = useModal();
+  const { loginStatus } = useUserStore();
 
   return (
     <>
@@ -33,7 +34,7 @@ const Header = () => {
           {/* 오른쪽: 마이페이지, 로그인 버튼 */}
           <nav className="flex items-center gap-[10px]">
             {/* 로그인 했을 때 */}
-            {isLoggedIn ? (
+            {loginStatus ? (
               <>
                 {/* 반응형 */}
                 <Tooltip
