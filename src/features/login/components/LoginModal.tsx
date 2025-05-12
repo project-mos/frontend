@@ -37,7 +37,7 @@ const LoginModal = ({ onClose, ...props }: ScheduleModalProps) => {
   return (
     <Modal {...props} onClose={onClose} className="max-w-[400px]">
       <Modal.Header onClose={onClose}></Modal.Header>
-      <Modal.Content className="w-[350px] text-center">
+      <Modal.Content className="w-full text-center">
         <SvgIcons.Logo width={183} height={50} className="mx-auto" />
         <Typography.P1 className="my-[5px] text-[20px]">
           스터디 모집부터 진행까지
