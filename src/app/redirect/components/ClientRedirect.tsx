@@ -14,13 +14,13 @@ const ClientRedirect = () => {
   const login = async () => {
     const result = await oAuthLogin({ code: code!, provider: state! });
 
-    if (!result) {
+    if (result?.status === 200) {
+      localStorage.setItem("login", "true");
       router.replace(URL.HOME);
-      localStorage.setItem("login", "false");
-
       return;
     }
-    localStorage.setItem("login", "true");
+
+    localStorage.setItem("login", "false");
     router.replace(URL.HOME);
   };
 
