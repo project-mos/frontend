@@ -42,7 +42,28 @@ export const API_ENDPOINT = {
         method: Method.POST,
       };
     },
+    getStudy: (id: string) => {
+      return {
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${id}`,
+        method: Method.GET,
+      };
+    },
   },
+  requirement: {
+    getRequirement: (studyId: string) => {
+      return {
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/requirements`,
+        method: Method.GET,
+      };
+    },
+    getRequirements: (studyId: string, requirementId: string) => {
+      return {
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/requirements/${requirementId}`,
+        method: Method.GET,
+      };
+    },
+  },
+
   studies: {
     getStudies: ({
       page = "1",
