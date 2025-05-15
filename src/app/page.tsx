@@ -1,8 +1,7 @@
 import LandingContentCards from "@/features/landing/components/LandingContentCards";
-import Pagination from "@/shared/components/molecules/Pagination";
-
 import LandingContentHeader from "@/features/landing/components/LandingContentHeader";
 import LandingLoginToast from "@/features/landing/components/LandingLoginToast";
+import Pagination from "@/shared/components/molecules/Pagination";
 
 interface HomeProps {
   searchParams: Promise<{ page?: string }>;
