@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 
 import Grid from "@/shared/components/atoms/Grid";
@@ -5,7 +6,20 @@ import Typography from "@/shared/components/atoms/Typography";
 
 import LandingStudyCard from "./LandingStudyCard";
 
-const LandingContentCards = () => {
+import { GetStudiesRequest } from "@/shared/types/api/studies";
+import {
+  useHotStudies,
+  useStudies,
+} from "@/features/landing/services/landing.service";
+
+interface LandingContentCards {
+  searchParams: GetStudiesRequest;
+}
+
+const LandingContentCards = ({ searchParams }: LandingContentCards) => {
+  const { data: studiesData } = useStudies(searchParams);
+  const { data: hotStudiesData } = useHotStudies();
+
   return (
     <div className="flex flex-col gap-8">
       <div>
@@ -14,10 +28,13 @@ const LandingContentCards = () => {
           <Typography.Head3>인기 스터디</Typography.Head3>
         </div>
         <LandingGrid>
-          <LandingStudyCard />
-          <LandingStudyCard />
-          <LandingStudyCard />
-          <LandingStudyCard />
+          {/* 인기 */}
+          {hotStudiesData &&
+            hotStudiesData.map((item, index) => {
+              return (
+                <LandingStudyCard key={`${item.id}_${index}`} data={item} />
+              );
+            })}
         </LandingGrid>
       </div>
       <div className="flex flex-col gap-3">
@@ -26,15 +43,13 @@ const LandingContentCards = () => {
           <Typography.Head3>전체 스터디</Typography.Head3>
         </div>
         <LandingGrid>
-          <LandingStudyCard />
-          <LandingStudyCard />
-          <LandingStudyCard />
-          <LandingStudyCard />
-          <LandingStudyCard />
-          <LandingStudyCard />
-          <LandingStudyCard />
-          <LandingStudyCard />
-          <LandingStudyCard />
+          {/* 일반 작성글 */}
+          {studiesData &&
+            studiesData.studies.map((item, index) => {
+              return (
+                <LandingStudyCard key={`${item.id}_${index}`} data={item} />
+              );
+            })}
         </LandingGrid>
       </div>
     </div>

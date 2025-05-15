@@ -5,13 +5,13 @@ import Tag from "@/shared/components/atoms/Tag";
 import Typography from "@/shared/components/atoms/Typography";
 import Meta from "@/shared/components/molecules/Meta";
 
-import { StudyCardInterface } from "@/shared/types/api/studies/detail";
+import { Study } from "@/shared/types/api/studies";
 
-interface StudyCardProps
-  extends StudyCardInterface,
-    HTMLAttributes<HTMLDivElement> {}
+interface StudyCardProps extends HTMLAttributes<HTMLDivElement> {
+  data: Study;
+}
 
-const StudyCard = ({ study, className, ...props }: StudyCardProps) => {
+const StudyCard = ({ data, className, ...props }: StudyCardProps) => {
   return (
     <Card
       className={`flex w-[255px] cursor-pointer flex-col gap-7 ${
@@ -22,10 +22,10 @@ const StudyCard = ({ study, className, ...props }: StudyCardProps) => {
       <Card.Header className="flex-col">
         <div className="mb-[20px] flex justify-between">
           <div className="flex gap-[4.5px]">
-            <Tag.Green bold>{study.category}</Tag.Green>
-            <Tag.Blue bold>{study.type}</Tag.Blue>
+            <Tag.Green bold>{data.category}</Tag.Green>
+            <Tag.Blue bold>{data.meetingType}</Tag.Blue>
           </div>
-          {study.recruit ? (
+          {data.recruitmentStatus === "모집 중" ? (
             <Tag.Green bold border={false}>
               모집중
             </Tag.Green>
@@ -35,19 +35,19 @@ const StudyCard = ({ study, className, ...props }: StudyCardProps) => {
             </Tag.Gray>
           )}
         </div>
-        <Typography.Head3>{study.title}</Typography.Head3>
+        <Typography.Head3 className="truncate">{data.title}</Typography.Head3>
         <div className="mt-1">
           <Meta icon="calendar" className="text-[13px] text-red-500">
-            마감: {study.deadline}
+            마감: {data.recruitmentEndDate}
           </Meta>
         </div>
       </Card.Header>
       <Card.Content>
         {/* <Typography.P1 className="py-[20px] text-mos-gray-700">
-          {study.contents}
+          {data.contents}
         </Typography.P1> */}
         <div className="mb-[40px] flex flex-wrap gap-[5px]">
-          {study.tags.map((tag, index) => (
+          {data.tags.map((tag, index) => (
             <Tag.Detail key={index}>#{tag}</Tag.Detail>
           ))}
         </div>
@@ -55,11 +55,11 @@ const StudyCard = ({ study, className, ...props }: StudyCardProps) => {
       <Card.Footer className="flex justify-between">
         <div className="flex gap-1  text-mos-gray-300">
           <Meta icon="person">
-            {study.members.current}/{study.members.max}명
+            {data.currentStudyMembers}/{data.maxStudyMembers}명
           </Meta>
         </div>
         <div className="flex gap-1 text-mos-gray-300">
-          <Meta icon="eye">{study.views}</Meta>
+          <Meta icon="eye">{data.viewCount}</Meta>
         </div>
       </Card.Footer>
     </Card>
