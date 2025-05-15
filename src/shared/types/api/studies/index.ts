@@ -16,6 +16,8 @@ export type GetStudiesResult = {
   totalPages: number;
   studies: Study[];
 };
+
+export type GetHotStudiesResult = Study[];
 // Study 다 건 조회
 export interface Study {
   id: number;
@@ -23,7 +25,7 @@ export interface Study {
   category: string;
   meetingType: string;
   progressStatus: string;
-  recruitmentStatus: string;
+  recruitmentStatus: "모집 중" | "모집 완료";
   recruitmentEndDate: string;
   currentStudyMembers: number;
   maxStudyMembers: number;
@@ -31,18 +33,3 @@ export interface Study {
   tags: string[];
 }
 // 인기 study 조회
-export type GetHotStudiesResult = HotStudy[];
-// 인기 study 조회
-export interface HotStudy {
-  id: number;
-  title: string;
-  category: string;
-  meetingType: string;
-  progressStatus: string;
-  recruitmentStatus: string;
-  recruitmentEndDate: string;
-  currentStudyMembers: number;
-  maxStudyMembers: number;
-  viewCount: number;
-  tags: string[];
-}
