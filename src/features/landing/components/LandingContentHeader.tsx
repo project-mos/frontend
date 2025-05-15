@@ -1,12 +1,94 @@
+"use client";
 import cn from "@/shared/utils/cn";
 
 import Button, { SolidButtonProps } from "@/shared/components/atoms/Button";
 import Select from "@/shared/components/atoms/Select";
 import Typography from "@/shared/components/atoms/Typography";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+
+const categories = [
+  { label: "전체", value: null }, // 전체는 필터 없이 사용
+  { label: "프로그래밍", value: "프로그래밍" },
+  { label: "어학", value: "어학" },
+  // { label: "취업", value: "취업" },
+  { label: "자격증", value: "자격증" },
+  { label: "독서", value: "독서" },
+  { label: "취미", value: "취미" },
+  // { label: "고시/공무원", value: "고시/공무원" },
+  // { label: "기타", value: "기타" },
+];
+
+const meetingTypes = [
+  { label: "전체", value: null },
+  { label: "대면", value: "대면" },
+  { label: "비대면", value: "비대면" },
+  { label: "혼합", value: "혼합" },
+];
+
+const recruitmentOptions = [
+  { label: "전체", value: null },
+  { label: "모집 중", value: "모집 중" },
+  { label: "모집 완료", value: "모집 완료" },
+];
 
 const LandingContentHeader = () => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const currentSearchParams = useSearchParams();
+
+  const onClickCategory = (value: string) => {
+    const params = new URLSearchParams(currentSearchParams.toString());
+
+    if (value) {
+      params.set("category", value);
+    } else {
+      params.delete("category");
+    }
+
+    router.push(`${pathname}?${params.toString()}`);
+  };
+
+  const onClickLiked = () => {
+    const params = new URLSearchParams(currentSearchParams.toString());
+    const liked = currentSearchParams.get("liked");
+    const boolValue = liked === "true";
+
+    if (liked === null) {
+      params.set("liked", `${true}`);
+    } else {
+      params.set("liked", `${!boolValue}`);
+    }
+    router.push(`${pathname}?${params.toString()}`);
+  };
+  const onSelected = (type: "meet" | "recruitment", value: string) => {
+    const params = new URLSearchParams(currentSearchParams.toString());
+
+    if (type === "meet") {
+      if (value) {
+        params.set("meetType", value);
+      } else {
+        params.delete("meetType");
+      }
+    } else {
+      if (value) {
+        params.set("recruitmentStatus", value);
+      } else {
+        params.delete("recruitmentStatus");
+      }
+    }
+    router.push(`${pathname}?${params.toString()}`);
+  };
+  // const { data, isLoading } = useStudies(
+  //   { page: "1" },
+  //   { staleTime: 1000 * 60 * 5 }
+  // );
+  // const { data, isLoading } = useHotStudies({
+  //   staleTime: 1000 * 60 * 5,
+  // });
+
   return (
     <div>
+      {/* Banner */}
       <div className="flex min-h-[325px] w-full flex-col tablet:flex-row ">
         <div className="box-border flex w-full flex-col justify-center gap-5 px-3 tablet:w-1/2 tablet:gap-5 ">
           <div className="flex flex-col gap-2">
@@ -48,42 +130,60 @@ const LandingContentHeader = () => {
         </div>
       </div>
       <div className="box-border flex size-full flex-col  gap-3   py-6">
+        {/* Buttons */}
         <div className="flex w-full flex-wrap items-center justify-center gap-2 ">
-          <LandingHeaderButton color="Main" active>
-            전체
-          </LandingHeaderButton>
-          <LandingHeaderButton color="Main">프로그래밍</LandingHeaderButton>
-          <LandingHeaderButton color="Main">어학</LandingHeaderButton>
-          <LandingHeaderButton color="Main">취업</LandingHeaderButton>
-          <LandingHeaderButton color="Main">자격증</LandingHeaderButton>
-          <LandingHeaderButton color="Main">독서</LandingHeaderButton>
-          <LandingHeaderButton color="Main">취미</LandingHeaderButton>
-          <LandingHeaderButton color="Main">고시/공무원</LandingHeaderButton>
-          <LandingHeaderButton color="Main">기타</LandingHeaderButton>
+          {categories.map(({ label, value }) => (
+            <LandingHeaderButton
+              key={value || "all"}
+              color="Main"
+              active={currentSearchParams.get("category") === value}
+              onClick={() => onClickCategory(value || "")}
+            >
+              {label}
+            </LandingHeaderButton>
+          ))}
         </div>
+        {/* Selects */}
         <div className="flex w-full flex-wrap items-center justify-center gap-2 ">
           <Select
             placeholder="진행 방식"
-            defaultValue=""
+            defaultValue={currentSearchParams.get("meetType") || ""}
             className="text-mos-gray-500"
+            onChange={(event) => onSelected("meet", event.currentTarget.value)}
           >
-            <Select.Option value={1}>1</Select.Option>
+            {meetingTypes.map(({ label, value }) => {
+              return (
+                <Select.Option key={value} value={value || ""}>
+                  {label}
+                </Select.Option>
+              );
+            })}
           </Select>
           <Select
-            placeholder="진행 방식"
-            defaultValue=""
+            placeholder="모집 방식"
             className="text-mos-gray-500"
+            defaultValue={currentSearchParams.get("recruitmentStatus") || ""}
+            onChange={(event) =>
+              onSelected("recruitment", event.currentTarget.value)
+            }
           >
-            <Select.Option value={1}>1</Select.Option>
+            {recruitmentOptions.map(({ label, value }) => {
+              return (
+                <Select.Option key={value} value={value || ""}>
+                  {label}
+                </Select.Option>
+              );
+            })}
           </Select>
           <Button.Ghost
             color="Main"
             className=" hover:border-mos-main-500 hover:text-mos-main-500"
+            active={currentSearchParams.get("liked") === "true"}
+            onClick={onClickLiked}
           >
-            <i className="bi bi-heart"></i>
+            <i className="bi bi-heart" />
             좋아요 보기
           </Button.Ghost>
-          {/* <Input name="" /> */}
         </div>
       </div>
     </div>

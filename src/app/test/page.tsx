@@ -190,7 +190,7 @@ export default function TestPage() {
         </Card.Footer>
       </Card>
       {/* StudyCard */}
-      <StudyCard study={study} />
+      <StudyCard data={study} />
       {/* Meta */}
       <div className="flex gap-2">
         <Meta icon="person" className="text-mos-main-500">
@@ -203,7 +203,7 @@ export default function TestPage() {
         <Meta icon="eye">조회수 244</Meta>
       </div>
       {/* StudyCard */}
-      <StudyCard study={study} onClick={() => alert("click")} />
+      <StudyCard data={study} onClick={() => alert("click")} />
       {/* StudyDescriptionCard */}
       <StudyDescriptionCard data={MockStudiesApiResult} />
       {/* Image */}

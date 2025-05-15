@@ -1,3 +1,4 @@
+import { GetStudiesRequest } from "@/shared/types/api/studies";
 import { Method } from "../utils/fetcher";
 
 export const API_ENDPOINT = {
@@ -42,6 +43,46 @@ export const API_ENDPOINT = {
       };
     },
   },
+  studies: {
+    getStudies: ({
+      page = "1",
+      size = "12",
+      sort = "createdAt,desc",
+      category,
+      meetType,
+      recruitmentStatus,
+      progressStatus,
+      liked,
+    }: GetStudiesRequest) => {
+      const params = new URLSearchParams({
+        page: page.toString(),
+        size: size.toString(),
+        sort: sort.toString(),
+      });
 
+      if (category) params.append("category", category);
+      if (meetType) params.append("meetingType", meetType);
+      if (recruitmentStatus)
+        params.append("recruitmentStatus", recruitmentStatus);
+      if (progressStatus) params.append("progressStatus", progressStatus);
+      if (liked !== undefined) params.append("liked", liked.toString());
+
+      const url = `${
+        process.env.NEXT_PUBLIC_BASE_URL
+      }/studies?${params.toString()}`;
+
+      return {
+        url,
+        method: Method.GET,
+      };
+    },
+    getHotStudies: () => {
+      const url = `${process.env.NEXT_PUBLIC_BASE_URL}/studies/hots`;
+      return {
+        url,
+        method: Method.GET,
+      };
+    },
+  },
   // 필요에 따라 추가
 };
