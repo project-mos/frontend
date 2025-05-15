@@ -7,26 +7,28 @@ import Typography from "@/shared/components/atoms/Typography";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const categories = [
-  { label: "전체", value: "" }, // 전체는 필터 없이 사용
+  { label: "전체", value: null }, // 전체는 필터 없이 사용
   { label: "프로그래밍", value: "프로그래밍" },
   { label: "어학", value: "어학" },
-  { label: "취업", value: "취업" },
+  // { label: "취업", value: "취업" },
   { label: "자격증", value: "자격증" },
   { label: "독서", value: "독서" },
   { label: "취미", value: "취미" },
-  { label: "고시/공무원", value: "고시/공무원" },
-  { label: "기타", value: "기타" },
+  // { label: "고시/공무원", value: "고시/공무원" },
+  // { label: "기타", value: "기타" },
 ];
 
 const meetingTypes = [
+  { label: "전체", value: null },
   { label: "대면", value: "대면" },
   { label: "비대면", value: "비대면" },
   { label: "혼합", value: "혼합" },
 ];
 
 const recruitmentOptions = [
-  { label: "모집 중", value: "모집중" },
-  { label: "모집 완료", value: "모집완료" },
+  { label: "전체", value: null },
+  { label: "모집 중", value: "모집 중" },
+  { label: "모집 완료", value: "모집 완료" },
 ];
 
 const LandingContentHeader = () => {
@@ -135,7 +137,7 @@ const LandingContentHeader = () => {
               key={value || "all"}
               color="Main"
               active={currentSearchParams.get("category") === value}
-              onClick={() => onClickCategory(value)}
+              onClick={() => onClickCategory(value || "")}
             >
               {label}
             </LandingHeaderButton>
@@ -151,7 +153,7 @@ const LandingContentHeader = () => {
           >
             {meetingTypes.map(({ label, value }) => {
               return (
-                <Select.Option key={value} value={value}>
+                <Select.Option key={value} value={value || ""}>
                   {label}
                 </Select.Option>
               );
@@ -167,7 +169,7 @@ const LandingContentHeader = () => {
           >
             {recruitmentOptions.map(({ label, value }) => {
               return (
-                <Select.Option key={value} value={value}>
+                <Select.Option key={value} value={value || ""}>
                   {label}
                 </Select.Option>
               );
