@@ -32,4 +32,28 @@ export interface Study {
   viewCount: number;
   tags: string[];
 }
-// 인기 study 조회
+
+// Study 상세조회
+export interface GetStudyDetail {
+  id: number;
+  title: string;
+  content: string;
+  currentStudyMemberCount: number;
+  maxStudyMemberCount: number;
+  category: string;
+  schedule: string;
+  recruitmentStartDate: string;
+  recruitmentEndDate: string;
+  viewCount: number;
+  recruitmentStatus: string;
+  progressStatus: string;
+  meetingType: string;
+  tags: string[];
+}
+// study 참여 요건(단건 조회)
+export interface GetStudyRequirement {
+  id: number;
+  requirementNum: number;
+  content: string;
+}
+export type GetStudyRequirements = GetStudyRequirement[];
