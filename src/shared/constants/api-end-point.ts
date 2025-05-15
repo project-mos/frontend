@@ -47,7 +47,7 @@ export const API_ENDPOINT = {
     getStudies: ({
       page = "1",
       size = "12",
-      sort = "createAt,desc",
+      sort = "createdAt,desc",
       category,
       meetType,
       recruitmentStatus,
@@ -57,7 +57,7 @@ export const API_ENDPOINT = {
       const params = new URLSearchParams({
         page: page.toString(),
         size: size.toString(),
-        sort,
+        sort: sort.toString(),
       });
 
       if (category) params.append("category", category);
@@ -67,14 +67,17 @@ export const API_ENDPOINT = {
       if (progressStatus) params.append("progressStatus", progressStatus);
       if (liked !== undefined) params.append("liked", liked.toString());
 
-      const url = `/studies?${params.toString()}`;
+      const url = `${
+        process.env.NEXT_PUBLIC_BASE_URL
+      }/studies?${params.toString()}`;
+
       return {
         url,
         method: Method.GET,
       };
     },
     getHotStudies: () => {
-      const url = "/studies/hots";
+      const url = `${process.env.NEXT_PUBLIC_BASE_URL}/studies/hots`;
       return {
         url,
         method: Method.GET,
