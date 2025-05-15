@@ -56,4 +56,20 @@ export interface GetStudyRequirement {
   requirementNum: number;
   content: string;
 }
+// study 참여 요건(다건 조회)
+
 export type GetStudyRequirements = GetStudyRequirement[];
+
+export interface GetStudyRule {
+  id: number;
+  ruleNum: number;
+  content: string;
+}
+export type GetStudyRules = GetStudyRule[];
+
+export type GetStudyBenefit = {
+  id: number;
+  benefitNum: number;
+  content: string;
+};
+export type GetStudyBenefits = GetStudyBenefit[];
