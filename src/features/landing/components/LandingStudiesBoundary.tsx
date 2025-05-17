@@ -4,7 +4,7 @@ import {
 } from "@/features/landing/services/landing.service";
 import {
   GetStudiesRequest,
-  GetStudiesResult,
+  GetStudiesResponse,
 } from "@/shared/types/api/studies";
 import {
   dehydrate,
@@ -15,7 +15,7 @@ import React from "react";
 
 interface LandingStudiesProps {
   studiesRequest: GetStudiesRequest;
-  children: (studiesData: GetStudiesResult) => React.ReactNode;
+  children: (studiesData: GetStudiesResponse) => React.ReactNode;
 }
 
 const LandingStudiesBoundary = async ({

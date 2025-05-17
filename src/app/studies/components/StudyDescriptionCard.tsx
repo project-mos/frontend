@@ -7,17 +7,17 @@ import Meta from "@/shared/components/molecules/Meta";
 import { MDXRemote } from "next-mdx-remote-client/rsc";
 
 import {
-  GetStudyBenefits,
-  GetStudyDetail,
-  GetStudyRequirements,
-  GetStudyRules,
+  GetStudyBenefitsResponse,
+  GetStudyDetailResponse,
+  GetStudyRequirementsResponse,
+  GetStudyRulesResponse,
 } from "@/shared/types/api/studies";
 
 interface StudyDescriptionCardProps {
-  studyDetailData: GetStudyDetail;
-  requirementsData: GetStudyRequirements;
-  rulesData: GetStudyRules;
-  benefitsData: GetStudyBenefits;
+  studyDetailData: GetStudyDetailResponse;
+  requirementsData: GetStudyRequirementsResponse;
+  rulesData: GetStudyRulesResponse;
+  benefitsData: GetStudyBenefitsResponse;
 }
 
 const StudyDescriptionCard = ({
@@ -102,7 +102,7 @@ const ContentWrapper = ({ children }: { children: React.ReactNode }) => {
 
 const ListContent = (
   title: string,
-  items: GetStudyRules | GetStudyBenefits
+  items: GetStudyRulesResponse | GetStudyBenefitsResponse
 ) => {
   console.log(items);
   return (
