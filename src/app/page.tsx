@@ -6,6 +6,7 @@ import Pagination from "@/shared/components/molecules/Pagination";
 import { GetStudiesRequest } from "@/shared/types/api/studies";
 
 import LandingStudiesBoundary from "@/features/landing/components/LandingStudiesBoundary";
+import { GetCategories } from "@/features/landing/services/landing.service";
 
 interface HomeProps {
   searchParams: Promise<GetStudiesRequest>;
@@ -14,11 +15,12 @@ interface HomeProps {
 export default async function Home({ searchParams }: HomeProps) {
   const studiesRequest = await searchParams;
   const { page: currentPage } = studiesRequest;
+  const categoriesData = await GetCategories();
 
   return (
     <div className="flex flex-col gap-10 ">
       <LandingLoginToast />
-      <LandingContentHeader />
+      <LandingContentHeader categories={categoriesData} />
       <LandingStudiesBoundary studiesRequest={studiesRequest}>
         {(studiesData) => {
           return (

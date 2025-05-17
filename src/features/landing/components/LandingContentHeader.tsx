@@ -5,18 +5,19 @@ import Button, { SolidButtonProps } from "@/shared/components/atoms/Button";
 import Select from "@/shared/components/atoms/Select";
 import Typography from "@/shared/components/atoms/Typography";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { GetCategories } from "@/shared/types/api/studies";
 
-const categories = [
-  { label: "전체", value: null }, // 전체는 필터 없이 사용
-  { label: "프로그래밍", value: "프로그래밍" },
-  { label: "어학", value: "어학" },
-  // { label: "취업", value: "취업" },
-  { label: "자격증", value: "자격증" },
-  { label: "독서", value: "독서" },
-  { label: "취미", value: "취미" },
-  // { label: "고시/공무원", value: "고시/공무원" },
-  // { label: "기타", value: "기타" },
-];
+// const categories = [
+//   { label: "전체", value: null }, // 전체는 필터 없이 사용
+//   { label: "프로그래밍", value: "프로그래밍" },
+//   { label: "어학", value: "어학" },
+//   // { label: "취업", value: "취업" },
+//   { label: "자격증", value: "자격증" },
+//   { label: "독서", value: "독서" },
+//   { label: "취미", value: "취미" },
+//   // { label: "고시/공무원", value: "고시/공무원" },
+//   // { label: "기타", value: "기타" },
+// ];
 
 const meetingTypes = [
   { label: "전체", value: null },
@@ -31,7 +32,25 @@ const recruitmentOptions = [
   { label: "모집 완료", value: "모집 완료" },
 ];
 
-const LandingContentHeader = () => {
+type Categories = GetCategories["categories"][number] | "전체";
+
+type LandingCategories = Record<"label" | "value", Categories | null>[];
+interface LandingContentHeaderProps {
+  categories: GetCategories;
+}
+
+const LandingContentHeader = ({ categories }: LandingContentHeaderProps) => {
+  const { categories: categoriesData } = categories;
+  // label, value 방식으로 변환(임시적용일 수 있음)
+  const makeLabelCategoriesData: LandingCategories = categoriesData.map(
+    (item) => {
+      return { value: item, label: item };
+    }
+  );
+  if (makeLabelCategoriesData) {
+    makeLabelCategoriesData.unshift({ label: "전체", value: null });
+  }
+
   const router = useRouter();
   const pathname = usePathname();
   const currentSearchParams = useSearchParams();
@@ -132,7 +151,7 @@ const LandingContentHeader = () => {
       <div className="box-border flex size-full flex-col  gap-3   py-6">
         {/* Buttons */}
         <div className="flex w-full flex-wrap items-center justify-center gap-2 ">
-          {categories.map(({ label, value }) => (
+          {makeLabelCategoriesData.map(({ label, value }) => (
             <LandingHeaderButton
               key={value || "all"}
               color="Main"
