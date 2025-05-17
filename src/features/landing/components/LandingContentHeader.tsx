@@ -63,7 +63,7 @@ const LandingContentHeader = ({ categories }: LandingContentHeaderProps) => {
     } else {
       params.delete("category");
     }
-
+    params.set("page", "1");
     router.push(`${pathname}?${params.toString()}`);
   };
 
@@ -77,6 +77,7 @@ const LandingContentHeader = ({ categories }: LandingContentHeaderProps) => {
     } else {
       params.set("liked", `${!boolValue}`);
     }
+    params.set("page", "1");
     router.push(`${pathname}?${params.toString()}`);
   };
   const onSelected = (type: "meet" | "recruitment", value: string) => {
@@ -95,6 +96,7 @@ const LandingContentHeader = ({ categories }: LandingContentHeaderProps) => {
         params.delete("recruitmentStatus");
       }
     }
+    params.set("page", "1");
     router.push(`${pathname}?${params.toString()}`);
   };
   // const { data, isLoading } = useStudies(
