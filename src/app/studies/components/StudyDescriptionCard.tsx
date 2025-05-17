@@ -26,7 +26,6 @@ const StudyDescriptionCard = ({
   rulesData,
   benefitsData,
 }: StudyDescriptionCardProps) => {
-  console.log(benefitsData);
   return (
     <Card className="col-span-12 flex flex-col gap-5 pb-10 tablet:col-span-8">
       <Card.Header className="flex-col gap-3">
@@ -68,26 +67,30 @@ const StudyDescriptionCard = ({
         </div>
       </Card.Header>
       <Card.Content className="gap-5">
-        <ContentWrapper>
-          <Typography.SubTitle1>스터디 소개</Typography.SubTitle1>
-          <MDXRemote source={studyDetailData.content} />
-        </ContentWrapper>
+        {hasItem(studyDetailData.content) && (
+          <ContentWrapper>
+            <Typography.SubTitle1>스터디 소개</Typography.SubTitle1>
+            <MDXRemote source={studyDetailData.content} />
+          </ContentWrapper>
+        )}
 
-        <ContentWrapper>
-          <Typography.SubTitle1>참여 요건</Typography.SubTitle1>
-          <div>
-            {requirementsData.map((item, index) => {
-              return (
-                <Typography.P1
-                  key={`${item.id}_${index}`}
-                  className="text-[14px] text-mos-gray-700"
-                >
-                  {item.content}
-                </Typography.P1>
-              );
-            })}
-          </div>
-        </ContentWrapper>
+        {hasItem(requirementsData) && (
+          <ContentWrapper>
+            <Typography.SubTitle1>참여 요건</Typography.SubTitle1>
+            <div>
+              {requirementsData.map((item, index) => {
+                return (
+                  <Typography.P1
+                    key={`${item.id}_${index}`}
+                    className="text-[14px] text-mos-gray-700"
+                  >
+                    {item.content}
+                  </Typography.P1>
+                );
+              })}
+            </div>
+          </ContentWrapper>
+        )}
 
         {ListContent("스터디 규칙", rulesData)}
         {ListContent("스터디 혜택", benefitsData)}
@@ -104,17 +107,25 @@ const ListContent = (
   title: string,
   items: GetStudyRulesResponse | GetStudyBenefitsResponse
 ) => {
-  console.log(items);
   return (
-    <ContentWrapper>
-      <Typography.SubTitle1>{title}</Typography.SubTitle1>
-      <ul className="study-detail text-mos-gray-700">
-        {items.map((item, index) => {
-          return <li key={`${item.id}_${index}`}> {item.content}</li>;
-        })}
-      </ul>
-    </ContentWrapper>
+    <>
+      {hasItem<GetStudyRulesResponse | GetStudyBenefitsResponse>(items) && (
+        <ContentWrapper>
+          <Typography.SubTitle1>{title}</Typography.SubTitle1>
+          <ul className="study-detail text-mos-gray-700">
+            {items.map((item, index) => {
+              return <li key={`${item.id}_${index}`}> {item.content}</li>;
+            })}
+          </ul>
+        </ContentWrapper>
+      )}
+    </>
   );
 };
+// 아이템이 있는지 여부를 리턴하는 함수
+function hasItem<T>(item: T[] | T) {
+  if (Array.isArray(item)) return item.length > 0;
+  else return Boolean(item);
+}
 
 export default StudyDescriptionCard;
