@@ -10,7 +10,7 @@ export type GetStudiesRequest = {
   liked?: boolean;
 };
 // Study 다 건 조회 result
-export type GetStudiesResult = {
+export type GetStudiesResponse = {
   totalStudies: number;
   currentPage: number;
   totalPages: number;
@@ -34,7 +34,7 @@ export interface Study {
 }
 
 // Study 상세조회
-export interface GetStudyDetail {
+export interface GetStudyDetailResponse {
   id: number;
   title: string;
   content: string;
@@ -51,25 +51,29 @@ export interface GetStudyDetail {
   tags: string[];
 }
 // study 참여 요건(단건 조회)
-export interface GetStudyRequirement {
+export interface GetStudyRequirementResponse {
   id: number;
   requirementNum: number;
   content: string;
 }
 // study 참여 요건(다건 조회)
 
-export type GetStudyRequirements = GetStudyRequirement[];
+export type GetStudyRequirementsResponse = GetStudyRequirementResponse[];
 
-export interface GetStudyRule {
+export interface GetStudyRuleResponse {
   id: number;
   ruleNum: number;
   content: string;
 }
-export type GetStudyRules = GetStudyRule[];
+export type GetStudyRulesResponse = GetStudyRuleResponse[];
 
-export type GetStudyBenefit = {
+export type GetStudyBenefitResponse = {
   id: number;
   benefitNum: number;
   content: string;
 };
-export type GetStudyBenefits = GetStudyBenefit[];
+export type GetStudyBenefitsResponse = GetStudyBenefitResponse[];
+
+export type GetCategories = {
+  categories: ["프로그래밍", "독서", "어학", "자격증", "취미", "고시/공무원"];
+};
