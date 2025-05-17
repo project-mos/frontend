@@ -119,6 +119,13 @@ export const API_ENDPOINT = {
         method: Method.GET,
       };
     },
+    GetCategories: () => {
+      const url = `${process.env.NEXT_PUBLIC_BASE_URL}/studies/categories`;
+      return {
+        url,
+        method: Method.GET,
+      };
+    },
   },
   // 필요에 따라 추가
 };
