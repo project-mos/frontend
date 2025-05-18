@@ -3,24 +3,15 @@
 import { useAuthStore } from "@/shared/store/authStore";
 import { useEffect } from "react";
 
-const AppInitializer = () => {
+interface AppInitializerProps {
+  isLoggedIn: boolean;
+}
+const AppInitializer = ({ isLoggedIn }: AppInitializerProps) => {
   const setLoggedIn = useAuthStore((state) => state.setLoggedIn);
 
   useEffect(() => {
-    const checkLogin = async () => {
-      try {
-        const res = await fetch("/api/auth/me", {
-          credentials: "include",
-        });
-        const data = await res.json();
-        setLoggedIn(data.isLoggedIn);
-      } catch {
-        setLoggedIn(false);
-      }
-    };
-
-    checkLogin();
-  }, []);
+    setLoggedIn(isLoggedIn);
+  }, [isLoggedIn]);
 
   return null;
 };
