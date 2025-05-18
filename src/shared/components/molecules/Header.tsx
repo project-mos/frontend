@@ -1,4 +1,5 @@
 "use client";
+import { useAuthStore } from "@/shared/store/authStore";
 import cn from "@/shared/utils/cn";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -15,7 +16,7 @@ import useModal from "@/shared/hooks/useModal";
 import { Tooltip } from "@heroui/tooltip";
 
 const Header = () => {
-  const isLoggedIn = false;
+  const { isLoggedIn } = useAuthStore();
   const { isModalOpenState, openModal, closeModal } = useModal();
 
   return (
