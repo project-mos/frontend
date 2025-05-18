@@ -22,7 +22,7 @@ export default async function RootLayout({
         <QueryClientProvider>
           <AppInitializer isLoggedIn={!!accessToken} />
           <Header />
-          <div className="ㅣitems-center flex justify-center">
+          <div className="flex items-center justify-center">
             <div className="layout">{children}</div>
           </div>
           <Footer />
