@@ -12,7 +12,10 @@ import useModal from "@/shared/hooks/useModal";
 import createStudy from "../services/createStudy.service";
 import { StudyFormInterface } from "./CreateStudyForm";
 
-const CreateStudyForm3 = () => {
+interface CreateStudyForm3Props {
+  accessToken?: string;
+}
+const CreateStudyForm3 = ({ accessToken }: CreateStudyForm3Props) => {
   const methods = useFormContext<StudyFormInterface>();
   const router = useRouter();
   const { watch } = useFormContext<StudyFormInterface>();
@@ -29,7 +32,10 @@ const CreateStudyForm3 = () => {
   };
 
   const handleClickCreateButton = () => {
-    createStudy({ form: formData });
+    createStudy({
+      form: formData,
+      token: accessToken!,
+    });
     closeModal();
     router.push("/create-study?step=4");
   };
