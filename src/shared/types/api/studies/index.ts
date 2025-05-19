@@ -17,7 +17,7 @@ export type GetStudiesResponse = {
   studies: Study[];
 };
 
-export type GetHotStudiesResult = Study[];
+export type GetHotStudiesResponse = Study[];
 // Study 다 건 조회
 export interface Study {
   id: number;
@@ -74,6 +74,6 @@ export type GetStudyBenefitResponse = {
 };
 export type GetStudyBenefitsResponse = GetStudyBenefitResponse[];
 
-export type GetCategories = {
+export type GetCategoriesResponse = {
   categories: ["프로그래밍", "독서", "어학", "자격증", "취미", "고시/공무원"];
 };
