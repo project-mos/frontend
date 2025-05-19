@@ -10,12 +10,12 @@ import StudyApply from "@/app/create-study/components/StudyApply";
 import useModal from "@/shared/hooks/useModal";
 
 import createStudy from "../services/createStudy.service";
-import { StudyFormInterface } from "./CreateStudyForm";
+import {
+  AccessTokenProps,
+  StudyFormInterface,
+} from "../types/create-study.type";
 
-interface CreateStudyForm3Props {
-  accessToken?: string;
-}
-const CreateStudyForm3 = ({ accessToken }: CreateStudyForm3Props) => {
+const CreateStudyForm3 = ({ accessToken }: AccessTokenProps) => {
   const methods = useFormContext<StudyFormInterface>();
   const router = useRouter();
   const { watch } = useFormContext<StudyFormInterface>();

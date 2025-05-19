@@ -9,8 +9,7 @@ import useModal from "@/shared/hooks/useModal";
 import StudyActions from "@/app/create-study/components/StudyActions";
 import StudyBasicInfo from "@/app/create-study/components/StudyBasicInfo";
 import StudyMethod from "@/app/create-study/components/StudyMethod";
-
-import { StudyFormInterface } from "./CreateStudyForm";
+import { StudyFormInterface } from "../types/create-study.type";
 
 const CreateStudyForm1 = () => {
   const methods = useFormContext<StudyFormInterface>();

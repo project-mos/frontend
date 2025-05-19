@@ -5,11 +5,12 @@ import { useFormContext } from "react-hook-form";
 
 import Button from "@/shared/components/atoms/Button";
 import Card from "@/shared/components/atoms/Card";
+import Tag from "@/shared/components/atoms/Tag";
 import Typography from "@/shared/components/atoms/Typography";
 
-import Tag from "@/shared/components/atoms/Tag";
+import { StudyFormInterface } from "../types/create-study.type";
+
 import MDEditor from "@uiw/react-md-editor";
-import { StudyFormInterface } from "./CreateStudyForm";
 
 const CreateStudyForm4 = () => {
   const { watch } = useFormContext<StudyFormInterface>();

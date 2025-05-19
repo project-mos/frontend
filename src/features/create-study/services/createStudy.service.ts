@@ -1,4 +1,4 @@
-import { StudyFormInterface } from "../form/CreateStudyForm";
+import { StudyFormInterface } from "../types/create-study.type";
 
 interface createStudyProps {
   form: StudyFormInterface;
