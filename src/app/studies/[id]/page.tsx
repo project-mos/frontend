@@ -13,7 +13,7 @@ import {
 // import { MockStudiesApiResult } from "@/shared/mock/api/studies";
 
 interface StudyDetailPageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 const page = async ({ params }: StudyDetailPageProps) => {
