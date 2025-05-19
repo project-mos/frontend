@@ -13,12 +13,11 @@ function parseRequirements(text: string) {
     .map((content, index) => ({ requirementNum: index + 1, content }));
 }
 
-function filterEmptyContent<T extends { content: string }>(arr: T[]) {
-  return arr.filter((item) => item.content.trim() !== "");
-}
-
-function filterEmptyQuestion<T extends { question: string }>(arr: T[]) {
-  return arr.filter((item) => item.question.trim() !== "");
+function filterEmptyByKey<T>(arr: T[], key: keyof T) {
+  return arr.filter((item) => {
+    const value = item[key];
+    return typeof value === "string" && value.trim() !== "";
+  });
 }
 
 export default async function createStudy({ form, token }: createStudyProps) {
@@ -26,9 +25,12 @@ export default async function createStudy({ form, token }: createStudyProps) {
     form.requirements as unknown as string
   );
 
-  const filteredRules = filterEmptyContent(form.rules);
-  const filteredBenefits = filterEmptyContent(form.benefits);
-  const filteredQuestions = filterEmptyQuestion(form.applicationQuestions);
+  const filteredRules = filterEmptyByKey(form.rules, "content");
+  const filteredBenefits = filterEmptyByKey(form.benefits, "content");
+  const filteredQuestions = filterEmptyByKey(
+    form.applicationQuestions,
+    "question"
+  );
 
   try {
     const result = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/studies`, {
