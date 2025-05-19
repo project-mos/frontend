@@ -8,7 +8,7 @@ import LabelSelectInput from "@/shared/components/molecules/LabelSelectInput";
 import LabelTagInput from "./LabelTagInput";
 
 const StudyBasicInfo = () => {
-  const categoryList = ["ex1", "ex2", "ex3"];
+  const categoryList = ["프로그래밍", "어학", "자격증", "독서", "취미"];
 
   return (
     <Card className="pb-[40px]">

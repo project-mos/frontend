@@ -10,9 +10,12 @@ import StudyApply from "@/app/create-study/components/StudyApply";
 import useModal from "@/shared/hooks/useModal";
 
 import createStudy from "../services/createStudy.service";
-import { StudyFormInterface } from "./CreateStudyForm";
+import {
+  AccessTokenProps,
+  StudyFormInterface,
+} from "../types/create-study.type";
 
-const CreateStudyForm3 = () => {
+const CreateStudyForm3 = ({ accessToken }: AccessTokenProps) => {
   const methods = useFormContext<StudyFormInterface>();
   const router = useRouter();
   const { watch } = useFormContext<StudyFormInterface>();
@@ -28,10 +31,14 @@ const CreateStudyForm3 = () => {
     router.push("/create-study?step=2");
   };
 
-  const handleClickCreateButton = () => {
-    createStudy({ form: formData });
+  const handleClickCreateButton = async () => {
+    const result = await createStudy({
+      form: formData,
+      token: accessToken!,
+    });
     closeModal();
-    router.push("/create-study?step=4");
+    const studyID = result.studyId;
+    router.replace(`/studies/${studyID}`);
   };
 
   return (
