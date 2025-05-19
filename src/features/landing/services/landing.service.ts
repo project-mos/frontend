@@ -1,10 +1,12 @@
 import { API_ENDPOINT } from "@/shared/constants/api-end-point";
-import type {
-  GetCategories,
-  GetHotStudiesResult,
+import {
+  GetCategoriesResponse,
+  // GetCategoriesResponse,
+  GetHotStudiesResponse,
   GetStudiesRequest,
   GetStudiesResponse,
 } from "@/shared/types/api/studies";
+import { fetchAPI } from "@/shared/utils/fetch";
 import { fetchData } from "@/shared/utils/fetcher";
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 
@@ -35,18 +37,20 @@ export async function getStudies({
 }
 //인기 Study 조회
 export async function getHotStudies() {
-  const response = await fetchData<GetHotStudiesResult>({
+  const response = await fetchData<GetHotStudiesResponse>({
     endpoint: API_ENDPOINT.studies.getHotStudies(),
   });
   return response;
 }
-//Study 카테고리 조회
+//Study 카테고리 조회(ISR)
 export async function GetCategories() {
-  const response = await fetchData<GetCategories>({
-    endpoint: API_ENDPOINT.studies.GetCategories(),
-    // 카테고리 데이터는 잘 안바뀜 (자주 바뀐다면 SSR 방식으로 변경(혹은 ISR))
-    fetchOptions: { cache: "force-cache" },
-  });
+  const response = await fetchAPI<GetCategoriesResponse>(
+    API_ENDPOINT.studies.getCategories().url,
+    {
+      cache: "force-cache",
+      next: { revalidate: 3600 },
+    }
+  );
   return response;
 }
 
@@ -63,11 +67,11 @@ export function useStudies(
 // useHotStudies 훅
 export function useHotStudies(
   options?: Omit<
-    UseQueryOptions<GetHotStudiesResult, Error>,
+    UseQueryOptions<GetHotStudiesResponse, Error>,
     "queryKey" | "queryFn"
   >
 ) {
-  return useQuery<GetHotStudiesResult, Error>(
+  return useQuery<GetHotStudiesResponse, Error>(
     createHotStudiesQueryOption(options)
   );
 }
@@ -106,7 +110,7 @@ export function createStudiesQueryOptions(
 
 export const createHotStudiesQueryOption = (
   options?: Omit<
-    UseQueryOptions<GetHotStudiesResult, Error>,
+    UseQueryOptions<GetHotStudiesResponse, Error>,
     "queryKey" | "queryFn"
   >
 ) => {
