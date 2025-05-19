@@ -6,9 +6,9 @@ import LabelRadioInput from "@/shared/components/molecules/LabelRadioInput";
 
 const StudyMethod = () => {
   const meetingTypes = [
-    { label: "비대면", value: "online" },
-    { label: "대면", value: "offline" },
-    { label: "혼합", value: "hybrid" },
+    { label: "비대면", value: "비대면" },
+    { label: "대면", value: "대면" },
+    { label: "혼합", value: "혼합" },
   ];
 
   return (
