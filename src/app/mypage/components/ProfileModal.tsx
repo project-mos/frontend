@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 
 import Button from "@/shared/components/atoms/Button";
@@ -12,10 +12,12 @@ import Typography from "@/shared/components/atoms/Typography";
 
 import LabelTagInput from "@/app/create-study/components/LabelTagInput";
 import LabelInput from "@/shared/components/molecules/LabelInput";
+import { GetUserInfoResult } from "@/shared/types/api/mypage";
 
 interface ProfileModalProps extends ModalProps {
   preview?: string; // 프로필 사진 미리보기 url string
   onClose: ModalOnClose;
+  userInfoData: GetUserInfoResult;
 }
 
 interface ProfileData {
@@ -25,7 +27,12 @@ interface ProfileData {
   tags: string[];
 }
 
-const ProfileModal = ({ preview, onClose, ...props }: ProfileModalProps) => {
+const ProfileModal = ({
+  preview,
+  onClose,
+  userInfoData,
+  ...props
+}: ProfileModalProps) => {
   const methods = useForm<ProfileData>({
     defaultValues: {
       nickname: "",
@@ -39,6 +46,24 @@ const ProfileModal = ({ preview, onClose, ...props }: ProfileModalProps) => {
   const { handleSubmit, reset, control, formState } = methods;
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const {
+    nickname,
+    introduction,
+    categories,
+    // profileImage = profileImg,
+    // joinDate = "0000-00-00",
+  } = userInfoData || {};
+
+  useEffect(() => {
+    if (userInfoData) {
+      reset({
+        nickname: nickname || "",
+        introduce: introduction || "",
+        tags: categories || [],
+      });
+    }
+  }, [userInfoData, reset]);
 
   const onSubmit = (data: ProfileData) => {
     console.log("data", data);
