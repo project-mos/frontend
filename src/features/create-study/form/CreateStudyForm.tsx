@@ -32,7 +32,11 @@ export interface StudyFormInterface {
   }[];
 }
 
-const CreateStudyForm = () => {
+interface CreateStudyFormProps {
+  accessToken?: string;
+}
+
+const CreateStudyForm = ({ accessToken }: CreateStudyFormProps) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const step = searchParams.get("step") || "1";
@@ -87,7 +91,7 @@ const CreateStudyForm = () => {
     <FormProvider {...methods}>
       {stepNumber === 1 && <CreateStudyForm1 />}
       {stepNumber === 2 && <CreateStudyForm2 />}
-      {stepNumber === 3 && <CreateStudyForm3 />}
+      {stepNumber === 3 && <CreateStudyForm3 accessToken={accessToken} />}
       {stepNumber === 4 && <CreateStudyForm4 />}
     </FormProvider>
   );
