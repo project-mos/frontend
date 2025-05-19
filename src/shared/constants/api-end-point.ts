@@ -20,9 +20,9 @@ export const API_ENDPOINT = {
   },
   user: {
     // 유저 정보 조회
-    getUser: (id: number) => {
+    getUser: () => {
       return {
-        url: `${process.env.MOS_API_BASE_URL}/user/${id}`, // 임시 URL
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/users`, // 임시 URL
         method: Method.GET,
       };
     },
