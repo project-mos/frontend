@@ -11,13 +11,15 @@ export interface StudyFormInterface {
   requirements: string;
   rules: { ruleNum: number; content: string }[];
   benefits: { benefitNum: number; content: string }[];
-  applicationQuestions: {
-    questionNum: number;
-    question: string;
-    required: boolean;
-    type: string;
-    options: string[];
-  }[];
+  applicationQuestions: QuestionInterface[];
+}
+
+export interface QuestionInterface {
+  questionNum: number;
+  question: string;
+  required: boolean;
+  type: "주관식" | "객관식";
+  options: string[];
 }
 
 export interface AccessTokenProps {
