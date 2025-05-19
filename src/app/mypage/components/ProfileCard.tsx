@@ -10,9 +10,25 @@ import profileImg from "@/asset/images/profile_example.jpeg";
 import ActionConfirmModal from "@/shared/components/molecules/ActionConfirmModal";
 import useMultiModal from "@/shared/hooks/useMultiModal";
 import ProfileModal from "./ProfileModal";
+import { userInfoQueryOption } from "../../../features/mypage/services/mypage.service";
+import { useQuery } from "@tanstack/react-query";
 
-const ProfileCard = () => {
+interface ProfileCardInterface {
+  accessToken: string | undefined;
+}
+
+const ProfileCard = ({ accessToken }: ProfileCardInterface) => {
   const { modal, openModal, closeModal } = useMultiModal();
+  // 유저 정보 조회
+  const { data: userInfo } = useQuery(userInfoQueryOption(accessToken!));
+
+  const {
+    nickname,
+    introduction,
+    categories,
+    profileImage = profileImg,
+    joinDate = "0000-00-00",
+  } = userInfo || {};
 
   return (
     <>
@@ -21,16 +37,25 @@ const ProfileCard = () => {
           <Profile
             width={160}
             height={160}
-            src={profileImg}
+            src={profileImage}
             className="mt-[45px]"
           />
-          <Typography.Head3>홍길동</Typography.Head3>
+          <Typography.Head3>{nickname}</Typography.Head3>
           <Typography.P3 className="text-[14px] text-mos-gray-500">
-            홍길동의 한줄 소개들어가유
+            {introduction ? introduction : "데이터 비어있음"}
           </Typography.P3>
           <div className="mb-[10px] flex gap-2">
-            <Tag.Green border={true}>프로그래밍</Tag.Green>
-            <Tag.Green border={true}>어학</Tag.Green>
+            {Array.isArray(categories)
+              ? categories.map((tag: string) => (
+                  <Tag.Green key={tag} border={true}>
+                    {tag}
+                  </Tag.Green>
+                ))
+              : ["데이터 비어있음"].map((tag: string) => (
+                  <Tag.Green key={tag} border={true}>
+                    {tag}
+                  </Tag.Green>
+                ))}
           </div>
           <Button.Ghost
             color="Main"
@@ -49,7 +74,7 @@ const ProfileCard = () => {
         </Card.Content>
         <Card.Footer>
           <Typography.P3 className="mt-[10px] text-[14px] text-mos-gray-300">
-            가입일: 2024-01-01
+            가입일: {joinDate}
           </Typography.P3>
         </Card.Footer>
       </Card>
@@ -57,6 +82,7 @@ const ProfileCard = () => {
       <ProfileModal
         isOpen={modal.get("updateProfile")!}
         onClose={() => closeModal("updateProfile")}
+        userInfoData={userInfo!}
       />
       <ActionConfirmModal
         isOpen={modal.get("logout")!}

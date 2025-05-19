@@ -12,3 +12,11 @@ export interface applyStatusProps {
   title: string;
   date: string;
 }
+
+export interface GetUserInfoResult {
+  nickname: string,
+  introduction: string,
+  categories: string[]
+  profileImage: string,
+  joinDate: string,
+}
