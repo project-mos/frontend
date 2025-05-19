@@ -31,13 +31,14 @@ const CreateStudyForm3 = ({ accessToken }: AccessTokenProps) => {
     router.push("/create-study?step=2");
   };
 
-  const handleClickCreateButton = () => {
-    createStudy({
+  const handleClickCreateButton = async () => {
+    const result = await createStudy({
       form: formData,
       token: accessToken!,
     });
     closeModal();
-    router.push("/create-study?step=4");
+    const studyID = result.studyId;
+    router.replace(`/studies/${studyID}`);
   };
 
   return (

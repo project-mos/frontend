@@ -31,7 +31,7 @@ export default async function createStudy({ form, token }: createStudyProps) {
   const filteredQuestions = filterEmptyQuestion(form.applicationQuestions);
 
   try {
-    const result = await fetch(`${process.env.NEXT_PUBLIC_API}/studies`, {
+    const result = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/studies`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -55,18 +55,9 @@ export default async function createStudy({ form, token }: createStudyProps) {
       }),
     });
 
-    if (result.ok) {
-      return result;
-    }
+    const res = await result.json();
 
-    if (result.status === 403) {
-      console.error("403 error");
-    } else {
-      const text = await result.text();
-      console.error("요청 실패:", text);
-    }
-
-    return result;
+    return res;
   } catch (err) {
     console.error("네트워크 오류 또는 서버 장애:", err);
     throw err;
