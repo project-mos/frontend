@@ -1,7 +1,6 @@
 import { API_ENDPOINT } from "@/shared/constants/api-end-point";
 import {
-  GetCategoriesResponse,
-  // GetCategoriesResponse,
+  GetStudyCategoriesResponse,
   GetHotStudiesResponse,
   GetStudiesRequest,
   GetStudiesResponse,
@@ -44,9 +43,10 @@ export async function getHotStudies() {
 }
 //Study 카테고리 조회(ISR)
 export async function GetCategories() {
-  const response = await fetchAPI<GetCategoriesResponse>(
+  const response = await fetchAPI<GetStudyCategoriesResponse>(
     API_ENDPOINT.studies.getCategories().url,
     {
+      credentials: "include",
       cache: "force-cache",
       next: { revalidate: 3600 },
     }

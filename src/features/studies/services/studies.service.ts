@@ -1,10 +1,12 @@
 import { API_ENDPOINT } from "@/shared/constants/api-end-point";
 import {
   GetStudyBenefitsResponse,
+  GetStudyCurriculumsResponse,
   GetStudyDetailResponse,
   GetStudyRequirementsResponse,
   GetStudyRulesResponse,
 } from "@/shared/types/api/studies";
+import { fetchAPI } from "@/shared/utils/fetch";
 import { fetchData } from "@/shared/utils/fetcher";
 
 export async function getStudy(id: string) {
@@ -31,5 +33,12 @@ export async function getBenefits(studyId: string) {
   const response = await fetchData<GetStudyBenefitsResponse>({
     endpoint: API_ENDPOINT.benefits.getStudyBenefits(studyId),
   });
+  return response;
+}
+
+export async function getCurriculums(studyId: string) {
+  const response = await fetchAPI<GetStudyCurriculumsResponse>(
+    API_ENDPOINT.curriculums.getCurriculums(studyId).url
+  );
   return response;
 }

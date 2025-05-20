@@ -1,14 +1,17 @@
 "use client";
-import { useAuthStore } from "@/shared/store/authStore";
-import { useRouter, useSearchParams } from "next/navigation";
+
 import { useEffect } from "react";
 
-import oAuthLogin from "@/features/login/services/oAuthLogin.service";
 import URL from "@/shared/constants/URL";
+import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
+import oAuthLogin from "@/features/login/services/oAuthLogin.service";
+import { useAuthStore } from "@/shared/store/authStore";
 
 const ClientRedirect = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
+
   const code = searchParams.get("code");
   const state = searchParams.get("state");
 
@@ -35,8 +38,6 @@ const ClientRedirect = () => {
       router.replace(callbackUrl || URL.HOME);
       return;
     }
-
-    localStorage.setItem("login", "false");
     setLoggedIn(false);
     return router.replace(URL.HOME);
   };
