@@ -1,4 +1,4 @@
-import ChatCard from "@/app/study-room/components/chat/ChatCard";
+import ChatCard from "@/app/(auth)/study-room/components/chat/ChatCard";
 
 const ChatPage = () => {
   return <ChatCard />;

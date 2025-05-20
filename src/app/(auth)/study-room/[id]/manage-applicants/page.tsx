@@ -1,4 +1,4 @@
-import ManageCard from "@/app/study-room/components/manage-applicants/ManageCard";
+import ManageCard from "@/app/(auth)/study-room/components/manage-applicants/ManageCard";
 
 const ManageApplicants = () => {
   return <ManageCard />;

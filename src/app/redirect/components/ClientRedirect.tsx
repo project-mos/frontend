@@ -30,6 +30,8 @@ const ClientRedirect = () => {
 
     const result = await oAuthLogin({ code: code, provider });
     if (result?.status === 200) {
+      localStorage.setItem("login", "true");
+      localStorage.setItem("wasLoggedIn", "true");
       setLoggedIn(true);
 
       // 전역 관리된 Path가 있다면 그 URL로 리다이렉트 없다면 HOME으로 리다이렉트
