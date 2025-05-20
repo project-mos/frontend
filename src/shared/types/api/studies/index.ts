@@ -90,3 +90,20 @@ export type GetStudyCurriculumResponse = {
 };
 
 export type GetStudyCurriculumsResponse = GetStudyCurriculumResponse[];
+
+// Study 질문 조회
+export type GetStudyQuestionResponse = {
+  id: number;
+  questionNum: number;
+  question: string;
+  type: "객관식" | "주관식";
+  options: string[];
+  required: boolean;
+};
+
+export type GetStudyQuestionsResponse = GetStudyQuestionResponse[];
+// Study 지원하기
+export type PostStudyJoin = {
+  studyQuestionId: number;
+  answer: string;
+}[];

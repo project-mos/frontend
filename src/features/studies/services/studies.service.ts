@@ -6,7 +6,7 @@ import {
   GetStudyQuestionsResponse,
   GetStudyRequirementsResponse,
   GetStudyRulesResponse,
-  PostStudyQuestions,
+  PostStudyJoin,
 } from "@/shared/types/api/studies";
 import { fetchAPI } from "@/shared/utils/fetch";
 import { fetchData } from "@/shared/utils/fetcher";
@@ -54,7 +54,7 @@ export async function getQuestions(studyId: string) {
   return response;
 }
 
-export async function postJoin(studyId: string, data: PostStudyQuestions) {
+export async function postJoin(studyId: string, data: PostStudyJoin) {
   const { url, method } = API_ENDPOINT.join.postJoin(studyId);
   const response = await fetchAPI(url, {
     credentials: "include",
@@ -79,6 +79,6 @@ export function useQuestions(studyId: string, enabled: boolean) {
 // postJoin React Query 훅
 export function usePostJoin(studyId: string) {
   return useMutation({
-    mutationFn: (data: PostStudyQuestions) => postJoin(studyId, data),
+    mutationFn: (data: PostStudyJoin) => postJoin(studyId, data),
   });
 }
