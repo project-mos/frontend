@@ -9,6 +9,7 @@ import useModal from "@/shared/hooks/useModal";
 import { useParams } from "next/navigation";
 import URL from "@/shared/constants/URL";
 import { useAuthStore } from "@/shared/store/authStore";
+import { useQuestions } from "@/features/studies/services/studies.service";
 
 const Apply = () => {
   const { id } = useParams() as { id: string };
@@ -18,6 +19,7 @@ const Apply = () => {
   const { isModalOpenState, openModal, closeModal } = useModal();
 
   const { isLoggedIn } = useAuthStore();
+  const { data } = useQuestions(id, isLoggedIn);
 
   function onClickButton() {
     if (isLoggedIn) {
@@ -39,8 +41,12 @@ const Apply = () => {
           지원하기
         </Button.Solid>
       )}
-      {isApplyVisibleState && (
-        <ApplyFormCard setIsApplyVisible={setIsApplyVisibleState} />
+      {isApplyVisibleState && data && (
+        <ApplyFormCard
+          studyId={id}
+          data={data}
+          setIsApplyVisible={setIsApplyVisibleState}
+        />
       )}
     </div>
   );
