@@ -5,6 +5,7 @@ import StudyLeaderCard from "@/app/studies/components/StudyLeaderCard";
 import Apply from "@/app/studies/components/applyStudy/Apply";
 import {
   getBenefits,
+  getCurriculums,
   getRequirements,
   getRules,
   getStudy,
@@ -22,6 +23,7 @@ const page = async ({ params }: StudyDetailPageProps) => {
   const requirementsData = await getRequirements(id);
   const rulesData = await getRules(id);
   const benefitsData = await getBenefits(id);
+  const curriculumsData = await getCurriculums(id);
 
   return (
     <>
@@ -35,7 +37,7 @@ const page = async ({ params }: StudyDetailPageProps) => {
         <StudyLeaderCard />
         <ShareCard />
       </div>
-      <StudyCurriculumCard />
+      <StudyCurriculumCard data={curriculumsData} />
       <Apply />
     </>
   );
