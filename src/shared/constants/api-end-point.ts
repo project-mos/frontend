@@ -93,6 +93,22 @@ export const API_ENDPOINT = {
       };
     },
   },
+  questions: {
+    getQuestions: (studyId: string) => {
+      return {
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/questions`,
+        method: Method.GET,
+      };
+    },
+  },
+  join: {
+    postJoin: (studyId: string) => {
+      return {
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/study-joins`,
+        method: Method.POST,
+      };
+    },
+  },
   studies: {
     getStudies: ({
       page = "1",
