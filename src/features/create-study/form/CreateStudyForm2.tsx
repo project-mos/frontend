@@ -9,8 +9,7 @@ import StudyActions from "@/app/create-study/components/StudyActions";
 import StudyBenefits from "@/app/create-study/components/StudyBenefits";
 import StudyDescription from "@/app/create-study/components/StudyDescription";
 import StudyRules from "@/app/create-study/components/StudyRules";
-
-import { StudyFormInterface } from "./CreateStudyForm";
+import { StudyFormInterface } from "../types/create-study.type";
 
 const CreateStudyForm2 = () => {
   const methods = useFormContext<StudyFormInterface>();

@@ -2,6 +2,7 @@ import { useFormContext } from "react-hook-form";
 
 import cn from "@/shared/utils/cn";
 
+import { StudyFormInterface } from "@/features/create-study/types/create-study.type";
 import Button from "@/shared/components/atoms/Button";
 import Input from "@/shared/components/atoms/Input";
 import RadioButton from "@/shared/components/atoms/RadioButton";
@@ -103,8 +104,13 @@ const Option = ({
 };
 
 const OptionBox = ({ index }: { index: number }) => {
-  const { watch, setValue } = useFormContext();
+  const {
+    watch,
+    setValue,
+    formState: { errors },
+  } = useFormContext<StudyFormInterface>();
   const options = watch(`applicationQuestions.${index}.options`) || [];
+  const error = errors?.applicationQuestions?.[index]?.options?.message;
 
   const handleAddOption = () => {
     setValue(`applicationQuestions.${index}.options`, [...options, ""]);
@@ -115,6 +121,12 @@ const OptionBox = ({ index }: { index: number }) => {
       {options.map((_: string, optionIndex: number) => (
         <Option key={optionIndex} index={index} optionIndex={optionIndex} />
       ))}
+      {errors && (
+        <Typography.Error className="mb-[14px] text-[12px] text-mos-coral-500">
+          {error}
+        </Typography.Error>
+      )}
+
       <Button.Ghost
         onClick={handleAddOption}
         color="Main"
@@ -129,7 +141,7 @@ const OptionBox = ({ index }: { index: number }) => {
 };
 
 const StudyApplyQuestion = ({ i, index, onRemove }: QuestionProps) => {
-  const { register, watch } = useFormContext();
+  const { register, watch } = useFormContext<StudyFormInterface>();
   const type = watch(`applicationQuestions.${index}.type`);
 
   return (
