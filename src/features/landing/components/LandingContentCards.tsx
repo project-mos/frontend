@@ -6,7 +6,7 @@ import Typography from "@/shared/components/atoms/Typography";
 
 import LandingStudyCard from "./LandingStudyCard";
 
-import { GetStudiesRequest } from "@/shared/types/api/studies";
+import { GetStudiesRequest, Study } from "@/shared/types/api/studies";
 import {
   useHotStudies,
   useStudies,
@@ -30,7 +30,7 @@ const LandingContentCards = ({ searchParams }: LandingContentCards) => {
         <LandingGrid>
           {/* 인기 */}
           {hotStudiesData &&
-            hotStudiesData.map((item, index) => {
+            hotStudiesData.map((item: Study, index: number) => {
               return (
                 <LandingStudyCard key={`${item.id}_${index}`} data={item} />
               );
@@ -45,7 +45,7 @@ const LandingContentCards = ({ searchParams }: LandingContentCards) => {
         <LandingGrid>
           {/* 일반 작성글 */}
           {studiesData &&
-            studiesData.studies.map((item, index) => {
+            studiesData.studies.map((item: Study, index) => {
               return (
                 <LandingStudyCard key={`${item.id}_${index}`} data={item} />
               );

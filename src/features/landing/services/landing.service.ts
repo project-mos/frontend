@@ -1,9 +1,12 @@
 import { API_ENDPOINT } from "@/shared/constants/api-end-point";
 import {
-  GetHotStudiesResult,
+  GetCategoriesResponse,
+  // GetCategoriesResponse,
+  GetHotStudiesResponse,
   GetStudiesRequest,
-  GetStudiesResult,
+  GetStudiesResponse,
 } from "@/shared/types/api/studies";
+import { fetchAPI } from "@/shared/utils/fetch";
 import { fetchData } from "@/shared/utils/fetcher";
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 
@@ -18,7 +21,7 @@ export async function getStudies({
   progressStatus,
   liked,
 }: GetStudiesRequest) {
-  const response = await fetchData<GetStudiesResult>({
+  const response = await fetchData<GetStudiesResponse>({
     endpoint: API_ENDPOINT.studies.getStudies({
       page,
       size,
@@ -34,9 +37,20 @@ export async function getStudies({
 }
 //인기 Study 조회
 export async function getHotStudies() {
-  const response = await fetchData<GetHotStudiesResult>({
+  const response = await fetchData<GetHotStudiesResponse>({
     endpoint: API_ENDPOINT.studies.getHotStudies(),
   });
+  return response;
+}
+//Study 카테고리 조회(ISR)
+export async function GetCategories() {
+  const response = await fetchAPI<GetCategoriesResponse>(
+    API_ENDPOINT.studies.getCategories().url,
+    {
+      cache: "force-cache",
+      next: { revalidate: 3600 },
+    }
+  );
   return response;
 }
 
@@ -45,7 +59,7 @@ export function useStudies(
   params: GetStudiesRequest,
   options?: StudiesQueryOptions
 ) {
-  return useQuery<GetStudiesResult, Error>(
+  return useQuery<GetStudiesResponse, Error>(
     createStudiesQueryOptions(params, options)
   );
 }
@@ -53,11 +67,11 @@ export function useStudies(
 // useHotStudies 훅
 export function useHotStudies(
   options?: Omit<
-    UseQueryOptions<GetHotStudiesResult, Error>,
+    UseQueryOptions<GetHotStudiesResponse, Error>,
     "queryKey" | "queryFn"
   >
 ) {
-  return useQuery<GetHotStudiesResult, Error>(
+  return useQuery<GetHotStudiesResponse, Error>(
     createHotStudiesQueryOption(options)
   );
 }
@@ -78,7 +92,7 @@ function getStudiesQueryKey(params: GetStudiesRequest) {
 
 // 공통 옵션 타입
 type StudiesQueryOptions = Omit<
-  UseQueryOptions<GetStudiesResult, Error>,
+  UseQueryOptions<GetStudiesResponse, Error>,
   "queryKey" | "queryFn"
 >;
 
@@ -96,7 +110,7 @@ export function createStudiesQueryOptions(
 
 export const createHotStudiesQueryOption = (
   options?: Omit<
-    UseQueryOptions<GetHotStudiesResult, Error>,
+    UseQueryOptions<GetHotStudiesResponse, Error>,
     "queryKey" | "queryFn"
   >
 ) => {
