@@ -42,6 +42,56 @@ export const API_ENDPOINT = {
         method: Method.POST,
       };
     },
+    getStudy: (id: string) => {
+      return {
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${id}`,
+        method: Method.GET,
+      };
+    },
+  },
+  requirement: {
+    getRequirement: (studyId: string) => {
+      return {
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/requirements`,
+        method: Method.GET,
+      };
+    },
+    getRequirements: (studyId: string, requirementId: string) => {
+      return {
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/requirements/${requirementId}`,
+        method: Method.GET,
+      };
+    },
+  },
+  rules: {
+    getStudyRules: (studyId: string) => {
+      return {
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/rules`,
+        method: Method.GET,
+      };
+    },
+  },
+  benefits: {
+    getStudyBenefits: (studyId: string) => {
+      return {
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/benefits`,
+        method: Method.GET,
+      };
+    },
+  },
+  curriculums: {
+    getCurriculums: (studyId: string) => {
+      return {
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/curriculums`,
+        method: Method.GET,
+      };
+    },
+    postCurriculums: (studyId: string) => {
+      return {
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/curriculums`,
+        method: Method.POST,
+      };
+    },
   },
   studies: {
     getStudies: ({
@@ -78,6 +128,13 @@ export const API_ENDPOINT = {
     },
     getHotStudies: () => {
       const url = `${process.env.NEXT_PUBLIC_BASE_URL}/studies/hots`;
+      return {
+        url,
+        method: Method.GET,
+      };
+    },
+    getCategories: () => {
+      const url = `${process.env.NEXT_PUBLIC_BASE_URL}/studies/categories`;
       return {
         url,
         method: Method.GET,

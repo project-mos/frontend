@@ -1,9 +1,9 @@
 import React from "react";
 
-import StudyRoomIntendedCard from "@/app/study-room/components/layout/StudyRoomIntendedCard";
-import StudyRoomSideBarCard from "@/app/study-room/components/layout/StudyRoomSideBarCard";
-import StudyRoomTitleCard from "@/app/study-room/components/layout/StudyRoomTitleCard";
-import ImportantNoticeBar from "@/app/study-room/components/notice/ImportantNoticeBar";
+import StudyRoomIntendedCard from "@/app/(auth)/study-room/components/layout/StudyRoomIntendedCard";
+import StudyRoomSideBarCard from "@/app/(auth)/study-room/components/layout/StudyRoomSideBarCard";
+import StudyRoomTitleCard from "@/app/(auth)/study-room/components/layout/StudyRoomTitleCard";
+import ImportantNoticeBar from "@/app/(auth)/study-room/components/notice/ImportantNoticeBar";
 import Grid from "@/shared/components/atoms/Grid";
 
 const layout = ({ children }: { children: React.ReactNode }) => {

@@ -1,3 +1,4 @@
+"use client";
 import cn from "@/shared/utils/cn";
 import { JSX } from "react";
 
@@ -11,6 +12,7 @@ import URL from "@/shared/constants/URL";
 
 interface ScheduleModalProps extends ModalProps {
   onClose: ModalOnClose;
+  redirectUrl?: string;
 }
 
 interface SnsButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -21,9 +23,11 @@ interface SnsButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   textColor: string;
 }
 
-const LoginModal = ({ onClose, ...props }: ScheduleModalProps) => {
+const LoginModal = ({ onClose, redirectUrl, ...props }: ScheduleModalProps) => {
+  const callbackUrl = redirectUrl ? `,${encodeURIComponent(redirectUrl)}` : "";
+
   const onClickKakaoLoginButton = async () => {
-    window.location.href = `${URL.LOGIN.KAKAO}?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URI}&state=KAKAO`;
+    window.location.href = `${URL.LOGIN.KAKAO}?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URI}&state=KAKAO${callbackUrl}`;
   };
 
   const onClickGoogleLoginButton = async () => {

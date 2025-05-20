@@ -1,5 +1,4 @@
-import React from "react";
-import MemberCard from "@/app/study-room/components/member/MemberCard";
+import MemberCard from "@/app/(auth)/study-room/components/member/MemberCard";
 
 const MemberPage = () => {
   return (
