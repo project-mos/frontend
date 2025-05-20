@@ -9,8 +9,8 @@ import profileImg from "@/asset/images/profile_example.jpeg";
 import ActionConfirmModal from "@/shared/components/molecules/ActionConfirmModal";
 import useMultiModal from "@/shared/hooks/useMultiModal";
 import ProfileModal from "./ProfileModal";
-import { userInfoQueryOption } from "../../../features/mypage/services/mypage.service";
 import { useQuery } from "@tanstack/react-query";
+import { userInfoQueryOption } from "@/features/mypage/services/mypage.service";
 
 interface ProfileCardInterface {
   accessToken: string | undefined;
