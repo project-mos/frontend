@@ -10,7 +10,7 @@ import Modal, {
 } from "@/shared/components/atoms/Modal";
 import Typography from "@/shared/components/atoms/Typography";
 
-import LabelTagInput from "@/app/create-study/components/LabelTagInput";
+import LabelTagInput from "@/app/(auth)/create-study/components/LabelTagInput";
 import LabelInput from "@/shared/components/molecules/LabelInput";
 
 interface ProfileModalProps extends ModalProps {

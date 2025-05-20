@@ -1,0 +1,8 @@
+♻️ [Refactor]: filter 함수 재사용
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# On branch feat/fetch/create-study
+# Changes to be committed:
+#	modified:   src/features/create-study/services/createStudy.service.ts
+#
