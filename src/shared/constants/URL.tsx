@@ -36,6 +36,6 @@ const URL = {
     },
   },
   MYPAGE: "/mypage",
-} as const;
+};
 
 export default URL;

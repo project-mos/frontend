@@ -1,6 +1,5 @@
 import {
   StudiesDescription,
-  StudyCardInterface,
   StudyCurriculumInterface,
   StudyScheduleInterface,
 } from "@/shared/types/api/studies/detail";
@@ -42,7 +41,7 @@ export const MockStudiesApiResult: StudiesDescription = {
   },
 };
 
-export const MockStudyCardApiResult: StudyCardInterface = {
+export const MockStudyCardApiResult = {
   study: {
     title: "스프링부트 심화 스터디",
     contents:
