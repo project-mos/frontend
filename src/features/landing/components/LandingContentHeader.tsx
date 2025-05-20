@@ -5,7 +5,7 @@ import Button, { SolidButtonProps } from "@/shared/components/atoms/Button";
 import Select from "@/shared/components/atoms/Select";
 import Typography from "@/shared/components/atoms/Typography";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { GetCategoriesResponse } from "@/shared/types/api/studies";
+import { GetStudyCategoriesResponse } from "@/shared/types/api/studies";
 
 // const categories = [
 //   { label: "전체", value: null }, // 전체는 필터 없이 사용
@@ -32,11 +32,11 @@ const recruitmentOptions = [
   { label: "모집 완료", value: "모집 완료" },
 ];
 
-type Categories = GetCategoriesResponse["categories"][number] | "전체";
+type Categories = GetStudyCategoriesResponse["categories"][number] | "전체";
 
 type LandingCategories = Record<"label" | "value", Categories | null>[];
 interface LandingContentHeaderProps {
-  categories: GetCategoriesResponse;
+  categories: GetStudyCategoriesResponse;
 }
 
 const LandingContentHeader = ({ categories }: LandingContentHeaderProps) => {

@@ -79,6 +79,20 @@ export const API_ENDPOINT = {
       };
     },
   },
+  curriculums: {
+    getCurriculums: (studyId: string) => {
+      return {
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/curriculums`,
+        method: Method.GET,
+      };
+    },
+    postCurriculums: (studyId: string) => {
+      return {
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/curriculums`,
+        method: Method.POST,
+      };
+    },
+  },
   studies: {
     getStudies: ({
       page = "1",

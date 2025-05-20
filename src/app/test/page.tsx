@@ -26,14 +26,14 @@ import Pagination from "@/shared/components/molecules/Pagination";
 import RadioGroup from "@/shared/components/molecules/RadioGroup";
 import SkeletonCard from "@/shared/components/molecules/SkeletonCard";
 
-import StudyCard from "@/app/studies/components/StudyCard";
-import StudyDescriptionCard from "@/app/studies/components/StudyDescriptionCard";
+// import StudyCard from "@/app/studies/components/StudyCard";
+// import StudyDescriptionCard from "@/app/studies/components/StudyDescriptionCard";
 
 import useModal from "@/shared/hooks/useModal";
-import {
-  MockStudiesApiResult,
-  MockStudyCardApiResult,
-} from "@/shared/mock/api/studies";
+// import {
+//   MockStudiesApiResult,
+//   MockStudyCardApiResult,
+// } from "@/shared/mock/api/studies";
 import LabelInputDateLocal from "@/shared/components/molecules/LabelDateTimeLocal";
 import { useToast } from "@/shared/hooks/useToast";
 import ToastRenderer from "@/shared/components/ToastRenderer";
@@ -43,7 +43,7 @@ interface FormData {
 }
 
 export default function TestPage() {
-  const study = MockStudyCardApiResult.study;
+  // const study = MockStudyCardApiResult.study;
 
   // input 에시용
   const methods = useForm<FormData>();
@@ -190,7 +190,7 @@ export default function TestPage() {
         </Card.Footer>
       </Card>
       {/* StudyCard */}
-      <StudyCard data={study} />
+      {/* <StudyCard data={study} /> */}
       {/* Meta */}
       <div className="flex gap-2">
         <Meta icon="person" className="text-mos-main-500">
@@ -203,9 +203,9 @@ export default function TestPage() {
         <Meta icon="eye">조회수 244</Meta>
       </div>
       {/* StudyCard */}
-      <StudyCard data={study} onClick={() => alert("click")} />
+      {/* <StudyCard data={study} onClick={() => alert("click")} /> */}
       {/* StudyDescriptionCard */}
-      <StudyDescriptionCard data={MockStudiesApiResult} />
+      {/* <StudyDescriptionCard data={MockStudiesApiResult} /> */}
       {/* Image */}
       <CustomImage
         src="https://letsenhance.io/static/73136da51c245e80edc6ccfe44888a99/1015f/MainBefore.jpg"

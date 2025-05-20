@@ -2,23 +2,29 @@ import Card from "@/shared/components/atoms/Card";
 import Tag from "@/shared/components/atoms/Tag";
 import Typography from "@/shared/components/atoms/Typography";
 
-import { MockStudyCurriculumApiResult } from "@/shared/mock/api/studies";
-import { StudyCurriculumInterface } from "@/shared/types/api/studies/detail";
+import { GetStudyCurriculumsResponse } from "@/shared/types/api/studies";
 
 interface CurriculumProps {
-  data: StudyCurriculumInterface[];
+  data: GetStudyCurriculumsResponse;
 }
-
-const StudyCurriculumCard = () => {
+interface StudyCurriculumCardProps {
+  data: GetStudyCurriculumsResponse;
+}
+const StudyCurriculumCard = ({ data }: StudyCurriculumCardProps) => {
+  const isInData = data.length > 0;
   return (
-    <Card className="col-span-12 flex  flex-col tablet:col-span-8">
-      <Card.Header className="mb-[20px]">
-        <Typography.SubTitle1>커리큘럼</Typography.SubTitle1>
-      </Card.Header>
-      <Card.Content>
-        <Curriculum data={MockStudyCurriculumApiResult} />
-      </Card.Content>
-    </Card>
+    <>
+      {isInData && (
+        <Card className="col-span-12 flex  flex-col tablet:col-span-8">
+          <Card.Header className="mb-[20px]">
+            <Typography.SubTitle1>커리큘럼</Typography.SubTitle1>
+          </Card.Header>
+          <Card.Content>
+            <Curriculum data={data} />
+          </Card.Content>
+        </Card>
+      )}
+    </>
   );
 };
 
@@ -27,11 +33,11 @@ const Curriculum = ({ data }: CurriculumProps) => {
     <>
       {data.map((curriculum) => {
         return (
-          <div className="flex gap-[20px]" key={curriculum.step}>
+          <div className="flex gap-[20px]" key={curriculum.sectionId}>
             <div>
               <Tag.Main className="flex flex-col text-nowrap">
                 <Typography.P3 className="pt-px font-bold">
-                  {curriculum.step}
+                  {curriculum.sectionId}주차
                 </Typography.P3>
               </Tag.Main>
 
@@ -49,13 +55,13 @@ const Curriculum = ({ data }: CurriculumProps) => {
               <Typography.P3 className="mb-[10px] text-mos-gray-700">
                 {curriculum.content}
               </Typography.P3>
-              <div className="flex gap-[50px]">
-                {curriculum.task.map((task) => (
+              {/* <div className="flex gap-[50px]"> */}
+              {/* {curriculum.task.map((task) => (
                   <Typography.P3 className="text-[14px] font-bold" key={task}>
                     {task}
                   </Typography.P3>
-                ))}
-              </div>
+                ))} */}
+              {/* </div> */}
             </div>
           </div>
         );
