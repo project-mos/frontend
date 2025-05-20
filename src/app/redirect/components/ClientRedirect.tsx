@@ -19,6 +19,7 @@ const ClientRedirect = () => {
 
     if (result?.status === 200) {
       localStorage.setItem("login", "true");
+      localStorage.setItem("loggedIn", "true");
       setLoggedIn(true);
       router.replace(URL.HOME);
       return;

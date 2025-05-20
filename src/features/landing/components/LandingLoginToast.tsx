@@ -11,10 +11,17 @@ const LandingLoginToast = () => {
   useEffect(() => {
     if (shownRef.current) return;
     const loginStatus = localStorage.getItem("login");
+    const loggedInStatus = localStorage.getItem("loggedIn");
+
+    if (loggedInStatus && !loginStatus) {
+      toast.error("로그인이 만료되었습니다.");
+      localStorage.removeItem("loggedIn");
+    }
 
     if (!loginStatus) return;
     if (loginStatus === "true") toast.success("로그인에 성공하였습니다.");
     if (loginStatus === "false") toast.error("로그인에 실패하였습니다.");
+
     shownRef.current = true;
     localStorage.removeItem("login");
   }, []);
