@@ -10,7 +10,6 @@ import Modal, {
 } from "@/shared/components/atoms/Modal";
 import Typography from "@/shared/components/atoms/Typography";
 
-import LabelTagInput from "@/app/create-study/components/LabelTagInput";
 import LabelInput from "@/shared/components/molecules/LabelInput";
 import { GetUserInfoResult } from "@/shared/types/api/mypage";
 
@@ -163,11 +162,11 @@ const ProfileModal = ({
               required
               registerOptions={{ required: "필수 입력입니다." }}
             />
-            <LabelTagInput
+            {/* <LabelTagInput
               name="tags"
               label="태그"
               placeholder="태그를 입력하세요"
-            />
+            /> */}
           </Modal.Content>
 
           <Modal.Footer>

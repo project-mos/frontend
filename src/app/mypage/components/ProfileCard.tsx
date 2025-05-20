@@ -3,7 +3,6 @@
 import Button from "@/shared/components/atoms/Button";
 import Card from "@/shared/components/atoms/Card";
 import Profile from "@/shared/components/atoms/Profile";
-import Tag from "@/shared/components/atoms/Tag";
 import Typography from "@/shared/components/atoms/Typography";
 
 import profileImg from "@/asset/images/profile_example.jpeg";
@@ -25,7 +24,7 @@ const ProfileCard = ({ accessToken }: ProfileCardInterface) => {
   const {
     nickname,
     introduction,
-    categories,
+    // categories,
     profileImage = profileImg,
     joinDate = "0000-00-00",
   } = userInfo || {};
@@ -44,7 +43,7 @@ const ProfileCard = ({ accessToken }: ProfileCardInterface) => {
           <Typography.P3 className="text-[14px] text-mos-gray-500">
             {introduction ? introduction : "데이터 비어있음"}
           </Typography.P3>
-          <div className="mb-[10px] flex gap-2">
+          {/* <div className="mb-[10px] flex gap-2">
             {Array.isArray(categories)
               ? categories.map((tag: string) => (
                   <Tag.Green key={tag} border={true}>
@@ -56,7 +55,7 @@ const ProfileCard = ({ accessToken }: ProfileCardInterface) => {
                     {tag}
                   </Tag.Green>
                 ))}
-          </div>
+          </div> */}
           <Button.Ghost
             color="Main"
             className="w-full"
