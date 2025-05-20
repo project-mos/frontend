@@ -1,3 +1,4 @@
+"use client";
 import cn from "@/shared/utils/cn";
 import { JSX } from "react";
 
@@ -8,9 +9,11 @@ import Modal, {
 } from "@/shared/components/atoms/Modal";
 import Typography from "@/shared/components/atoms/Typography";
 import URL from "@/shared/constants/URL";
+import { useAuthStore } from "@/shared/store/authStore";
 
 interface ScheduleModalProps extends ModalProps {
   onClose: ModalOnClose;
+  redirectUrl?: string;
 }
 
 interface SnsButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -21,8 +24,16 @@ interface SnsButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   textColor: string;
 }
 
-const LoginModal = ({ onClose, ...props }: ScheduleModalProps) => {
+const LoginModal = ({
+  onClose,
+  redirectUrl = "",
+  ...props
+}: ScheduleModalProps) => {
+  // 전역상태에 RedirectPath 추가 (ClientRedirect에서 리다이렉트에 쓰임)
+  const { setRedirectPath } = useAuthStore();
+
   const onClickKakaoLoginButton = async () => {
+    setRedirectPath(redirectUrl);
     window.location.href = `${URL.LOGIN.KAKAO}?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URI}&state=KAKAO`;
   };
 
