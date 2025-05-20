@@ -27,9 +27,9 @@ export const API_ENDPOINT = {
       };
     },
     // 유저 정보 수정
-    updateUser: (id: number) => {
+    updateUser: () => {
       return {
-        url: `${process.env.MOS_API_BASE_URL}/user/${id}`, // 임시 URL
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/users`, // 임시 URL
         method: Method.PATCH,
       };
     },

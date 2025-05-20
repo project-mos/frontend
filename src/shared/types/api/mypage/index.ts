@@ -20,3 +20,9 @@ export interface GetUserInfoResult {
   profileImage: string,
   joinDate: string,
 }
+
+export interface updateUserInfoResult  {
+  nickname: string;
+  introduction: string;
+  categories: string[];
+}
