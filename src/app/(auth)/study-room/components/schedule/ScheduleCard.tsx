@@ -4,13 +4,13 @@ import Button from "@/shared/components/atoms/Button";
 import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
 
-import ScheduleModal from "./ScheduleModal";
+import StudyRoomSessionCard from "@/app/(auth)/study-room/components/layout/StudyRoomSessionCard";
+import ActionConfirmModal from "@/shared/components/molecules/ActionConfirmModal";
 import useMultiModal from "@/shared/hooks/useMultiModal";
 import { MockStudyScheduleApiResult } from "@/shared/mock/api/studies";
 import { StudyScheduleInterface } from "@/shared/types/api/studies/detail";
 import { useState } from "react";
-import StudyRoomSessionCard from "@/app/study-room/components/layout/StudyRoomSessionCard";
-import ActionConfirmModal from "@/shared/components/molecules/ActionConfirmModal";
+import ScheduleModal from "./ScheduleModal";
 
 const ScheduleCard = () => {
   // const { modal, openModal, closeModal } = useModal();
