@@ -30,7 +30,7 @@ const Apply = () => {
   }
 
   return (
-    <div className="col-span-12 flex flex-col items-center gap-5 tablet:col-span-8">
+    <div className="flex w-full flex-col items-center gap-5">
       <LoginModal
         isOpen={isModalOpenState}
         onClose={closeModal}
