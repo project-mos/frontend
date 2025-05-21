@@ -6,6 +6,7 @@ import Apply from "@/app/studies/components/applyStudy/Apply";
 import {
   getBenefits,
   getCurriculums,
+  getMembers,
   getRequirements,
   getRules,
   getStudy,
@@ -24,6 +25,7 @@ const page = async ({ params }: StudyDetailPageProps) => {
   const rulesData = await getRules(id);
   const benefitsData = await getBenefits(id);
   const curriculumsData = await getCurriculums(id);
+  const membersData = await getMembers(id);
 
   return (
     <>
@@ -34,7 +36,7 @@ const page = async ({ params }: StudyDetailPageProps) => {
         benefitsData={benefitsData}
       />
       <div className="order-last col-span-12 flex flex-col gap-5 tablet:order-none tablet:col-span-4">
-        <StudyLeaderCard />
+        <StudyLeaderCard data={membersData} />
         <ShareCard />
       </div>
       <StudyCurriculumCard data={curriculumsData} />
