@@ -45,7 +45,7 @@ export interface GetStudyDetailResponse {
   recruitmentStartDate: string;
   recruitmentEndDate: string;
   viewCount: number;
-  recruitmentStatus: string;
+  recruitmentStatus: "모집 중" | "모집 완료";
   progressStatus: string;
   meetingType: string;
   tags: string[];
