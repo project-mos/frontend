@@ -15,7 +15,7 @@ const StudyCurriculumCard = ({ data }: StudyCurriculumCardProps) => {
   return (
     <>
       {isInData && (
-        <Card className="col-span-12 flex  flex-col tablet:col-span-8">
+        <Card className="flex w-[85%] flex-col sm-mobile:w-full">
           <Card.Header className="mb-[20px]">
             <Typography.SubTitle1>커리큘럼</Typography.SubTitle1>
           </Card.Header>
