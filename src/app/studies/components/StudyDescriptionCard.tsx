@@ -5,7 +5,7 @@ import Tag from "@/shared/components/atoms/Tag";
 import Typography from "@/shared/components/atoms/Typography";
 import Meta from "@/shared/components/molecules/Meta";
 import { MDXRemote } from "next-mdx-remote-client/rsc";
-import "github-markdown-css/github-markdown.css";
+// import "github-markdown-css/github-markdown.css";
 
 import {
   GetStudyBenefitsResponse,
@@ -16,6 +16,7 @@ import {
 } from "@/shared/types/api/studies";
 
 import ShareButton from "@/app/studies/components/applyStudy/ShareButton";
+import profileImg from "@/asset/images/profile_example.jpeg";
 import Profile from "@/shared/components/atoms/Profile";
 
 interface StudyDescriptionCardProps {
@@ -25,7 +26,6 @@ interface StudyDescriptionCardProps {
   benefitsData: GetStudyBenefitsResponse;
   membersData: GetStudyMembersResponse;
 }
-import profileImg from "@/asset/images/profile_example.jpeg";
 
 const StudyDescriptionCard = ({
   studyDetailData,
