@@ -45,7 +45,7 @@ export interface GetStudyDetailResponse {
   recruitmentStartDate: string;
   recruitmentEndDate: string;
   viewCount: number;
-  recruitmentStatus: string;
+  recruitmentStatus: "모집 중" | "모집 완료";
   progressStatus: string;
   meetingType: string;
   tags: string[];
@@ -90,3 +90,29 @@ export type GetStudyCurriculumResponse = {
 };
 
 export type GetStudyCurriculumsResponse = GetStudyCurriculumResponse[];
+
+// Study 질문 조회
+export type GetStudyQuestionResponse = {
+  id: number;
+  questionNum: number;
+  question: string;
+  type: "객관식" | "주관식";
+  options: string[];
+  required: boolean;
+};
+
+export type GetStudyQuestionsResponse = GetStudyQuestionResponse[];
+// Study 지원하기
+export type PostStudyJoin = {
+  studyQuestionId: number;
+  answer: string;
+}[];
+
+// 스터디 멤버 조회
+export type GetStudyMembersResponse = {
+  userId: number;
+  nickname: string;
+  studyMemberRoleType: "스터디장" | "스터디원";
+  lastAttendanceDate: string;
+  participationRate: number;
+}[];

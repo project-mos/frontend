@@ -5,42 +5,65 @@ import Tag from "@/shared/components/atoms/Tag";
 import Typography from "@/shared/components/atoms/Typography";
 import Meta from "@/shared/components/molecules/Meta";
 import { MDXRemote } from "next-mdx-remote-client/rsc";
+import "github-markdown-css/github-markdown.css";
 
 import {
   GetStudyBenefitsResponse,
   GetStudyDetailResponse,
+  GetStudyMembersResponse,
   GetStudyRequirementsResponse,
   GetStudyRulesResponse,
 } from "@/shared/types/api/studies";
+
+import ShareButton from "@/app/studies/components/applyStudy/ShareButton";
+import Profile from "@/shared/components/atoms/Profile";
 
 interface StudyDescriptionCardProps {
   studyDetailData: GetStudyDetailResponse;
   requirementsData: GetStudyRequirementsResponse;
   rulesData: GetStudyRulesResponse;
   benefitsData: GetStudyBenefitsResponse;
+  membersData: GetStudyMembersResponse;
 }
+import profileImg from "@/asset/images/profile_example.jpeg";
 
 const StudyDescriptionCard = ({
   studyDetailData,
   requirementsData,
   rulesData,
   benefitsData,
+  membersData,
 }: StudyDescriptionCardProps) => {
+  const findLeader = membersData.find(
+    (item) => item.studyMemberRoleType === "스터디장"
+  );
+
   return (
-    <Card className="col-span-12 flex flex-col gap-5 pb-10 tablet:col-span-8">
+    <Card className="flex w-[85%] flex-col gap-5 pb-10 sm-mobile:w-full">
       <Card.Header className="flex-col gap-3">
-        <div className="flex justify-between">
-          <Tag.Green bold>{studyDetailData.category}</Tag.Green>
+        <div className="flex items-center justify-between">
           <div className="flex gap-2">
+            <Tag.Green bold>{studyDetailData.category}</Tag.Green>
             <Tag.Blue bold>{studyDetailData.meetingType}</Tag.Blue>
-            <Tag.Green bold border={false}>
-              {studyDetailData.recruitmentStatus}
-            </Tag.Green>
+            {studyDetailData.recruitmentStatus === "모집 중" ? (
+              <Tag.Pink bold>{studyDetailData.recruitmentStatus}</Tag.Pink>
+            ) : (
+              <Tag.Gray bold>{studyDetailData.recruitmentStatus}</Tag.Gray>
+            )}
+          </div>
+
+          <div className="flex items-center gap-2">
+            <ShareButton />
           </div>
         </div>
         <div className="flex justify-between">
-          <Typography.Head3>{studyDetailData.title}</Typography.Head3>
+          <Typography.Head2>{studyDetailData.title}</Typography.Head2>
         </div>
+        <div className="flex items-center gap-2 border-b pb-3">
+          <Profile width={30} height={30} src={profileImg} />
+          <Typography.P3>{findLeader?.nickname}</Typography.P3>
+        </div>
+
         <div className="flex flex-col gap-1">
           <Meta icon="calendar">
             {studyDetailData.recruitmentStartDate} ~{" "}
@@ -56,7 +79,7 @@ const StudyDescriptionCard = ({
           </div>
         </div>
 
-        <div className="flex gap-2">
+        <div className="flex gap-2 border-b pb-4">
           {studyDetailData.tags.map((item, index) => {
             return (
               <Tag.Card key={`${item}_${index}`} bold>
@@ -100,7 +123,7 @@ const StudyDescriptionCard = ({
 };
 
 const ContentWrapper = ({ children }: { children: React.ReactNode }) => {
-  return <div className="flex flex-col gap-3">{children}</div>;
+  return <div className="prose prose-sm flex flex-col gap-0">{children}</div>;
 };
 
 const ListContent = (
@@ -111,8 +134,8 @@ const ListContent = (
     <>
       {hasItem<GetStudyRulesResponse | GetStudyBenefitsResponse>(items) && (
         <ContentWrapper>
-          <Typography.SubTitle1>{title}</Typography.SubTitle1>
-          <ul className="study-detail text-mos-gray-700">
+          <Typography.SubTitle1 className="m-0">{title}</Typography.SubTitle1>
+          <ul className="study-detail m-0 text-mos-gray-700">
             {items.map((item, index) => {
               return <li key={`${item.id}_${index}`}> {item.content}</li>;
             })}
