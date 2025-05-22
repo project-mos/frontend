@@ -2,11 +2,10 @@
 
 import { useEffect } from "react";
 
-import URL from "@/shared/constants/URL";
-import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/navigation";
 import oAuthLogin from "@/features/login/services/oAuthLogin.service";
+import URL from "@/shared/constants/URL";
 import { useAuthStore } from "@/shared/store/authStore";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const ClientRedirect = () => {
   const searchParams = useSearchParams();
@@ -15,7 +14,7 @@ const ClientRedirect = () => {
   const code = searchParams.get("code");
   const state = searchParams.get("state");
 
-  const { setLoggedIn } = useAuthStore();
+  const { setLoggedIn, setLoginSuccess, setWasLoggedIn } = useAuthStore();
 
   const login = async () => {
     if (!code || !state) {
@@ -30,14 +29,15 @@ const ClientRedirect = () => {
 
     const result = await oAuthLogin({ code: code, provider });
     if (result?.status === 200) {
-      localStorage.setItem("login", "true");
-      localStorage.setItem("wasLoggedIn", "true");
+      setLoginSuccess(true);
+      setWasLoggedIn(true);
       setLoggedIn(true);
 
       // 전역 관리된 Path가 있다면 그 URL로 리다이렉트 없다면 HOME으로 리다이렉트
       router.replace(callbackUrl || URL.HOME);
       return;
     }
+    setLoginSuccess(false);
     setLoggedIn(false);
     return router.replace(URL.HOME);
   };
