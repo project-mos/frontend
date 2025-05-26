@@ -7,7 +7,7 @@ interface AppInitializerProps {
   isLoggedIn: boolean;
 }
 const AppInitializer = ({ isLoggedIn }: AppInitializerProps) => {
-  const setLoggedIn = useAuthStore((state) => state.setLoggedIn);
+  const { setLoggedIn } = useAuthStore();
 
   useEffect(() => {
     setLoggedIn(isLoggedIn);
