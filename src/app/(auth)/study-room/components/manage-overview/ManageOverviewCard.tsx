@@ -44,10 +44,21 @@ const ManageOverviewCard = ({ rules, benefits }: ManageOverviewCardProps) => {
 
   const { modal, openModal, closeModal } = useMultiModal();
 
-  useEffect(() => {
-    setRuleData(rules);
-    setBenefitData(benefits);
-  }, [rules, benefits]);
+  const label = tab === 1 ? "규칙" : "혜택";
+  const placeholder = `스터디 ${label}을 입력하세요`;
+
+  const contentProps =
+    tab === 1
+      ? {
+          value: ruleData,
+          setValue: setRuleData,
+          buttonText: "규칙 추가",
+        }
+      : {
+          value: benefitData,
+          setValue: setBenefitData,
+          buttonText: "혜택 추가",
+        };
 
   const moveToTab = (id: number) => {
     const newSearchParam = new URLSearchParams(searchParams);
@@ -75,21 +86,10 @@ const ManageOverviewCard = ({ rules, benefits }: ManageOverviewCardProps) => {
     setIsEditMode(false);
   };
 
-  const label = tab === 1 ? "규칙" : "혜택";
-  const placeholder = `스터디 ${label}을 입력하세요`;
-
-  const contentProps =
-    tab === 1
-      ? {
-          value: ruleData,
-          setValue: setRuleData,
-          buttonText: "규칙 추가",
-        }
-      : {
-          value: benefitData,
-          setValue: setBenefitData,
-          buttonText: "혜택 추가",
-        };
+  useEffect(() => {
+    setRuleData(rules);
+    setBenefitData(benefits);
+  }, [rules, benefits]);
 
   return (
     <>
