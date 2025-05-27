@@ -1,7 +1,7 @@
 "use client";
 import cn from "@/shared/utils/cn";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
@@ -13,13 +13,13 @@ const TABS = [
   { id: 2, label: "혜택" },
 ] as const;
 
-interface RuleInterface {
+export interface RuleInterface {
   id: number;
   ruleNum: number;
   content: string;
 }
 
-interface BenefitInterface {
+export interface BenefitInterface {
   id: number;
   benefitNum: number;
   content: string;
@@ -35,8 +35,14 @@ const ManageOverviewCard = ({ rules, benefits }: ManageOverviewCardProps) => {
   const searchParams = useSearchParams();
   const tab = Number(searchParams.get("tap") ?? "1");
 
-  const [benefitsEdit, setBenefitsEdit] = useState<boolean>(false);
-  const [rulesEdit, setRulesEdit] = useState<boolean>(false);
+  const [isEditMode, setIsEditMode] = useState<boolean>(false);
+  const [ruleData, setRuleData] = useState<RuleInterface[]>(rules);
+  const [benefitData, setBenefitData] = useState<BenefitInterface[]>(benefits);
+
+  useEffect(() => {
+    setRuleData(rules);
+    setBenefitData(benefits);
+  }, [rules, benefits]);
 
   const handleTabClick = (id: number) => {
     const newSearchParam = new URLSearchParams(searchParams);
@@ -44,18 +50,21 @@ const ManageOverviewCard = ({ rules, benefits }: ManageOverviewCardProps) => {
     router.push(`?${newSearchParam.toString()}`);
   };
 
-  const { isEditMode, data, setData, setEdit, label, placeholder } =
-    useMemo(() => {
-      const isRuleTab = tab === 1;
-      return {
-        isEditMode: isRuleTab ? rulesEdit : benefitsEdit,
-        data: isRuleTab ? rules : benefits,
-        setData: isRuleTab ? setRules : setBenefits,
-        setEdit: isRuleTab ? setRulesEdit : setBenefitsEdit,
-        label: isRuleTab ? "규칙" : "혜택",
-        placeholder: `스터디 ${isRuleTab ? "규칙" : "혜택"}을 입력하세요`,
-      };
-    }, [tab, rulesEdit, benefitsEdit, rules, benefits]);
+  const label = tab === 1 ? "규칙" : "혜택";
+  const placeholder = `스터디 ${label}을 입력하세요`;
+
+  const contentProps =
+    tab === 1
+      ? {
+          value: ruleData,
+          setValue: setRuleData,
+          buttonText: "규칙 추가",
+        }
+      : {
+          value: benefitData,
+          setValue: setBenefitData,
+          buttonText: "혜택 추가",
+        };
 
   return (
     <Card className="col-span-12 h-fit gap-3 tablet:col-span-9 laptop:col-span-10">
@@ -80,15 +89,30 @@ const ManageOverviewCard = ({ rules, benefits }: ManageOverviewCardProps) => {
         </div>
 
         {isEditMode ? (
-          <ContentInputBox
-            value={data}
-            setValue={setData}
-            setState={setEdit}
-            buttonText={`${label} 추가`}
-            placeholder={placeholder}
-          />
+          tab === 1 ? (
+            <ContentInputBox<RuleInterface>
+              value={ruleData}
+              setValue={setRuleData}
+              setState={setIsEditMode}
+              buttonText={contentProps.buttonText}
+              placeholder={placeholder}
+            />
+          ) : (
+            <ContentInputBox<BenefitInterface>
+              value={benefitData}
+              setValue={setBenefitData}
+              setState={setIsEditMode}
+              buttonText={contentProps.buttonText}
+              placeholder={placeholder}
+            />
+          )
+        ) : tab === 1 ? (
+          <PreviewBox<RuleInterface> data={ruleData} setState={setIsEditMode} />
         ) : (
-          <PreviewBox data={data} setState={setEdit} />
+          <PreviewBox<BenefitInterface>
+            data={benefitData}
+            setState={setIsEditMode}
+          />
         )}
       </Card.Content>
     </Card>

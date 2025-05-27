@@ -1,36 +1,34 @@
 "use client";
 
-import React, { SetStateAction } from "react";
+import React from "react";
 
 import Button from "@/shared/components/atoms/Button";
 import Input from "@/shared/components/atoms/Input";
 
-interface ContentInputBoxProps {
-  value: { id: number; text: string }[];
-  setValue: React.Dispatch<
-    React.SetStateAction<{ id: number; text: string }[]>
-  >;
-  setState: React.Dispatch<SetStateAction<boolean>>;
+interface ContentInputBoxProps<T extends { id: number; content: string }> {
+  value: T[];
+  setValue: React.Dispatch<React.SetStateAction<T[]>>;
+  setState: React.Dispatch<React.SetStateAction<boolean>>;
   buttonText: string;
   placeholder: string;
 }
 
-interface InlineInputProps {
-  value: { id: number; text: string };
+interface InlineInputProps<T> {
+  value: T;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onRemove: () => void;
   placeholder: string;
 }
 
-const InlineInput = ({
+const InlineInput = <T extends { content: string }>({
   value,
   onChange,
   onRemove,
   placeholder,
-}: InlineInputProps) => (
+}: InlineInputProps<T>) => (
   <div className="flex">
     <Input
-      value={value.text}
+      value={value.content}
       onChange={onChange}
       className="w-full rounded-r-none placeholder:text-mos-gray-500"
       placeholder={placeholder}
@@ -46,20 +44,25 @@ const InlineInput = ({
   </div>
 );
 
-const ContentInputBox = ({
+const ContentInputBox = <
+  T extends {
+    id: number;
+    content: string;
+  }
+>({
   value,
   setValue,
   setState,
   buttonText,
   placeholder,
-}: ContentInputBoxProps) => {
+}: ContentInputBoxProps<T>) => {
   const handleAddValue = () => {
-    setValue([...value, { id: value.length + 1, text: "" }]);
+    setValue([...value, { id: value.length + 1, content: "" } as T]);
   };
 
   const handleEditValue = (index: number, text: string) => {
     const newValue = [...value];
-    newValue[index].text = text;
+    newValue[index] = { ...newValue[index], content: text };
     setValue(newValue);
   };
 

@@ -10,9 +10,10 @@ interface StudyDetailPageProps {
 
 const ManageOverview = async ({ params }: StudyDetailPageProps) => {
   const { id } = await params;
+
   const benefits = await getBenefits(id);
   const rules = await getRules(id);
-  console.log(benefits, rules);
+
   return <ManageOverviewCard benefits={benefits} rules={rules} />;
 };
 

@@ -2,18 +2,21 @@ import Button from "@/shared/components/atoms/Button";
 import Typography from "@/shared/components/atoms/Typography";
 import { SetStateAction } from "react";
 
-interface PreviewBoxProps {
-  data: { id: number; text: string }[];
+interface PreviewBoxProps<T> {
+  data: T[];
   setState: React.Dispatch<SetStateAction<boolean>>;
 }
 
-const PreviewBox = ({ data, setState }: PreviewBoxProps) => {
+const PreviewBox = <T extends { id: number; content: string }>({
+  data,
+  setState,
+}: PreviewBoxProps<T>) => {
   return (
     <div className="mt-4 px-4">
       <div className="flex flex-col gap-3">
         {data.map((d) => (
           <div className="rounded-md border p-3 " key={d.id}>
-            <Typography.P3 className="text-[14px]">{d.text}</Typography.P3>
+            <Typography.P3 className="text-[14px]">{d.content}</Typography.P3>
           </div>
         ))}
       </div>
