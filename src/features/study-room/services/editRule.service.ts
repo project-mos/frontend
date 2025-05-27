@@ -1,4 +1,6 @@
 import { RuleInterface } from "@/app/(auth)/study-room/components/manage-overview/ManageOverviewCard";
+import { API_ENDPOINT } from "@/shared/constants/api-end-point";
+import { fetchAPI } from "@/shared/utils/fetch";
 
 interface EditBenefitProps {
   token: string;
@@ -10,17 +12,15 @@ export default async function editRule({
   studyId,
   rules,
 }: EditBenefitProps) {
-  const result = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/rules`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(rules),
-    }
-  );
+  const { url, method } = API_ENDPOINT.rules.editStudyRules(studyId);
 
-  return result;
+  return await fetchAPI<Response>(url, {
+    credentials: "include",
+    body: JSON.stringify(rules),
+    method: method,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token || ""}`,
+    },
+  });
 }

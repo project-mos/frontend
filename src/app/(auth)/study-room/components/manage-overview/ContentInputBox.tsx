@@ -90,22 +90,19 @@ const ContentInputBox = ({
     );
 
     try {
-      const result = isRule
-        ? await editRule({
-            token,
-            studyId,
-            rules: arr as RuleInterface[],
-          })
-        : await editBenefit({
-            token,
-            studyId,
-            benefits: arr as BenefitInterface[],
-          });
-
-      if (!result.ok || result.status !== 200) {
-        throw new Error("서버 응답 실패");
+      if (isRule) {
+        await editRule({
+          token,
+          studyId,
+          rules: arr as RuleInterface[],
+        });
+      } else {
+        await editBenefit({
+          token,
+          studyId,
+          benefits: arr as BenefitInterface[],
+        });
       }
-
       toast.success(`${isRule ? "규칙" : "혜택"} 수정을 완료하였습니다.`);
     } catch (error) {
       console.error(error);
