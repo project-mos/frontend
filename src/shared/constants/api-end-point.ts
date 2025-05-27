@@ -70,12 +70,24 @@ export const API_ENDPOINT = {
         method: Method.GET,
       };
     },
+    editStudyRules: (studyId: string) => {
+      return {
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/rules`,
+        method: Method.POST,
+      };
+    },
   },
   benefits: {
     getStudyBenefits: (studyId: string) => {
       return {
         url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/benefits`,
         method: Method.GET,
+      };
+    },
+    editStudyBenefits: (studyId: string) => {
+      return {
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/benefits`,
+        method: Method.POST,
       };
     },
   },
