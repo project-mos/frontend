@@ -11,7 +11,11 @@ import {
 } from "@/shared/types/api/studies";
 
 import LabelRadioInput from "@/shared/components/molecules/LabelRadioInput";
-import { postJoin } from "@/features/studies/services/studies.service";
+import { usePostJoin } from "@/features/studies/services/studies.service";
+import { useTokenStore } from "@/shared/store/authStore";
+import { useToast } from "@/shared/hooks/useToast";
+import { useRouter } from "next/navigation";
+import URL from "@/shared/constants/URL";
 
 interface ApplyFormCardInterface {
   studyId: string;
@@ -27,8 +31,26 @@ const ApplyFormCard = ({
   const methods = useForm({
     mode: "onChange",
   });
-
+  const { accessToken } = useTokenStore();
+  const router = useRouter();
   const { handleSubmit, formState } = methods;
+
+  const { mutate } = usePostJoin({
+    studyId,
+    accessToken,
+    options: {
+      onSuccess: () => {
+        success("스터디 지원이 완료되었습니다.");
+        setIsApplyVisible(false);
+        router.replace(URL.HOME);
+      },
+      onError: (err) => {
+        error("스터디 지원에 실패했습니다. 다시 시도해주세요.");
+        console.log(err);
+      },
+    },
+  });
+  const { success, error } = useToast();
 
   const onSubmit = async (data: Record<string, string>) => {
     const transformedPostAPI: PostStudyJoin = Object.entries(data).map(
@@ -37,15 +59,8 @@ const ApplyFormCard = ({
         answer: value,
       })
     );
-    try {
-      const response = await postJoin(studyId, transformedPostAPI);
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
+    await mutate(transformedPostAPI);
   };
-
-  console.log(data, formState.isValid);
 
   return (
     <Card className="h-auto w-[85%] ">
