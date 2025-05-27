@@ -1,4 +1,7 @@
-import { getBenefits } from "@/features/studies/services/studies.service";
+import {
+  getBenefits,
+  getRules,
+} from "@/features/studies/services/studies.service";
 import ManageOverviewCard from "../../components/manage-overview/ManageOverviewCard";
 
 interface StudyDetailPageProps {
@@ -8,7 +11,8 @@ interface StudyDetailPageProps {
 const ManageOverview = async ({ params }: StudyDetailPageProps) => {
   const { id } = await params;
   const benefits = await getBenefits(id);
-  console.log(benefits);
+  const rules = await getRules(id);
+  console.log(benefits, rules);
   return <ManageOverviewCard />;
 };
 
