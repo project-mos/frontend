@@ -11,8 +11,8 @@ interface StudyDetailPageProps {
 const ManageOverview = async ({ params }: StudyDetailPageProps) => {
   const { id } = await params;
 
-  const benefits = await getBenefits(id);
-  const rules = await getRules(id);
+  const benefits = (await getBenefits(id)).map((item) => item.content);
+  const rules = (await getRules(id)).map((item) => item.content);
 
   return <ManageOverviewCard benefits={benefits} rules={rules} />;
 };

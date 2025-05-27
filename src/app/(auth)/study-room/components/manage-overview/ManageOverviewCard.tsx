@@ -11,7 +11,7 @@ import PreviewBox from "./PreviewBox";
 const TABS = [
   { id: 1, label: "규칙" },
   { id: 2, label: "혜택" },
-] as const;
+];
 
 export interface RuleInterface {
   id: number;
@@ -24,10 +24,9 @@ export interface BenefitInterface {
   benefitNum: number;
   content: string;
 }
-
 interface ManageOverviewCardProps {
-  rules: RuleInterface[];
-  benefits: BenefitInterface[];
+  rules: string[];
+  benefits: string[];
 }
 
 const ManageOverviewCard = ({ rules, benefits }: ManageOverviewCardProps) => {
@@ -36,8 +35,9 @@ const ManageOverviewCard = ({ rules, benefits }: ManageOverviewCardProps) => {
   const tab = Number(searchParams.get("tap") ?? "1");
 
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
-  const [ruleData, setRuleData] = useState<RuleInterface[]>(rules);
-  const [benefitData, setBenefitData] = useState<BenefitInterface[]>(benefits);
+
+  const [ruleData, setRuleData] = useState<string[]>(rules);
+  const [benefitData, setBenefitData] = useState<string[]>(benefits);
 
   useEffect(() => {
     setRuleData(rules);
@@ -90,7 +90,7 @@ const ManageOverviewCard = ({ rules, benefits }: ManageOverviewCardProps) => {
 
         {isEditMode ? (
           tab === 1 ? (
-            <ContentInputBox<RuleInterface>
+            <ContentInputBox
               value={ruleData}
               setValue={setRuleData}
               setState={setIsEditMode}
@@ -98,7 +98,7 @@ const ManageOverviewCard = ({ rules, benefits }: ManageOverviewCardProps) => {
               placeholder={placeholder}
             />
           ) : (
-            <ContentInputBox<BenefitInterface>
+            <ContentInputBox
               value={benefitData}
               setValue={setBenefitData}
               setState={setIsEditMode}
@@ -107,12 +107,9 @@ const ManageOverviewCard = ({ rules, benefits }: ManageOverviewCardProps) => {
             />
           )
         ) : tab === 1 ? (
-          <PreviewBox<RuleInterface> data={ruleData} setState={setIsEditMode} />
+          <PreviewBox data={ruleData} setState={setIsEditMode} />
         ) : (
-          <PreviewBox<BenefitInterface>
-            data={benefitData}
-            setState={setIsEditMode}
-          />
+          <PreviewBox data={benefitData} setState={setIsEditMode} />
         )}
       </Card.Content>
     </Card>

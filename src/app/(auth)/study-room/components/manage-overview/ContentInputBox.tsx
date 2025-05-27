@@ -5,30 +5,30 @@ import React from "react";
 import Button from "@/shared/components/atoms/Button";
 import Input from "@/shared/components/atoms/Input";
 
-interface ContentInputBoxProps<T extends { id: number; content: string }> {
-  value: T[];
-  setValue: React.Dispatch<React.SetStateAction<T[]>>;
+interface ContentInputBoxProps {
+  value: string[];
+  setValue: React.Dispatch<React.SetStateAction<string[]>>;
   setState: React.Dispatch<React.SetStateAction<boolean>>;
   buttonText: string;
   placeholder: string;
 }
 
-interface InlineInputProps<T> {
-  value: T;
+interface InlineInputProps {
+  value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onRemove: () => void;
   placeholder: string;
 }
 
-const InlineInput = <T extends { content: string }>({
+const InlineInput = ({
   value,
   onChange,
   onRemove,
   placeholder,
-}: InlineInputProps<T>) => (
+}: InlineInputProps) => (
   <div className="flex">
     <Input
-      value={value.content}
+      value={value}
       onChange={onChange}
       className="w-full rounded-r-none placeholder:text-mos-gray-500"
       placeholder={placeholder}
@@ -44,25 +44,20 @@ const InlineInput = <T extends { content: string }>({
   </div>
 );
 
-const ContentInputBox = <
-  T extends {
-    id: number;
-    content: string;
-  }
->({
+const ContentInputBox = ({
   value,
   setValue,
   setState,
   buttonText,
   placeholder,
-}: ContentInputBoxProps<T>) => {
+}: ContentInputBoxProps) => {
   const handleAddValue = () => {
-    setValue([...value, { id: value.length + 1, content: "" } as T]);
+    setValue([...value, ""]);
   };
 
   const handleEditValue = (index: number, text: string) => {
     const newValue = [...value];
-    newValue[index] = { ...newValue[index], content: text };
+    newValue[index] = text;
     setValue(newValue);
   };
 
@@ -82,7 +77,7 @@ const ContentInputBox = <
       <div className="flex flex-col gap-3">
         {value.map((data, index) => (
           <InlineInput
-            key={data.id}
+            key={data}
             value={data}
             onChange={(e) => handleEditValue(index, e.target.value)}
             onRemove={() => handleDeleteValue(index)}
