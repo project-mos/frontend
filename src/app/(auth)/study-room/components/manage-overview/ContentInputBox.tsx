@@ -79,6 +79,10 @@ const ContentInputBox = ({
     setState(false);
   };
 
+  const handleCancelButton = () => {
+    setState(false);
+  };
+
   return (
     <form onSubmit={handleSubmit} className="mt-4 px-4">
       <div className="flex flex-col gap-3">
@@ -92,7 +96,7 @@ const ContentInputBox = ({
           />
         ))}
       </div>
-      <div className="flex w-full justify-end gap-2 py-4">
+      <div className="flex w-full justify-between gap-2 py-4">
         <Button.Default
           type="button"
           className="h-[35px]"
@@ -101,9 +105,19 @@ const ContentInputBox = ({
           <i className="bi bi-plus" />
           {buttonText}
         </Button.Default>
-        <Button.Solid active color="Main" type="submit" className="h-[35px]">
-          저장하기
-        </Button.Solid>
+        <div className="flex gap-4">
+          <Button.Solid
+            color="Main"
+            type="button"
+            onClick={handleCancelButton}
+            className="h-[35px]"
+          >
+            취소하기
+          </Button.Solid>
+          <Button.Solid active color="Main" type="submit" className="h-[35px]">
+            저장하기
+          </Button.Solid>
+        </div>
       </div>
     </form>
   );
