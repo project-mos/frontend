@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { createJSONStorage, persist } from "zustand/middleware";
+import { createJSONStorage, persist, devtools } from "zustand/middleware";
 
 interface AuthState {
   isLoggedIn: boolean; // 지금 로그인 상태인지 저장하는 변수
@@ -14,23 +14,43 @@ interface AuthState {
 
 // store 값 localStorage랑 연결
 export const useAuthStore = create<AuthState>()(
-  persist(
+  devtools(
+    persist(
+      (set) => ({
+        isLoggedIn: false,
+        setLoggedIn: (v) => set({ isLoggedIn: v }),
+        loginSuccess: null,
+        setLoginSuccess: (v) => set({ loginSuccess: v }),
+        wasLoggedIn: null,
+        setWasLoggedIn: (v) => set({ wasLoggedIn: v }),
+        hasHydrated: false,
+        setHasHydrated: (v) => set({ hasHydrated: v }),
+      }),
+      {
+        name: "login", // plz use unique key
+        storage: createJSONStorage(() => localStorage), // (optional) by default, 'localStorage' is used
+        onRehydrateStorage: () => (state) => {
+          state?.setHasHydrated?.(true); // hydration 완료 표시
+        },
+      }
+    ),
+    { name: "authStore" }
+  )
+);
+
+interface TokenStore {
+  accessToken: string; // accessToken을 저장하는 변수
+  setAccessToken: (token: string) => void; // accessToken을 설정하는 함수
+}
+// Token 스토어(런타임으로만 사용, localStorage에 저장하지 않음)
+export const useTokenStore = create<TokenStore>()(
+  devtools(
     (set) => ({
-      isLoggedIn: false,
-      setLoggedIn: (v) => set({ isLoggedIn: v }),
-      loginSuccess: null,
-      setLoginSuccess: (v) => set({ loginSuccess: v }),
-      wasLoggedIn: null,
-      setWasLoggedIn: (v) => set({ wasLoggedIn: v }),
-      hasHydrated: false,
-      setHasHydrated: (v) => set({ hasHydrated: v }),
-    }),
-    {
-      name: "login", // plz use unique key
-      storage: createJSONStorage(() => localStorage), // (optional) by default, 'localStorage' is used
-      onRehydrateStorage: () => (state) => {
-        state?.setHasHydrated?.(true); // hydration 완료 표시
+      accessToken: "",
+      setAccessToken: (token: string) => {
+        return set({ accessToken: token });
       },
-    }
+    }),
+    { name: "tokenStore" }
   )
 );
