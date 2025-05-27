@@ -22,17 +22,23 @@ export const API_ENDPOINT = {
     // 유저 정보 조회
     getUser: () => {
       return {
-        url: `${process.env.NEXT_PUBLIC_BASE_URL}/users`, // 임시 URL
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/users`,
         method: Method.GET,
       };
     },
     // 유저 정보 수정
     updateUser: () => {
       return {
-        url: `${process.env.NEXT_PUBLIC_BASE_URL}/users`, // 임시 URL
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/users`, 
         method: Method.PATCH,
       };
     },
+    getMyApplyStatus: () => {
+      return {
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/study-joins?studyJoinStatus=대기`, // 임시 URL 백엔드 코드 수정되면 파라미터 제거해야함
+        method: Method.GET,
+      };
+    }
   },
   study: {
     // 스터디 생성

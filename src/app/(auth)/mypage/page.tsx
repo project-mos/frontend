@@ -14,7 +14,7 @@ const MyPage = async () => {
         <Statistics />
       </div>
       <StudySchedule />
-      <ActiveStudies />
+      <ActiveStudies accessToken={accessToken} />
     </>
   );
 };
