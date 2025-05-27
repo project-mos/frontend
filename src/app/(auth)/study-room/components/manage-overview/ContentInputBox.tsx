@@ -80,6 +80,7 @@ const ContentInputBox = ({
         : value.map((content, idx) => ({ content, benefitNum: idx + 1 }));
 
     console.log(arr);
+    // 제출하는 api 삽입
     closeModal("save");
     setState(false);
   };
@@ -138,7 +139,7 @@ const ContentInputBox = ({
         onClose={() => closeModal("cancel")}
         onSuccess={handleCancelButton}
         type="danger"
-        content="저장되지 않습니다. 취소하시겠습니까?"
+        content="저장되지 않았습니다. 취소하시겠습니까?"
         title="취소하기"
         buttonLabel="예, 취소합니다"
       />
