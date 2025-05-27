@@ -11,6 +11,7 @@ interface ContentInputBoxProps {
   setState: React.Dispatch<React.SetStateAction<boolean>>;
   buttonText: string;
   placeholder: string;
+  type: "rule" | "benefit";
 }
 
 interface InlineInputProps {
@@ -50,6 +51,7 @@ const ContentInputBox = ({
   setState,
   buttonText,
   placeholder,
+  type,
 }: ContentInputBoxProps) => {
   const handleAddValue = () => {
     setValue([...value, ""]);
@@ -68,7 +70,12 @@ const ContentInputBox = ({
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(value);
+    const arr =
+      type === "rule"
+        ? value.map((content, idx) => ({ content, ruleNum: idx + 1 }))
+        : value.map((content, idx) => ({ content, benefitNum: idx + 1 }));
+
+    console.log(arr);
     setState(false);
   };
 

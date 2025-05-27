@@ -96,6 +96,7 @@ const ManageOverviewCard = ({ rules, benefits }: ManageOverviewCardProps) => {
               setState={setIsEditMode}
               buttonText={contentProps.buttonText}
               placeholder={placeholder}
+              type="rule"
             />
           ) : (
             <ContentInputBox
@@ -104,6 +105,7 @@ const ManageOverviewCard = ({ rules, benefits }: ManageOverviewCardProps) => {
               setState={setIsEditMode}
               buttonText={contentProps.buttonText}
               placeholder={placeholder}
+              type="benefit"
             />
           )
         ) : tab === 1 ? (
