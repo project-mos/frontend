@@ -5,8 +5,11 @@ import React from "react";
 import Button from "@/shared/components/atoms/Button";
 import Input from "@/shared/components/atoms/Input";
 
+import editBenefit from "@/features/study-room/services/editBenefit.service";
+import editRule from "@/features/study-room/services/editRule.service";
 import ActionConfirmModal from "@/shared/components/molecules/ActionConfirmModal";
 import useMultiModal from "@/shared/hooks/useMultiModal";
+import { BenefitInterface, RuleInterface } from "./ManageOverviewCard";
 
 interface ContentInputBoxProps {
   value: string[];
@@ -73,14 +76,34 @@ const ContentInputBox = ({
     setValue(newValue);
   };
 
-  const handleSubmit = () => {
-    const arr =
-      type === "rule"
-        ? value.map((content, idx) => ({ content, ruleNum: idx + 1 }))
-        : value.map((content, idx) => ({ content, benefitNum: idx + 1 }));
+  const handleSubmit = async () => {
+    if (type === "rule") {
+      const arr = value.map((content, idx) => ({ content, ruleNum: idx + 1 }));
 
-    console.log(arr);
-    // 제출하는 api 삽입
+      const result = await editRule({
+        token: "",
+        studyId: 1,
+        rules: arr as RuleInterface[],
+      });
+
+      console.log(result);
+    }
+
+    if (type === "benefit") {
+      const arr = value.map((content, idx) => ({
+        content,
+        benefitNum: idx + 1,
+      }));
+
+      const result = await editBenefit({
+        token: "",
+        studyId: 1,
+        benefits: arr as BenefitInterface[],
+      });
+
+      console.log(result);
+    }
+
     closeModal("save");
     setState(false);
   };
@@ -96,7 +119,7 @@ const ContentInputBox = ({
         <div className="flex flex-col gap-3">
           {value.map((data, index) => (
             <InlineInput
-              key={data}
+              key={index}
               value={data}
               onChange={(e) => handleEditValue(index, e.target.value)}
               onRemove={() => handleDeleteValue(index)}

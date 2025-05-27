@@ -16,13 +16,11 @@ const TABS = [
 ];
 
 export interface RuleInterface {
-  id: number;
   ruleNum: number;
   content: string;
 }
 
 export interface BenefitInterface {
-  id: number;
   benefitNum: number;
   content: string;
 }
