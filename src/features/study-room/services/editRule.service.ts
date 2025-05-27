@@ -2,7 +2,7 @@ import { RuleInterface } from "@/app/(auth)/study-room/components/manage-overvie
 
 interface EditBenefitProps {
   token: string;
-  studyId: number;
+  studyId: string;
   rules: RuleInterface[];
 }
 export default async function editRule({
@@ -10,7 +10,6 @@ export default async function editRule({
   studyId,
   rules,
 }: EditBenefitProps) {
-  console.log(JSON.stringify(rules));
   const result = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/rules`,
     {

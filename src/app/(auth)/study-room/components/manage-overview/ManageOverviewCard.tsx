@@ -24,12 +24,20 @@ export interface BenefitInterface {
   benefitNum: number;
   content: string;
 }
+
 interface ManageOverviewCardProps {
   rules: string[];
   benefits: string[];
+  token: string;
+  studyId: string;
 }
 
-const ManageOverviewCard = ({ rules, benefits }: ManageOverviewCardProps) => {
+const ManageOverviewCard = ({
+  rules,
+  benefits,
+  token,
+  studyId,
+}: ManageOverviewCardProps) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const tab = Number(searchParams.get("tap") ?? "1");
@@ -121,6 +129,8 @@ const ManageOverviewCard = ({ rules, benefits }: ManageOverviewCardProps) => {
                 buttonText={contentProps.buttonText}
                 placeholder={placeholder}
                 type="rule"
+                token={token}
+                studyId={studyId}
               />
             ) : (
               <ContentInputBox
@@ -130,6 +140,8 @@ const ManageOverviewCard = ({ rules, benefits }: ManageOverviewCardProps) => {
                 buttonText={contentProps.buttonText}
                 placeholder={placeholder}
                 type="benefit"
+                token={token}
+                studyId={studyId}
               />
             )
           ) : tab === 1 ? (

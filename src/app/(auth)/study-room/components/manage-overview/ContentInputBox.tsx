@@ -18,6 +18,8 @@ interface ContentInputBoxProps {
   buttonText: string;
   placeholder: string;
   type: "rule" | "benefit";
+  token: string;
+  studyId: string;
 }
 
 interface InlineInputProps {
@@ -58,6 +60,8 @@ const ContentInputBox = ({
   buttonText,
   placeholder,
   type,
+  token,
+  studyId,
 }: ContentInputBoxProps) => {
   const { modal, openModal, closeModal } = useMultiModal();
 
@@ -81,8 +85,8 @@ const ContentInputBox = ({
       const arr = value.map((content, idx) => ({ content, ruleNum: idx + 1 }));
 
       const result = await editRule({
-        token: "",
-        studyId: 1,
+        token: token,
+        studyId: studyId,
         rules: arr as RuleInterface[],
       });
 
@@ -96,8 +100,8 @@ const ContentInputBox = ({
       }));
 
       const result = await editBenefit({
-        token: "",
-        studyId: 1,
+        token: token,
+        studyId: studyId,
         benefits: arr as BenefitInterface[],
       });
 

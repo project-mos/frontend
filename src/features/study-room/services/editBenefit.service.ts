@@ -2,7 +2,7 @@ import { BenefitInterface } from "@/app/(auth)/study-room/components/manage-over
 
 interface EditBenefitProps {
   token: string;
-  studyId: number;
+  studyId: string;
   benefits: BenefitInterface[];
 }
 export default async function editBenefit({
