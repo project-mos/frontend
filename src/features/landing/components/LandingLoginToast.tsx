@@ -1,6 +1,6 @@
 "use client";
 
-import ToastRenderer from "@/shared/components/ToastRenderer";
+import ToastRenderer from "@/shared/components/system/ToastRenderer";
 import { useToast } from "@/shared/hooks/useToast";
 import { useAuthStore } from "@/shared/store/authStore";
 import { useEffect, useRef } from "react";

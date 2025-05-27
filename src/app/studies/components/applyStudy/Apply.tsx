@@ -10,6 +10,7 @@ import { useParams } from "next/navigation";
 import URL from "@/shared/constants/URL";
 import { useAuthStore } from "@/shared/store/authStore";
 import { useQuestions } from "@/features/studies/services/studies.service";
+import ToastRenderer from "@/shared/components/system/ToastRenderer";
 
 const Apply = () => {
   const { id } = useParams() as { id: string };
@@ -31,6 +32,7 @@ const Apply = () => {
 
   return (
     <div className="flex w-full flex-col items-center gap-5">
+      <ToastRenderer />
       <LoginModal
         isOpen={isModalOpenState}
         onClose={closeModal}

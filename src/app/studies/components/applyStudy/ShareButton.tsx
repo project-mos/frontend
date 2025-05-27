@@ -1,6 +1,6 @@
 "use client";
 import Button from "@/shared/components/atoms/Button";
-import ToastRenderer from "@/shared/components/ToastRenderer";
+import ToastRenderer from "@/shared/components/system/ToastRenderer";
 import { useToast } from "@/shared/hooks/useToast";
 import { Tooltip } from "@heroui/tooltip";
 import React from "react";

@@ -18,7 +18,7 @@ import {
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateUserInfo } from "@/features/mypage/services/mypage.service";
 import { useToast } from "@/shared/hooks/useToast";
-import ToastRenderer from "@/shared/components/ToastRenderer";
+import ToastRenderer from "@/shared/components/system/ToastRenderer";
 
 interface ProfileModalProps extends ModalProps {
   preview?: string; // 프로필 사진 미리보기 url string

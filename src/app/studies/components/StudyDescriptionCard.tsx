@@ -123,7 +123,11 @@ const StudyDescriptionCard = ({
 };
 
 const ContentWrapper = ({ children }: { children: React.ReactNode }) => {
-  return <div className="prose prose-sm flex flex-col gap-0">{children}</div>;
+  return (
+    <div className="prose prose-sm flex max-w-full flex-col gap-0">
+      {children}
+    </div>
+  );
 };
 
 const ListContent = (

@@ -11,7 +11,11 @@ import {
 } from "@/shared/types/api/studies";
 import { fetchAPI } from "@/shared/utils/fetch";
 import { fetchData } from "@/shared/utils/fetcher";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+  useMutation,
+  UseMutationOptions,
+  useQuery,
+} from "@tanstack/react-query";
 
 export async function getStudy(id: string) {
   const response = await fetchData<GetStudyDetailResponse>({
@@ -61,17 +65,23 @@ export async function getMembers(studyId: string) {
   );
   return response;
 }
-export async function postJoin(studyId: string, data: PostStudyJoin) {
+
+export async function postJoin(
+  studyId: string,
+  data: PostStudyJoin,
+  accessToken?: string
+): Promise<PostStudyJoin> {
   const { url, method } = API_ENDPOINT.join.postJoin(studyId);
-  const response = await fetchAPI(url, {
+
+  return await fetchAPI<PostStudyJoin>(url, {
     credentials: "include",
     body: JSON.stringify(data),
     method,
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken || ""}`,
     },
   });
-  return response;
 }
 
 // getQuestions React Query 훅
@@ -84,8 +94,17 @@ export function useQuestions(studyId: string, enabled: boolean) {
   });
 }
 // postJoin React Query 훅
-export function usePostJoin(studyId: string) {
+export function usePostJoin({
+  studyId,
+  options,
+  accessToken,
+}: {
+  studyId: string;
+  options?: UseMutationOptions<PostStudyJoin, Error, PostStudyJoin, unknown>;
+  accessToken?: string;
+}) {
   return useMutation({
-    mutationFn: (data: PostStudyJoin) => postJoin(studyId, data),
+    ...options,
+    mutationFn: (data: PostStudyJoin) => postJoin(studyId, data, accessToken),
   });
 }

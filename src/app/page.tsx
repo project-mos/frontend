@@ -30,6 +30,7 @@ export default async function Home({ searchParams }: HomeProps) {
                 <Pagination
                   activePage={Number(currentPage || 1)}
                   totalPage={studiesData.totalPages}
+                  scrollIntoViewID="landing-content-cards"
                 />
               </div>
             </>
