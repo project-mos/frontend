@@ -8,24 +8,32 @@ import Typography from "@/shared/components/atoms/Typography";
 import ContentInputBox from "./ContentInputBox";
 import PreviewBox from "./PreviewBox";
 
-import { MockManageOverviewCardData } from "@/shared/mock/api/study-room";
-
 const TABS = [
   { id: 1, label: "규칙" },
   { id: 2, label: "혜택" },
 ] as const;
 
-const ManageOverviewCard = () => {
+interface RuleInterface {
+  id: number;
+  ruleNum: number;
+  content: string;
+}
+
+interface BenefitInterface {
+  id: number;
+  benefitNum: number;
+  content: string;
+}
+
+interface ManageOverviewCardProps {
+  rules: RuleInterface[];
+  benefits: BenefitInterface[];
+}
+
+const ManageOverviewCard = ({ rules, benefits }: ManageOverviewCardProps) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const tab = Number(searchParams.get("tap") ?? "1");
-
-  const [benefits, setBenefits] = useState<{ id: number; text: string }[]>(
-    MockManageOverviewCardData
-  );
-  const [rules, setRules] = useState<{ id: number; text: string }[]>(
-    MockManageOverviewCardData
-  );
 
   const [benefitsEdit, setBenefitsEdit] = useState<boolean>(false);
   const [rulesEdit, setRulesEdit] = useState<boolean>(false);

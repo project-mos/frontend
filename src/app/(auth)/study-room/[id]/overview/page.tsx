@@ -13,7 +13,7 @@ const ManageOverview = async ({ params }: StudyDetailPageProps) => {
   const benefits = await getBenefits(id);
   const rules = await getRules(id);
   console.log(benefits, rules);
-  return <ManageOverviewCard />;
+  return <ManageOverviewCard benefits={benefits} rules={rules} />;
 };
 
 export default ManageOverview;
