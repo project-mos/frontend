@@ -89,27 +89,32 @@ const ContentInputBox = ({
       isRule ? { content, ruleNum: idx + 1 } : { content, benefitNum: idx + 1 }
     );
 
-    const result = isRule
-      ? await editRule({
-          token,
-          studyId,
-          rules: arr as RuleInterface[],
-        })
-      : await editBenefit({
-          token,
-          studyId,
-          benefits: arr as BenefitInterface[],
-        });
+    try {
+      const result = isRule
+        ? await editRule({
+            token,
+            studyId,
+            rules: arr as RuleInterface[],
+          })
+        : await editBenefit({
+            token,
+            studyId,
+            benefits: arr as BenefitInterface[],
+          });
 
-    if (!result.ok || result.status !== 200) {
-      toast.error(`${isRule ? "규칙" : "혜택"} 수정에 실패하였습니다.`);
-    } else {
+      if (!result.ok || result.status !== 200) {
+        throw new Error("서버 응답 실패");
+      }
+
       toast.success(`${isRule ? "규칙" : "혜택"} 수정을 완료하였습니다.`);
+    } catch (error) {
+      console.error(error);
+      toast.error(`${isRule ? "규칙" : "혜택"} 수정에 실패하였습니다.`);
+    } finally {
+      closeModal("save");
+      document.body.style.overflow = "auto";
+      setState(false);
     }
-
-    closeModal("save");
-    document.body.style.overflow = "auto";
-    setState(false);
   };
 
   const handleCancelButton = () => {
