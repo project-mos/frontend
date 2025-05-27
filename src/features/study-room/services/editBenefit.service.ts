@@ -14,7 +14,7 @@ export default async function editBenefit({
 }: EditBenefitProps) {
   const { url, method } = API_ENDPOINT.benefits.editStudyBenefits(studyId);
 
-  return await fetchAPI<Response>(url, {
+  return await fetchAPI<BenefitInterface[]>(url, {
     credentials: "include",
     body: JSON.stringify(benefits),
     method: method,

@@ -14,7 +14,7 @@ export default async function editRule({
 }: EditBenefitProps) {
   const { url, method } = API_ENDPOINT.rules.editStudyRules(studyId);
 
-  return await fetchAPI<Response>(url, {
+  return await fetchAPI<RuleInterface[]>(url, {
     credentials: "include",
     body: JSON.stringify(rules),
     method: method,
