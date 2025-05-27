@@ -9,6 +9,7 @@ import editBenefit from "@/features/study-room/services/editBenefit.service";
 import editRule from "@/features/study-room/services/editRule.service";
 import ActionConfirmModal from "@/shared/components/molecules/ActionConfirmModal";
 import useMultiModal from "@/shared/hooks/useMultiModal";
+import { useToast } from "@/shared/hooks/useToast";
 import { BenefitInterface, RuleInterface } from "./ManageOverviewCard";
 
 interface ContentInputBoxProps {
@@ -64,6 +65,7 @@ const ContentInputBox = ({
   studyId,
 }: ContentInputBoxProps) => {
   const { modal, openModal, closeModal } = useMultiModal();
+  const toast = useToast();
 
   const handleAddValue = () => {
     setValue([...value, ""]);
@@ -81,39 +83,38 @@ const ContentInputBox = ({
   };
 
   const handleSubmit = async () => {
-    if (type === "rule") {
-      const arr = value.map((content, idx) => ({ content, ruleNum: idx + 1 }));
+    const isRule = type === "rule";
 
-      const result = await editRule({
-        token: token,
-        studyId: studyId,
-        rules: arr as RuleInterface[],
-      });
+    const arr = value.map((content, idx) =>
+      isRule ? { content, ruleNum: idx + 1 } : { content, benefitNum: idx + 1 }
+    );
 
-      console.log(result);
-    }
+    const result = isRule
+      ? await editRule({
+          token,
+          studyId,
+          rules: arr as RuleInterface[],
+        })
+      : await editBenefit({
+          token,
+          studyId,
+          benefits: arr as BenefitInterface[],
+        });
 
-    if (type === "benefit") {
-      const arr = value.map((content, idx) => ({
-        content,
-        benefitNum: idx + 1,
-      }));
-
-      const result = await editBenefit({
-        token: token,
-        studyId: studyId,
-        benefits: arr as BenefitInterface[],
-      });
-
-      console.log(result);
+    if (!result.ok || result.status !== 200) {
+      toast.error(`${isRule ? "규칙" : "혜택"} 수정에 실패하였습니다.`);
+    } else {
+      toast.success(`${isRule ? "규칙" : "혜택"} 수정을 완료하였습니다.`);
     }
 
     closeModal("save");
+    document.body.style.overflow = "auto";
     setState(false);
   };
 
   const handleCancelButton = () => {
     closeModal("cancel");
+    document.body.style.overflow = "auto";
     setState(false);
   };
 
