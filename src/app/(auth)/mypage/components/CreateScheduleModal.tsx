@@ -61,7 +61,7 @@ const CreateScheduleModal = ({ onClose, ...props }: NoticeModalProps) => {
         </Modal.Header>
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Modal.Content className="flex flex-col gap-5">
+          <Modal.Content className="flex flex-col gap-7">
             <LabelInput
               label="제목"
               name="title"
