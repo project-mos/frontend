@@ -27,9 +27,10 @@ const tagColors: Record<string, keyof typeof Tag> = {
   스터디원: "Blue",
   검토중: "Pink",
   승인됨: "Gray",
-  대기: "Pink",
+  대기: "Green",
   승낙: "Blue",
-  // 상태 추가 예정
+  탈락: "Gray",
+  취소: "Pink",
 };
 
 const StudyList = ({ data }: { data: activeStudiesProps[] }) => {
