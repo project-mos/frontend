@@ -66,10 +66,10 @@ const StudyDescriptionCard = ({
 
         <div className="flex flex-col gap-1">
           <Meta icon="calendar">
-            {studyDetailData.recruitmentStartDate} ~{" "}
+            모집일자: {studyDetailData.recruitmentStartDate} ~{" "}
             {studyDetailData.recruitmentEndDate}
           </Meta>
-          <Meta icon="clock">{studyDetailData.schedule}</Meta>
+          <Meta icon="clock">활동시간: {studyDetailData.schedule}</Meta>
           <div className="flex gap-2">
             <Meta icon="person">
               {studyDetailData.currentStudyMemberCount}/
