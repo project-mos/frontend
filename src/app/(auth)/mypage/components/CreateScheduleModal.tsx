@@ -19,6 +19,10 @@ interface NoticeModalProps extends ModalProps {
 interface ScheduleData {
   title: string;
   description: string;
+  startDate?: string;
+  startTime?: string;
+  endDate?: string;
+  endTime?: string;
   startDateTime: string;
   endDateTime: string;
 }
@@ -40,11 +44,30 @@ const CreateScheduleModal = ({ onClose, ...props }: NoticeModalProps) => {
   const isActiveBtn =
     !!scheduleData.title &&
     !!scheduleData.description &&
-    !!scheduleData.startDateTime &&
-    !!scheduleData.endDateTime;
+    !!scheduleData.startDate &&
+    !!scheduleData.endDate &&
+    !!scheduleData.startTime &&
+    !!scheduleData.endTime;
 
   const onSubmit = (data: ScheduleData) => {
-    console.log("data", data);
+    const startDateTime = `${data.startDate}T${data.startTime}`;
+    const endDateTime = `${data.endDate}T${data.endTime}`;
+
+    // formattedData 생성
+    const formattedData = {
+      ...data,
+      curriculumIds: [1, 2, 3], // 무엇인지는 모르겠으나 우선 백엔드 요청 데이터에 맞게 추가
+      startDateTime,
+      endDateTime,
+    };
+
+    // 불필요한 필드 제거
+    delete formattedData.startDate;
+    delete formattedData.startTime;
+    delete formattedData.endDate;
+    delete formattedData.endTime;
+
+    console.log("formattedData", formattedData);
     reset();
     onClose();
   };
@@ -78,7 +101,7 @@ const CreateScheduleModal = ({ onClose, ...props }: NoticeModalProps) => {
             />
             <div className="flex w-full flex-col gap-3 mobile:flex-row">
               <LabelInputDate
-                name="startDateTime"
+                name="startDate"
                 label="일정 시작일"
                 required
                 registerOptions={{
@@ -86,11 +109,39 @@ const CreateScheduleModal = ({ onClose, ...props }: NoticeModalProps) => {
                 }}
               />
               <LabelInputDate
-                name="endDateTime"
+                name="endDate"
                 label="일정 마감일"
                 required
                 registerOptions={{
                   required: "일정 마감일을 선택해주세요",
+                }}
+              />
+            </div>
+            <div className="flex w-full flex-col gap-3 mobile:flex-row">
+              <LabelInput
+                label="일정 시작 시간"
+                name="startTime"
+                placeholder="00:00:00"
+                required
+                registerOptions={{
+                  required: "00:00:00 형식에 맞게 입력하세요.",
+                  pattern: {
+                    value: /^\d{2}:\d{2}:\d{2}$/,
+                    message: "00:00:00 형식에 맞게 입력하세요.",
+                  },
+                }}
+              />
+              <LabelInput
+                label="일정 종료 시간"
+                name="endTime"
+                placeholder="00:00:00"
+                required
+                registerOptions={{
+                  required: "00:00:00 형식에 맞게 입력하세요.",
+                  pattern: {
+                    value: /^\d{2}:\d{2}:\d{2}$/,
+                    message: "00:00:00 형식에 맞게 입력하세요.",
+                  },
                 }}
               />
             </div>
