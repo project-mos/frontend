@@ -81,7 +81,7 @@ const CreateScheduleModal = ({ onClose, ...props }: NoticeModalProps) => {
     <FormProvider {...methods}>
       <Modal {...props} onClose={onClickCloseBtn}>
         <Modal.Header onClose={onClickCloseBtn}>
-          <Typography.Head3>스터디 일정 추가</Typography.Head3>
+          <Typography.Head3>스터디 일정 생성</Typography.Head3>
         </Modal.Header>
 
         <form onSubmit={handleSubmit(onSubmit)}>
