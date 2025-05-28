@@ -9,12 +9,9 @@ import CreateStudyForm3 from "@/features/create-study/form/CreateStudyForm3";
 import CreateStudyForm4 from "@/features/create-study/form/CreateStudyForm4";
 
 import useStudyStepProtection from "../hooks/useStudyStepProtection";
-import {
-  AccessTokenProps,
-  StudyFormInterface,
-} from "../types/create-study.type";
+import { StudyFormInterface } from "../types/create-study.type";
 
-const CreateStudyForm = ({ accessToken }: AccessTokenProps) => {
+const CreateStudyForm = () => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const step = searchParams.get("step") || "1";
@@ -69,7 +66,7 @@ const CreateStudyForm = ({ accessToken }: AccessTokenProps) => {
     <FormProvider {...methods}>
       {stepNumber === 1 && <CreateStudyForm1 />}
       {stepNumber === 2 && <CreateStudyForm2 />}
-      {stepNumber === 3 && <CreateStudyForm3 accessToken={accessToken} />}
+      {stepNumber === 3 && <CreateStudyForm3 />}
       {stepNumber === 4 && <CreateStudyForm4 />}
     </FormProvider>
   );
