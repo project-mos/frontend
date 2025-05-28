@@ -1,6 +1,7 @@
 import StudyCurriculumCard from "@/app/studies/components/StudyCurriculumCard";
 import StudyDescriptionCard from "@/app/studies/components/StudyDescriptionCard";
 import Apply from "@/app/studies/components/applyStudy/Apply";
+import LandingLoginToast from "@/features/landing/components/LandingLoginToast";
 import {
   getBenefits,
   getCurriculums,
@@ -27,6 +28,7 @@ const page = async ({ params }: StudyDetailPageProps) => {
 
   return (
     <>
+      <LandingLoginToast />
       <StudyDescriptionCard
         studyDetailData={studyDetailData}
         requirementsData={requirementsData}

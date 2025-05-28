@@ -66,10 +66,10 @@ const StudyDescriptionCard = ({
 
         <div className="flex flex-col gap-1">
           <Meta icon="calendar">
-            {studyDetailData.recruitmentStartDate} ~{" "}
+            모집일자: {studyDetailData.recruitmentStartDate} ~{" "}
             {studyDetailData.recruitmentEndDate}
           </Meta>
-          <Meta icon="clock">{studyDetailData.schedule}</Meta>
+          <Meta icon="clock">활동시간: {studyDetailData.schedule}</Meta>
           <div className="flex gap-2">
             <Meta icon="person">
               {studyDetailData.currentStudyMemberCount}/
@@ -90,16 +90,16 @@ const StudyDescriptionCard = ({
         </div>
       </Card.Header>
       <Card.Content className="gap-5">
-        {hasItem(studyDetailData.content) && (
-          <ContentWrapper>
-            <Typography.SubTitle1>스터디 소개</Typography.SubTitle1>
+        <ContentWrapper>
+          <Typography.SubTitle1>스터디 소개</Typography.SubTitle1>
+          {hasItem(studyDetailData.content) && (
             <MDXRemote source={studyDetailData.content} />
-          </ContentWrapper>
-        )}
+          )}
+        </ContentWrapper>
 
-        {hasItem(requirementsData) && (
-          <ContentWrapper>
-            <Typography.SubTitle1>참여 요건</Typography.SubTitle1>
+        <ContentWrapper>
+          <Typography.SubTitle1>참여 요건</Typography.SubTitle1>
+          {hasItem(requirementsData) ? (
             <div>
               {requirementsData.map((item, index) => {
                 return (
@@ -112,8 +112,10 @@ const StudyDescriptionCard = ({
                 );
               })}
             </div>
-          </ContentWrapper>
-        )}
+          ) : (
+            <span>참여 요건이 없습니다.</span>
+          )}
+        </ContentWrapper>
 
         {ListContent("스터디 규칙", rulesData)}
         {ListContent("스터디 혜택", benefitsData)}
@@ -136,16 +138,18 @@ const ListContent = (
 ) => {
   return (
     <>
-      {hasItem<GetStudyRulesResponse | GetStudyBenefitsResponse>(items) && (
-        <ContentWrapper>
-          <Typography.SubTitle1 className="m-0">{title}</Typography.SubTitle1>
+      <ContentWrapper>
+        <Typography.SubTitle1 className="m-0">{title}</Typography.SubTitle1>
+        {hasItem<GetStudyRulesResponse | GetStudyBenefitsResponse>(items) ? (
           <ul className="study-detail m-0 text-mos-gray-700">
             {items.map((item, index) => {
               return <li key={`${item.id}_${index}`}> {item.content}</li>;
             })}
           </ul>
-        </ContentWrapper>
-      )}
+        ) : (
+          <span>{title}이 없습니다.</span>
+        )}
+      </ContentWrapper>
     </>
   );
 };
