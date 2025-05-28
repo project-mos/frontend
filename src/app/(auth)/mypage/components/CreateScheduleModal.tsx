@@ -73,6 +73,7 @@ const CreateScheduleModal = ({ onClose, ...props }: NoticeModalProps) => {
   };
 
   const onClickCloseBtn = () => {
+    reset();
     onClose();
   };
 
