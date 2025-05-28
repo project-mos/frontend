@@ -90,16 +90,16 @@ const StudyDescriptionCard = ({
         </div>
       </Card.Header>
       <Card.Content className="gap-5">
-        {hasItem(studyDetailData.content) && (
-          <ContentWrapper>
-            <Typography.SubTitle1>스터디 소개</Typography.SubTitle1>
+        <ContentWrapper>
+          <Typography.SubTitle1>스터디 소개</Typography.SubTitle1>
+          {hasItem(studyDetailData.content) && (
             <MDXRemote source={studyDetailData.content} />
-          </ContentWrapper>
-        )}
+          )}
+        </ContentWrapper>
 
-        {hasItem(requirementsData) && (
-          <ContentWrapper>
-            <Typography.SubTitle1>참여 요건</Typography.SubTitle1>
+        <ContentWrapper>
+          <Typography.SubTitle1>참여 요건</Typography.SubTitle1>
+          {hasItem(requirementsData) ? (
             <div>
               {requirementsData.map((item, index) => {
                 return (
@@ -112,8 +112,10 @@ const StudyDescriptionCard = ({
                 );
               })}
             </div>
-          </ContentWrapper>
-        )}
+          ) : (
+            <span>참여 요건이 없습니다.</span>
+          )}
+        </ContentWrapper>
 
         {ListContent("스터디 규칙", rulesData)}
         {ListContent("스터디 혜택", benefitsData)}
