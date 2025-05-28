@@ -136,16 +136,18 @@ const ListContent = (
 ) => {
   return (
     <>
-      {hasItem<GetStudyRulesResponse | GetStudyBenefitsResponse>(items) && (
-        <ContentWrapper>
-          <Typography.SubTitle1 className="m-0">{title}</Typography.SubTitle1>
+      <ContentWrapper>
+        <Typography.SubTitle1 className="m-0">{title}</Typography.SubTitle1>
+        {hasItem<GetStudyRulesResponse | GetStudyBenefitsResponse>(items) ? (
           <ul className="study-detail m-0 text-mos-gray-700">
             {items.map((item, index) => {
               return <li key={`${item.id}_${index}`}> {item.content}</li>;
             })}
           </ul>
-        </ContentWrapper>
-      )}
+        ) : (
+          <span>{title}이 없습니다.</span>
+        )}
+      </ContentWrapper>
     </>
   );
 };
