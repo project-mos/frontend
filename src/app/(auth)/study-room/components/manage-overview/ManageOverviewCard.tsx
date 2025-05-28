@@ -28,14 +28,12 @@ export interface BenefitInterface {
 interface ManageOverviewCardProps {
   rules: string[];
   benefits: string[];
-  token: string;
   studyId: string;
 }
 
 const ManageOverviewCard = ({
   rules,
   benefits,
-  token,
   studyId,
 }: ManageOverviewCardProps) => {
   const router = useRouter();
@@ -129,7 +127,6 @@ const ManageOverviewCard = ({
                 buttonText={contentProps.buttonText}
                 placeholder={placeholder}
                 type="rule"
-                token={token}
                 studyId={studyId}
               />
             ) : (
@@ -140,7 +137,6 @@ const ManageOverviewCard = ({
                 buttonText={contentProps.buttonText}
                 placeholder={placeholder}
                 type="benefit"
-                token={token}
                 studyId={studyId}
               />
             )
