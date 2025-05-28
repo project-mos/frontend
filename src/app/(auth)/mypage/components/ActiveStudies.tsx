@@ -17,10 +17,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { myApplyStatusQueryOption } from "@/features/mypage/services/mypage.service";
 import { useApplyStatusStore } from "@/shared/store/useApplyStatusStore";
-
-interface ActiveStudiesInterface {
-  accessToken: string | undefined;
-}
+import { useTokenStore } from "@/shared/store/authStore";
 
 const tagColors: Record<string, keyof typeof Tag> = {
   스터디장: "Green",
@@ -133,7 +130,8 @@ const ApplyList = ({ data }: { data: GetMyApplyStatusResult[] }) => {
   );
 };
 
-const ActiveStudies = ({ accessToken }: ActiveStudiesInterface) => {
+const ActiveStudies = () => {
+  const { accessToken } = useTokenStore();
   const [selectedTabState, setSelectedTabState] =
     useState<string>("참여 중인 스터디");
   const setAllApplyStatus = useApplyStatusStore(
@@ -142,7 +140,7 @@ const ActiveStudies = ({ accessToken }: ActiveStudiesInterface) => {
 
   // 나의 지원 현황 조회
   const { data: myApplyStatusData } = useQuery(
-    myApplyStatusQueryOption(accessToken!)
+    myApplyStatusQueryOption(accessToken)
   );
 
   useEffect(() => {

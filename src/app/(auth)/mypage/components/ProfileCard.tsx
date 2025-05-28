@@ -11,15 +11,13 @@ import useMultiModal from "@/shared/hooks/useMultiModal";
 import ProfileModal from "./ProfileModal";
 import { useQuery } from "@tanstack/react-query";
 import { userInfoQueryOption } from "@/features/mypage/services/mypage.service";
+import { useTokenStore } from "@/shared/store/authStore";
 
-interface ProfileCardInterface {
-  accessToken: string | undefined;
-}
-
-const ProfileCard = ({ accessToken }: ProfileCardInterface) => {
+const ProfileCard = () => {
+  const { accessToken } = useTokenStore();
   const { modal, openModal, closeModal } = useMultiModal();
   // 유저 정보 조회
-  const { data: userInfo } = useQuery(userInfoQueryOption(accessToken!));
+  const { data: userInfo } = useQuery(userInfoQueryOption(accessToken));
 
   const {
     nickname = "이름",
