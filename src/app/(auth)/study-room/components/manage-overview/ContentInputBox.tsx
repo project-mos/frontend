@@ -14,7 +14,10 @@ import {
 import ActionConfirmModal from "@/shared/components/molecules/ActionConfirmModal";
 import useMultiModal from "@/shared/hooks/useMultiModal";
 
-import { BenefitInterface, RuleInterface } from "./ManageOverviewCard";
+import {
+  BenefitInterface,
+  RuleInterface,
+} from "@/features/study-room/types/study-room.type";
 
 interface ContentInputBoxProps {
   value: string[];
@@ -95,9 +98,17 @@ const ContentInputBox = ({
 
     try {
       if (isRule) {
-        await editRule(accessToken, studyId, arr as RuleInterface[]);
+        await editRule({
+          token: accessToken,
+          studyId: studyId,
+          rules: arr as RuleInterface[],
+        });
       } else {
-        await editBenefit(accessToken, studyId, arr as BenefitInterface[]);
+        await editBenefit({
+          token: accessToken,
+          studyId: studyId,
+          benefits: arr as BenefitInterface[],
+        });
       }
       toast.success(`${isRule ? "규칙" : "혜택"} 수정을 완료하였습니다.`);
     } catch (error) {
