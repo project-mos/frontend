@@ -1,5 +1,6 @@
 import { BenefitInterface, RuleInterface } from "./study-room.type";
 
+/* study overview */
 export type EditBenefitRequest = {
   token: string;
   studyId: string;
@@ -22,6 +23,7 @@ export type EditRuleResponse = {
   content: string;
 };
 
+/* study attendance */
 export type AttendanceRequest = {
   token: string;
   studyId: string;

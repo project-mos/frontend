@@ -1,7 +1,7 @@
 "use client";
 
+import cn from "@/shared/utils/cn";
 import { useEffect, useState } from "react";
-import MemberModal from "./MemberModal";
 
 // import {
 //   LineChart,
@@ -16,6 +16,10 @@ import MemberModal from "./MemberModal";
 // import Profile from "@/components/atoms/Profile";
 // import profileImg from "../../../../app/asset/images/profile_example.jpeg";
 
+import {
+  MemberCardProps,
+  StudyMemberCardProps,
+} from "@/features/study-room/types/study-room.type";
 import Badge from "@/shared/components/atoms/Badge";
 import Button from "@/shared/components/atoms/Button";
 import Card from "@/shared/components/atoms/Card";
@@ -23,18 +27,7 @@ import Typography from "@/shared/components/atoms/Typography";
 import useModal from "@/shared/hooks/useModal";
 import { MockStudyMemberAttendance } from "@/shared/mock/api/study-room";
 import { StudyMemberInterface } from "@/shared/types/api/study-room";
-import cn from "@/shared/utils/cn";
-
-interface MemberCardProps {
-  members: StudyMemberInterface[];
-}
-
-interface StudyMemberCardProps {
-  data: StudyMemberInterface;
-  isBest: boolean;
-  onChat?: () => void;
-  onMore?: () => void;
-}
+import MemberModal from "./MemberModal";
 
 const MemberCard = ({ members }: MemberCardProps) => {
   const { isModalOpenState, openModal, closeModal } = useModal();

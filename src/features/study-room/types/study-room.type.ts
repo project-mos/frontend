@@ -1,9 +1,16 @@
 import { SetStateAction } from "react";
 
+import { ModalOnClose, ModalProps } from "@/shared/components/atoms/Modal";
+import {
+  StudyMemberAttendanceInterface,
+  StudyMemberInterface,
+} from "@/shared/types/api/study-room";
+
 export interface StudyDetailPageProps {
   params: Promise<{ id: string }>;
 }
 
+/* study overview */
 export interface RuleInterface {
   ruleNum: number;
   content: string;
@@ -40,4 +47,22 @@ export interface ManageOverviewCardProps {
 export interface PreviewBoxProps {
   data: string[];
   setState: React.Dispatch<SetStateAction<boolean>>;
+}
+
+/* study member */
+
+export interface MemberCardProps {
+  members: StudyMemberInterface[];
+}
+
+export interface StudyMemberCardProps {
+  data: StudyMemberInterface;
+  isBest: boolean;
+  onChat?: () => void;
+  onMore?: () => void;
+}
+
+export interface MemberModalProps extends ModalProps {
+  onClose: ModalOnClose;
+  data?: StudyMemberAttendanceInterface;
 }
