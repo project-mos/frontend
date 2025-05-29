@@ -75,3 +75,23 @@ export async function editAttendance(
     },
   });
 }
+
+export async function attendance(
+  token: string,
+  studyId: string,
+  studyScheduleId: string
+) {
+  const { url, method } = API_ENDPOINT.attendance.attendance(
+    studyId,
+    studyScheduleId
+  );
+
+  return await fetchAPI<Response>(url, {
+    credentials: "include",
+    method: method,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token || ""}`,
+    },
+  });
+}
