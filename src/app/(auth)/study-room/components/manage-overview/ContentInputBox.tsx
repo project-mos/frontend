@@ -7,9 +7,10 @@ import { useTokenStore } from "@/shared/store/authStore";
 import Button from "@/shared/components/atoms/Button";
 import Input from "@/shared/components/atoms/Input";
 
-import editBenefit from "@/features/study-room/services/editBenefit.service";
-import editRule from "@/features/study-room/services/editRule.service";
-
+import {
+  editBenefit,
+  editRule,
+} from "@/features/study-room/services/study-room.service";
 import ActionConfirmModal from "@/shared/components/molecules/ActionConfirmModal";
 import useMultiModal from "@/shared/hooks/useMultiModal";
 
@@ -94,17 +95,9 @@ const ContentInputBox = ({
 
     try {
       if (isRule) {
-        await editRule({
-          token: accessToken,
-          studyId,
-          rules: arr as RuleInterface[],
-        });
+        await editRule(accessToken, studyId, arr as RuleInterface[]);
       } else {
-        await editBenefit({
-          token: accessToken,
-          studyId,
-          benefits: arr as BenefitInterface[],
-        });
+        await editBenefit(accessToken, studyId, arr as BenefitInterface[]);
       }
       toast.success(`${isRule ? "규칙" : "혜택"} 수정을 완료하였습니다.`);
     } catch (error) {
