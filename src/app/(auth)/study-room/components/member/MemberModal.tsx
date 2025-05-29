@@ -1,5 +1,7 @@
 "use client";
 
+import profileImg from "@/asset/images/profile_example.jpeg";
+import Button from "@/shared/components/atoms/Button";
 import Modal, {
   ModalOnClose,
   ModalProps,
@@ -7,8 +9,6 @@ import Modal, {
 import Profile from "@/shared/components/atoms/Profile";
 import Typography from "@/shared/components/atoms/Typography";
 import { StudyMemberAttendanceInterface } from "@/shared/types/api/study-room";
-import profileImg from "@/asset/images/profile_example.jpeg";
-import Button from "@/shared/components/atoms/Button";
 
 // interface AttendanceRecord {
 //   date: string;
@@ -96,7 +96,9 @@ const MemberModal = ({ onClose, data, ...props }: MemberModalProps) => {
             </div>
           </>
         ) : (
-          <>no data</>
+          <Typography.SubTitle1 className="text-mos-gray-500">
+            멤버 상세 정보가 존재하지 않습니다.
+          </Typography.SubTitle1>
         )}
       </Modal.Content>
 
