@@ -44,7 +44,7 @@ const MemberCard = ({ members }: MemberCardProps) => {
     });
   // 우수 멤버
   const [bestMember, setBestMember] = useState<StudyMemberInterface>();
-
+  console.log(bestMember);
   const onMoreHandler = (item: StudyMemberInterface) => {
     // 멤버 출석율 조회에서 맞는 id 찾기
     const find = memberAttendanceState.find(
@@ -117,10 +117,14 @@ const MemberCard = ({ members }: MemberCardProps) => {
         onClose={onClose}
       />
 
-      <Card className="col-span-6 overflow-x-scroll">
+      <Card className="col-span-8 overflow-x-scroll">
         <Card.Header>
           <Typography.SubTitle1>전체 참여율</Typography.SubTitle1>
         </Card.Header>
+
+        <Card.Content className="max-h-[450px]">
+          <div className="h-32">Chart</div>
+        </Card.Content>
         <Card.Content className="max-h-[450px] max-w-full flex-row gap-3">
           {/* <ResponsiveContainer width="100%" height={180}>
             <LineChart
@@ -145,14 +149,15 @@ const MemberCard = ({ members }: MemberCardProps) => {
           </ResponsiveContainer> */}
         </Card.Content>
       </Card>
-      <Card className="col-span-2 gap-2 overflow-x-scroll">
+      {/* <Card className="col-span-2 gap-2 overflow-x-scroll">
         <Card.Header>
           <Typography.SubTitle1>이 달의 우수 멤버</Typography.SubTitle1>
         </Card.Header>
         <Card.Content className="max-h-[450px]">
           {bestMember && <StudyMemberCard data={bestMember} />}
         </Card.Content>
-      </Card>
+      </Card> */}
+
       <Card className="col-span-8 h-fit gap-3 overflow-x-scroll">
         <Card.Header>
           <Typography.SubTitle1>멤버 관리</Typography.SubTitle1>
