@@ -40,3 +40,16 @@ export async function editRule(
     },
   });
 }
+
+export async function getAttendances(token: string, studyId: string) {
+  const { url, method } = API_ENDPOINT.attendance.getAttendances(studyId);
+
+  return await fetchAPI<Response>(url, {
+    credentials: "include",
+    method: method,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token || ""}`,
+    },
+  });
+}
