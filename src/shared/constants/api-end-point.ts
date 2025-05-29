@@ -199,5 +199,12 @@ export const API_ENDPOINT = {
         method: Method.GET,
       };
     },
+    earlyLeave: (studyId: string, studyScheduleId: string) => {
+      const url = `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/schedules/${studyScheduleId}/attendances/early-leave`;
+      return {
+        url,
+        method: Method.PATCH,
+      };
+    },
   },
 };

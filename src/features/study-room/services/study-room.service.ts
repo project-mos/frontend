@@ -95,3 +95,23 @@ export async function attendance(
     },
   });
 }
+
+export async function earlyLeave(
+  token: string,
+  studyId: string,
+  studyScheduleId: string
+) {
+  const { url, method } = API_ENDPOINT.attendance.earlyLeave(
+    studyId,
+    studyScheduleId
+  );
+
+  return await fetchAPI<Response>(url, {
+    credentials: "include",
+    method: method,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token || ""}`,
+    },
+  });
+}
