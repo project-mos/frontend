@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MemberModal from "./MemberModal";
 
 // import {
@@ -28,6 +28,7 @@ import cn from "@/shared/utils/cn";
 interface MemberCardProps {
   members: StudyMemberInterface[];
 }
+
 const MemberCard = ({ members }: MemberCardProps) => {
   const { isModalOpenState, openModal, closeModal } = useModal();
   // 스터디원 조회
@@ -42,7 +43,7 @@ const MemberCard = ({ members }: MemberCardProps) => {
       }
     });
   // 우수 멤버
-  const bestMember = findBestMember(members);
+  const [bestMember, setBestMember] = useState<StudyMemberInterface>();
 
   const onMoreHandler = (item: StudyMemberInterface) => {
     // 멤버 출석율 조회에서 맞는 id 찾기
@@ -71,6 +72,11 @@ const MemberCard = ({ members }: MemberCardProps) => {
       return item["participationRate"] > max["participationRate"] ? item : max;
     });
   }
+
+  useEffect(() => {
+    const best = findBestMember(members);
+    if (best) setBestMember(best);
+  }, []);
 
   // 📌 날짜를 기반으로 몇 번째 주인지 계산하는 함수
   // const getWeekNumber = (dateString: string): string => {
@@ -144,7 +150,7 @@ const MemberCard = ({ members }: MemberCardProps) => {
           <Typography.SubTitle1>이 달의 우수 멤버</Typography.SubTitle1>
         </Card.Header>
         <Card.Content className="max-h-[450px]">
-          {membersState.length > 0 && <StudyMemberCard data={bestMember!} />}
+          {bestMember && <StudyMemberCard data={bestMember} />}
         </Card.Content>
       </Card>
       <Card className="col-span-8 h-fit gap-3 overflow-x-scroll">
