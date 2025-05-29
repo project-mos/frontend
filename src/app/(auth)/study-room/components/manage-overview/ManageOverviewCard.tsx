@@ -15,16 +15,6 @@ const TABS = [
   { id: 2, label: "혜택" },
 ];
 
-export interface RuleInterface {
-  ruleNum: number;
-  content: string;
-}
-
-export interface BenefitInterface {
-  benefitNum: number;
-  content: string;
-}
-
 interface ManageOverviewCardProps {
   rules: string[];
   benefits: string[];
