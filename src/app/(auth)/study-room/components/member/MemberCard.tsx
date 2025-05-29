@@ -21,17 +21,17 @@ import Button from "@/shared/components/atoms/Button";
 import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
 import useModal from "@/shared/hooks/useModal";
-import {
-  MockStudyMemberAttendance,
-  MockStudyMembers,
-} from "@/shared/mock/api/study-room";
+import { MockStudyMemberAttendance } from "@/shared/mock/api/study-room";
 import { StudyMemberInterface } from "@/shared/types/api/study-room";
 import cn from "@/shared/utils/cn";
 
-const MemberCard = () => {
+interface MemberCardProps {
+  members: StudyMemberInterface[];
+}
+const MemberCard = ({ members }: MemberCardProps) => {
   const { isModalOpenState, openModal, closeModal } = useModal();
   // 스터디원 조회
-  const [membersState] = useState(MockStudyMembers);
+  const [membersState] = useState(members);
   // 스터디원의 출석률 조회
   const [memberAttendanceState] = useState(MockStudyMemberAttendance);
   // 선택한 멤버
