@@ -29,6 +29,13 @@ interface MemberCardProps {
   members: StudyMemberInterface[];
 }
 
+interface StudyMemberCardProps {
+  data: StudyMemberInterface;
+  isBest: boolean;
+  onChat?: () => void;
+  onMore?: () => void;
+}
+
 const MemberCard = ({ members }: MemberCardProps) => {
   const { isModalOpenState, openModal, closeModal } = useModal();
   // 스터디원 조회
@@ -164,10 +171,13 @@ const MemberCard = ({ members }: MemberCardProps) => {
         </Card.Header>
         <Card.Content className="max-h-[450px] max-w-full flex-row gap-3 overflow-x-scroll">
           {membersState.map((item, index) => {
+            const isBest = item.userId === bestMember?.userId;
+
             return (
               <StudyMemberCard
                 key={`${item}_${index}`}
                 data={item}
+                isBest={isBest}
                 onChat={() => console.log("chat")}
                 onMore={() => onMoreHandler(item)}
               />
@@ -178,20 +188,19 @@ const MemberCard = ({ members }: MemberCardProps) => {
     </>
   );
 };
+
 const StudyMemberCard = ({
   data,
+  isBest,
   onChat,
   onMore,
-}: {
-  data: StudyMemberInterface;
-  onChat?: () => void;
-  onMore?: () => void;
-}) => {
+}: StudyMemberCardProps) => {
   return (
     <Card className="min-w-52 gap-2 shadow-none">
       <Card.Header className="flex-col items-center justify-center gap-2">
         {/* <Profile width={80} height={80} src={profileImg} /> */}
         <Typography.Head3>{data.nickname}</Typography.Head3>
+
         <Badge
           className="w-fit"
           color={data.studyMemberRoleType === "스터디장" ? "Green" : "Blue"}
@@ -205,9 +214,13 @@ const StudyMemberCard = ({
             )}
           />
         </Badge>
-        <Typography.P3 className="text-[14px] font-medium tablet:text-sm">
-          참여율 {data.participationRate}%
-        </Typography.P3>
+        <div className="flex items-center gap-1">
+          {/* {isBest && <Badge color="Gray">우수</Badge>} */}
+          {isBest && <i className="bi bi-star-fill text-yellow-300" />}
+          <Typography.P3 className="text-[14px] font-medium tablet:text-sm">
+            참여율 {data.participationRate}%
+          </Typography.P3>
+        </div>
         <Typography.P3 className="text-[14px] font-medium text-mos-gray-300 tablet:text-[12px]">
           최근 참여일 {data.lastAttendanceDate}
         </Typography.P3>
