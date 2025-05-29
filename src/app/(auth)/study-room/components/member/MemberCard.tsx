@@ -41,6 +41,8 @@ const MemberCard = ({ members }: MemberCardProps) => {
         return memberAttendanceState[0];
       }
     });
+  // 우수 멤버
+  const bestMember = findBestMember(members);
 
   const onMoreHandler = (item: StudyMemberInterface) => {
     // 멤버 출석율 조회에서 맞는 id 찾기
@@ -60,6 +62,15 @@ const MemberCard = ({ members }: MemberCardProps) => {
     // modal 닫기
     closeModal();
   };
+
+  function findBestMember(members: StudyMemberInterface[]) {
+    if (!Array.isArray(members) || members.length === 0) return null;
+
+    return members.reduce((max, item) => {
+      if (!("participationRate" in item)) return max;
+      return item["participationRate"] > max["participationRate"] ? item : max;
+    });
+  }
 
   // 📌 날짜를 기반으로 몇 번째 주인지 계산하는 함수
   // const getWeekNumber = (dateString: string): string => {
@@ -133,13 +144,7 @@ const MemberCard = ({ members }: MemberCardProps) => {
           <Typography.SubTitle1>이 달의 우수 멤버</Typography.SubTitle1>
         </Card.Header>
         <Card.Content className="max-h-[450px]">
-          {/* 임시 데이터 */}
-          {membersState.length > 0 && (
-            <StudyMemberCard
-              data={membersState[0]}
-              // onMore={() => onMoreHandler(item)}
-            />
-          )}
+          {membersState.length > 0 && <StudyMemberCard data={bestMember!} />}
         </Card.Content>
       </Card>
       <Card className="col-span-8 h-fit gap-3 overflow-x-scroll">
