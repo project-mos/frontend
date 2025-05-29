@@ -196,11 +196,14 @@ const StudyMemberCard = ({
   onMore,
 }: StudyMemberCardProps) => {
   return (
-    <Card className="min-w-52 gap-2 shadow-none">
+    <Card className="relative min-w-52 gap-2 shadow-none">
+      {isBest && (
+        <i className="bi bi-bookmark-star-fill absolute left-0 top-0 text-2xl text-mos-main" />
+      )}
       <Card.Header className="flex-col items-center justify-center gap-2">
-        {/* <Profile width={80} height={80} src={profileImg} /> */}
-        <Typography.Head3>{data.nickname}</Typography.Head3>
-
+        <div className="flex items-center gap-1">
+          <Typography.Head3>{data.nickname}</Typography.Head3>
+        </div>
         <Badge
           className="w-fit"
           color={data.studyMemberRoleType === "스터디장" ? "Green" : "Blue"}
@@ -215,8 +218,9 @@ const StudyMemberCard = ({
           />
         </Badge>
         <div className="flex items-center gap-1">
-          {/* {isBest && <Badge color="Gray">우수</Badge>} */}
-          {isBest && <i className="bi bi-star-fill text-yellow-300" />}
+          {/* {isBest && (
+            <i className="bi bi-star-fill text-yellow-300 ml-[-10px]" />
+          )} */}
           <Typography.P3 className="text-[14px] font-medium tablet:text-sm">
             참여율 {data.participationRate}%
           </Typography.P3>
