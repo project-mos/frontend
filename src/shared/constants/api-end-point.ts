@@ -177,5 +177,27 @@ export const API_ENDPOINT = {
       };
     },
   },
-  // 필요에 따라 추가
+  attendance: {
+    attendance: (studyId: string, studyScheduleId: string) => {
+      const url = `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/schedules/${studyScheduleId}/attendances`;
+      return {
+        url,
+        method: Method.POST,
+      };
+    },
+    editAttendance: (studyId: string, studyScheduleId: string) => {
+      const url = `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/schedules/${studyScheduleId}/attendances`;
+      return {
+        url,
+        method: Method.PUT,
+      };
+    },
+    getAttendances: (studyId: string) => {
+      const url = `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/members/attendances`;
+      return {
+        url,
+        method: Method.GET,
+      };
+    },
+  },
 };
