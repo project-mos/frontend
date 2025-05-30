@@ -11,19 +11,17 @@ import useMultiModal from "@/shared/hooks/useMultiModal";
 import ProfileModal from "./ProfileModal";
 import { useQuery } from "@tanstack/react-query";
 import { userInfoQueryOption } from "@/features/mypage/services/mypage.service";
+import { useTokenStore } from "@/shared/store/authStore";
 
-interface ProfileCardInterface {
-  accessToken: string | undefined;
-}
-
-const ProfileCard = ({ accessToken }: ProfileCardInterface) => {
+const ProfileCard = () => {
+  const { accessToken } = useTokenStore();
   const { modal, openModal, closeModal } = useMultiModal();
   // 유저 정보 조회
-  const { data: userInfo } = useQuery(userInfoQueryOption(accessToken!));
+  const { data: userInfo } = useQuery(userInfoQueryOption(accessToken));
 
   const {
-    nickname,
-    introduction,
+    nickname = "이름",
+    introduction = "한 줄 소개를 등록해 주세요.",
     // categories,
     profileImage = profileImg,
     // joinDate = "0000-00-00",
@@ -41,7 +39,7 @@ const ProfileCard = ({ accessToken }: ProfileCardInterface) => {
           />
           <Typography.Head3>{nickname}</Typography.Head3>
           <Typography.P3 className="mb-[26px] text-[14px] text-mos-gray-500">
-            {introduction ? introduction : "한 줄 소개를 등록해 주세요."}
+            {introduction}
           </Typography.P3>
           {/* <div className="mb-[10px] flex gap-2">
             {Array.isArray(categories)
