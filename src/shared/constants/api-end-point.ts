@@ -1,4 +1,7 @@
-import { GetStudiesRequest } from "@/shared/types/api/studies";
+import {
+  GetStudiesRequest,
+  GetStudyJoinsRequest,
+} from "@/shared/types/api/studies";
 import { Method } from "../utils/fetcher";
 
 export const API_ENDPOINT = {
@@ -122,6 +125,13 @@ export const API_ENDPOINT = {
     },
   },
   join: {
+    getJoins: (studyJoinStatus?: GetStudyJoinsRequest) => {
+      const status = studyJoinStatus || "";
+      return {
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/study-joins?studyJoinStatus=${status}`,
+        method: Method.POST,
+      };
+    },
     postJoin: (studyId: string) => {
       return {
         url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/study-joins`,
