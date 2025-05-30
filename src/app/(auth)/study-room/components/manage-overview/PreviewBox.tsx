@@ -1,11 +1,6 @@
+import { PreviewBoxProps } from "@/features/study-room/types/study-room.type";
 import Button from "@/shared/components/atoms/Button";
 import Typography from "@/shared/components/atoms/Typography";
-import { SetStateAction } from "react";
-
-interface PreviewBoxProps {
-  data: string[];
-  setState: React.Dispatch<SetStateAction<boolean>>;
-}
 
 const PreviewBox = ({ data, setState }: PreviewBoxProps) => {
   return (

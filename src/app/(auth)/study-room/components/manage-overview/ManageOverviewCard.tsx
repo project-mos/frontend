@@ -3,6 +3,7 @@ import cn from "@/shared/utils/cn";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
+import { ManageOverviewCardProps } from "@/features/study-room/types/study-room.type";
 import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
 import ActionConfirmModal from "@/shared/components/molecules/ActionConfirmModal";
@@ -14,22 +15,6 @@ const TABS = [
   { id: 1, label: "규칙" },
   { id: 2, label: "혜택" },
 ];
-
-export interface RuleInterface {
-  ruleNum: number;
-  content: string;
-}
-
-export interface BenefitInterface {
-  benefitNum: number;
-  content: string;
-}
-
-interface ManageOverviewCardProps {
-  rules: string[];
-  benefits: string[];
-  studyId: string;
-}
 
 const ManageOverviewCard = ({
   rules,
