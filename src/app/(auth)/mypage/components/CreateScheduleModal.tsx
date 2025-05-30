@@ -96,7 +96,7 @@ const CreateScheduleModal = ({ onClose, ...props }: NoticeModalProps) => {
             <LabelTextAreaInput
               label="일정 설명"
               name="description"
-              placeholder="일정 설명울 입력하세요."
+              placeholder="일정 설명을 입력하세요."
               required
               registerOptions={{ required: "필수 입력입니다." }}
             />
