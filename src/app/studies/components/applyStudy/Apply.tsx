@@ -10,9 +10,13 @@ import { useParams } from "next/navigation";
 import URL from "@/shared/constants/URL";
 import { useAuthStore } from "@/shared/store/authStore";
 import { useQuestions } from "@/features/studies/services/studies.service";
-import ToastRenderer from "@/shared/components/system/ToastRenderer";
+import { GetStudyDetailResponse } from "@/shared/types/api/studies";
 
-const Apply = () => {
+interface ApplyProps {
+  data: GetStudyDetailResponse;
+}
+
+const Apply = ({ data }: ApplyProps) => {
   const { id } = useParams() as { id: string };
 
   const [isApplyVisibleState, setIsApplyVisibleState] =
@@ -20,7 +24,8 @@ const Apply = () => {
   const { isModalOpenState, openModal, closeModal } = useModal();
 
   const { isLoggedIn } = useAuthStore();
-  const { data } = useQuestions(id, isLoggedIn);
+
+  const { data: questionData } = useQuestions(id, isLoggedIn);
 
   function onClickButton() {
     if (isLoggedIn) {
@@ -29,24 +34,41 @@ const Apply = () => {
       openModal();
     }
   }
+  const isTodayInRange = (start: string, end: string): boolean => {
+    const today = new Date();
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+
+    // 날짜 비교를 위해 시간 제거
+    const normalize = (date: Date) =>
+      new Date(date.getFullYear(), date.getMonth(), date.getDate());
+
+    const normalizedToday = normalize(today);
+    const normalizedStart = normalize(startDate);
+    const normalizedEnd = normalize(endDate);
+
+    return (
+      normalizedToday >= normalizedStart && normalizedToday <= normalizedEnd
+    );
+  };
 
   return (
     <div className="flex w-full flex-col items-center gap-5">
-      <ToastRenderer />
       <LoginModal
         isOpen={isModalOpenState}
         onClose={closeModal}
         redirectUrl={URL.STUDY.DETAIL(Number(id))}
       />
-      {!isApplyVisibleState && (
-        <Button.Solid color="Main" active onClick={onClickButton}>
-          지원하기
-        </Button.Solid>
-      )}
-      {isApplyVisibleState && data && (
+      {!isApplyVisibleState &&
+        isTodayInRange(data.recruitmentStartDate, data.recruitmentEndDate) && (
+          <Button.Solid color="Main" active onClick={onClickButton}>
+            지원하기
+          </Button.Solid>
+        )}
+      {isApplyVisibleState && questionData && (
         <ApplyFormCard
           studyId={id}
-          data={data}
+          data={questionData}
           setIsApplyVisible={setIsApplyVisibleState}
         />
       )}
