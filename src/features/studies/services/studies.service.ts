@@ -3,6 +3,8 @@ import {
   GetStudyBenefitsResponse,
   GetStudyCurriculumsResponse,
   GetStudyDetailResponse,
+  GetStudyJoinsRequest,
+  GetStudyJoinsResponse,
   GetStudyMembersResponse,
   GetStudyQuestionsResponse,
   GetStudyRequirementsResponse,
@@ -65,6 +67,26 @@ export async function getMembers(studyId: string) {
   );
   return response;
 }
+export async function getJoins({
+  studyJoinStatus,
+  accessToken,
+}: {
+  studyJoinStatus?: GetStudyJoinsRequest;
+  accessToken: string;
+}) {
+  console.log(accessToken);
+  const response = await fetchAPI<GetStudyJoinsResponse>(
+    API_ENDPOINT.join.getJoins(studyJoinStatus).url,
+    {
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken || ""}`,
+      },
+    }
+  );
+  return response;
+}
 
 export async function postJoin(
   studyId: string,
@@ -106,5 +128,22 @@ export function usePostJoin({
   return useMutation({
     ...options,
     mutationFn: (data: PostStudyJoin) => postJoin(studyId, data, accessToken),
+  });
+}
+
+export function useGetJoins({
+  studyJoinStatus,
+  accessToken,
+}: {
+  studyJoinStatus?: GetStudyJoinsRequest;
+  accessToken: string;
+}) {
+  console.log(!!accessToken);
+  return useQuery({
+    queryKey: ["joins", studyJoinStatus],
+    queryFn: () => getJoins({ studyJoinStatus, accessToken }),
+    staleTime: 3600,
+    enabled: !!accessToken,
+    retry: false,
   });
 }
