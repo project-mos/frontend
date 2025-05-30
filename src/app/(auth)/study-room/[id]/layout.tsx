@@ -6,7 +6,7 @@ import StudyRoomSideBarCard from "@/app/(auth)/study-room/components/layout/Stud
 import StudyRoomTitleCard from "@/app/(auth)/study-room/components/layout/StudyRoomTitleCard";
 import ImportantNoticeBar from "@/app/(auth)/study-room/components/notice/ImportantNoticeBar";
 import Grid from "@/shared/components/atoms/Grid";
-import ToastRenderer from "@/shared/components/ToastRenderer";
+import ToastRenderer from "@/shared/components/system/ToastRenderer";
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
