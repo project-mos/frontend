@@ -1,5 +1,5 @@
 import { API_ENDPOINT } from "@/shared/constants/api-end-point";
-import { GetUserInfoResult, updateUserInfoResult } from "@/shared/types/api/mypage";
+import { GetSchedulesResult, GetUserInfoResult, updateUserInfoResult } from "@/shared/types/api/mypage";
 import { fetchAPI } from "@/shared/utils/fetch";
 import { UseQueryOptions } from "@tanstack/react-query";
 
@@ -35,3 +35,24 @@ export const updateUserInfo = async (
     },    
     body: JSON.stringify(data),
   })}
+
+  // 캘린더 일정 조회 //
+export const getMySchedules = async (accessToken: string): Promise<GetSchedulesResult[]> => {
+  return fetchAPI(API_ENDPOINT.user.getMySchedules().url, {
+    credentials: "include",
+    method: API_ENDPOINT.user.getMySchedules().method,
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json",
+    },
+  });
+}
+export const MySchedulesQueryOption = (
+  accessToken: string,
+  options?: UseQueryOptions<GetSchedulesResult[], Error>
+): UseQueryOptions<GetSchedulesResult[], Error> => ({
+  queryKey: ["myApplyStatus", accessToken],
+  queryFn: () => getMySchedules(accessToken),
+  enabled: !!accessToken,
+  ...options, 
+});

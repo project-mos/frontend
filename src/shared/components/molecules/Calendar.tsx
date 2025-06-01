@@ -5,6 +5,9 @@ import { useState } from "react";
 import Button from "../atoms/Button";
 import Grid from "../atoms/Grid";
 import Typography from "../atoms/Typography";
+import { useTokenStore } from "@/shared/store/authStore";
+import { useQuery } from "@tanstack/react-query";
+import { MySchedulesQueryOption } from "@/features/mypage/services/mypage.service";
 
 interface CalendarProps {
   [key: string]: {
@@ -18,18 +21,33 @@ const cellStyle =
   "h-16 w-full min-w-10 mobile:min-w-20 border border-gray-200 p-2 mobile:h-20 tablet:min-w-[50px] ";
 
 function Calendar() {
+  const { accessToken } = useTokenStore();
   const [currentDateState, setCurrentDateState] = useState(new Date());
   const today = new Date();
 
+  // 캘린더 일정
+  const { data: schedulesData } = useQuery(MySchedulesQueryOption(accessToken));
+
+  const getSchedulesByDate = schedulesData
+    ? schedulesData.reduce(
+        (acc: CalendarProps, item) => {
+          const dateKey = item.startDateTime.split("T")[0];
+          if (!acc[dateKey]) {
+            acc[dateKey] = [];
+          }
+          acc[dateKey].push({
+            id: item.studyId,
+            title: item.title,
+            color: "bg-blue-400",
+          });
+          return acc;
+        },
+        {} // 초기값은 빈 객체
+      )
+    : {}; // schedulesData가 없을 경우 빈 객체 반환
+
   // 예시 일정 데이터 (키: "YYYY-MM-DD" Parameters)
-  const events: CalendarProps = {
-    "2025-03-15": [
-      { id: 1, title: "팀 미팅", color: "bg-green-500" },
-      { id: 2, title: "의사 예약", color: "bg-red-500" },
-      { id: 3, title: "프로젝트 마감", color: "bg-purple-500" },
-    ],
-    "2025-03-10": [{ id: 4, title: "모식이 점심 약속", color: "bg-blue-500" }],
-  };
+  const events: CalendarProps = getSchedulesByDate!;
 
   // 날짜를 'YYYY-MM-DD' 형식으로 포맷
   const formatDate = (year: number, month: number, day: number) => {
@@ -97,7 +115,7 @@ function Calendar() {
               </div>
               {dayEvents.length > 1 && (
                 <div className="flex items-center justify-end text-right text-[11px] font-semibold ">
-                  <Typography.P3 className="rounded-full bg-mos-green-500 px-[3px] py-[2px] text-mos-white-gray-100">
+                  <Typography.P3 className="rounded-full bg-blue-500 px-[3px] py-[2px] text-mos-white-gray-100">
                     +{dayEvents.length - 1}
                   </Typography.P3>
                 </div>

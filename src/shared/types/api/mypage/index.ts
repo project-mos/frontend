@@ -26,3 +26,21 @@ export interface updateUserInfoResult  {
   introduction: string;
   categories: string[];
 }
+
+
+export interface GetSchedulesResult {
+  studyScheduleId: number,
+  title: string,
+  description: string,
+  startDateTime: string,
+  endDateTime: string,
+  studyId: number,
+  studyCurriculumResList: [
+    {
+      studyCurriculumId: number,
+      sectionId: number,
+      title: string,
+      content: string
+    }
+  ]
+}

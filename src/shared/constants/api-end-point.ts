@@ -33,6 +33,14 @@ export const API_ENDPOINT = {
         method: Method.PATCH,
       };
     },
+    // 캘린더 일정 조회
+    getMySchedules: () => {
+      return {
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/study-schedules`,
+        method: Method.GET,
+      };
+    }
+    
   },
   study: {
     // 스터디 생성
