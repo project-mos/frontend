@@ -186,6 +186,15 @@ const ActiveStudies = () => {
     }
   }, [myApplyStatusData, setAllApplyStatus]);
 
+  useEffect(() => {
+    if (myJoinedStudiesData) {
+      localStorage.setItem(
+        "JoinedStudiesNumber",
+        myJoinedStudiesData.length.toString()
+      );
+    }
+  }, [myJoinedStudiesData]);
+
   return (
     <Card className="col-span-12">
       <Card.Header className="mb-[20px]">
