@@ -10,15 +10,14 @@ import Modal, {
 } from "@/shared/components/atoms/Modal";
 import Typography from "@/shared/components/atoms/Typography";
 
+import { updateUserInfo } from "@/features/mypage/services/mypage.service";
 import LabelInput from "@/shared/components/molecules/LabelInput";
+import { useToast } from "@/shared/hooks/useToast";
 import {
   GetUserInfoResult,
   updateUserInfoResult,
 } from "@/shared/types/api/mypage";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { updateUserInfo } from "@/features/mypage/services/mypage.service";
-import { useToast } from "@/shared/hooks/useToast";
-import ToastRenderer from "@/shared/components/system/ToastRenderer";
 
 interface ProfileModalProps extends ModalProps {
   preview?: string; // 프로필 사진 미리보기 url string
@@ -215,7 +214,6 @@ const ProfileModal = ({
           </Modal.Footer>
         </form>
       </Modal>
-      <ToastRenderer />
     </FormProvider>
   );
 };
