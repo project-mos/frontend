@@ -15,23 +15,23 @@ export interface ApplyStatusProps {
 }
 
 export interface GetUserInfoResult {
-  nickname: string,
-  introduction: string,
-  categories: string[]
-  profileImage: string,
-  joinDate: string,
+  nickname: string;
+  introduction: string;
+  categories: string[];
+  profileImage: string;
+  joinDate: string;
 }
 
-export interface UpdateUserInfoResult  {
+export interface UpdateUserInfoResult {
   nickname: string;
   introduction: string;
   categories: string[];
 }
 
-export interface GetMyApplyStatusResult { 
-  studyId: number,
-  title: string,
-  category: string,
-  studyJoinId: number,
-  studyJoinStatus: string
+export interface GetMyApplyStatusResult {
+  studyId: number;
+  title: string;
+  category: string;
+  studyJoinId: number;
+  studyJoinStatus: string;
 }

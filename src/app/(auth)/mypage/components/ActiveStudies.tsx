@@ -39,7 +39,7 @@ const StudyList = ({ data }: { data: activeStudiesProps[] }) => {
         <div
           key={data.title}
           className="mb-[20px] flex cursor-pointer flex-col gap-[10px] rounded-[10px] border border-mos-gray-100 p-[20px] transition-colors duration-200 hover:border-mos-main-500 active:bg-gray-50"
-          onClick={() => router.push(URL.STUDY_ROOM.DETAIL_SCHEDULE(1))}
+          onClick={() => router.push(URL.STUDY_ROOM.DETAIL_SCHEDULE("1"))}
         >
           <div className="flex justify-between">
             {data.tag.map((tag) => {
@@ -99,7 +99,7 @@ const ApplyList = ({ data }: { data: GetMyApplyStatusResult[] }) => {
             key={data.studyId}
             className="mb-[20px] flex cursor-pointer flex-col gap-[10px] rounded-[10px] border border-mos-gray-100 p-[20px] transition-colors duration-200 hover:border-mos-main-500 active:bg-gray-50"
             onClick={() =>
-              router.push(URL.STUDY_ROOM.DETAIL_SCHEDULE(data.studyId))
+              router.push(URL.STUDY_ROOM.DETAIL_SCHEDULE(`${data.studyId}`))
             }
           >
             <div className="flex justify-between">
