@@ -34,4 +34,5 @@ export interface GetMyApplyStatusResult {
   category: string,
   studyJoinId: number,
   studyJoinStatus: string
+  createdAt: string,
 }

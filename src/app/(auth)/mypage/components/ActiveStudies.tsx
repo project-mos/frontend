@@ -89,6 +89,8 @@ const ApplyList = ({ data }: { data: GetMyApplyStatusResult[] }) => {
   return (
     <>
       {data.map((data) => {
+        const statusTagMapping =
+          data.studyJoinStatus === "PENDING" ? "검토중" : data.studyJoinStatus;
         // 동적으로 Tag 컴포넌트 선택
         const CategoryTagComponent = Tag[tagColors[data.category] || "Green"];
         const StatusTagComponent =
@@ -109,7 +111,7 @@ const ApplyList = ({ data }: { data: GetMyApplyStatusResult[] }) => {
               </CategoryTagComponent>
               {/* 스터디 상태 태그 */}
               <StatusTagComponent border={true} key={data.studyJoinStatus}>
-                {data.studyJoinStatus}
+                {statusTagMapping}
               </StatusTagComponent>
             </div>
             <Typography.Head3 className="text-[20px]">
@@ -117,7 +119,9 @@ const ApplyList = ({ data }: { data: GetMyApplyStatusResult[] }) => {
             </Typography.Head3>
             <div className="flex items-end justify-between">
               <div className="flex items-center gap-[10px]">
-                <Typography.P3>지원일 : 0000-00-00</Typography.P3>
+                <Typography.P3>
+                  지원일 : {data.createdAt.split("T")[0]}
+                </Typography.P3>
               </div>
               <div className="flex items-center ">
                 <i className="bi bi-chevron-right text-xl text-mos-gray-500"></i>

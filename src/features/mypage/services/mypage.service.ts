@@ -21,6 +21,7 @@ export const userInfoQueryOption = (
 ): UseQueryOptions<GetUserInfoResult, Error> => ({
   queryKey: ["userInfo", accessToken],
   queryFn: () => getUserInfo(accessToken),
+  enabled: !!accessToken,
   ...options, 
 });
 
@@ -56,7 +57,8 @@ export const myApplyStatusQueryOption = (
   accessToken: string,
   options?: UseQueryOptions<GetMyApplyStatusResult[], Error>
 ): UseQueryOptions<GetMyApplyStatusResult[], Error> => ({
-  queryKey: ["myApplyStatus", accessToken],
+  queryKey: ["myApplyStatus"],
   queryFn: () => getMyApplyStatus(accessToken),
+  enabled: !!accessToken,
   ...options, 
 });
