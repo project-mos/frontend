@@ -1,13 +1,14 @@
 export interface activeStudiesProps {
   tag: string[];
   title: string;
+  date: string;
   meta: {
     members: string;
     nextMeeting: string;
   };
 }
 
-export interface applyStatusProps {
+export interface ApplyStatusProps {
   tag: string[];
   title: string;
   date: string;
@@ -21,26 +22,31 @@ export interface GetUserInfoResult {
   joinDate: string,
 }
 
-export interface updateUserInfoResult  {
+export interface UpdateUserInfoResult  {
   nickname: string;
   introduction: string;
   categories: string[];
 }
 
-
-export interface GetSchedulesResult {
-  studyScheduleId: number,
-  title: string,
-  description: string,
-  startDateTime: string,
-  endDateTime: string,
+export interface GetMyApplyStatusResult { 
   studyId: number,
-  studyCurriculumResList: [
-    {
-      studyCurriculumId: number,
-      sectionId: number,
-      title: string,
-      content: string
-    }
-  ]
+  title: string,
+  category: string,
+  studyJoinId: number,
+  studyJoinStatus: string
+  createdAt: string,
+}
+
+export interface GetMyJoinedStudiesResult { 
+  id: number,
+  title: string,
+  category: string,
+  meetingType: string,
+  progressStatus: string,
+  participationStatus: string,
+  currentStudyMembers: number,
+  maxStudyMembers: number,
+  schedule: string,
+  studyMemberRole: string,
+  tags: string[]
 }

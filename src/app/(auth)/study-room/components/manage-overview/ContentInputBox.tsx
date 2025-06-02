@@ -1,5 +1,4 @@
 "use client";
-import React from "react";
 
 import { useToast } from "@/shared/hooks/useToast";
 import { useTokenStore } from "@/shared/store/authStore";
@@ -7,30 +6,19 @@ import { useTokenStore } from "@/shared/store/authStore";
 import Button from "@/shared/components/atoms/Button";
 import Input from "@/shared/components/atoms/Input";
 
-import editBenefit from "@/features/study-room/services/editBenefit.service";
-import editRule from "@/features/study-room/services/editRule.service";
-
+import {
+  editBenefit,
+  editRule,
+} from "@/features/study-room/services/study-room.service";
 import ActionConfirmModal from "@/shared/components/molecules/ActionConfirmModal";
 import useMultiModal from "@/shared/hooks/useMultiModal";
 
-import { BenefitInterface, RuleInterface } from "./ManageOverviewCard";
-
-interface ContentInputBoxProps {
-  value: string[];
-  setValue: React.Dispatch<React.SetStateAction<string[]>>;
-  setState: React.Dispatch<React.SetStateAction<boolean>>;
-  buttonText: string;
-  placeholder: string;
-  type: "rule" | "benefit";
-  studyId: string;
-}
-
-interface InlineInputProps {
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onRemove: () => void;
-  placeholder: string;
-}
+import {
+  BenefitInterface,
+  ContentInputBoxProps,
+  InlineInputProps,
+  RuleInterface,
+} from "@/features/study-room/types/study-room.type";
 
 const InlineInput = ({
   value,
@@ -63,7 +51,6 @@ const ContentInputBox = ({
   buttonText,
   placeholder,
   type,
-  // token,
   studyId,
 }: ContentInputBoxProps) => {
   const { modal, openModal, closeModal } = useMultiModal();
@@ -96,13 +83,13 @@ const ContentInputBox = ({
       if (isRule) {
         await editRule({
           token: accessToken,
-          studyId,
+          studyId: studyId,
           rules: arr as RuleInterface[],
         });
       } else {
         await editBenefit({
           token: accessToken,
-          studyId,
+          studyId: studyId,
           benefits: arr as BenefitInterface[],
         });
       }

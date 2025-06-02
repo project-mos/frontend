@@ -15,7 +15,7 @@ import LabelInput from "@/shared/components/molecules/LabelInput";
 import { useToast } from "@/shared/hooks/useToast";
 import {
   GetUserInfoResult,
-  updateUserInfoResult,
+  UpdateUserInfoResult,
 } from "@/shared/types/api/mypage";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -78,7 +78,7 @@ const ProfileModal = ({
       submitData,
     }: {
       accessToken: string;
-      submitData: updateUserInfoResult;
+      submitData: UpdateUserInfoResult;
     }) => updateUserInfo(accessToken!, submitData),
     onSuccess: () => {
       queryClient.invalidateQueries({

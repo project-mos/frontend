@@ -3,7 +3,6 @@ import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
 import { StudyScheduleInterface } from "@/shared/types/api/studies/detail";
 import { formatDate } from "@/shared/utils/date";
-import React from "react";
 
 const StudyRoomSessionCard = ({
   handleEdit,
@@ -17,7 +16,7 @@ const StudyRoomSessionCard = ({
   return (
     <Card className="col-span-12 gap-3 shadow-none mobile:gap-1 tablet:col-span-10">
       <Card.Header className="relative justify-between">
-        <div className="flex flex-col gap-1 mobile:flex-row">
+        <div className="flex w-full flex-wrap gap-1">
           <Badge color="Blue">
             <i className="bi bi-calendar3 mr-1"></i>
             {formatDate("YYYY-MM-DD HH:mm", data.startDateTime)}

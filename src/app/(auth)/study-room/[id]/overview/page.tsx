@@ -2,11 +2,8 @@ import {
   getBenefits,
   getRules,
 } from "@/features/studies/services/studies.service";
+import { StudyDetailPageProps } from "@/features/study-room/types/study-room.type";
 import ManageOverviewCard from "../../components/manage-overview/ManageOverviewCard";
-
-interface StudyDetailPageProps {
-  params: Promise<{ id: string }>;
-}
 
 const ManageOverview = async ({ params }: StudyDetailPageProps) => {
   const { id } = await params;

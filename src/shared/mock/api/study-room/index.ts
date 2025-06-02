@@ -147,7 +147,7 @@ export const MockStudyMembers: StudyMemberInterface[] = [
 export const MockStudyMemberAttendance: StudyMemberAttendanceInterface[] = [
   {
     studyMemberId: 1,
-    userId: 100,
+    userId: 1,
     nickname: "홍길동",
     attendanceRes: [
       {
@@ -197,7 +197,7 @@ export const MockStudyMemberAttendance: StudyMemberAttendanceInterface[] = [
   },
   {
     studyMemberId: 2,
-    userId: 101,
+    userId: 2,
     nickname: "도라에몽",
     attendanceRes: [
       {

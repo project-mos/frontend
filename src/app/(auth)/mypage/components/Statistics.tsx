@@ -1,7 +1,18 @@
+"use client";
 import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
+import { useApplyStatusStore } from "@/shared/store/useApplyStatusStore";
+import { useEffect, useState } from "react";
 
 const Statistics = () => {
+  const allApplyStatus = useApplyStatusStore((state) => state.allApplyStatus);
+  const [allJoinedStudies, setAllJoinedStudies] = useState<string | null>(null);
+
+  useEffect(() => {
+    const joinedStudies = localStorage.getItem("JoinedStudiesNumber");
+    setAllJoinedStudies(joinedStudies);
+  }, []);
+
   return (
     <Card>
       <Card.Header>
@@ -10,13 +21,13 @@ const Statistics = () => {
       <Card.Content>
         <div className="flex gap-3 py-[40px]">
           <div className="flex w-[50%] flex-col items-center border-r border-mos-gray-700 pr-3">
-            <Typography.Head2>2</Typography.Head2>
+            <Typography.Head2>{allJoinedStudies || 0}</Typography.Head2>
             <Typography.P1 className="text-mos-gray-300">
               참여 스터디
             </Typography.P1>
           </div>
           <div className="flex w-[50%] flex-col items-center">
-            <Typography.Head2>1</Typography.Head2>
+            <Typography.Head2>{allApplyStatus?.length}</Typography.Head2>
             <Typography.P1 className="text-mos-gray-300">
               지원 현황
             </Typography.P1>
