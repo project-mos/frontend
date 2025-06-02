@@ -1,4 +1,3 @@
-import { API_ENDPOINT } from "@/shared/constants/api-end-point";
 import {
   GetStudyBenefitsResponse,
   GetStudyCurriculumsResponse,
@@ -10,7 +9,9 @@ import {
   GetStudyRequirementsResponse,
   GetStudyRulesResponse,
   PostStudyJoin,
-} from "@/shared/types/api/studies";
+} from "@/features/studies/types/studies.api";
+import { API_ENDPOINT } from "@/shared/constants/api-end-point";
+
 import { fetchAPI } from "@/shared/utils/fetch";
 import { fetchData } from "@/shared/utils/fetcher";
 import {
@@ -74,7 +75,6 @@ export async function getJoins({
   studyJoinStatus?: GetStudyJoinsRequest;
   accessToken: string;
 }) {
-  console.log(accessToken);
   const response = await fetchAPI<GetStudyJoinsResponse>(
     API_ENDPOINT.join.getJoins(studyJoinStatus).url,
     {
@@ -98,6 +98,21 @@ export async function postJoin(
   return await fetchAPI<PostStudyJoin>(url, {
     credentials: "include",
     body: JSON.stringify(data),
+    method,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken || ""}`,
+    },
+  });
+}
+
+export async function patchJoin(
+  studyId: string,
+  studyJoinId: string,
+  accessToken?: string
+) {
+  const { url, method } = API_ENDPOINT.join.patchJoin(studyId, studyJoinId);
+  return await fetchAPI(url, {
     method,
     headers: {
       "Content-Type": "application/json",
@@ -131,6 +146,25 @@ export function usePostJoin({
   });
 }
 
+// patchJoin React Query 훅
+export function usePatchJoin({
+  studyId,
+  studyJoinId,
+  accessToken,
+  options,
+}: {
+  studyId: string;
+  studyJoinId: string;
+  options?: UseMutationOptions<unknown, Error, unknown, unknown>;
+  accessToken?: string;
+}) {
+  console.log(studyId, studyJoinId, accessToken, options);
+  return useMutation({
+    ...options,
+    mutationFn: () => patchJoin(studyId, studyJoinId, accessToken),
+  });
+}
+
 export function useGetJoins({
   studyJoinStatus,
   accessToken,
@@ -138,7 +172,6 @@ export function useGetJoins({
   studyJoinStatus?: GetStudyJoinsRequest;
   accessToken: string;
 }) {
-  console.log(!!accessToken);
   return useQuery({
     queryKey: ["joins", studyJoinStatus],
     queryFn: () => getJoins({ studyJoinStatus, accessToken }),

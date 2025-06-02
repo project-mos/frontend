@@ -1,8 +1,6 @@
-import {
-  GetStudiesRequest,
-  GetStudyJoinsRequest,
-} from "@/shared/types/api/studies";
 import { Method } from "../utils/fetcher";
+import { GetStudiesRequest } from "@/features/landing/types/landing.api";
+import { GetStudyJoinsRequest } from "@/features/studies/types/studies.api";
 
 export const API_ENDPOINT = {
   auth: {
@@ -32,7 +30,7 @@ export const API_ENDPOINT = {
     // 유저 정보 수정
     updateUser: () => {
       return {
-        url: `${process.env.NEXT_PUBLIC_BASE_URL}/users`, 
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/users`,
         method: Method.PATCH,
       };
     },
@@ -41,7 +39,7 @@ export const API_ENDPOINT = {
         url: `${process.env.NEXT_PUBLIC_BASE_URL}/study-joins?studyJoinStatus=대기`, // 임시 URL 백엔드 코드 수정되면 파라미터 제거해야함
         method: Method.GET,
       };
-    }
+    },
   },
   study: {
     // 스터디 생성
@@ -142,6 +140,12 @@ export const API_ENDPOINT = {
       return {
         url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/study-joins`,
         method: Method.POST,
+      };
+    },
+    patchJoin: (studyId: string, studyJoinId: string) => {
+      return {
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/study-joins/${studyJoinId}`,
+        method: Method.PATCH,
       };
     },
   },
