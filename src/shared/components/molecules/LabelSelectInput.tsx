@@ -17,7 +17,7 @@ interface LabelSelectInputProps<T extends FieldValues>
   name: Path<T>;
   id?: string;
   required?: boolean;
-  selectList: string[];
+  selectList: string[] | { label: string; value: string | number }[];
   registerOptions?: RegisterOptions<T, Path<T>>;
 }
 
@@ -45,11 +45,17 @@ const LabelSelectInput = <T extends FieldValues>({
           "w-full placeholder:text-mos-gray-500 focus:border-mos-main-500 focus:outline-none"
         )}
       >
-        {selectList.map((option, index) => (
-          <Select.Option key={index} value={option}>
-            {option}
-          </Select.Option>
-        ))}
+        {selectList.map((option, index) => {
+          const isObject = typeof option === "object" && option !== null;
+          const value = isObject ? option.value : option;
+          const displayLabel = isObject ? option.label : option;
+
+          return (
+            <Select.Option key={index} value={value}>
+              {displayLabel}
+            </Select.Option>
+          );
+        })}
       </Select>
       {errors[name]?.message && (
         <Typography.Error>{String(errors[name]?.message)}</Typography.Error>
