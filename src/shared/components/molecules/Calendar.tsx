@@ -2,12 +2,12 @@
 import cn from "@/shared/utils/cn";
 import { useState } from "react";
 
-import Button from "../atoms/Button";
-import Grid from "../atoms/Grid";
-import Typography from "../atoms/Typography";
+import Button from "@/shared/components/atoms/Button";
+import Grid from "@/shared/components/atoms/Grid";
+import Typography from "@/shared/components/atoms/Typography";
 import { useTokenStore } from "@/shared/store/authStore";
 import { useQuery } from "@tanstack/react-query";
-import { MySchedulesQueryOption } from "@/features/mypage/services/mypage.service";
+import { mySchedulesQueryOption } from "@/features/mypage/services/mypage.service";
 
 interface CalendarProps {
   [key: string]: {
@@ -26,7 +26,7 @@ function Calendar() {
   const today = new Date();
 
   // 캘린더 일정
-  const { data: schedulesData } = useQuery(MySchedulesQueryOption(accessToken));
+  const { data: schedulesData } = useQuery(mySchedulesQueryOption(accessToken));
 
   const getSchedulesByDate = schedulesData
     ? schedulesData.reduce(

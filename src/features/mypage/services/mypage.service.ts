@@ -1,5 +1,5 @@
 import { API_ENDPOINT } from "@/shared/constants/api-end-point";
-import { GetMyApplyStatusResult, GetMyJoinedStudiesResult, GetUserInfoResult, UpdateUserInfoResult } from "@/shared/types/api/mypage";
+import { GetMyApplyStatusResult, GetMyJoinedStudiesResult, GetMySchedulesResult, GetUserInfoResult, UpdateUserInfoResult } from "@/shared/types/api/mypage";
 import { fetchAPI } from "@/shared/utils/fetch";
 import { UseQueryOptions } from "@tanstack/react-query";
 
@@ -38,16 +38,28 @@ export const updateUserInfo = async (
     body: JSON.stringify(data),
   })}
 
-export const myJoinedStudiesQueryOption = (
+// 캘린더 일정 조회 //
+export const getMySchedules = async (accessToken: string): Promise<GetMySchedulesResult[]> => {
+  return fetchAPI<GetMySchedulesResult[]>(API_ENDPOINT.user.getMySchedules().url, {
+    credentials: "include",
+    method: API_ENDPOINT.user.getMySchedules().method,
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json",
+    },
+  });
+}
+export const mySchedulesQueryOption = (
   accessToken: string,
-  userId: string,
-  options?: UseQueryOptions<GetMyJoinedStudiesResult[], Error>
-): UseQueryOptions<GetMyJoinedStudiesResult[], Error> => ({
-  queryKey: ["myJoinedStudies"],
-  queryFn: () => getMyJoinedStudies(accessToken, userId),
-  enabled: !!accessToken && !!userId,
-  ...options, 
+  options?: UseQueryOptions<GetMySchedulesResult[], Error>
+): UseQueryOptions<GetMySchedulesResult[], Error> => ({
+  queryKey: ["mySchedules"],
+  queryFn: () => getMySchedules(accessToken),
+  enabled: !!accessToken,
+  ...options,
 });
+
+
 // 참여 중인 스터디 //
 export const getMyJoinedStudies = async (accessToken: string, userId: string): Promise<GetMyJoinedStudiesResult[]> => {
   return fetchAPI(API_ENDPOINT.user.getMyJoinedStudies(userId).url, {
@@ -59,6 +71,16 @@ export const getMyJoinedStudies = async (accessToken: string, userId: string): P
     },
   });
 }
+export const myJoinedStudiesQueryOption = (
+  accessToken: string,
+  userId: string,
+  options?: UseQueryOptions<GetMyJoinedStudiesResult[], Error>
+): UseQueryOptions<GetMyJoinedStudiesResult[], Error> => ({
+  queryKey: ["myJoinedStudies"],
+  queryFn: () => getMyJoinedStudies(accessToken, userId),
+  enabled: !!accessToken && !!userId,
+  ...options, 
+});
 
 // 나의 지원 현황 //
 export const getMyApplyStatus = async (accessToken: string): Promise<GetMyApplyStatusResult[]> => {
