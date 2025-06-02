@@ -11,6 +11,8 @@ import LabelInput from "@/shared/components/molecules/LabelInput";
 import LabelTextAreaInput from "@/shared/components/molecules/LabelTextAreaInput";
 
 import LabelInputDate from "@/shared/components/molecules/LabelInputDate";
+import LabelSelectInput from "@/shared/components/molecules/LabelSelectInput";
+import { useMyJoinedStudyStore } from "@/shared/store/useMyJoinedStudyStore";
 
 interface NoticeModalProps extends ModalProps {
   onClose: ModalOnClose;
@@ -25,6 +27,7 @@ interface ScheduleData {
   endTime?: string;
   startDateTime: string;
   endDateTime: string;
+  studyId?: string;
 }
 
 const CreateScheduleModal = ({ onClose, ...props }: NoticeModalProps) => {
@@ -39,6 +42,13 @@ const CreateScheduleModal = ({ onClose, ...props }: NoticeModalProps) => {
   });
   const { handleSubmit, formState, watch, reset } = methods;
   const scheduleData = watch();
+  const myJoinedStudiesData = useMyJoinedStudyStore(
+    (state) => state.myJoinedStudiesData
+  );
+  const scheduleOption = myJoinedStudiesData?.map((itme) => ({
+    label: itme.title,
+    value: itme.id,
+  }));
 
   // 빈 항목이 하나라도 있으면 false
   const isActiveBtn =
@@ -66,8 +76,8 @@ const CreateScheduleModal = ({ onClose, ...props }: NoticeModalProps) => {
     delete formattedData.startTime;
     delete formattedData.endDate;
     delete formattedData.endTime;
+    delete formattedData.studyId;
 
-    console.log("formattedData", formattedData);
     reset();
     onClose();
   };
@@ -86,6 +96,20 @@ const CreateScheduleModal = ({ onClose, ...props }: NoticeModalProps) => {
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <Modal.Content className="flex flex-col gap-7">
+            <LabelSelectInput
+              className="text-mos-gray-400 text-[14px]"
+              label="일정을 추가할 스터디를 선택해 주세요."
+              name="studyId"
+              selectList={scheduleOption || []}
+              required
+              registerOptions={{ required: "필수 입력입니다." }}
+              onChange={(e) => {
+                console.log(
+                  "Selected study:",
+                  (e.target as HTMLSelectElement).value
+                );
+              }}
+            />
             <LabelInput
               label="제목"
               name="title"

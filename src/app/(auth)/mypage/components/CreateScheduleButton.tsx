@@ -3,12 +3,24 @@
 import Button from "@/shared/components/atoms/Button";
 import useModal from "@/shared/hooks/useModal";
 import CreateScheduleModal from "./CreateScheduleModal";
+import { useToast } from "@/shared/hooks/useToast";
+import { useMyJoinedStudyStore } from "@/shared/store/useMyJoinedStudyStore";
 
 const CreateScheduleButton = () => {
   const { isModalOpenState, openModal, closeModal } = useModal();
+  const toast = useToast();
+  const myJoinedStudiesData = useMyJoinedStudyStore(
+    (state) => state.myJoinedStudiesData
+  );
 
   const handleCreateSchedule = () => {
-    openModal();
+    if (myJoinedStudiesData?.length === 0) {
+      toast.info(
+        "참여중인 스터디가 없습니다. 스터디에 참여 후 일정을 생성해주세요."
+      );
+    } else {
+      openModal();
+    }
   };
 
   return (
