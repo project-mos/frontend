@@ -21,6 +21,7 @@ import {
 import { useApplyStatusStore } from "@/shared/store/useApplyStatusStore";
 import { useTokenStore } from "@/shared/store/authStore";
 import useDecodeToken from "@/shared/hooks/useDecodeToken";
+import { useMyJoinedStudyStore } from "@/shared/store/useMyJoinedStudyStore";
 
 const tagColors: Record<string, keyof typeof Tag> = {
   스터디장: "Green",
@@ -173,6 +174,9 @@ const ActiveStudies = () => {
   const setAllApplyStatus = useApplyStatusStore(
     (state) => state.setAllApplyStatus
   );
+  const setMyJoinedStudiesData = useMyJoinedStudyStore(
+    (state) => state.setMyJoinedStudiesData
+  );
 
   // 참여 중인 스터디 조회
   const { data: myJoinedStudiesData } = useQuery(
@@ -192,12 +196,9 @@ const ActiveStudies = () => {
 
   useEffect(() => {
     if (myJoinedStudiesData) {
-      localStorage.setItem(
-        "JoinedStudiesNumber",
-        myJoinedStudiesData.length.toString()
-      );
+      setMyJoinedStudiesData(myJoinedStudiesData);
     }
-  }, [myJoinedStudiesData]);
+  }, [myJoinedStudiesData, setMyJoinedStudiesData]);
 
   return (
     <Card className="col-span-12">
