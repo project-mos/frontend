@@ -3,7 +3,8 @@ import { useRouter } from "next/navigation";
 
 import StudyCard from "@/app/studies/components/StudyCard";
 import URL from "@/shared/constants/URL";
-import { Study } from "@/shared/types/api/studies";
+import { Study } from "@/features/landing/types/landing.api";
+
 // import { MockStudyCardApiResult } from "@/shared/mock/api/studies";
 interface LandingStudyCardProps {
   data: Study;

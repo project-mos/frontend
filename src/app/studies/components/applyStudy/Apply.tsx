@@ -10,7 +10,7 @@ import { useParams } from "next/navigation";
 import URL from "@/shared/constants/URL";
 import { useAuthStore } from "@/shared/store/authStore";
 import { useQuestions } from "@/features/studies/services/studies.service";
-import { GetStudyDetailResponse } from "@/shared/types/api/studies";
+import { GetStudyDetailResponse } from "@/features/studies/types/studies.api";
 
 interface ApplyProps {
   data: GetStudyDetailResponse;

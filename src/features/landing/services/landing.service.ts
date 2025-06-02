@@ -1,10 +1,12 @@
-import { API_ENDPOINT } from "@/shared/constants/api-end-point";
 import {
-  GetStudyCategoriesResponse,
-  GetHotStudiesResponse,
   GetStudiesRequest,
   GetStudiesResponse,
-} from "@/shared/types/api/studies";
+  GetHotStudiesResponse,
+} from "@/features/landing/types/landing.api";
+
+import { API_ENDPOINT } from "@/shared/constants/api-end-point";
+import { GetStudyCategoriesResponse } from "@/shared/types/api/studies";
+
 import { fetchAPI } from "@/shared/utils/fetch";
 import { fetchData } from "@/shared/utils/fetcher";
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";

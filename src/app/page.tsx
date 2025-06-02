@@ -3,10 +3,9 @@ import LandingContentHeader from "@/features/landing/components/LandingContentHe
 import LandingLoginToast from "@/features/landing/components/LandingLoginToast";
 import Pagination from "@/shared/components/molecules/Pagination";
 
-import { GetStudiesRequest } from "@/shared/types/api/studies";
-
 import LandingStudiesBoundary from "@/features/landing/components/LandingStudiesBoundary";
 import { GetCategories } from "@/features/landing/services/landing.service";
+import { GetStudiesRequest } from "@/features/landing/types/landing.api";
 
 interface HomeProps {
   searchParams: Promise<GetStudiesRequest>;
