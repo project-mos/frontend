@@ -1,24 +1,16 @@
 "use client";
 
-import Modal, {
-  ModalOnClose,
-  ModalProps,
-} from "@/shared/components/atoms/Modal";
+import profileImg from "@/asset/images/profile_example.jpeg";
+import { MemberModalProps } from "@/features/study-room/types/study-room.type";
+import Button from "@/shared/components/atoms/Button";
+import Modal from "@/shared/components/atoms/Modal";
 import Profile from "@/shared/components/atoms/Profile";
 import Typography from "@/shared/components/atoms/Typography";
-import { StudyMemberAttendanceInterface } from "@/shared/types/api/study-room";
-import profileImg from "@/asset/images/profile_example.jpeg";
-import Button from "@/shared/components/atoms/Button";
 
 // interface AttendanceRecord {
 //   date: string;
 //   status: "출석" | "지각" | "결석";
 // }
-
-interface MemberModalProps extends ModalProps {
-  onClose: ModalOnClose;
-  data?: StudyMemberAttendanceInterface;
-}
 
 const MemberModal = ({ onClose, data, ...props }: MemberModalProps) => {
   const onDelete = () => {
@@ -96,7 +88,9 @@ const MemberModal = ({ onClose, data, ...props }: MemberModalProps) => {
             </div>
           </>
         ) : (
-          <>no data</>
+          <Typography.SubTitle1 className="text-mos-gray-500">
+            멤버 상세 정보가 존재하지 않습니다.
+          </Typography.SubTitle1>
         )}
       </Modal.Content>
 

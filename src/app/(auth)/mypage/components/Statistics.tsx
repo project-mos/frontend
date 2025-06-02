@@ -1,7 +1,11 @@
+"use client";
 import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
+import { useApplyStatusStore } from "@/shared/store/useApplyStatusStore";
 
 const Statistics = () => {
+  const allApplyStatus = useApplyStatusStore((state) => state.allApplyStatus);
+
   return (
     <Card>
       <Card.Header>
@@ -16,7 +20,7 @@ const Statistics = () => {
             </Typography.P1>
           </div>
           <div className="flex w-[50%] flex-col items-center">
-            <Typography.Head2>1</Typography.Head2>
+            <Typography.Head2>{allApplyStatus?.length}</Typography.Head2>
             <Typography.P1 className="text-mos-gray-300">
               지원 현황
             </Typography.P1>

@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import MemberModal from "./MemberModal";
+import cn from "@/shared/utils/cn";
+import { useEffect, useState } from "react";
 
 // import {
 //   LineChart,
@@ -16,22 +16,23 @@ import MemberModal from "./MemberModal";
 // import Profile from "@/components/atoms/Profile";
 // import profileImg from "../../../../app/asset/images/profile_example.jpeg";
 
+import {
+  MemberCardProps,
+  StudyMemberCardProps,
+} from "@/features/study-room/types/study-room.type";
 import Badge from "@/shared/components/atoms/Badge";
 import Button from "@/shared/components/atoms/Button";
 import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
 import useModal from "@/shared/hooks/useModal";
-import {
-  MockStudyMemberAttendance,
-  MockStudyMembers,
-} from "@/shared/mock/api/study-room";
+import { MockStudyMemberAttendance } from "@/shared/mock/api/study-room";
 import { StudyMemberInterface } from "@/shared/types/api/study-room";
-import cn from "@/shared/utils/cn";
+import MemberModal from "./MemberModal";
 
-const MemberCard = () => {
+const MemberCard = ({ members }: MemberCardProps) => {
   const { isModalOpenState, openModal, closeModal } = useModal();
   // 스터디원 조회
-  const [membersState] = useState(MockStudyMembers);
+  const [membersState] = useState(members);
   // 스터디원의 출석률 조회
   const [memberAttendanceState] = useState(MockStudyMemberAttendance);
   // 선택한 멤버
@@ -41,7 +42,9 @@ const MemberCard = () => {
         return memberAttendanceState[0];
       }
     });
-
+  // 우수 멤버
+  const [bestMember, setBestMember] = useState<StudyMemberInterface>();
+  console.log(bestMember);
   const onMoreHandler = (item: StudyMemberInterface) => {
     // 멤버 출석율 조회에서 맞는 id 찾기
     const find = memberAttendanceState.find(
@@ -60,6 +63,20 @@ const MemberCard = () => {
     // modal 닫기
     closeModal();
   };
+
+  function findBestMember(members: StudyMemberInterface[]) {
+    if (!Array.isArray(members) || members.length === 0) return null;
+
+    return members.reduce((max, item) => {
+      if (!("participationRate" in item)) return max;
+      return item["participationRate"] > max["participationRate"] ? item : max;
+    });
+  }
+
+  useEffect(() => {
+    const best = findBestMember(members);
+    if (best) setBestMember(best);
+  }, []);
 
   // 📌 날짜를 기반으로 몇 번째 주인지 계산하는 함수
   // const getWeekNumber = (dateString: string): string => {
@@ -100,10 +117,14 @@ const MemberCard = () => {
         onClose={onClose}
       />
 
-      <Card className="col-span-6 overflow-x-scroll">
+      <Card className="col-span-8 overflow-x-scroll">
         <Card.Header>
           <Typography.SubTitle1>전체 참여율</Typography.SubTitle1>
         </Card.Header>
+
+        <Card.Content className="max-h-[450px]">
+          <div className="h-32">Chart</div>
+        </Card.Content>
         <Card.Content className="max-h-[450px] max-w-full flex-row gap-3">
           {/* <ResponsiveContainer width="100%" height={180}>
             <LineChart
@@ -128,30 +149,28 @@ const MemberCard = () => {
           </ResponsiveContainer> */}
         </Card.Content>
       </Card>
-      <Card className="col-span-2 gap-2 overflow-x-scroll">
+      {/* <Card className="col-span-2 gap-2 overflow-x-scroll">
         <Card.Header>
           <Typography.SubTitle1>이 달의 우수 멤버</Typography.SubTitle1>
         </Card.Header>
         <Card.Content className="max-h-[450px]">
-          {/* 임시 데이터 */}
-          {membersState.length > 0 && (
-            <StudyMemberCard
-              data={membersState[0]}
-              // onMore={() => onMoreHandler(item)}
-            />
-          )}
+          {bestMember && <StudyMemberCard data={bestMember} />}
         </Card.Content>
-      </Card>
+      </Card> */}
+
       <Card className="col-span-8 h-fit gap-3 overflow-x-scroll">
         <Card.Header>
           <Typography.SubTitle1>멤버 관리</Typography.SubTitle1>
         </Card.Header>
         <Card.Content className="max-h-[450px] max-w-full flex-row gap-3 overflow-x-scroll">
           {membersState.map((item, index) => {
+            const isBest = item.userId === bestMember?.userId;
+
             return (
               <StudyMemberCard
                 key={`${item}_${index}`}
                 data={item}
+                isBest={isBest}
                 onChat={() => console.log("chat")}
                 onMore={() => onMoreHandler(item)}
               />
@@ -162,20 +181,22 @@ const MemberCard = () => {
     </>
   );
 };
+
 const StudyMemberCard = ({
   data,
+  isBest,
   onChat,
   onMore,
-}: {
-  data: StudyMemberInterface;
-  onChat?: () => void;
-  onMore?: () => void;
-}) => {
+}: StudyMemberCardProps) => {
   return (
-    <Card className="min-w-52 gap-2 shadow-none">
+    <Card className="relative min-w-52 gap-2 shadow-none">
+      {isBest && (
+        <i className="bi bi-bookmark-star-fill absolute left-0 top-0 text-2xl text-mos-main" />
+      )}
       <Card.Header className="flex-col items-center justify-center gap-2">
-        {/* <Profile width={80} height={80} src={profileImg} /> */}
-        <Typography.Head3>{data.nickname}</Typography.Head3>
+        <div className="flex items-center gap-1">
+          <Typography.Head3>{data.nickname}</Typography.Head3>
+        </div>
         <Badge
           className="w-fit"
           color={data.studyMemberRoleType === "스터디장" ? "Green" : "Blue"}
@@ -189,9 +210,14 @@ const StudyMemberCard = ({
             )}
           />
         </Badge>
-        <Typography.P3 className="text-[14px] font-medium tablet:text-sm">
-          참여율 {data.participationRate}%
-        </Typography.P3>
+        <div className="flex items-center gap-1">
+          {/* {isBest && (
+            <i className="bi bi-star-fill text-yellow-300 ml-[-10px]" />
+          )} */}
+          <Typography.P3 className="text-[14px] font-medium tablet:text-sm">
+            참여율 {data.participationRate}%
+          </Typography.P3>
+        </div>
         <Typography.P3 className="text-[14px] font-medium text-mos-gray-300 tablet:text-[12px]">
           최근 참여일 {data.lastAttendanceDate}
         </Typography.P3>

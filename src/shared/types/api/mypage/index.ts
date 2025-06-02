@@ -1,13 +1,14 @@
 export interface activeStudiesProps {
   tag: string[];
   title: string;
+  date: string;
   meta: {
     members: string;
     nextMeeting: string;
   };
 }
 
-export interface applyStatusProps {
+export interface ApplyStatusProps {
   tag: string[];
   title: string;
   date: string;
@@ -21,8 +22,16 @@ export interface GetUserInfoResult {
   joinDate: string,
 }
 
-export interface updateUserInfoResult  {
+export interface UpdateUserInfoResult  {
   nickname: string;
   introduction: string;
   categories: string[];
+}
+
+export interface GetMyApplyStatusResult { 
+  studyId: number,
+  title: string,
+  category: string,
+  studyJoinId: number,
+  studyJoinStatus: string
 }

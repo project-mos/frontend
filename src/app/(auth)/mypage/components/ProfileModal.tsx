@@ -13,7 +13,7 @@ import Typography from "@/shared/components/atoms/Typography";
 import LabelInput from "@/shared/components/molecules/LabelInput";
 import {
   GetUserInfoResult,
-  updateUserInfoResult,
+  UpdateUserInfoResult,
 } from "@/shared/types/api/mypage";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateUserInfo } from "@/features/mypage/services/mypage.service";
@@ -79,7 +79,7 @@ const ProfileModal = ({
       submitData,
     }: {
       accessToken: string;
-      submitData: updateUserInfoResult;
+      submitData: UpdateUserInfoResult;
     }) => updateUserInfo(accessToken!, submitData),
     onSuccess: () => {
       queryClient.invalidateQueries({
