@@ -1,7 +1,6 @@
 "use client";
 
 import { useToast } from "@/shared/hooks/useToast";
-import { useTokenStore } from "@/shared/store/authStore";
 
 import Button from "@/shared/components/atoms/Button";
 import Input from "@/shared/components/atoms/Input";
@@ -55,7 +54,6 @@ const ContentInputBox = ({
 }: ContentInputBoxProps) => {
   const { modal, openModal, closeModal } = useMultiModal();
   const toast = useToast();
-  const { accessToken } = useTokenStore();
 
   const handleAddValue = () => {
     setValue([...value, ""]);
@@ -82,13 +80,11 @@ const ContentInputBox = ({
     try {
       if (isRule) {
         await editRule({
-          token: accessToken,
           studyId: studyId,
           rules: arr as RuleInterface[],
         });
       } else {
         await editBenefit({
-          token: accessToken,
           studyId: studyId,
           benefits: arr as BenefitInterface[],
         });

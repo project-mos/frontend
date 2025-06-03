@@ -44,7 +44,7 @@ const MemberCard = ({ members }: MemberCardProps) => {
     });
   // 우수 멤버
   const [bestMember, setBestMember] = useState<StudyMemberInterface>();
-  console.log(bestMember);
+
   const onMoreHandler = (item: StudyMemberInterface) => {
     // 멤버 출석율 조회에서 맞는 id 찾기
     const find = memberAttendanceState.find(

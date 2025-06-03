@@ -2,7 +2,6 @@ import { BenefitInterface, RuleInterface } from "./study-room.type";
 
 /* study overview */
 export type EditBenefitRequest = {
-  token: string;
   studyId: string;
   benefits: BenefitInterface[];
 };
@@ -13,7 +12,6 @@ export type EditBenefitResponse = {
 };
 
 export type EditRuleRequest = {
-  token: string;
   studyId: string;
   rules: RuleInterface[];
 };
@@ -25,13 +23,11 @@ export type EditRuleResponse = {
 
 /* study attendance */
 export type AttendanceRequest = {
-  token: string;
   studyId: string;
   studyScheduleId: string;
 };
 
 export type GetAttendancesRequest = {
-  token: string;
   studyId: string;
 };
 
