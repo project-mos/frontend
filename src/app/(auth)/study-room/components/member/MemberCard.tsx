@@ -77,7 +77,7 @@ const MemberCard = ({ members, studyId }: MemberCardProps) => {
 
   async function getAttendancesFunction() {
     const res = await getAttendances({ studyId: studyId });
-    console.log(res);
+
     setMemberAttendanceState(res);
   }
 
