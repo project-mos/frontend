@@ -38,7 +38,7 @@ export interface StudyMemberAttendanceInterface {
 
 export interface Attendance {
   attendanceId: number;
-  isAttended: boolean;
+  attendanceStatus: string;
   studyScheduleId: number;
-  StudyScheduleStartDateTime: string;
+  studyScheduleStartDateTime: string;
 }

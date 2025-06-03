@@ -1,3 +1,4 @@
+import { StudyMemberAttendanceInterface } from "@/shared/types/api/study-room";
 import { BenefitInterface, RuleInterface } from "./study-room.type";
 
 /* study overview */
@@ -31,15 +32,4 @@ export type GetAttendancesRequest = {
   studyId: string;
 };
 
-export type GetAttendancesResponse = {
-  studyMemberId: number;
-  userId: number;
-  nickname: string;
-  attendanceRes: {
-    attendanceId: number;
-    isAttended: boolean;
-    studyScheduleId: number;
-    StudyScheduleStartDateTime: string;
-  }[];
-  attendanceRate: number;
-};
+export type GetAttendancesResponse = StudyMemberAttendanceInterface;

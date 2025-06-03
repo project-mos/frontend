@@ -53,6 +53,7 @@ export interface PreviewBoxProps {
 
 export interface MemberCardProps {
   members: StudyMemberInterface[];
+  studyId: string;
 }
 
 export interface StudyMemberCardProps {

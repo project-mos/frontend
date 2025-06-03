@@ -16,6 +16,8 @@ import { useEffect, useState } from "react";
 // import Profile from "@/components/atoms/Profile";
 // import profileImg from "../../../../app/asset/images/profile_example.jpeg";
 
+import { getAttendances } from "@/features/study-room/services/study-room.service";
+import { GetAttendancesResponse } from "@/features/study-room/types/study-room.api";
 import {
   MemberCardProps,
   StudyMemberCardProps,
@@ -25,16 +27,16 @@ import Button from "@/shared/components/atoms/Button";
 import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
 import useModal from "@/shared/hooks/useModal";
-import { MockStudyMemberAttendance } from "@/shared/mock/api/study-room";
 import { StudyMemberInterface } from "@/shared/types/api/study-room";
 import MemberModal from "./MemberModal";
 
-const MemberCard = ({ members }: MemberCardProps) => {
+const MemberCard = ({ members, studyId }: MemberCardProps) => {
   const { isModalOpenState, openModal, closeModal } = useModal();
-  // 스터디원 조회
+
   const [membersState] = useState(members);
-  // 스터디원의 출석률 조회
-  const [memberAttendanceState] = useState(MockStudyMemberAttendance);
+  const [memberAttendanceState, setMemberAttendanceState] = useState<
+    GetAttendancesResponse[]
+  >([]);
   // 선택한 멤버
   const [selectMemberAttendanceState, setSelectMemberAttendanceState] =
     useState(() => {
@@ -73,7 +75,14 @@ const MemberCard = ({ members }: MemberCardProps) => {
     });
   }
 
+  async function getAttendancesFunction() {
+    const res = await getAttendances({ studyId: studyId });
+    console.log(res);
+    setMemberAttendanceState(res);
+  }
+
   useEffect(() => {
+    getAttendancesFunction();
     const best = findBestMember(members);
     if (best) setBestMember(best);
   }, []);

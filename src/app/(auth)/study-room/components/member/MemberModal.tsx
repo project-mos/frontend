@@ -7,11 +7,6 @@ import Modal from "@/shared/components/atoms/Modal";
 import Profile from "@/shared/components/atoms/Profile";
 import Typography from "@/shared/components/atoms/Typography";
 
-// interface AttendanceRecord {
-//   date: string;
-//   status: "출석" | "지각" | "결석";
-// }
-
 const MemberModal = ({ onClose, data, ...props }: MemberModalProps) => {
   const onDelete = () => {
     console.log("onDelete");
@@ -68,18 +63,10 @@ const MemberModal = ({ onClose, data, ...props }: MemberModalProps) => {
                   {data.attendanceRes.map((record, index) => (
                     <tr key={index} className="border-b">
                       <td className="p-2 text-center">
-                        {formatDate(record.StudyScheduleStartDateTime)}
+                        {formatDate(record.studyScheduleStartDateTime)}
                       </td>
                       <td className="p-2 text-center">
-                        {record.isAttended === true && (
-                          <span className="text-green-600">✔ 출석</span>
-                        )}
-                        {/* {record.status === "지각" && (
-                      <span className="text-yellow-600">⚠ 지각</span>
-                    )} */}
-                        {record.isAttended === false && (
-                          <span className="text-red-600">✖ 결석</span>
-                        )}
+                        <Typography.P2>{record.attendanceStatus}</Typography.P2>
                       </td>
                     </tr>
                   ))}
