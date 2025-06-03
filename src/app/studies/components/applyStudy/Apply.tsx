@@ -9,9 +9,15 @@ import ApplyFormCard from "./ApplyFormCard";
 import { useQuestions } from "@/features/studies/services/studies.service";
 import URL from "@/shared/constants/URL";
 import { useAuthStore } from "@/shared/store/authStore";
+
+import { GetStudyDetailResponse } from "@/features/studies/types/studies.api";
 import { useParams } from "next/navigation";
 
-const Apply = () => {
+interface ApplyProps {
+  data: GetStudyDetailResponse;
+}
+
+const Apply = ({ data }: ApplyProps) => {
   const { id } = useParams() as { id: string };
 
   const [isApplyVisibleState, setIsApplyVisibleState] =
