@@ -1,13 +1,14 @@
 "use client";
-import { useState } from "react";
-import { FormProvider, useForm } from "react-hook-form";
 import Button from "@/shared/components/atoms/Button";
 import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
 import { MockCurriculumCardApiResult } from "@/shared/mock/api/study-room";
-import { StudyCurriculumCardInterface } from "@/shared/types/api/study-room";
-import Curriculum from "./Curriculum";
+import { useState } from "react";
+import { FormProvider, useForm } from "react-hook-form";
+
+import { StudyCurriculumCardInterface } from "@/features/study-room/types/study-room.type";
 import { generateUUID } from "@/shared/utils/generateUUID";
+import Curriculum from "./Curriculum";
 
 const CurriculumCard = () => {
   // 수정 여부 플래그

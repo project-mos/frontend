@@ -18,17 +18,26 @@ import { useEffect, useState } from "react";
 
 import { getAttendances } from "@/features/study-room/services/study-room.service";
 import { GetAttendancesResponse } from "@/features/study-room/types/study-room.api";
-import {
-  MemberCardProps,
-  StudyMemberCardProps,
-} from "@/features/study-room/types/study-room.type";
+import { StudyMemberInterface } from "@/features/study-room/types/study-room.type";
 import Badge from "@/shared/components/atoms/Badge";
 import Button from "@/shared/components/atoms/Button";
 import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
 import useModal from "@/shared/hooks/useModal";
-import { StudyMemberInterface } from "@/shared/types/api/study-room";
+
 import MemberModal from "./MemberModal";
+
+interface MemberCardProps {
+  members: StudyMemberInterface[];
+  studyId: string;
+}
+
+interface StudyMemberCardProps {
+  data: StudyMemberInterface;
+  isBest: boolean;
+  onChat?: () => void;
+  onMore?: () => void;
+}
 
 const MemberCard = ({ members, studyId }: MemberCardProps) => {
   const { isModalOpenState, openModal, closeModal } = useModal();

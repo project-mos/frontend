@@ -12,8 +12,8 @@ import Typography from "@/shared/components/atoms/Typography";
 import LabelInput from "@/shared/components/molecules/LabelInput";
 import LabelTextAreaInput from "@/shared/components/molecules/LabelTextAreaInput";
 
+import { StudyNoticeCardInterface } from "@/features/study-room/types/study-room.type";
 import { useNoticeStore } from "@/shared/store/useNoticeStore";
-import { StudyNoticeCardInterface } from "@/shared/types/api/study-room";
 
 interface NoticeModalProps extends ModalProps {
   onClose: ModalOnClose;

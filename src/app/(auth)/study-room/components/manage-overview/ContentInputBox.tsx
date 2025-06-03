@@ -14,10 +14,25 @@ import useMultiModal from "@/shared/hooks/useMultiModal";
 
 import {
   BenefitInterface,
-  ContentInputBoxProps,
-  InlineInputProps,
   RuleInterface,
 } from "@/features/study-room/types/study-room.type";
+
+interface ContentInputBoxProps {
+  value: string[];
+  setValue: React.Dispatch<React.SetStateAction<string[]>>;
+  setState: React.Dispatch<React.SetStateAction<boolean>>;
+  buttonText: string;
+  placeholder: string;
+  type: "rule" | "benefit";
+  studyId: string;
+}
+
+interface InlineInputProps {
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onRemove: () => void;
+  placeholder: string;
+}
 
 const InlineInput = ({
   value,

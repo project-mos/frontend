@@ -1,5 +1,8 @@
-import { StudyMemberAttendanceInterface } from "@/shared/types/api/study-room";
-import { BenefitInterface, RuleInterface } from "./study-room.type";
+import {
+  BenefitInterface,
+  RuleInterface,
+  StudyMemberAttendanceInterface,
+} from "./study-room.type";
 
 /* study overview */
 export type EditBenefitRequest = {

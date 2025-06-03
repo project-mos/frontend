@@ -1,11 +1,19 @@
 "use client";
 
 import profileImg from "@/asset/images/profile_example.jpeg";
-import { MemberModalProps } from "@/features/study-room/types/study-room.type";
+import { StudyMemberAttendanceInterface } from "@/features/study-room/types/study-room.type";
 import Button from "@/shared/components/atoms/Button";
-import Modal from "@/shared/components/atoms/Modal";
+import Modal, {
+  ModalOnClose,
+  ModalProps,
+} from "@/shared/components/atoms/Modal";
 import Profile from "@/shared/components/atoms/Profile";
 import Typography from "@/shared/components/atoms/Typography";
+
+export interface MemberModalProps extends ModalProps {
+  onClose: ModalOnClose;
+  data?: StudyMemberAttendanceInterface;
+}
 
 const MemberModal = ({ onClose, data, ...props }: MemberModalProps) => {
   const onDelete = () => {
