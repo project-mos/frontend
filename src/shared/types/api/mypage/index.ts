@@ -34,4 +34,19 @@ export interface GetMyApplyStatusResult {
   category: string;
   studyJoinId: number;
   studyJoinStatus: string;
+  createdAt: string;
+}
+
+export interface GetMyJoinedStudiesResult {
+  id: number;
+  title: string;
+  category: string;
+  meetingType: string;
+  progressStatus: string;
+  participationStatus: string;
+  currentStudyMembers: number;
+  maxStudyMembers: number;
+  schedule: string;
+  studyMemberRole: string;
+  tags: string[];
 }

@@ -1,22 +1,17 @@
 "use client";
 import { useState } from "react";
 
-import Button from "@/shared/components/atoms/Button";
-import ApplyFormCard from "./ApplyFormCard";
 import LoginModal from "@/features/login/components/LoginModal";
+import Button from "@/shared/components/atoms/Button";
 import useModal from "@/shared/hooks/useModal";
+import ApplyFormCard from "./ApplyFormCard";
 
-import { useParams } from "next/navigation";
+import { useQuestions } from "@/features/studies/services/studies.service";
 import URL from "@/shared/constants/URL";
 import { useAuthStore } from "@/shared/store/authStore";
-import { useQuestions } from "@/features/studies/services/studies.service";
-import { GetStudyDetailResponse } from "@/features/studies/types/studies.api";
+import { useParams } from "next/navigation";
 
-interface ApplyProps {
-  data: GetStudyDetailResponse;
-}
-
-const Apply = ({ data }: ApplyProps) => {
+const Apply = () => {
   const { id } = useParams() as { id: string };
 
   const [isApplyVisibleState, setIsApplyVisibleState] =

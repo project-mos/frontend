@@ -1,9 +1,7 @@
 "use client";
 import Button from "@/shared/components/atoms/Button";
-import ToastRenderer from "@/shared/components/system/ToastRenderer";
 import { useToast } from "@/shared/hooks/useToast";
 import { Tooltip } from "@heroui/tooltip";
-import React from "react";
 
 const ShareButton = () => {
   const toast = useToast();
@@ -35,7 +33,6 @@ const ShareButton = () => {
   }
   return (
     <>
-      <ToastRenderer />
       <Tooltip
         content="링크 복사"
         className="rounded-md bg-mos-main-500 px-3 py-1.5 text-[14px] text-white shadow-md"

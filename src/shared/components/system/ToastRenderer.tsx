@@ -1,5 +1,6 @@
 // components/ToastRenderer.tsx
 
+"use client";
 import Toast from "@/shared/components/molecules/Toast";
 import { useToastStore } from "@/shared/store/useToastStore";
 
