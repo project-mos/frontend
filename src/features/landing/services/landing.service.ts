@@ -2,6 +2,7 @@ import {
   GetStudiesRequest,
   GetStudiesResponse,
   GetHotStudiesResponse,
+  GetAccessTokenResponse,
 } from "@/features/landing/types/landing.api";
 
 import { API_ENDPOINT } from "@/shared/constants/api-end-point";
@@ -44,7 +45,7 @@ export async function getHotStudies() {
   return response;
 }
 //Study 카테고리 조회(ISR)
-export async function GetCategories() {
+export async function getCategories() {
   const response = await fetchAPI<GetStudyCategoriesResponse>(
     API_ENDPOINT.studies.getCategories().url,
     {
@@ -52,6 +53,21 @@ export async function GetCategories() {
       cache: "force-cache",
       next: { revalidate: 3600 },
     }
+  );
+  return response;
+}
+
+// Refresh 토큰 기반 Access 토큰 재발급
+export async function getRefreshAuth() {
+  await fetchAPI(API_ENDPOINT.user.getRefreshAuth().url, {
+    credentials: "include",
+  });
+}
+
+// Access 토큰 확인 (읽기모드)
+export async function getAccessToken() {
+  const response = await fetchAPI<GetAccessTokenResponse>(
+    API_ENDPOINT.user.getAccessToken().url
   );
   return response;
 }

@@ -11,13 +11,6 @@ export const API_ENDPOINT = {
         method: Method.POST,
       };
     },
-    // 토큰 재발급
-    refreshAuth: () => {
-      return {
-        url: `${process.env.MOS_API_BASE_URL}/auth/token-refresh`, // 임시 URL
-        method: Method.POST,
-      };
-    },
   },
   user: {
     // 유저 정보 조회
@@ -35,7 +28,7 @@ export const API_ENDPOINT = {
       };
     },
     // 잠여중인 스터디 조회
-    getMyJoinedStudies: (userId:string) => {
+    getMyJoinedStudies: (userId: string) => {
       return {
         url: `${process.env.NEXT_PUBLIC_BASE_URL}/users/${userId}/studies`, // 임시 URL 백엔드 코드 수정되면 파라미터 제거해야함
         method: Method.GET,
@@ -44,7 +37,21 @@ export const API_ENDPOINT = {
     // 나의 지원 현황 조회
     getMyApplyStatus: () => {
       return {
-        url: `${process.env.NEXT_PUBLIC_BASE_URL}/study-joins`, 
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/study-joins`,
+        method: Method.GET,
+      };
+    },
+    // 토큰 재발급
+    getRefreshAuth: () => {
+      return {
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/users/tokens`,
+        method: Method.GET,
+      };
+    },
+    // 액세스 토큰 확인
+    getAccessToken: () => {
+      return {
+        url: `/api/cookie`,
         method: Method.GET,
       };
     },
