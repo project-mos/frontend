@@ -5,9 +5,9 @@ import Button from "@/shared/components/atoms/Button";
 import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
 
+import { StudyManageCardInterface } from "@/features/study-room/types/study-room.type";
 import useModal from "@/shared/hooks/useModal";
 import { MockManageCardApiResult } from "@/shared/mock/api/study-room";
-import { StudyManageCardInterface } from "@/shared/types/api/study-room";
 
 import InfoModal from "./InfoModal";
 

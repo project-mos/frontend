@@ -4,13 +4,12 @@ import { useFormContext } from "react-hook-form";
 import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
+import { StudyCurriculumCardInterface } from "@/features/study-room/types/study-room.type";
 import Card from "@/shared/components/atoms/Card";
 import Input from "@/shared/components/atoms/Input";
 import Tag from "@/shared/components/atoms/Tag";
 import Textarea from "@/shared/components/atoms/Textarea";
 import Typography from "@/shared/components/atoms/Typography";
-
-import { StudyCurriculumCardInterface } from "@/shared/types/api/study-room";
 
 const ItemType = "CURRICULUM_ITEM";
 

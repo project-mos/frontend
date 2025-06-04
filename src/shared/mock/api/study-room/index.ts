@@ -4,7 +4,8 @@ import {
   StudyMemberAttendanceInterface,
   StudyMemberInterface,
   StudyNoticeCardInterface,
-} from "@/shared/types/api/study-room";
+} from "@/features/study-room/types/study-room.type";
+
 import { generateUUID } from "@/shared/utils/generateUUID";
 
 // <CurriculumCard/> 에 쓰일 mock data
@@ -152,45 +153,45 @@ export const MockStudyMemberAttendance: StudyMemberAttendanceInterface[] = [
     attendanceRes: [
       {
         attendanceId: 200,
-        isAttended: true,
+        attendanceStatus: "",
         studyScheduleId: 300,
-        StudyScheduleStartDateTime: "2024-03-25T09:00:00",
+        studyScheduleStartDateTime: "2024-03-25T09:00:00",
       },
       {
         attendanceId: 201,
-        isAttended: false,
+        attendanceStatus: "",
         studyScheduleId: 301,
-        StudyScheduleStartDateTime: "2024-03-26T10:00:00",
+        studyScheduleStartDateTime: "2024-03-26T10:00:00",
       },
       {
         attendanceId: 200,
-        isAttended: true,
+        attendanceStatus: "",
         studyScheduleId: 300,
-        StudyScheduleStartDateTime: "2024-03-25T09:00:00",
+        studyScheduleStartDateTime: "2024-03-25T09:00:00",
       },
       {
         attendanceId: 200,
-        isAttended: true,
+        attendanceStatus: "",
         studyScheduleId: 300,
-        StudyScheduleStartDateTime: "2024-03-25T09:00:00",
+        studyScheduleStartDateTime: "2024-03-25T09:00:00",
       },
       {
         attendanceId: 201,
-        isAttended: false,
+        attendanceStatus: "",
         studyScheduleId: 301,
-        StudyScheduleStartDateTime: "2024-03-26T10:00:00",
+        studyScheduleStartDateTime: "2024-03-26T10:00:00",
       },
       {
         attendanceId: 200,
-        isAttended: true,
+        attendanceStatus: "",
         studyScheduleId: 300,
-        StudyScheduleStartDateTime: "2024-03-25T09:00:00",
+        studyScheduleStartDateTime: "2024-03-25T09:00:00",
       },
       {
         attendanceId: 201,
-        isAttended: false,
+        attendanceStatus: "",
         studyScheduleId: 301,
-        StudyScheduleStartDateTime: "2024-03-26T10:00:00",
+        studyScheduleStartDateTime: "2024-03-26T10:00:00",
       },
     ],
     attendanceRate: 50.0,
@@ -202,15 +203,15 @@ export const MockStudyMemberAttendance: StudyMemberAttendanceInterface[] = [
     attendanceRes: [
       {
         attendanceId: 202,
-        isAttended: true,
+        attendanceStatus: "",
         studyScheduleId: 300,
-        StudyScheduleStartDateTime: "2024-03-27T14:00:00",
+        studyScheduleStartDateTime: "2024-03-27T14:00:00",
       },
       {
         attendanceId: 203,
-        isAttended: true,
+        attendanceStatus: "",
         studyScheduleId: 301,
-        StudyScheduleStartDateTime: "2024-03-28T16:00:00",
+        studyScheduleStartDateTime: "2024-03-28T16:00:00",
       },
     ],
     attendanceRate: 100.0,
