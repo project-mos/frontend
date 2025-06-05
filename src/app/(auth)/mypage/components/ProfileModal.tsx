@@ -10,14 +10,11 @@ import Modal, {
 } from "@/shared/components/atoms/Modal";
 import Typography from "@/shared/components/atoms/Typography";
 
-import { updateUserInfo } from "@/features/mypage/services/mypage.service";
+import { usePostUserInfo } from "@/features/mypage/services/mypage.service";
 import LabelInput from "@/shared/components/molecules/LabelInput";
 import { useToast } from "@/shared/hooks/useToast";
-import {
-  GetUserInfoResult,
-  UpdateUserInfoResult,
-} from "@/shared/types/api/mypage";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { GetUserInfoResult } from "@/shared/types/api/mypage";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface ProfileModalProps extends ModalProps {
   preview?: string; // 프로필 사진 미리보기 url string
@@ -52,7 +49,7 @@ const ProfileModal = ({
   const [previewState, setPreviewState] = useState<string | undefined>(preview);
   const { handleSubmit, reset, control, formState } = methods;
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const toast = useToast();
+  const { success, error } = useToast();
 
   const {
     nickname,
@@ -70,36 +67,28 @@ const ProfileModal = ({
         categories: ["HOBBY"], // 백엔드 카테고리 제거되면 뺴야 함
       });
     }
-  }, [userInfoData, reset]);
+  }, [userInfoData, reset, introduction, nickname]);
 
-  const updateUserInfoData = useMutation({
-    mutationFn: ({
-      accessToken,
-      submitData,
-    }: {
-      accessToken: string;
-      submitData: UpdateUserInfoResult;
-    }) => updateUserInfo(accessToken!, submitData),
+  const { mutate, isPending } = usePostUserInfo(accessToken!, {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["userInfo", accessToken],
       });
-      toast.success("프로필 정보가 수정되었습니다.");
+      success("프로필 정보가 수정되었습니다.");
+
+      reset();
+      onClose();
+    },
+    onError: (err) => {
+      error("프로필 정보 수정 실패했습니다. 다시 시도해 주세요.");
+      console.log(err);
     },
   });
 
   const onSubmit = (data: ProfileData) => {
     const submitData = { ...data }; // data 객체 복사
     delete submitData.img; // 백엔드 요청 데이터에 맞게 우선 img 빼둠
-
-    updateUserInfoData.mutate({
-      accessToken: accessToken!,
-      submitData,
-    });
-
-    // setPreviewState(undefined);
-    reset();
-    onClose();
+    mutate(submitData); // API 호출
   };
 
   const onClickCloseBtn = () => {
@@ -207,7 +196,7 @@ const ProfileModal = ({
               type="submit"
               color="Main"
               active={formState.isValid}
-              disabled={!formState.isValid}
+              disabled={isPending}
             >
               확인
             </Button.Solid>
