@@ -13,7 +13,7 @@ import {
 import { API_ENDPOINT } from "@/shared/constants/api-end-point";
 
 import { fetchAPI } from "@/shared/utils/fetch";
-import { fetchData } from "@/shared/utils/fetcher";
+
 import {
   useMutation,
   UseMutationOptions,
@@ -21,29 +21,29 @@ import {
 } from "@tanstack/react-query";
 
 export async function getStudy(id: string) {
-  const response = await fetchData<GetStudyDetailResponse>({
-    endpoint: API_ENDPOINT.study.getStudy(id),
-  });
+  const response = await fetchAPI<GetStudyDetailResponse>(
+    API_ENDPOINT.study.getStudy(id).url
+  );
   return response;
 }
 
 export async function getRequirements(studyId: string) {
-  const response = await fetchData<GetStudyRequirementsResponse>({
-    endpoint: API_ENDPOINT.requirement.getRequirement(studyId),
-  });
+  const response = await fetchAPI<GetStudyRequirementsResponse>(
+    API_ENDPOINT.requirement.getRequirement(studyId).url
+  );
   return response;
 }
 export async function getRules(studyId: string) {
-  const response = await fetchData<GetStudyRulesResponse>({
-    endpoint: API_ENDPOINT.rules.getStudyRules(studyId),
-  });
+  const response = await fetchAPI<GetStudyRulesResponse>(
+    API_ENDPOINT.rules.getStudyRules(studyId).url
+  );
   return response;
 }
 
 export async function getBenefits(studyId: string) {
-  const response = await fetchData<GetStudyBenefitsResponse>({
-    endpoint: API_ENDPOINT.benefits.getStudyBenefits(studyId),
-  });
+  const response = await fetchAPI<GetStudyBenefitsResponse>(
+    API_ENDPOINT.benefits.getStudyBenefits(studyId).url
+  );
   return response;
 }
 
