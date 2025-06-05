@@ -59,10 +59,10 @@ const CreateScheduleModal = ({ onClose, ...props }: NoticeModalProps) => {
     value: item.id,
   }));
 
-  const { mutate, isPending } = usePostCreateStudySchedule({
+  const { mutate, isPending } = usePostCreateStudySchedule(
     accessToken,
     studyId,
-    options: {
+    {
       onSuccess: () => {
         success("일정 생성이 완료되었습니다.");
         queryClient.invalidateQueries({
@@ -76,8 +76,8 @@ const CreateScheduleModal = ({ onClose, ...props }: NoticeModalProps) => {
         error("일정 생성 실패했습니다. 다시 시도해주세요.");
         console.log(err);
       },
-    },
-  });
+    }
+  );
 
   const onSubmit = (data: ScheduleData) => {
     const startDateTime = `${data.startDate}T${data.startTime}`;

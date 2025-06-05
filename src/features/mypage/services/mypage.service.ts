@@ -4,77 +4,100 @@ import { fetchAPI } from "@/shared/utils/fetch";
 import { useMutation, UseMutationOptions, UseQueryOptions } from "@tanstack/react-query";
 
 // 유저 정보 //
-export const getUserInfo = async (accessToken?: string): Promise<GetUserInfoResult> => {
-  return await fetchAPI<GetUserInfoResult>(API_ENDPOINT.mypage.getUser().url, {
+export async function getUserInfo(accessToken?: string): Promise<GetUserInfoResult> {
+  const {url, method} = API_ENDPOINT.mypage.getUser()
+
+  return await fetchAPI<GetUserInfoResult>(url, {
     credentials: "include",
-    method: API_ENDPOINT.mypage.getUser().method,
+    method: method,
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
   });
 };
-export const userInfoQueryOption = (
+
+export function userInfoQueryOption(
   accessToken: string,
   options?: UseQueryOptions<GetUserInfoResult, Error>
-): UseQueryOptions<GetUserInfoResult, Error> => ({
-  queryKey: ["userInfo", accessToken],
-  queryFn: () => getUserInfo(accessToken),
-  enabled: !!accessToken,
-  ...options, 
-});
+) {
+  return {
+    queryKey: ["userInfo", accessToken],
+    queryFn: () => getUserInfo(accessToken),
+    enabled: !!accessToken,
+    ...options, 
+  }
+};
 
 // 유저 정보 수정 //
-export const updateUserInfo = async (
+export async function updateUserInfo(
   accessToken: string,
   data: UpdateUserInfoResult
-): Promise<UpdateUserInfoResult> => {
-  return await fetchAPI<UpdateUserInfoResult>(API_ENDPOINT.mypage.updateUser().url, {
+) {
+  const {url, method} = API_ENDPOINT.mypage.updateUser()
+
+  return await fetchAPI<UpdateUserInfoResult>(url, {
     credentials: "include",
-    method: API_ENDPOINT.mypage.updateUser().method,
+    method: method,
     headers: {
       Authorization: `Bearer ${accessToken}`,
       "Content-Type": "application/json",
     },    
     body: JSON.stringify(data),
-  })}
+  })
+}
+
+export function usePostUserInfo(accessToken: string, options?:UseMutationOptions<UpdateUserInfoResult, Error, unknown>) {
+  return useMutation({
+    ...options,
+    mutationFn: (data: UpdateUserInfoResult) => updateUserInfo(accessToken, data)
+  })
+}
 
 // 캘린더 일정 조회 //
-export const getMySchedules = async (accessToken: string): Promise<GetMySchedulesResult[]> => {
-  return await fetchAPI<GetMySchedulesResult[]>(API_ENDPOINT.mypage.getMySchedules().url, {
+export async function getMySchedules(accessToken: string): Promise<GetMySchedulesResult[]> {
+  const {url, method} = API_ENDPOINT.mypage.getMySchedules()
+
+  return await fetchAPI<GetMySchedulesResult[]>(url, {
     credentials: "include",
-    method: API_ENDPOINT.mypage.getMySchedules().method,
+    method: method,
     headers: {
       Authorization: `Bearer ${accessToken}`,
       "Content-Type": "application/json",
     },
   });
 }
-export const mySchedulesQueryOption = (
+
+export function mySchedulesQueryOption(
   accessToken: string,
   options?: UseQueryOptions<GetMySchedulesResult[], Error>
-): UseQueryOptions<GetMySchedulesResult[], Error> => ({
-  queryKey: ["mySchedules"],
-  queryFn: () => getMySchedules(accessToken),
-  enabled: !!accessToken,
-  ...options,
-});
+) {
+  return ({
+    queryKey: ["mySchedules"],
+    queryFn: () => getMySchedules(accessToken),
+    enabled: !!accessToken,
+    ...options,
+  })
+};
 
 // 스터디 일정 생성 //
-export const createStudySchedule = async (
+export async function createStudySchedule(
   accessToken: string,
   studyId: number,
   data: CreateStudyScheduleResult
-): Promise<CreateStudyScheduleResult> => {
-  return await fetchAPI<CreateStudyScheduleResult>(API_ENDPOINT.mypage.createStudySchedule(studyId).url, {
+) {
+  const {url, method} = API_ENDPOINT.mypage.createStudySchedule(studyId)
+
+  return await fetchAPI<CreateStudyScheduleResult>(url, {
     credentials: "include",
-    method: API_ENDPOINT.mypage.createStudySchedule(studyId).method,
+    method: method,
     headers: {
       Authorization: `Bearer ${accessToken}`,
       "Content-Type": "application/json",
     },    
     body: JSON.stringify(data),
   })}
-export const usePostCreateStudySchedule = ({accessToken, studyId, options}:{accessToken:string, studyId: number, options?:UseMutationOptions<CreateStudyScheduleResult, Error, unknown>}) => {
+
+export function usePostCreateStudySchedule(accessToken:string, studyId: number, options?:UseMutationOptions<CreateStudyScheduleResult, Error, unknown>) {
   return useMutation({
     ...options,
     mutationFn: (data: CreateStudyScheduleResult) => createStudySchedule(accessToken, studyId, data)
@@ -83,45 +106,57 @@ export const usePostCreateStudySchedule = ({accessToken, studyId, options}:{acce
   
 
 // 참여 중인 스터디 //
-export const getMyJoinedStudies = async (accessToken: string, userId: string): Promise<GetMyJoinedStudiesResult[]> => {
-  return await fetchAPI(API_ENDPOINT.mypage.getMyJoinedStudies(userId).url, {
+export async function getMyJoinedStudies(accessToken: string, userId: string): Promise<GetMyJoinedStudiesResult[]> {
+  const {url, method} = API_ENDPOINT.mypage.getMyJoinedStudies(userId)
+
+  return await fetchAPI(url, {
     credentials: "include",
-    method: API_ENDPOINT.mypage.getMyJoinedStudies(userId).method,
+    method: method,
     headers: {
       Authorization: `Bearer ${accessToken}`,
       "Content-Type": "application/json",
     },
   });
 }
-export const myJoinedStudiesQueryOption = (
+
+export function myJoinedStudiesQueryOption(
   accessToken: string,
   userId: string,
   options?: UseQueryOptions<GetMyJoinedStudiesResult[], Error>
-): UseQueryOptions<GetMyJoinedStudiesResult[], Error> => ({
-  queryKey: ["myJoinedStudies"],
-  queryFn: () => getMyJoinedStudies(accessToken, userId),
-  enabled: !!accessToken && !!userId,
-  ...options, 
-});
+) {
+  return (
+    {
+      queryKey: ["myJoinedStudies"],
+      queryFn: () => getMyJoinedStudies(accessToken, userId),
+      enabled: !!accessToken && !!userId,
+      ...options, 
+    }
+  )
+};
 
 // 나의 지원 현황 //
-export const getMyApplyStatus = async (accessToken: string): Promise<GetMyApplyStatusResult[]> => {
-  return await fetchAPI(API_ENDPOINT.mypage.getMyApplyStatus().url, {
+export async function getMyApplyStatus(accessToken: string): Promise<GetMyApplyStatusResult[]> {
+  const {url, method} = API_ENDPOINT.mypage.getMyApplyStatus()
+  
+  return await fetchAPI(url, {
     credentials: "include",
-    method: API_ENDPOINT.mypage.getMyApplyStatus().method,
+    method: method,
     headers: {
       Authorization: `Bearer ${accessToken}`,
       "Content-Type": "application/json",
     },
   });
 }
-export const myApplyStatusQueryOption = (
+
+export function myApplyStatusQueryOption(
   accessToken: string,
   options?: UseQueryOptions<GetMyApplyStatusResult[], Error>
-): UseQueryOptions<GetMyApplyStatusResult[], Error> => ({
-  queryKey: ["myApplyStatus"],
-  queryFn: () => getMyApplyStatus(accessToken),
-  enabled: !!accessToken,
-  ...options, 
-});
+) {
+  return ({
+    queryKey: ["myApplyStatus"],
+    queryFn: () => getMyApplyStatus(accessToken),
+    enabled: !!accessToken,
+    ...options, 
+  })
+};
 
