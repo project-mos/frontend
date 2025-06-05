@@ -69,14 +69,12 @@ const ApplyFormCard = ({
 
   const { mutate: postMutate } = usePostJoin({
     studyId,
-    accessToken,
     options: mutateOption,
   });
 
   const { mutate: patchMutate } = usePatchJoin({
     studyId,
     studyJoinId: String(joinIdState!),
-    accessToken,
     options: mutateOption,
   });
 

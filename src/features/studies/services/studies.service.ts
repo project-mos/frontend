@@ -70,10 +70,8 @@ export async function getMembers(studyId: string) {
 }
 export async function getJoins({
   studyJoinStatus,
-  accessToken,
 }: {
   studyJoinStatus?: GetStudyJoinsRequest;
-  accessToken: string;
 }) {
   const response = await fetchAPI<GetStudyJoinsResponse>(
     API_ENDPOINT.join.getJoins(studyJoinStatus).url,
@@ -81,7 +79,6 @@ export async function getJoins({
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken || ""}`,
       },
     }
   );
@@ -90,8 +87,7 @@ export async function getJoins({
 
 export async function postJoin(
   studyId: string,
-  data: PostStudyJoin,
-  accessToken?: string
+  data: PostStudyJoin
 ): Promise<PostStudyJoin> {
   const { url, method } = API_ENDPOINT.join.postJoin(studyId);
 
@@ -101,22 +97,16 @@ export async function postJoin(
     method,
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken || ""}`,
     },
   });
 }
 
-export async function patchJoin(
-  studyId: string,
-  studyJoinId: string,
-  accessToken?: string
-) {
+export async function patchJoin(studyId: string, studyJoinId: string) {
   const { url, method } = API_ENDPOINT.join.patchJoin(studyId, studyJoinId);
   return await fetchAPI(url, {
     method,
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken || ""}`,
     },
   });
 }
@@ -134,15 +124,13 @@ export function useQuestions(studyId: string, enabled: boolean) {
 export function usePostJoin({
   studyId,
   options,
-  accessToken,
 }: {
   studyId: string;
   options?: UseMutationOptions<PostStudyJoin, Error, PostStudyJoin, unknown>;
-  accessToken?: string;
 }) {
   return useMutation({
     ...options,
-    mutationFn: (data: PostStudyJoin) => postJoin(studyId, data, accessToken),
+    mutationFn: (data: PostStudyJoin) => postJoin(studyId, data),
   });
 }
 
@@ -150,33 +138,29 @@ export function usePostJoin({
 export function usePatchJoin({
   studyId,
   studyJoinId,
-  accessToken,
+
   options,
 }: {
   studyId: string;
   studyJoinId: string;
   options?: UseMutationOptions<unknown, Error, unknown, unknown>;
-  accessToken?: string;
 }) {
-  console.log(studyId, studyJoinId, accessToken, options);
   return useMutation({
     ...options,
-    mutationFn: () => patchJoin(studyId, studyJoinId, accessToken),
+    mutationFn: () => patchJoin(studyId, studyJoinId),
   });
 }
 
 export function useGetJoins({
   studyJoinStatus,
-  accessToken,
 }: {
   studyJoinStatus?: GetStudyJoinsRequest;
   accessToken: string;
 }) {
   return useQuery({
     queryKey: ["joins", studyJoinStatus],
-    queryFn: () => getJoins({ studyJoinStatus, accessToken }),
+    queryFn: () => getJoins({ studyJoinStatus }),
     staleTime: 3600,
-    enabled: !!accessToken,
     retry: false,
   });
 }
