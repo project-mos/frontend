@@ -32,3 +32,7 @@ export type GetStudiesRequest = {
 
 // 인기 Study 다 건 조회
 export type GetHotStudiesResponse = Study[];
+
+export type GetAccessTokenResponse = {
+  accessToken: string;
+};
