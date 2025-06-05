@@ -18,7 +18,7 @@ export const API_ENDPOINT = {
       };
     },
   },
-  user: {
+  mypage: {
     // 유저 정보 조회
     getUser: () => {
       return {
@@ -53,7 +53,15 @@ export const API_ENDPOINT = {
         url: `${process.env.NEXT_PUBLIC_BASE_URL}/study-joins`, 
         method: Method.GET,
       };
+    },
+    // 스터디 일정 생성
+    createStudySchedule: (studyId:number) => {
+      return {
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/schedules`, 
+        method: Method.POST,
+      };
     }
+   
   },
   study: {
     // 스터디 생성

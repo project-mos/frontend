@@ -60,3 +60,11 @@ export interface GetMySchedulesResult {
   studyId: number,
   studyCurriculumResList: string[]
 }
+
+export interface CreateStudyScheduleResult  {
+  curriculumIds: number[],
+  description: string,
+  endDateTime: string,
+  startDateTime: string,
+  title: string,
+}

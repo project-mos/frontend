@@ -13,6 +13,10 @@ import LabelTextAreaInput from "@/shared/components/molecules/LabelTextAreaInput
 import LabelInputDate from "@/shared/components/molecules/LabelInputDate";
 import LabelSelectInput from "@/shared/components/molecules/LabelSelectInput";
 import { useMyJoinedStudyStore } from "@/shared/store/useMyJoinedStudyStore";
+import { useTokenStore } from "@/shared/store/authStore";
+import { usePostCreateStudySchedule } from "@/features/mypage/services/mypage.service";
+import { useToast } from "@/shared/hooks/useToast";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface NoticeModalProps extends ModalProps {
   onClose: ModalOnClose;
@@ -31,6 +35,8 @@ interface ScheduleData {
 }
 
 const CreateScheduleModal = ({ onClose, ...props }: NoticeModalProps) => {
+  const { accessToken } = useTokenStore();
+  const queryClient = useQueryClient();
   const methods = useForm<ScheduleData>({
     defaultValues: {
       title: "",
@@ -40,24 +46,38 @@ const CreateScheduleModal = ({ onClose, ...props }: NoticeModalProps) => {
     },
     mode: "onChange",
   });
-  const { handleSubmit, formState, watch, reset } = methods;
-  const scheduleData = watch();
+  const { handleSubmit, reset, watch } = methods;
+  const { success, error } = useToast();
+  const studyId = Number(watch("studyId"));
+
   const myJoinedStudiesData = useMyJoinedStudyStore(
     (state) => state.myJoinedStudiesData
   );
-  const scheduleOption = myJoinedStudiesData?.map((itme) => ({
-    label: itme.title,
-    value: itme.id,
+
+  const scheduleOption = myJoinedStudiesData?.map((item) => ({
+    label: item.title,
+    value: item.id,
   }));
 
-  // 빈 항목이 하나라도 있으면 false
-  const isActiveBtn =
-    !!scheduleData.title &&
-    !!scheduleData.description &&
-    !!scheduleData.startDate &&
-    !!scheduleData.endDate &&
-    !!scheduleData.startTime &&
-    !!scheduleData.endTime;
+  const { mutate, isPending } = usePostCreateStudySchedule({
+    accessToken,
+    studyId,
+    options: {
+      onSuccess: () => {
+        success("일정 생성이 완료되었습니다.");
+        queryClient.invalidateQueries({
+          queryKey: ["mySchedules"],
+        });
+
+        reset();
+        onClose();
+      },
+      onError: (err) => {
+        error("일정 생성 실패했습니다. 다시 시도해주세요.");
+        console.log(err);
+      },
+    },
+  });
 
   const onSubmit = (data: ScheduleData) => {
     const startDateTime = `${data.startDate}T${data.startTime}`;
@@ -66,7 +86,7 @@ const CreateScheduleModal = ({ onClose, ...props }: NoticeModalProps) => {
     // formattedData 생성
     const formattedData = {
       ...data,
-      curriculumIds: [1, 2, 3], // 무엇인지는 모르겠으나 우선 백엔드 요청 데이터에 맞게 추가
+      curriculumIds: [1, 2, 3], // 임시 데이터
       startDateTime,
       endDateTime,
     };
@@ -78,8 +98,8 @@ const CreateScheduleModal = ({ onClose, ...props }: NoticeModalProps) => {
     delete formattedData.endTime;
     delete formattedData.studyId;
 
-    reset();
-    onClose();
+    // API 호출
+    mutate(formattedData);
   };
 
   const onClickCloseBtn = () => {
@@ -100,14 +120,13 @@ const CreateScheduleModal = ({ onClose, ...props }: NoticeModalProps) => {
               className="text-mos-gray-400 text-[14px]"
               label="일정을 추가할 스터디를 선택해 주세요."
               name="studyId"
-              selectList={scheduleOption || []}
+              selectList={[
+                { label: "스터디를 선택해 주세요.", value: "" },
+                ...(scheduleOption || []),
+              ]}
               required
-              registerOptions={{ required: "필수 입력입니다." }}
-              onChange={(e) => {
-                console.log(
-                  "Selected study:",
-                  (e.target as HTMLSelectElement).value
-                );
+              registerOptions={{
+                required: "필수 선택입니다.",
               }}
             />
             <LabelInput
@@ -179,8 +198,8 @@ const CreateScheduleModal = ({ onClose, ...props }: NoticeModalProps) => {
             <Button.Solid
               type="submit"
               color="Main"
-              active={isActiveBtn}
-              disabled={!formState.isValid}
+              active={true}
+              disabled={isPending}
             >
               확인
             </Button.Solid>

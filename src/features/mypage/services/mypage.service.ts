@@ -1,13 +1,13 @@
 import { API_ENDPOINT } from "@/shared/constants/api-end-point";
-import { GetMyApplyStatusResult, GetMyJoinedStudiesResult, GetMySchedulesResult, GetUserInfoResult, UpdateUserInfoResult } from "@/shared/types/api/mypage";
+import { CreateStudyScheduleResult, GetMyApplyStatusResult, GetMyJoinedStudiesResult, GetMySchedulesResult, GetUserInfoResult, UpdateUserInfoResult } from "@/shared/types/api/mypage";
 import { fetchAPI } from "@/shared/utils/fetch";
-import { UseQueryOptions } from "@tanstack/react-query";
+import { useMutation, UseMutationOptions, UseQueryOptions } from "@tanstack/react-query";
 
 // 유저 정보 //
 export const getUserInfo = async (accessToken?: string): Promise<GetUserInfoResult> => {
-  return fetchAPI<GetUserInfoResult>(API_ENDPOINT.user.getUser().url, {
+  return await fetchAPI<GetUserInfoResult>(API_ENDPOINT.mypage.getUser().url, {
     credentials: "include",
-    method: API_ENDPOINT.user.getUser().method,
+    method: API_ENDPOINT.mypage.getUser().method,
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
@@ -28,9 +28,9 @@ export const updateUserInfo = async (
   accessToken: string,
   data: UpdateUserInfoResult
 ): Promise<UpdateUserInfoResult> => {
-  return fetchAPI<UpdateUserInfoResult>(API_ENDPOINT.user.updateUser().url, {
+  return await fetchAPI<UpdateUserInfoResult>(API_ENDPOINT.mypage.updateUser().url, {
     credentials: "include",
-    method: API_ENDPOINT.user.updateUser().method,
+    method: API_ENDPOINT.mypage.updateUser().method,
     headers: {
       Authorization: `Bearer ${accessToken}`,
       "Content-Type": "application/json",
@@ -40,9 +40,9 @@ export const updateUserInfo = async (
 
 // 캘린더 일정 조회 //
 export const getMySchedules = async (accessToken: string): Promise<GetMySchedulesResult[]> => {
-  return fetchAPI<GetMySchedulesResult[]>(API_ENDPOINT.user.getMySchedules().url, {
+  return await fetchAPI<GetMySchedulesResult[]>(API_ENDPOINT.mypage.getMySchedules().url, {
     credentials: "include",
-    method: API_ENDPOINT.user.getMySchedules().method,
+    method: API_ENDPOINT.mypage.getMySchedules().method,
     headers: {
       Authorization: `Bearer ${accessToken}`,
       "Content-Type": "application/json",
@@ -59,12 +59,34 @@ export const mySchedulesQueryOption = (
   ...options,
 });
 
+// 스터디 일정 생성 //
+export const createStudySchedule = async (
+  accessToken: string,
+  studyId: number,
+  data: CreateStudyScheduleResult
+): Promise<CreateStudyScheduleResult> => {
+  return await fetchAPI<CreateStudyScheduleResult>(API_ENDPOINT.mypage.createStudySchedule(studyId).url, {
+    credentials: "include",
+    method: API_ENDPOINT.mypage.createStudySchedule(studyId).method,
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json",
+    },    
+    body: JSON.stringify(data),
+  })}
+export const usePostCreateStudySchedule = ({accessToken, studyId, options}:{accessToken:string, studyId: number, options?:UseMutationOptions<CreateStudyScheduleResult, Error, unknown>}) => {
+  return useMutation({
+    ...options,
+    mutationFn: (data: CreateStudyScheduleResult) => createStudySchedule(accessToken, studyId, data)
+  })
+}
+  
 
 // 참여 중인 스터디 //
 export const getMyJoinedStudies = async (accessToken: string, userId: string): Promise<GetMyJoinedStudiesResult[]> => {
-  return fetchAPI(API_ENDPOINT.user.getMyJoinedStudies(userId).url, {
+  return await fetchAPI(API_ENDPOINT.mypage.getMyJoinedStudies(userId).url, {
     credentials: "include",
-    method: API_ENDPOINT.user.getMyJoinedStudies(userId).method,
+    method: API_ENDPOINT.mypage.getMyJoinedStudies(userId).method,
     headers: {
       Authorization: `Bearer ${accessToken}`,
       "Content-Type": "application/json",
@@ -84,9 +106,9 @@ export const myJoinedStudiesQueryOption = (
 
 // 나의 지원 현황 //
 export const getMyApplyStatus = async (accessToken: string): Promise<GetMyApplyStatusResult[]> => {
-  return fetchAPI(API_ENDPOINT.user.getMyApplyStatus().url, {
+  return await fetchAPI(API_ENDPOINT.mypage.getMyApplyStatus().url, {
     credentials: "include",
-    method: API_ENDPOINT.user.getMyApplyStatus().method,
+    method: API_ENDPOINT.mypage.getMyApplyStatus().method,
     headers: {
       Authorization: `Bearer ${accessToken}`,
       "Content-Type": "application/json",
