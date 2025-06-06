@@ -86,7 +86,6 @@ const CreateScheduleModal = ({ onClose, ...props }: NoticeModalProps) => {
     // formattedData 생성
     const formattedData = {
       ...data,
-      curriculumIds: [1, 2, 3], // 임시 데이터
       startDateTime,
       endDateTime,
     };
