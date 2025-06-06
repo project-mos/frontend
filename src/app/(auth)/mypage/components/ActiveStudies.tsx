@@ -49,7 +49,9 @@ const StudyList = ({ data }: { data: GetMyJoinedStudiesResult[] }) => {
         <div
           key={data.id}
           className="mb-[20px] flex cursor-pointer flex-col gap-[10px] rounded-[10px] border border-mos-gray-100 p-[20px] transition-colors duration-200 hover:border-mos-main-500 active:bg-gray-50"
-          onClick={() => router.push(URL.STUDY_ROOM.DETAIL_SCHEDULE(data.id))}
+          onClick={() =>
+            router.push(URL.STUDY_ROOM.DETAIL_SCHEDULE(`${data.id}`))
+          }
         >
           <div className="flex justify-between">
             {/* 왼쪽에 배치할 태그 */}
@@ -130,7 +132,7 @@ const ApplyList = ({ data }: { data: GetMyApplyStatusResult[] }) => {
             key={data.studyId}
             className="mb-[20px] flex cursor-pointer flex-col gap-[10px] rounded-[10px] border border-mos-gray-100 p-[20px] transition-colors duration-200 hover:border-mos-main-500 active:bg-gray-50"
             onClick={() =>
-              router.push(URL.STUDY_ROOM.DETAIL_SCHEDULE(data.studyId))
+              router.push(URL.STUDY_ROOM.DETAIL_SCHEDULE(`${data.studyId}`))
             }
           >
             <div className="flex justify-between">

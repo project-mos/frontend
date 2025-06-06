@@ -1,15 +1,20 @@
-import axios from 'axios';
-import { getAccessToken, getRefreshToken, setTokens, clearTokens } from '../utils/token';
-import URL from '../constants/URL';
-import { API_ENDPOINT } from '../constants/api-end-point';
+import axios from "axios";
+import {
+  getAccessToken,
+  getRefreshToken,
+  setTokens,
+  clearTokens,
+} from "../utils/token";
+import URL from "../constants/URL";
+import { API_ENDPOINT } from "../constants/api-end-point";
 
 // Axios 인스턴스 생성
 const axiosInstance = axios.create({
   baseURL: process.env.MOS_API_BASE_URL, // API 기본 URL
   withCredentials: true, // 쿠키 포함
   headers: {
-    'Content-Type': 'application/json', // JSON 형태로 통신
-    Accept: 'application/json',
+    "Content-Type": "application/json", // JSON 형태로 통신
+    Accept: "application/json",
   },
 });
 
@@ -39,14 +44,13 @@ axiosInstance.interceptors.response.use(
       !originalRequest._retry
     ) {
       originalRequest._retry = true;
-      
+
       try {
         // refreshToken을 사용해 새로운 accessToken 요청
-        const res = await axios.post(API_ENDPOINT.auth.refreshAuth().url, {
-          data: refreshToken
-        });
+        const res = await axios.post(API_ENDPOINT.user.getRefreshAuth().url);
 
-        const { accessToken: newAccessToken, refreshToken: newRefreshToken } = res.data;
+        const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
+          res.data;
 
         // 새 토큰 저장
         setTokens(newAccessToken, newRefreshToken);
@@ -56,7 +60,7 @@ axiosInstance.interceptors.response.use(
         return axiosInstance(originalRequest);
       } catch (refreshError) {
         // 토큰 갱신 실패 -> 토큰 초기화 및 메인 페이지로 이동
-        console.error('토큰 갱신 실패:', refreshError);
+        console.error("토큰 갱신 실패:", refreshError);
         clearTokens();
         window.location.href = URL.HOME; // 또는 router.push(URL.HOME)
       }

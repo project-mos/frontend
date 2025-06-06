@@ -7,17 +7,16 @@ import Meta from "@/shared/components/molecules/Meta";
 import { MDXRemote } from "next-mdx-remote-client/rsc";
 // import "github-markdown-css/github-markdown.css";
 
+import ShareButton from "@/app/studies/components/applyStudy/ShareButton";
+import profileImg from "@/asset/images/profile_example.jpeg";
+import Profile from "@/shared/components/atoms/Profile";
 import {
   GetStudyBenefitsResponse,
   GetStudyDetailResponse,
   GetStudyMembersResponse,
   GetStudyRequirementsResponse,
   GetStudyRulesResponse,
-} from "@/shared/types/api/studies";
-
-import ShareButton from "@/app/studies/components/applyStudy/ShareButton";
-import profileImg from "@/asset/images/profile_example.jpeg";
-import Profile from "@/shared/components/atoms/Profile";
+} from "@/features/studies/types/studies.api";
 
 interface StudyDescriptionCardProps {
   studyDetailData: GetStudyDetailResponse;

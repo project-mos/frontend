@@ -1,8 +1,7 @@
+import { GetStudyCurriculumsResponse } from "@/features/studies/types/studies.api";
 import Card from "@/shared/components/atoms/Card";
 import Tag from "@/shared/components/atoms/Tag";
 import Typography from "@/shared/components/atoms/Typography";
-
-import { GetStudyCurriculumsResponse } from "@/shared/types/api/studies";
 
 interface CurriculumProps {
   data: GetStudyCurriculumsResponse;

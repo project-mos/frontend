@@ -4,8 +4,7 @@ import Card from "@/shared/components/atoms/Card";
 import Tag from "@/shared/components/atoms/Tag";
 import Typography from "@/shared/components/atoms/Typography";
 import Meta from "@/shared/components/molecules/Meta";
-
-import { Study } from "@/shared/types/api/studies";
+import { Study } from "@/features/landing/types/landing.api";
 
 interface StudyCardProps extends HTMLAttributes<HTMLDivElement> {
   data: Study;
