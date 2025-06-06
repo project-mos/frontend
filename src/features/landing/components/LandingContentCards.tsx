@@ -6,11 +6,11 @@ import Typography from "@/shared/components/atoms/Typography";
 
 import LandingStudyCard from "./LandingStudyCard";
 
-import { GetStudiesRequest, Study } from "@/shared/types/api/studies";
 import {
   useHotStudies,
   useStudies,
 } from "@/features/landing/services/landing.service";
+import { GetStudiesRequest, Study } from "@/features/landing/types/landing.api";
 
 interface LandingContentCards {
   searchParams: GetStudiesRequest;

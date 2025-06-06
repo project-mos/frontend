@@ -10,7 +10,7 @@ const URL = {
     DETAIL: (id: number) => `/studies/${id}`,
   },
   STUDY_ROOM: {
-    DETAIL_SCHEDULE(id: number) {
+    DETAIL_SCHEDULE(id: string) {
       return `/study-room/${id}/schedule`;
     },
     DETAIL_MEMBER(id: string) {

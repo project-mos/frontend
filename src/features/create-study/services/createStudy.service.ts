@@ -2,7 +2,6 @@ import { StudyFormInterface } from "../types/create-study.type";
 
 interface createStudyProps {
   form: StudyFormInterface;
-  token: string;
 }
 
 function parseRequirements(text: string) {
@@ -20,7 +19,7 @@ function filterEmptyByKey<T>(arr: T[], key: keyof T) {
   });
 }
 
-export default async function createStudy({ form, token }: createStudyProps) {
+export default async function createStudy({ form }: createStudyProps) {
   const parsedRequirements = parseRequirements(
     form.requirements as unknown as string
   );
@@ -37,7 +36,6 @@ export default async function createStudy({ form, token }: createStudyProps) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         title: form.title,

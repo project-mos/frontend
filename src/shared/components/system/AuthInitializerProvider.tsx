@@ -16,8 +16,13 @@ const AuthInitializerProvider = async ({
   const accessToken = (await cookieStore).get("access-token");
   const refreshToken = (await cookieStore).get("refresh-token");
 
+  let isRefresh = false;
+
   if (isAuth && (!accessToken || !refreshToken)) {
     redirect(URL.HOME);
+  }
+  if (!accessToken && refreshToken) {
+    isRefresh = true;
   }
 
   return (
@@ -25,6 +30,7 @@ const AuthInitializerProvider = async ({
       isLoggedIn={!!accessToken}
       accessToken={accessToken?.value}
       hasTokens={!!accessToken && !!refreshToken}
+      isRefresh={isRefresh}
     />
   );
 };

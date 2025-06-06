@@ -5,7 +5,8 @@ import {
 import {
   GetStudiesRequest,
   GetStudiesResponse,
-} from "@/shared/types/api/studies";
+} from "@/features/landing/types/landing.api";
+
 import {
   dehydrate,
   HydrationBoundary,

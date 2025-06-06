@@ -1,13 +1,54 @@
-import { SetStateAction } from "react";
-
-import { ModalOnClose, ModalProps } from "@/shared/components/atoms/Modal";
-import {
-  StudyMemberAttendanceInterface,
-  StudyMemberInterface,
-} from "@/shared/types/api/study-room";
-
 export interface StudyDetailPageProps {
   params: Promise<{ id: string }>;
+}
+
+/* study curriculum */
+export interface StudyCurriculumCardInterface {
+  id: string;
+  step: string;
+  title: string;
+  content: string;
+}
+
+/* study notice */
+export interface StudyNoticeCardInterface {
+  id: number;
+  title: string;
+  content: string;
+  writer: string;
+}
+
+/* study manage */
+export interface StudyManageCardInterface {
+  name: string;
+  date: string;
+  email: string;
+  experience: string;
+  questionList: { question: string; answer: string }[];
+}
+
+/* study member */
+export interface StudyMemberInterface {
+  userId: number;
+  nickname: string;
+  studyMemberRoleType: "스터디장" | "스터디원";
+  lastAttendanceDate: string;
+  participationRate: number;
+}
+
+export interface StudyMemberAttendanceInterface {
+  studyMemberId: number;
+  userId: number;
+  nickname: string;
+  attendanceRes: Attendance[];
+  attendanceRate: number;
+}
+
+export interface Attendance {
+  attendanceId: number;
+  attendanceStatus: string;
+  studyScheduleId: number;
+  studyScheduleStartDateTime: string;
 }
 
 /* study overview */
@@ -19,50 +60,4 @@ export interface RuleInterface {
 export interface BenefitInterface {
   benefitNum: number;
   content: string;
-}
-
-export interface ContentInputBoxProps {
-  value: string[];
-  setValue: React.Dispatch<React.SetStateAction<string[]>>;
-  setState: React.Dispatch<React.SetStateAction<boolean>>;
-  buttonText: string;
-  placeholder: string;
-  type: "rule" | "benefit";
-  studyId: string;
-}
-
-export interface InlineInputProps {
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onRemove: () => void;
-  placeholder: string;
-}
-
-export interface ManageOverviewCardProps {
-  rules: string[];
-  benefits: string[];
-  studyId: string;
-}
-
-export interface PreviewBoxProps {
-  data: string[];
-  setState: React.Dispatch<SetStateAction<boolean>>;
-}
-
-/* study member */
-
-export interface MemberCardProps {
-  members: StudyMemberInterface[];
-}
-
-export interface StudyMemberCardProps {
-  data: StudyMemberInterface;
-  isBest: boolean;
-  onChat?: () => void;
-  onMore?: () => void;
-}
-
-export interface MemberModalProps extends ModalProps {
-  onClose: ModalOnClose;
-  data?: StudyMemberAttendanceInterface;
 }
