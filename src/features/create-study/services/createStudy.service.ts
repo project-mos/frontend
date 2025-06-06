@@ -1,8 +1,9 @@
-import { StudyFormInterface } from "../types/create-study.type";
-
-interface createStudyProps {
-  form: StudyFormInterface;
-}
+import { API_ENDPOINT } from "@/shared/constants/api-end-point";
+import { fetchAPI } from "@/shared/utils/fetch";
+import {
+  CreateStudyRequest,
+  CreateStudyResponse,
+} from "../types/create-study.api";
 
 function parseRequirements(text: string) {
   return text
@@ -19,7 +20,8 @@ function filterEmptyByKey<T>(arr: T[], key: keyof T) {
   });
 }
 
-export default async function createStudy({ form }: createStudyProps) {
+export async function createStudy({ form }: CreateStudyRequest) {
+  const { url, method } = API_ENDPOINT.study.createStudy();
   const parsedRequirements = parseRequirements(
     form.requirements as unknown as string
   );
@@ -31,35 +33,27 @@ export default async function createStudy({ form }: createStudyProps) {
     "question"
   );
 
-  try {
-    const result = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/studies`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        title: form.title,
-        category: form.category,
-        maxStudyMemberCount: form.maxStudyMemberCount,
-        recruitmentStartDate: form.recruitmentStartDate,
-        recruitmentEndDate: form.recruitmentEndDate,
-        tags: form.tags,
-        meetingType: form.meetingType,
-        schedule: form.schedule,
-        content: form.content,
-        curriculums: [],
-        requirements: parsedRequirements,
-        rules: filteredRules,
-        benefits: filteredBenefits,
-        applicationQuestions: filteredQuestions,
-      }),
-    });
-
-    const res = await result.json();
-
-    return res;
-  } catch (err) {
-    console.error("네트워크 오류 또는 서버 장애:", err);
-    throw err;
-  }
+  return await fetchAPI<CreateStudyResponse>(url, {
+    credentials: "include",
+    body: JSON.stringify({
+      title: form.title,
+      category: form.category,
+      maxStudyMemberCount: form.maxStudyMemberCount,
+      recruitmentStartDate: form.recruitmentStartDate,
+      recruitmentEndDate: form.recruitmentEndDate,
+      tags: form.tags,
+      meetingType: form.meetingType,
+      schedule: form.schedule,
+      content: form.content,
+      curriculums: [],
+      requirements: parsedRequirements,
+      rules: filteredRules,
+      benefits: filteredBenefits,
+      applicationQuestions: filteredQuestions,
+    }),
+    method: method,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 }

@@ -9,7 +9,7 @@ import StudyActions from "@/app/(auth)/create-study/components/StudyActions";
 import StudyApply from "@/app/(auth)/create-study/components/StudyApply";
 import useModal from "@/shared/hooks/useModal";
 
-import createStudy from "../services/createStudy.service";
+import { createStudy } from "../services/createStudy.service";
 import { StudyFormInterface } from "../types/create-study.type";
 
 const CreateStudyForm3 = () => {
