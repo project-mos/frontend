@@ -8,6 +8,9 @@ import Typography from "@/shared/components/atoms/Typography";
 import { useTokenStore } from "@/shared/store/authStore";
 import { useQuery } from "@tanstack/react-query";
 import { mySchedulesQueryOption } from "@/features/mypage/services/mypage.service";
+import useModal from "@/shared/hooks/useModal";
+import StudyFormModal from "@/app/(auth)/mypage/components/StudyFormModal";
+import { GetMySchedulesResult } from "@/shared/types/api/mypage";
 
 interface CalendarProps {
   [key: string]: {
@@ -27,6 +30,12 @@ function Calendar() {
 
   // 캘린더 일정
   const { data: schedulesData } = useQuery(mySchedulesQueryOption(accessToken));
+  // 일정 수정 모달
+  const { isModalOpenState, openModal, closeModal } = useModal();
+  // 내가 선택한 날짜에 등록되어있는 일정 데이터
+  const [dailySchedules, setDailySchedules] = useState<GetMySchedulesResult[]>(
+    []
+  );
 
   const getSchedulesByDate = schedulesData
     ? schedulesData.reduce(
@@ -64,6 +73,15 @@ function Calendar() {
   // 해당 월의 1일이 시작하는 요일 구하기
   const getFirstDayOfMonth = (year: number, month: number) => {
     return new Date(year, month, 1).getDay();
+  };
+
+  const handleClickSchedul = (date: string) => {
+    const dailySchedule = schedulesData!.filter(
+      (item) => item.startDateTime.split("T")[0] === date
+    );
+    setDailySchedules(dailySchedule);
+
+    openModal();
   };
 
   // 캘린더 셀 렌더링 (오늘 날짜는 색이 있는 동그라미로 감싸고, 이벤트는 날짜 숫자 바로 아래에 표시)
@@ -108,13 +126,17 @@ function Calendar() {
             <div className="mt-1 flex cursor-pointer flex-col space-y-1">
               <div
                 className={`hidden h-5 w-full mobile:flex ${dayEvents[0].color} flex items-center rounded p-1`}
+                onClick={() => handleClickSchedul(dateKey)}
               >
                 <Typography.P3 className="truncate text-[11px] text-white">
                   {dayEvents[0].title}
                 </Typography.P3>
               </div>
               {dayEvents.length > 1 && (
-                <div className="flex items-center justify-end text-right text-[11px] font-semibold ">
+                <div
+                  className="flex items-center justify-end text-right text-[11px] font-semibold"
+                  onClick={() => handleClickSchedul(dateKey)}
+                >
                   <Typography.P3 className="rounded-full bg-blue-500 px-[3px] py-[2px] text-mos-white-gray-100">
                     +{dayEvents.length - 1}
                   </Typography.P3>
@@ -160,31 +182,41 @@ function Calendar() {
   };
 
   return (
-    <div className="mx-auto mt-8 w-full max-w-4xl rounded-md border border-gray-300 p-4 shadow-md tablet:h-[600px]">
-      <div className="mb-4 flex items-center justify-between">
-        <Button.Solid color="Main" active onClick={handlePrevMonth}>
-          &lt;
-        </Button.Solid>
-        <Typography.SubTitle1>
-          {currentDateState.getFullYear()}년 {currentDateState.getMonth() + 1}월
-        </Typography.SubTitle1>
-        <Button.Solid color="Main" active onClick={handleNextMonth}>
-          &gt;
-        </Button.Solid>
+    <>
+      <div className="mx-auto mt-8 w-full max-w-4xl rounded-md border border-gray-300 p-4 shadow-md tablet:h-[600px]">
+        <div className="mb-4 flex items-center justify-between">
+          <Button.Solid color="Main" active onClick={handlePrevMonth}>
+            &lt;
+          </Button.Solid>
+          <Typography.SubTitle1>
+            {currentDateState.getFullYear()}년 {currentDateState.getMonth() + 1}
+            월
+          </Typography.SubTitle1>
+          <Button.Solid color="Main" active onClick={handleNextMonth}>
+            &gt;
+          </Button.Solid>
+        </div>
+        <Grid cols={7} className="gap-px text-center">
+          {/* 요일 헤더 */}
+          <Typography.P3 className="font-bold text-red-600">일</Typography.P3>
+          <Typography.P3 className="text-center font-bold">월</Typography.P3>
+          <Typography.P3 className="text-center font-bold">화</Typography.P3>
+          <Typography.P3 className="text-center font-bold">수</Typography.P3>
+          <Typography.P3 className="text-center font-bold">목</Typography.P3>
+          <Typography.P3 className="text-center font-bold">금</Typography.P3>
+          <Typography.P3 className="text-center font-bold">토</Typography.P3>
+          {/* 날짜 셀 */}
+          {renderCalendarCells()}
+        </Grid>
       </div>
-      <Grid cols={7} className="gap-px text-center">
-        {/* 요일 헤더 */}
-        <Typography.P3 className="font-bold text-red-600">일</Typography.P3>
-        <Typography.P3 className="text-center font-bold">월</Typography.P3>
-        <Typography.P3 className="text-center font-bold">화</Typography.P3>
-        <Typography.P3 className="text-center font-bold">수</Typography.P3>
-        <Typography.P3 className="text-center font-bold">목</Typography.P3>
-        <Typography.P3 className="text-center font-bold">금</Typography.P3>
-        <Typography.P3 className="text-center font-bold">토</Typography.P3>
-        {/* 날짜 셀 */}
-        {renderCalendarCells()}
-      </Grid>
-    </div>
+      {/* 일정 수정 모달 */}
+      <StudyFormModal
+        isOpen={isModalOpenState}
+        onClose={() => closeModal()}
+        schedulesData={dailySchedules!}
+        isModifyMode={true}
+      />
+    </>
   );
 }
 

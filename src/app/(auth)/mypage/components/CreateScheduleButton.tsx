@@ -2,9 +2,9 @@
 
 import Button from "@/shared/components/atoms/Button";
 import useModal from "@/shared/hooks/useModal";
-import CreateScheduleModal from "./CreateScheduleModal";
 import { useToast } from "@/shared/hooks/useToast";
 import { useMyJoinedStudyStore } from "@/shared/store/useMyJoinedStudyStore";
+import StudyFormModal from "./StudyFormModal";
 
 const CreateScheduleButton = () => {
   const { isModalOpenState, openModal, closeModal } = useModal();
@@ -35,10 +35,7 @@ const CreateScheduleButton = () => {
       </Button.Ghost>
 
       {/* 일정 생성 모달 */}
-      <CreateScheduleModal
-        isOpen={isModalOpenState}
-        onClose={() => closeModal()}
-      />
+      <StudyFormModal isOpen={isModalOpenState} onClose={() => closeModal()} />
     </>
   );
 };

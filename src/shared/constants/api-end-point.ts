@@ -60,8 +60,14 @@ export const API_ENDPOINT = {
         url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/schedules`, 
         method: Method.POST,
       };
+    },
+    // 스터디 일정 수정
+    updateStudySchedule: (studyId:number, studyScheduleId: number) => {
+      return {
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/study-schedules/${studyScheduleId}`, 
+        method: Method.PATCH,
+      };
     }
-   
   },
   study: {
     // 스터디 생성
