@@ -3,6 +3,7 @@ import { fetchAPI } from "@/shared/utils/fetch";
 import {
   CreateStudyRequest,
   CreateStudyResponse,
+  UploadImageRequest,
 } from "../types/create-study.api";
 
 function parseRequirements(text: string) {
@@ -58,20 +59,20 @@ export async function createStudy({ form }: CreateStudyRequest) {
   });
 }
 
-export const uploadImage = async (file: File): Promise<string> => {
-  // example function
+export async function uploadImage({
+  file,
+}: UploadImageRequest): Promise<string> {
   const formData = new FormData();
   formData.append("file", file);
   formData.append("type", "STUDY");
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/recruitment-images`,
-    {
-      method: "POST",
-      credentials: "include",
-      body: formData,
-    }
-  );
+  const { url, method } = API_ENDPOINT.study.uploadImage();
+
+  const res = await fetchAPI<Response>(url, {
+    credentials: "include",
+    body: formData,
+    method: method,
+  });
 
   if (!res.ok) {
     throw new Error("이미지 업로드 실패");
@@ -79,4 +80,4 @@ export const uploadImage = async (file: File): Promise<string> => {
 
   const data = await res.text();
   return data;
-};
+}

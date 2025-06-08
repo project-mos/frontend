@@ -20,7 +20,7 @@ const Editor = ({ name }: EditorProps) => {
   // 이미지 업로드 후 마크다운 삽입
   const uploadImageAndInsert = async (file: File) => {
     try {
-      const url = await uploadImage(file);
+      const url = await uploadImage({ file });
       const insert = `![image](${url})`;
       const newValue = (value ?? "") + "\n" + insert;
       setValue(name, newValue);
@@ -29,31 +29,6 @@ const Editor = ({ name }: EditorProps) => {
       alert("이미지 업로드 중 오류가 발생했습니다.");
     }
   };
-
-  // 드래그앤드랍 이벤트 등록
-  useEffect(() => {
-    const wrapper = editorRef.current;
-    if (!wrapper) return;
-
-    const handleDrop = async (e: DragEvent) => {
-      e.preventDefault();
-      const file = e.dataTransfer?.files?.[0];
-      if (!file || !file.type.startsWith("image/")) return;
-      await uploadImageAndInsert(file);
-    };
-
-    const handleDragOver = (e: DragEvent) => {
-      e.preventDefault();
-    };
-
-    wrapper.addEventListener("drop", handleDrop);
-    wrapper.addEventListener("dragover", handleDragOver);
-
-    return () => {
-      wrapper.removeEventListener("drop", handleDrop);
-      wrapper.removeEventListener("dragover", handleDragOver);
-    };
-  }, [value, name]);
 
   // 이미지 버튼 클릭
   const imageHandler = (
@@ -71,7 +46,7 @@ const Editor = ({ name }: EditorProps) => {
       if (!file) return;
 
       try {
-        const url = await uploadImage(file);
+        const url = await uploadImage({ file });
         const insert = `![image](${url})`;
 
         api.replaceSelection(insert);
@@ -87,6 +62,11 @@ const Editor = ({ name }: EditorProps) => {
     });
   };
 
+  // 기본 커맨드 중 "image" 제거
+  const defaultCommands = commands
+    .getCommands()
+    .filter((cmd) => cmd.name !== "image");
+
   // 이미지 버튼 커맨드 정의
   const customImageCommand = {
     name: "image",
@@ -98,6 +78,34 @@ const Editor = ({ name }: EditorProps) => {
     },
   };
 
+  // 드래그앤드랍 이벤트 등록
+  useEffect(() => {
+    const wrapper = editorRef.current;
+    if (!wrapper) return;
+
+    const handleDrop = async (e: DragEvent) => {
+      e.preventDefault();
+      e.dataTransfer!.dropEffect = "move";
+
+      const file = e.dataTransfer?.files?.[0];
+      if (!file || !file.type.startsWith("image/")) return;
+      await uploadImageAndInsert(file);
+    };
+
+    const handleDragOver = (e: DragEvent) => {
+      e.preventDefault();
+      e.dataTransfer!.dropEffect = "copy";
+    };
+
+    wrapper.addEventListener("drop", handleDrop);
+    wrapper.addEventListener("dragover", handleDragOver);
+
+    return () => {
+      wrapper.removeEventListener("drop", handleDrop);
+      wrapper.removeEventListener("dragover", handleDragOver);
+    };
+  }, [value, name]);
+
   return (
     <div ref={editorRef}>
       <MDEditor
@@ -105,7 +113,7 @@ const Editor = ({ name }: EditorProps) => {
         value={value}
         onChange={(val) => setValue(name, val ?? "")}
         height={800}
-        commands={[...commands.getCommands(), customImageCommand]}
+        commands={[...defaultCommands, customImageCommand]}
       />
     </div>
   );

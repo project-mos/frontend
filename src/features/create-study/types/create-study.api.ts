@@ -7,3 +7,7 @@ export type CreateStudyRequest = {
 export type CreateStudyResponse = {
   studyId: number;
 };
+
+export type UploadImageRequest = {
+  file: File;
+};

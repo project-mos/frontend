@@ -64,6 +64,12 @@ export const API_ENDPOINT = {
         method: Method.POST,
       };
     },
+    uploadImage: () => {
+      return {
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/recruitment-images`,
+        method: Method.POST,
+      };
+    },
     getStudy: (id: string) => {
       return {
         url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${id}`,
