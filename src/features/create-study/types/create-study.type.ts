@@ -21,7 +21,3 @@ export interface QuestionInterface {
   type: "주관식" | "객관식";
   options: string[];
 }
-
-export interface AccessTokenProps {
-  accessToken?: string;
-}

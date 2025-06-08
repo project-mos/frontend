@@ -1,13 +1,13 @@
-import { Method } from "../utils/fetcher";
 import { GetStudiesRequest } from "@/features/landing/types/landing.api";
 import { GetStudyJoinsRequest } from "@/features/studies/types/studies.api";
+import { Method } from "../utils/fetcher";
 
 export const API_ENDPOINT = {
   auth: {
     // 로그인
     signIn: () => {
       return {
-        url: `${process.env.MOS_API_BASE_URL}/oauth2/login`, // 임시 URL
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/oauth2/login`, // 임시 URL
         method: Method.POST,
       };
     },
@@ -60,7 +60,13 @@ export const API_ENDPOINT = {
     // 스터디 생성
     createStudy: () => {
       return {
-        url: `${process.env.MOS_API_BASE_URL}/studies`,
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies`,
+        method: Method.POST,
+      };
+    },
+    uploadImage: () => {
+      return {
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/recruitment-images`,
         method: Method.POST,
       };
     },

@@ -1,9 +1,76 @@
-import { StudyFormInterface } from "../types/create-study.type";
+import { API_ENDPOINT } from "@/shared/constants/api-end-point";
+import { fetchAPI } from "@/shared/utils/fetch";
+import {
+  CreateStudyRequest,
+  CreateStudyResponse,
+  UploadImageRequest,
+} from "../types/create-study.api";
 
-interface createStudyProps {
-  form: StudyFormInterface;
+function sanitizeCodeLikeLinesWithEscape(md: string): string {
+  const CODE_LIKE_KEYWORDS = [
+    "const ",
+    "let ",
+    "function ",
+    "import ",
+    "export ",
+    "return ",
+    "class ",
+    "if ",
+    "else ",
+    "for ",
+    "while ",
+    "{",
+    "}",
+    "=",
+    "<", // JSX나 HTML 태그 시작
+    "/>", // JSX 닫힘
+  ];
+
+  const lines = md.split("\n");
+  const result: string[] = [];
+
+  let insideCodeBlock = false;
+
+  for (const line of lines) {
+    const trimmed = line.trim();
+
+    // ``` 코드블럭 시작/종료
+    if (trimmed.startsWith("```")) {
+      result.push(line);
+      insideCodeBlock = !insideCodeBlock;
+      continue;
+    }
+
+    // 코드블럭 내부는 그대로
+    if (insideCodeBlock) {
+      result.push(line);
+      continue;
+    }
+
+    // 코드처럼 생긴 줄 또는 JSX 형태 감지
+    const isCodeLike = CODE_LIKE_KEYWORDS.some(
+      (kw) => trimmed.startsWith(kw) || trimmed.includes(kw)
+    );
+
+    if (isCodeLike) {
+      result.push(`<p>${escapeHtml(line)}</p>`);
+    } else {
+      result.push(line);
+    }
+  }
+
+  return result.join("\n");
 }
 
+// HTML & JSX 이스케이프
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
 function parseRequirements(text: string) {
   return text
     .split("\n")
@@ -19,7 +86,8 @@ function filterEmptyByKey<T>(arr: T[], key: keyof T) {
   });
 }
 
-export default async function createStudy({ form }: createStudyProps) {
+export async function createStudy({ form }: CreateStudyRequest) {
+  const { url, method } = API_ENDPOINT.study.createStudy();
   const parsedRequirements = parseRequirements(
     form.requirements as unknown as string
   );
@@ -31,35 +99,49 @@ export default async function createStudy({ form }: createStudyProps) {
     "question"
   );
 
-  try {
-    const result = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/studies`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        title: form.title,
-        category: form.category,
-        maxStudyMemberCount: form.maxStudyMemberCount,
-        recruitmentStartDate: form.recruitmentStartDate,
-        recruitmentEndDate: form.recruitmentEndDate,
-        tags: form.tags,
-        meetingType: form.meetingType,
-        schedule: form.schedule,
-        content: form.content,
-        curriculums: [],
-        requirements: parsedRequirements,
-        rules: filteredRules,
-        benefits: filteredBenefits,
-        applicationQuestions: filteredQuestions,
-      }),
-    });
+  const filteredContent = sanitizeCodeLikeLinesWithEscape(form.content);
 
-    const res = await result.json();
+  return await fetchAPI<CreateStudyResponse>(url, {
+    credentials: "include",
+    body: JSON.stringify({
+      title: form.title,
+      category: form.category,
+      maxStudyMemberCount: form.maxStudyMemberCount,
+      recruitmentStartDate: form.recruitmentStartDate,
+      recruitmentEndDate: form.recruitmentEndDate,
+      tags: form.tags,
+      meetingType: form.meetingType,
+      schedule: form.schedule,
+      content: filteredContent,
+      curriculums: [],
+      requirements: parsedRequirements,
+      rules: filteredRules,
+      benefits: filteredBenefits,
+      applicationQuestions: filteredQuestions,
+    }),
+    method: method,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
 
-    return res;
-  } catch (err) {
-    console.error("네트워크 오류 또는 서버 장애:", err);
-    throw err;
+export async function uploadImage({ file }: UploadImageRequest) {
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("type", "STUDY");
+
+  const { url, method } = API_ENDPOINT.study.uploadImage();
+
+  const res = await fetchAPI(url, {
+    credentials: "include",
+    body: formData,
+    method: method,
+  });
+
+  if (!res) {
+    throw new Error("이미지 업로드 실패");
   }
+
+  return res;
 }
