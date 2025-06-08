@@ -12,7 +12,7 @@ export const API_ENDPOINT = {
       };
     },
   },
-  user: {
+  mypage: {
     // 유저 정보 조회
     getUser: () => {
       return {
@@ -25,6 +25,13 @@ export const API_ENDPOINT = {
       return {
         url: `${process.env.NEXT_PUBLIC_BASE_URL}/users`,
         method: Method.PATCH,
+      };
+    },
+    // 캘린더 일정 조회
+    getMySchedules: () => {
+      return {
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/study-schedules`,
+        method: Method.GET,
       };
     },
     // 잠여중인 스터디 조회
@@ -55,6 +62,27 @@ export const API_ENDPOINT = {
         method: Method.GET,
       };
     },
+    // 스터디 일정 생성
+    createStudySchedule: (studyId:number) => {
+      return {
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/schedules`, 
+        method: Method.POST,
+      };
+    },
+    // 스터디 일정 수정
+    updateStudySchedule: (studyId:number, studyScheduleId: number) => {
+      return {
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/study-schedules/${studyScheduleId}`, 
+        method: Method.PATCH,
+      };
+    },
+     // 스터디 일정 삭제
+     deleteStudySchedule: (studyId:number, studyScheduleId: number) => {
+      return {
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/study-schedules/${studyScheduleId}`, 
+        method: Method.DELETE,
+      };
+    }
   },
   study: {
     // 스터디 생성
