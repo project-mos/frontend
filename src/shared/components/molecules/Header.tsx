@@ -14,6 +14,9 @@ import { ADMIN_MENU_ITEMS, MENU_ITEMS } from "@/shared/constants/SidebarItems";
 import URL from "@/shared/constants/URL";
 import useModal from "@/shared/hooks/useModal";
 import { Tooltip } from "@heroui/tooltip";
+import { logout } from "@/shared/utils/logout";
+import useMultiModal from "@/shared/hooks/useMultiModal";
+import ActionConfirmModal from "./ActionConfirmModal";
 
 const Header = () => {
   const { isLoggedIn } = useAuthStore();
@@ -77,9 +80,14 @@ export function Sidebar() {
   const [isOpenState, setIsOpenState] = useState(false);
   const pathname = usePathname();
   const isStudyRoom = pathname.split("/")?.[1] === "study-room"; // 첫 번째 경로 추출
+  const { modal, openModal, closeModal } = useMultiModal();
 
   const close = () => {
     setIsOpenState(false);
+  };
+
+  const handleClickLogOut = () => {
+    logout();
   };
 
   return (
@@ -210,6 +218,7 @@ export function Sidebar() {
               className="fixed bottom-5 left-[50%] w-4/5 translate-x-[-50%] "
               color="Main"
               active
+              onClick={() => openModal("logout")}
             >
               로그아웃
             </Button.Solid>
@@ -221,6 +230,15 @@ export function Sidebar() {
           </div>
         </ul>
       </div>
+      <ActionConfirmModal
+        isOpen={modal.get("logout")!}
+        onClose={() => closeModal("logout")}
+        type="action"
+        content="정말 로그아웃 하시겠습니까?"
+        title="로그아웃"
+        buttonLabel="로그아웃"
+        onSuccess={handleClickLogOut}
+      />
     </>
   );
 }
