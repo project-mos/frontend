@@ -1,6 +1,6 @@
 "use client";
 import cn from "@/shared/utils/cn";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Button from "@/shared/components/atoms/Button";
 import Grid from "@/shared/components/atoms/Grid";
@@ -36,6 +36,46 @@ function Calendar() {
   const [dailySchedules, setDailySchedules] = useState<GetMySchedulesResult[]>(
     []
   );
+  const [studyIdColorMap, setStudyIdColorMap] = useState<{
+    [key: number]: string;
+  }>({});
+
+  const getRandomColor = () => {
+    const colors = [
+      "bg-blue-400",
+      "bg-green-400",
+      "bg-red-400",
+      "bg-yellow-400",
+      "bg-purple-400",
+      "bg-pink-400",
+      "bg-teal-400",
+    ];
+    return colors[Math.floor(Math.random() * colors.length)];
+  };
+
+  // 로컬 스토리지에서 색상 매핑 복원
+  useEffect(() => {
+    const savedColorMap = localStorage.getItem("studyIdColorMap");
+    if (savedColorMap) {
+      setStudyIdColorMap(JSON.parse(savedColorMap));
+    }
+  }, []);
+
+  // schedulesData가 변경될 때 색상 매핑 업데이트
+  useEffect(() => {
+    if (schedulesData) {
+      const newColorMap = { ...studyIdColorMap };
+
+      schedulesData.forEach((item) => {
+        if (!newColorMap[item.studyId]) {
+          newColorMap[item.studyId] = getRandomColor();
+        }
+      });
+
+      setStudyIdColorMap(newColorMap);
+      localStorage.setItem("studyIdColorMap", JSON.stringify(newColorMap)); // 로컬 스토리지에 저장
+    }
+  }, [schedulesData]);
 
   const getSchedulesByDate = schedulesData
     ? schedulesData.reduce(
@@ -47,7 +87,7 @@ function Calendar() {
           acc[dateKey].push({
             id: item.studyId,
             title: item.title,
-            color: "bg-blue-400",
+            color: studyIdColorMap[item.studyId] || "bg-gray-400", // 매핑된 색상 사용
           });
           return acc;
         },
@@ -137,7 +177,7 @@ function Calendar() {
                   className="flex items-center justify-end text-right text-[11px] font-semibold"
                   onClick={() => handleClickSchedul(dateKey)}
                 >
-                  <Typography.P3 className="rounded-full bg-blue-500 px-[3px] py-[2px] text-mos-white-gray-100">
+                  <Typography.P3 className="rounded-full bg-gray-500 px-[3px] py-[2px] text-mos-white-gray-100">
                     +{dayEvents.length - 1}
                   </Typography.P3>
                 </div>
