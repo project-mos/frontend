@@ -6,6 +6,71 @@ import {
   UploadImageRequest,
 } from "../types/create-study.api";
 
+function sanitizeCodeLikeLinesWithEscape(md: string): string {
+  const CODE_LIKE_KEYWORDS = [
+    "const ",
+    "let ",
+    "function ",
+    "import ",
+    "export ",
+    "return ",
+    "class ",
+    "if ",
+    "else ",
+    "for ",
+    "while ",
+    "{",
+    "}",
+    "=",
+    "<", // JSX나 HTML 태그 시작
+    "/>", // JSX 닫힘
+  ];
+
+  const lines = md.split("\n");
+  const result: string[] = [];
+
+  let insideCodeBlock = false;
+
+  for (const line of lines) {
+    const trimmed = line.trim();
+
+    // ``` 코드블럭 시작/종료
+    if (trimmed.startsWith("```")) {
+      result.push(line);
+      insideCodeBlock = !insideCodeBlock;
+      continue;
+    }
+
+    // 코드블럭 내부는 그대로
+    if (insideCodeBlock) {
+      result.push(line);
+      continue;
+    }
+
+    // 코드처럼 생긴 줄 또는 JSX 형태 감지
+    const isCodeLike = CODE_LIKE_KEYWORDS.some(
+      (kw) => trimmed.startsWith(kw) || trimmed.includes(kw)
+    );
+
+    if (isCodeLike) {
+      result.push(`<p>${escapeHtml(line)}</p>`);
+    } else {
+      result.push(line);
+    }
+  }
+
+  return result.join("\n");
+}
+
+// HTML & JSX 이스케이프
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
 function parseRequirements(text: string) {
   return text
     .split("\n")
@@ -34,6 +99,8 @@ export async function createStudy({ form }: CreateStudyRequest) {
     "question"
   );
 
+  const filteredContent = sanitizeCodeLikeLinesWithEscape(form.content);
+
   return await fetchAPI<CreateStudyResponse>(url, {
     credentials: "include",
     body: JSON.stringify({
@@ -45,7 +112,7 @@ export async function createStudy({ form }: CreateStudyRequest) {
       tags: form.tags,
       meetingType: form.meetingType,
       schedule: form.schedule,
-      content: form.content,
+      content: filteredContent,
       curriculums: [],
       requirements: parsedRequirements,
       rules: filteredRules,
@@ -59,25 +126,22 @@ export async function createStudy({ form }: CreateStudyRequest) {
   });
 }
 
-export async function uploadImage({
-  file,
-}: UploadImageRequest): Promise<string> {
+export async function uploadImage({ file }: UploadImageRequest) {
   const formData = new FormData();
   formData.append("file", file);
   formData.append("type", "STUDY");
 
   const { url, method } = API_ENDPOINT.study.uploadImage();
 
-  const res = await fetchAPI<Response>(url, {
+  const res = await fetchAPI(url, {
     credentials: "include",
     body: formData,
     method: method,
   });
 
-  if (!res.ok) {
+  if (!res) {
     throw new Error("이미지 업로드 실패");
   }
 
-  const data = await res.text();
-  return data;
+  return res;
 }

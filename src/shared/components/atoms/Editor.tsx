@@ -7,6 +7,7 @@ import MDEditor, {
   TextAreaTextApi,
   TextState,
 } from "@uiw/react-md-editor";
+import rehypeSanitize from "rehype-sanitize";
 
 interface EditorProps {
   name: string;
@@ -112,7 +113,16 @@ const Editor = ({ name }: EditorProps) => {
         className="mt-[20px]"
         value={value}
         onChange={(val) => setValue(name, val ?? "")}
-        height={800}
+        height={530}
+        style={{
+          height: 530,
+          minHeight: 530,
+          maxHeight: 530,
+          overflow: "auto",
+        }}
+        previewOptions={{
+          rehypePlugins: [[rehypeSanitize]],
+        }}
         commands={[...defaultCommands, customImageCommand]}
       />
     </div>
