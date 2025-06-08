@@ -1,16 +1,19 @@
-import { API_ENDPOINT } from "@/shared/constants/api-end-point";
 import {
   GetStudyBenefitsResponse,
   GetStudyCurriculumsResponse,
   GetStudyDetailResponse,
+  GetStudyJoinsRequest,
+  GetStudyJoinsResponse,
   GetStudyMembersResponse,
   GetStudyQuestionsResponse,
   GetStudyRequirementsResponse,
   GetStudyRulesResponse,
   PostStudyJoin,
-} from "@/shared/types/api/studies";
+} from "@/features/studies/types/studies.api";
+import { API_ENDPOINT } from "@/shared/constants/api-end-point";
+
 import { fetchAPI } from "@/shared/utils/fetch";
-import { fetchData } from "@/shared/utils/fetcher";
+
 import {
   useMutation,
   UseMutationOptions,
@@ -18,29 +21,29 @@ import {
 } from "@tanstack/react-query";
 
 export async function getStudy(id: string) {
-  const response = await fetchData<GetStudyDetailResponse>({
-    endpoint: API_ENDPOINT.study.getStudy(id),
-  });
+  const response = await fetchAPI<GetStudyDetailResponse>(
+    API_ENDPOINT.study.getStudy(id).url
+  );
   return response;
 }
 
 export async function getRequirements(studyId: string) {
-  const response = await fetchData<GetStudyRequirementsResponse>({
-    endpoint: API_ENDPOINT.requirement.getRequirement(studyId),
-  });
+  const response = await fetchAPI<GetStudyRequirementsResponse>(
+    API_ENDPOINT.requirement.getRequirement(studyId).url
+  );
   return response;
 }
 export async function getRules(studyId: string) {
-  const response = await fetchData<GetStudyRulesResponse>({
-    endpoint: API_ENDPOINT.rules.getStudyRules(studyId),
-  });
+  const response = await fetchAPI<GetStudyRulesResponse>(
+    API_ENDPOINT.rules.getStudyRules(studyId).url
+  );
   return response;
 }
 
 export async function getBenefits(studyId: string) {
-  const response = await fetchData<GetStudyBenefitsResponse>({
-    endpoint: API_ENDPOINT.benefits.getStudyBenefits(studyId),
-  });
+  const response = await fetchAPI<GetStudyBenefitsResponse>(
+    API_ENDPOINT.benefits.getStudyBenefits(studyId).url
+  );
   return response;
 }
 
@@ -65,11 +68,26 @@ export async function getMembers(studyId: string) {
   );
   return response;
 }
+export async function getJoins({
+  studyJoinStatus,
+}: {
+  studyJoinStatus?: GetStudyJoinsRequest;
+}) {
+  const response = await fetchAPI<GetStudyJoinsResponse>(
+    API_ENDPOINT.join.getJoins(studyJoinStatus).url,
+    {
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  return response;
+}
 
 export async function postJoin(
   studyId: string,
-  data: PostStudyJoin,
-  accessToken?: string
+  data: PostStudyJoin
 ): Promise<PostStudyJoin> {
   const { url, method } = API_ENDPOINT.join.postJoin(studyId);
 
@@ -79,7 +97,16 @@ export async function postJoin(
     method,
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken || ""}`,
+    },
+  });
+}
+
+export async function patchJoin(studyId: string, studyJoinId: string) {
+  const { url, method } = API_ENDPOINT.join.patchJoin(studyId, studyJoinId);
+  return await fetchAPI(url, {
+    method,
+    headers: {
+      "Content-Type": "application/json",
     },
   });
 }
@@ -97,14 +124,43 @@ export function useQuestions(studyId: string, enabled: boolean) {
 export function usePostJoin({
   studyId,
   options,
-  accessToken,
 }: {
   studyId: string;
   options?: UseMutationOptions<PostStudyJoin, Error, PostStudyJoin, unknown>;
-  accessToken?: string;
 }) {
   return useMutation({
     ...options,
-    mutationFn: (data: PostStudyJoin) => postJoin(studyId, data, accessToken),
+    mutationFn: (data: PostStudyJoin) => postJoin(studyId, data),
+  });
+}
+
+// patchJoin React Query 훅
+export function usePatchJoin({
+  studyId,
+  studyJoinId,
+
+  options,
+}: {
+  studyId: string;
+  studyJoinId: string;
+  options?: UseMutationOptions<unknown, Error, unknown, unknown>;
+}) {
+  return useMutation({
+    ...options,
+    mutationFn: () => patchJoin(studyId, studyJoinId),
+  });
+}
+
+export function useGetJoins({
+  studyJoinStatus,
+}: {
+  studyJoinStatus?: GetStudyJoinsRequest;
+  accessToken: string;
+}) {
+  return useQuery({
+    queryKey: ["joins", studyJoinStatus],
+    queryFn: () => getJoins({ studyJoinStatus }),
+    staleTime: 3600,
+    retry: false,
   });
 }

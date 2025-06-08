@@ -37,7 +37,7 @@ const page = async ({ params }: StudyDetailPageProps) => {
         membersData={membersData}
       />
       <StudyCurriculumCard data={curriculumsData} />
-      <Apply />
+      <Apply data={studyDetailData} />
     </>
   );
 };

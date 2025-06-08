@@ -1,12 +1,15 @@
-import { API_ENDPOINT } from "@/shared/constants/api-end-point";
 import {
-  GetStudyCategoriesResponse,
-  GetHotStudiesResponse,
   GetStudiesRequest,
   GetStudiesResponse,
-} from "@/shared/types/api/studies";
+  GetHotStudiesResponse,
+  GetAccessTokenResponse,
+} from "@/features/landing/types/landing.api";
+
+import { API_ENDPOINT } from "@/shared/constants/api-end-point";
+import { GetStudyCategoriesResponse } from "@/shared/types/api/studies";
+
 import { fetchAPI } from "@/shared/utils/fetch";
-import { fetchData } from "@/shared/utils/fetcher";
+
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 
 // Study 다 건 조회
@@ -20,8 +23,8 @@ export async function getStudies({
   progressStatus,
   liked,
 }: GetStudiesRequest) {
-  const response = await fetchData<GetStudiesResponse>({
-    endpoint: API_ENDPOINT.studies.getStudies({
+  const response = await fetchAPI<GetStudiesResponse>(
+    API_ENDPOINT.studies.getStudies({
       page,
       size,
       sort,
@@ -30,19 +33,19 @@ export async function getStudies({
       recruitmentStatus,
       progressStatus,
       liked,
-    }),
-  });
+    }).url
+  );
   return response;
 }
 //인기 Study 조회
 export async function getHotStudies() {
-  const response = await fetchData<GetHotStudiesResponse>({
-    endpoint: API_ENDPOINT.studies.getHotStudies(),
-  });
+  const response = await fetchAPI<GetHotStudiesResponse>(
+    API_ENDPOINT.studies.getHotStudies().url
+  );
   return response;
 }
 //Study 카테고리 조회(ISR)
-export async function GetCategories() {
+export async function getCategories() {
   const response = await fetchAPI<GetStudyCategoriesResponse>(
     API_ENDPOINT.studies.getCategories().url,
     {
@@ -50,6 +53,21 @@ export async function GetCategories() {
       cache: "force-cache",
       next: { revalidate: 3600 },
     }
+  );
+  return response;
+}
+
+// Refresh 토큰 기반 Access 토큰 재발급
+export async function getRefreshAuth() {
+  await fetchAPI(API_ENDPOINT.user.getRefreshAuth().url, {
+    credentials: "include",
+  });
+}
+
+// Access 토큰 확인 (읽기모드)
+export async function getAccessToken() {
+  const response = await fetchAPI<GetAccessTokenResponse>(
+    API_ENDPOINT.user.getAccessToken().url
   );
   return response;
 }

@@ -15,40 +15,40 @@ export interface ApplyStatusProps {
 }
 
 export interface GetUserInfoResult {
-  nickname: string,
-  introduction: string,
-  categories: string[]
-  profileImage: string,
-  joinDate: string,
+  nickname: string;
+  introduction: string;
+  categories: string[];
+  profileImage: string;
+  joinDate: string;
 }
 
-export interface UpdateUserInfoResult  {
+export interface UpdateUserInfoResult {
   nickname: string;
   introduction: string;
   categories: string[];
 }
 
-export interface GetMyApplyStatusResult { 
-  studyId: number,
-  title: string,
-  category: string,
-  studyJoinId: number,
-  studyJoinStatus: string
-  createdAt: string,
+export interface GetMyApplyStatusResult {
+  studyId: number;
+  title: string;
+  category: string;
+  studyJoinId: number;
+  studyJoinStatus: string;
+  createdAt: string;
 }
 
-export interface GetMyJoinedStudiesResult { 
-  id: number,
-  title: string,
-  category: string,
-  meetingType: string,
-  progressStatus: string,
-  participationStatus: string,
-  currentStudyMembers: number,
-  maxStudyMembers: number,
-  schedule: string,
-  studyMemberRole: string,
-  tags: string[]
+export interface GetMyJoinedStudiesResult {
+  id: number;
+  title: string;
+  category: string;
+  meetingType: string;
+  progressStatus: string;
+  participationStatus: string;
+  currentStudyMembers: number;
+  maxStudyMembers: number;
+  schedule: string;
+  studyMemberRole: string;
+  tags: string[];
 }
 
 export interface GetMySchedulesResult {

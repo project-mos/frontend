@@ -13,6 +13,7 @@ export const fetchAPI = async <T>(
 
   const contentType = response.headers.get("content-type");
 
+  // 백엔드에서 response 주는 것 같음.
   if (!response.ok) {
     const errorMessage =
     contentType && contentType.includes("text/plain") && await response.text()

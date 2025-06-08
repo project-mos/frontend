@@ -11,11 +11,7 @@ import {
 } from "../types/study-room.api";
 
 /* study room overview */
-export async function editBenefit({
-  token,
-  studyId,
-  benefits,
-}: EditBenefitRequest) {
+export async function editBenefit({ studyId, benefits }: EditBenefitRequest) {
   const { url, method } = API_ENDPOINT.benefits.editStudyBenefits(studyId);
 
   return await fetchAPI<EditBenefitResponse[]>(url, {
@@ -24,12 +20,11 @@ export async function editBenefit({
     method: method,
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token || ""}`,
     },
   });
 }
 
-export async function editRule({ token, studyId, rules }: EditRuleRequest) {
+export async function editRule({ studyId, rules }: EditRuleRequest) {
   const { url, method } = API_ENDPOINT.rules.editStudyRules(studyId);
 
   return await fetchAPI<EditRuleResponse[]>(url, {
@@ -38,16 +33,12 @@ export async function editRule({ token, studyId, rules }: EditRuleRequest) {
     method: method,
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token || ""}`,
     },
   });
 }
 
 /* study room attendance */
-export async function getAttendances({
-  token,
-  studyId,
-}: GetAttendancesRequest) {
+export async function getAttendances({ studyId }: GetAttendancesRequest) {
   const { url, method } = API_ENDPOINT.attendance.getAttendances(studyId);
 
   return await fetchAPI<GetAttendancesResponse[]>(url, {
@@ -55,13 +46,11 @@ export async function getAttendances({
     method: method,
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token || ""}`,
     },
   });
 }
 
 export async function attendance({
-  token,
   studyId,
   studyScheduleId,
 }: AttendanceRequest) {
@@ -75,13 +64,11 @@ export async function attendance({
     method: method,
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token || ""}`,
     },
   });
 }
 
 export async function editAttendance({
-  token,
   studyId,
   studyScheduleId,
 }: AttendanceRequest) {
@@ -95,13 +82,11 @@ export async function editAttendance({
     method: method,
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token || ""}`,
     },
   });
 }
 
 export async function earlyLeave({
-  token,
   studyId,
   studyScheduleId,
 }: AttendanceRequest) {
@@ -115,7 +100,6 @@ export async function earlyLeave({
     method: method,
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token || ""}`,
     },
   });
 }
