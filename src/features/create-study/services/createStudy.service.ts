@@ -57,3 +57,26 @@ export async function createStudy({ form }: CreateStudyRequest) {
     },
   });
 }
+
+export const uploadImage = async (file: File): Promise<string> => {
+  // example function
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("type", "STUDY");
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/recruitment-images`,
+    {
+      method: "POST",
+      credentials: "include",
+      body: formData,
+    }
+  );
+
+  if (!res.ok) {
+    throw new Error("이미지 업로드 실패");
+  }
+
+  const data = await res.text();
+  return data;
+};
