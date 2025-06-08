@@ -67,6 +67,13 @@ export const API_ENDPOINT = {
         url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/study-schedules/${studyScheduleId}`, 
         method: Method.PATCH,
       };
+    },
+     // 스터디 일정 삭제
+     deleteStudySchedule: (studyId:number, studyScheduleId: number) => {
+      return {
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/study-schedules/${studyScheduleId}`, 
+        method: Method.DELETE,
+      };
     }
   },
   study: {

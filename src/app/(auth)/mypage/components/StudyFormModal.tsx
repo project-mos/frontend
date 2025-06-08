@@ -15,13 +15,14 @@ import LabelSelectInput from "@/shared/components/molecules/LabelSelectInput";
 import { useMyJoinedStudyStore } from "@/shared/store/useMyJoinedStudyStore";
 import { useTokenStore } from "@/shared/store/authStore";
 import {
+  useDeleteStudySchedule,
   usePostCreateStudySchedule,
   useUpdateStudySchedule,
 } from "@/features/mypage/services/mypage.service";
 import { useToast } from "@/shared/hooks/useToast";
 import { useQueryClient } from "@tanstack/react-query";
 import { GetMySchedulesResult } from "@/shared/types/api/mypage";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 interface NoticeModalProps extends ModalProps {
   onClose: ModalOnClose;
@@ -63,11 +64,14 @@ const StudyFormModal = ({
   const { success, error } = useToast();
   const studyId = Number(watch("studyId"));
   const studyScheduleId = Number(watch("studyScheduleId"));
+  const [isDelete, setIsDelete] = useState<boolean>(false);
 
+  // 내가 참여중인 스터디 데이터
   const myJoinedStudiesData = useMyJoinedStudyStore(
     (state) => state.myJoinedStudiesData
   );
 
+  // 스케줄 선택 옵션
   const scheduleOption = useMemo(() => {
     return myJoinedStudiesData?.map((item) => ({
       label: item.title,
@@ -75,6 +79,7 @@ const StudyFormModal = ({
     }));
   }, [myJoinedStudiesData]);
 
+  // 스케줄 일정 선택 옵션
   const studyScheduleOption = useMemo(() => {
     return schedulesData?.map((item) => ({
       label: item.title,
@@ -82,6 +87,7 @@ const StudyFormModal = ({
     }));
   }, [schedulesData]);
 
+  // 선택한 일정 상세 데이터 추출
   const selectedScheduleData = useMemo(() => {
     return schedulesData?.filter(
       (item) => item.studyScheduleId === studyScheduleId
@@ -89,6 +95,7 @@ const StudyFormModal = ({
   }, [schedulesData, studyScheduleId]);
 
   useEffect(() => {
+    // 수정 시 초기 데이터 셋팅
     if (selectedScheduleData) {
       methods.setValue("studyId", selectedScheduleData.studyId);
       methods.setValue("title", selectedScheduleData.title);
@@ -112,12 +119,11 @@ const StudyFormModal = ({
     }
   }, [selectedScheduleData, methods]);
 
-  console.log(selectedScheduleData);
-
+  // 일정 생성
   const { mutate: createSchedule, isPending: isCreating } =
     usePostCreateStudySchedule(accessToken, studyId, {
       onSuccess: () => {
-        success("일정 생성이 완료되었습니다.");
+        success("생성되었습니다.");
         queryClient.invalidateQueries({
           queryKey: ["mySchedules"],
         });
@@ -126,15 +132,15 @@ const StudyFormModal = ({
         onClose();
       },
       onError: (err) => {
-        error("일정 생성 실패했습니다. 다시 시도해주세요.");
-        console.log(err);
+        error(String(err));
       },
     });
 
+  // 일정 수정
   const { mutate: updateSchedule, isPending: isUpdating } =
     useUpdateStudySchedule(accessToken, studyId, studyScheduleId, {
       onSuccess: () => {
-        success("일정 수정 완료되었습니다.");
+        success("수정되었습니다.");
         queryClient.invalidateQueries({
           queryKey: ["mySchedules"],
         });
@@ -143,8 +149,25 @@ const StudyFormModal = ({
         onClose();
       },
       onError: (err) => {
-        error("일정 수정 실패했습니다. 다시 시도해주세요.");
-        console.log(err);
+        error(String(err));
+      },
+    });
+
+  // 일정 삭제
+  const { mutate: deleteSchedule, isPending: isDeleting } =
+    useDeleteStudySchedule(accessToken, studyId, studyScheduleId, {
+      onSuccess: () => {
+        success("삭제되었습니다.");
+        queryClient.invalidateQueries({
+          queryKey: ["mySchedules"],
+        });
+
+        setIsDelete(false);
+        reset();
+        onClose();
+      },
+      onError: (err) => {
+        error(String(err));
       },
     });
 
@@ -167,11 +190,20 @@ const StudyFormModal = ({
     delete formattedData.studyId;
 
     // API 호출
-    if (isModifyMode) {
+    if (isDelete) {
+      // 삭제
+      deleteSchedule(accessToken);
+    } else if (isModifyMode) {
+      // 수정
       updateSchedule(formattedData);
     } else {
+      // 셍성
       createSchedule(formattedData);
     }
+  };
+
+  const onClickDeleteBtn = () => {
+    setIsDelete(true);
   };
 
   const onClickCloseBtn = () => {
@@ -297,11 +329,24 @@ const StudyFormModal = ({
             <Button.Ghost color="Gray" onClick={onClickCloseBtn}>
               취소
             </Button.Ghost>
+            <Button.Ghost
+              color={"Red"}
+              disabled={studyScheduleId ? false : true}
+              active={studyScheduleId ? true : false}
+              className={
+                "text-mos-gray-100 hover:border-mos-gray-100 hover:text-mos-gray-100"
+              }
+              onClick={onClickDeleteBtn}
+            >
+              삭제
+            </Button.Ghost>
             <Button.Solid
               type="submit"
               color="Main"
               active={true}
-              disabled={isModifyMode ? isUpdating : isCreating}
+              disabled={
+                isModifyMode ? isUpdating : isDelete ? isDeleting : isCreating
+              }
             >
               확인
             </Button.Solid>

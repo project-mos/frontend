@@ -129,6 +129,30 @@ export function useUpdateStudySchedule(accessToken:string, studyId: number, stud
     mutationFn: (data: CreateStudyScheduleResult) => updateStudySchedule(accessToken, studyId, studyScheduleId, data)
   })
 }
+
+  // 스터디 일정 삭제 //
+export async function deleteStudySchedule(
+  accessToken: string,
+  studyId:number,
+  studyScheduleId: number,
+) {
+  const {url, method} = API_ENDPOINT.mypage.deleteStudySchedule(studyId, studyScheduleId)
+
+  return await fetchAPI<CreateStudyScheduleResult>(url, {
+    credentials: "include",
+    method: method,
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json",
+    },
+  })}
+
+export function useDeleteStudySchedule(accessToken:string, studyId: number, studyScheduleId:number, options?:UseMutationOptions<CreateStudyScheduleResult, Error, unknown>) {
+  return useMutation({
+    ...options,
+    mutationFn: () => deleteStudySchedule(accessToken, studyId, studyScheduleId)
+  })
+}
   
 
 // 참여 중인 스터디 //
