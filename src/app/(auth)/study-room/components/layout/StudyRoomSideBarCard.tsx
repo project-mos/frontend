@@ -1,5 +1,5 @@
 "use client";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 
 import Card from "@/shared/components/atoms/Card";
@@ -11,6 +11,9 @@ import StudyRoomTabListWrapper from "./StudyRoomTabListWrapper";
 const StudyRoomSideBarCard = () => {
   const [activeTabState, setActiveTabState] = useState<string>("일정");
   const router = useRouter();
+
+  const params = useParams();
+  const id = params.id as string;
 
   const handleTabClick = (tabName: string, path?: string) => {
     setActiveTabState(tabName);
@@ -37,7 +40,7 @@ const StudyRoomSideBarCard = () => {
           <Typography.SubTitle1>메뉴</Typography.SubTitle1>
         </Card.Header>
         <Card.Content className="gap-1">
-          {MENU_ITEMS.map(renderTab)}
+          {MENU_ITEMS(id).map(renderTab)}
         </Card.Content>
       </Card>
 
@@ -47,7 +50,7 @@ const StudyRoomSideBarCard = () => {
           <Typography.SubTitle1>관리자 메뉴</Typography.SubTitle1>
         </Card.Header>
         <Card.Content className="gap-1">
-          {ADMIN_MENU_ITEMS.map(renderTab)}
+          {ADMIN_MENU_ITEMS(id).map(renderTab)}
         </Card.Content>
       </Card>
     </div>
