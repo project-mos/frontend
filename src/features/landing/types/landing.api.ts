@@ -9,9 +9,11 @@ export interface Study {
   id: number;
   title: string;
   category: string;
+  content: string;
   meetingType: string;
   progressStatus: string;
   recruitmentStatus: "모집 중" | "모집 완료";
+  recruitmentStartDate: string;
   recruitmentEndDate: string;
   currentStudyMembers: number;
   maxStudyMembers: number;
