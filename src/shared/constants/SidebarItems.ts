@@ -6,48 +6,48 @@ export type MenuItems = {
   path: string;
 }[];
 
-export const MENU_ITEMS: MenuItems = [
+export const MENU_ITEMS = (id: string): MenuItems => [
   {
     name: "일정",
     icon: "bi-calendar",
-    path: URL.STUDY_ROOM.DETAIL_SCHEDULE("1"),
+    path: URL.STUDY_ROOM.DETAIL_SCHEDULE(id),
   },
   {
     name: "멤버",
     icon: "bi-people",
-    path: URL.STUDY_ROOM.DETAIL_MEMBER("1"),
+    path: URL.STUDY_ROOM.DETAIL_MEMBER(id),
   },
   {
     name: "자료실",
     icon: "bi-folder",
-    path: URL.STUDY_ROOM.DETAIL_ARCHIVE("1"),
+    path: URL.STUDY_ROOM.DETAIL_ARCHIVE(id),
   },
   {
     name: "커리큘럼",
     icon: "bi-book",
-    path: URL.STUDY_ROOM.DETAIL_CURRICULUM("1"),
+    path: URL.STUDY_ROOM.DETAIL_CURRICULUM(id),
   },
   {
     name: "채팅",
     icon: "bi-chat",
-    path: URL.STUDY_ROOM.DETAIL_CHAT("1"),
+    path: URL.STUDY_ROOM.DETAIL_CHAT(id),
   },
   {
     name: "규칙/혜택",
     icon: "bi-book",
-    path: URL.STUDY_ROOM.DETAIL_MANAGE_OVERVIEW("1"),
+    path: URL.STUDY_ROOM.DETAIL_MANAGE_OVERVIEW(id),
   },
   {
     name: "공지사항",
     icon: "bi-megaphone",
-    path: URL.STUDY_ROOM.DETAIL_NOTICE("1"),
+    path: URL.STUDY_ROOM.DETAIL_NOTICE(id),
   },
 ];
 
-export const ADMIN_MENU_ITEMS: MenuItems = [
+export const ADMIN_MENU_ITEMS = (id: string): MenuItems => [
   {
     name: "지원자 관리",
     icon: "bi-person-plus",
-    path: URL.STUDY_ROOM.DETAIL_MANAGE_APPLICANTS("1"),
+    path: URL.STUDY_ROOM.DETAIL_MANAGE_APPLICANTS(id),
   },
 ];

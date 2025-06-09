@@ -8,7 +8,7 @@ const MemberPage = async ({ params }: StudyDetailPageProps) => {
 
   return (
     <div className="grid grid-cols-8 gap-5">
-      <MemberCard members={members} />
+      <MemberCard members={members} studyId={id} />
     </div>
   );
 };

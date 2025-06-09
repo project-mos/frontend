@@ -9,8 +9,8 @@ import ActionConfirmModal from "@/shared/components/molecules/ActionConfirmModal
 
 import useMultiModal from "@/shared/hooks/useMultiModal";
 import { MockNoticeCardApiResult } from "@/shared/mock/api/study-room";
-import { StudyNoticeCardInterface } from "@/shared/types/api/study-room";
 
+import { StudyNoticeCardInterface } from "@/features/study-room/types/study-room.type";
 import NoticeModal from "./NoticeModal";
 
 const List = (

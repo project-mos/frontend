@@ -50,3 +50,20 @@ export interface GetMyJoinedStudiesResult {
   studyMemberRole: string;
   tags: string[];
 }
+
+export interface GetMySchedulesResult {
+  studyScheduleId: 12,
+  title: string,
+  description: string,
+  startDateTime: string,
+  endDateTime: string,
+  studyId: number,
+  studyCurriculumResList: string[]
+}
+
+export interface CreateStudyScheduleResult  {
+  description: string,
+  endDateTime: string,
+  startDateTime: string,
+  title: string,
+}

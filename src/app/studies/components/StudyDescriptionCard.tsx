@@ -9,7 +9,6 @@ import "highlight.js/styles/github-dark.css";
 
 import ShareButton from "@/app/studies/components/applyStudy/ShareButton";
 import profileImg from "@/asset/images/profile_example.jpeg";
-import Profile from "@/shared/components/atoms/Profile";
 import {
   GetStudyBenefitsResponse,
   GetStudyDetailResponse,
@@ -18,6 +17,7 @@ import {
   GetStudyRulesResponse,
 } from "@/features/studies/types/studies.api";
 import CustomMdxRemote from "@/shared/components/system/CustomMdxRemote";
+import Profile from "@/shared/components/atoms/Profile";
 
 interface StudyDescriptionCardProps {
   studyDetailData: GetStudyDetailResponse;

@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { GetMyApplyStatusResult } from "../types/api/mypage";
+import { GetMyApplyStatusResult } from "@/shared/types/api/mypage";
 
 interface ApplyStatusStore {
   selectedApplyStatus: GetMyApplyStatusResult; 
@@ -16,6 +16,7 @@ export const useApplyStatusStore = create<ApplyStatusStore>((set) => ({
     category: "",
     studyJoinId: 0,
     studyJoinStatus: "",
+    createdAt: "",
   },
   allApplyStatus: [],
 

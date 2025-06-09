@@ -2,7 +2,7 @@
 import { useAuthStore } from "@/shared/store/authStore";
 import cn from "@/shared/utils/cn";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import { useState } from "react";
 
 import SvgIcons from "@/asset/icon/SvgIcons";
@@ -77,6 +77,9 @@ export function Sidebar() {
   const [isOpenState, setIsOpenState] = useState(false);
   const pathname = usePathname();
   const isStudyRoom = pathname.split("/")?.[1] === "study-room"; // 첫 번째 경로 추출
+
+  const params = useParams();
+  const id = params.id as string;
 
   const close = () => {
     setIsOpenState(false);
@@ -167,7 +170,7 @@ export function Sidebar() {
                 <Typography.P1 className="px-7 py-3 font-bold">
                   스터디 룸
                 </Typography.P1>
-                {MENU_ITEMS.map((item, index) => {
+                {MENU_ITEMS(id).map((item, index) => {
                   return (
                     <li
                       className="px-12 py-1.5 hover:rounded-xl hover:bg-mos-main-100"
@@ -187,7 +190,7 @@ export function Sidebar() {
                   스터디 룸 관리자
                 </Typography.P1>
 
-                {ADMIN_MENU_ITEMS.map((item, index) => {
+                {ADMIN_MENU_ITEMS(id).map((item, index) => {
                   return (
                     <li
                       className="px-12 py-1.5 hover:rounded-xl hover:bg-mos-main-100"
