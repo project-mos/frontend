@@ -1,24 +1,23 @@
-"use client";
-import React from "react";
-
 import Grid from "@/shared/components/atoms/Grid";
 import Typography from "@/shared/components/atoms/Typography";
 
 import LandingStudyCard from "./LandingStudyCard";
 
 import {
-  useHotStudies,
-  useStudies,
-} from "@/features/landing/services/landing.service";
-import { GetStudiesRequest, Study } from "@/features/landing/types/landing.api";
+  GetHotStudiesResponse,
+  GetStudiesResponse,
+  Study,
+} from "@/features/landing/types/landing.api";
 
 interface LandingContentCards {
-  searchParams: GetStudiesRequest;
+  studiesData: GetStudiesResponse;
+  hotStudiesData: GetHotStudiesResponse;
 }
 
-const LandingContentCards = ({ searchParams }: LandingContentCards) => {
-  const { data: studiesData } = useStudies(searchParams);
-  const { data: hotStudiesData } = useHotStudies();
+const LandingContentCards = ({
+  studiesData,
+  hotStudiesData,
+}: LandingContentCards) => {
   const hasHotStudyData = hotStudiesData && hotStudiesData.length > 0;
   const hasStudiesData = studiesData && studiesData.studies.length > 0;
 
