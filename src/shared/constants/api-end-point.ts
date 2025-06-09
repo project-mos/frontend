@@ -11,6 +11,20 @@ export const API_ENDPOINT = {
         method: Method.POST,
       };
     },
+    // 토큰 재발급
+    getRefreshAuth: () => {
+      return {
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/users/tokens`,
+        method: Method.GET,
+      };
+    },
+    // 액세스 토큰 확인
+    getAccessToken: () => {
+      return {
+        url: `/api/cookie`,
+        method: Method.GET,
+      };
+    },
   },
   mypage: {
     // 유저 정보 조회
@@ -48,41 +62,28 @@ export const API_ENDPOINT = {
         method: Method.GET,
       };
     },
-    // 토큰 재발급
-    getRefreshAuth: () => {
-      return {
-        url: `${process.env.NEXT_PUBLIC_BASE_URL}/users/tokens`,
-        method: Method.GET,
-      };
-    },
-    // 액세스 토큰 확인
-    getAccessToken: () => {
-      return {
-        url: `/api/cookie`,
-        method: Method.GET,
-      };
-    },
+
     // 스터디 일정 생성
-    createStudySchedule: (studyId:number) => {
+    createStudySchedule: (studyId: number) => {
       return {
-        url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/schedules`, 
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/schedules`,
         method: Method.POST,
       };
     },
     // 스터디 일정 수정
-    updateStudySchedule: (studyId:number, studyScheduleId: number) => {
+    updateStudySchedule: (studyId: number, studyScheduleId: number) => {
       return {
-        url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/study-schedules/${studyScheduleId}`, 
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/study-schedules/${studyScheduleId}`,
         method: Method.PATCH,
       };
     },
-     // 스터디 일정 삭제
-     deleteStudySchedule: (studyId:number, studyScheduleId: number) => {
+    // 스터디 일정 삭제
+    deleteStudySchedule: (studyId: number, studyScheduleId: number) => {
       return {
-        url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/study-schedules/${studyScheduleId}`, 
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/study-schedules/${studyScheduleId}`,
         method: Method.DELETE,
       };
-    }
+    },
   },
   study: {
     // 스터디 생성
