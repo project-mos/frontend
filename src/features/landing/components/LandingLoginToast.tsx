@@ -25,7 +25,7 @@ const LandingLoginToast = () => {
       setWasLoggedIn(null);
     }
 
-    if (!isLoggedIn) toast.success("로그아웃되었습니다.");
+    // if (!isLoggedIn) toast.success("로그아웃되었습니다.");
     if (loginSuccess === null) return;
     if (loginSuccess) toast.success("로그인에 성공하였습니다.");
     else toast.error("로그인에 실패하였습니다.");
