@@ -25,14 +25,17 @@ const LandingLoginToast = () => {
       setWasLoggedIn(null);
     }
 
-    // if (!isLoggedIn) toast.success("로그아웃되었습니다.");
+    if (localStorage.getItem("logout")) {
+      toast.success("로그아웃되었습니다.");
+      localStorage.removeItem("logout");
+    }
     if (loginSuccess === null) return;
     if (loginSuccess) toast.success("로그인에 성공하였습니다.");
     else toast.error("로그인에 실패하였습니다.");
 
     shownRef.current = true;
     setLoginSuccess(null);
-  }, [hasHydrated]);
+  }, [hasHydrated, isLoggedIn, loginSuccess, wasLoggedIn]);
 
   return <></>;
 };
