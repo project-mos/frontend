@@ -4,8 +4,8 @@ export interface StudyDetailPageProps {
 
 /* study curriculum */
 export interface StudyCurriculumCardInterface {
-  id: string;
-  step: string;
+  id?: number;
+  sectionId: number;
   title: string;
   content: string;
 }

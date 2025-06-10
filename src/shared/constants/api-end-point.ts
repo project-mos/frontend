@@ -148,8 +148,9 @@ export const API_ENDPOINT = {
       };
     },
   },
+  // 스터디룸 - 커리큘럼 조회
   curriculums: {
-    getCurriculums: (studyId: string) => {
+    getCurriculums: (studyId: number) => {
       return {
         url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/curriculums`,
         method: Method.GET,

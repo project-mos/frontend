@@ -31,7 +31,7 @@ const CurriculumView = ({ index, curriculum }: CurriculumItemProps) => (
     <div>
       <Tag.Main className="flex h-[30px] w-[100px] flex-col text-nowrap pt-[4px]">
         <Typography.P3 className="pt-px font-bold">
-          {curriculum.step}
+          {curriculum.sectionId}
         </Typography.P3>
       </Tag.Main>
       <div
@@ -70,7 +70,7 @@ const CurriculumEditView = ({ index, curriculum }: CurriculumItemProps) => {
 
   // 커리큘럼 삭제
   const deleteCurriculum = useCallback(
-    (id: string) => {
+    (id: number) => {
       const updatedList = curriculumList.filter((item) => item.id !== id);
       setValue("curriculumList", updatedList);
     },
@@ -80,7 +80,7 @@ const CurriculumEditView = ({ index, curriculum }: CurriculumItemProps) => {
   // step, title, content 중 하나라도 에러가 있으면 true 에러가 없으면 false
   const hasAnyFieldError = (index: number) => {
     const error = errors?.curriculumList?.[index];
-    return error?.step || error?.title || error?.content;
+    return error?.sectionId || error?.title || error?.content;
   };
 
   return (
@@ -88,10 +88,10 @@ const CurriculumEditView = ({ index, curriculum }: CurriculumItemProps) => {
       <div>
         {/* 카테고리 */}
         <Input
-          {...register(`curriculumList.${index}.step`, {
+          {...register(`curriculumList.${index}.sectionId`, {
             required: "필수 입력입니다.",
           })}
-          defaultValue={curriculum.step}
+          defaultValue={curriculum.sectionId}
           className="h-[30px] w-[107px] min-w-0 border border-mos-main"
         />
         <div
@@ -115,7 +115,7 @@ const CurriculumEditView = ({ index, curriculum }: CurriculumItemProps) => {
             {/* 삭제 아이콘 */}
             <i
               className="bi bi-trash3 cursor-pointer text-mos-coral-500"
-              onClick={() => deleteCurriculum(curriculum.id)}
+              onClick={() => deleteCurriculum(curriculum.id!)}
             />
           </Card.Header>
 
@@ -232,6 +232,13 @@ const Curriculum = ({ isModify }: CurriculumProps) => {
 
   return (
     <DndProvider backend={HTML5Backend}>
+      {curriculumList.length === 0 && (
+        <div className="flex h-[480px] items-center justify-center">
+          <Typography.P3 className="text-center">
+            등록된 커리큘럼이 없습니다.
+          </Typography.P3>
+        </div>
+      )}
       {curriculumList.map((curriculum, index) => renderItem(curriculum, index))}
     </DndProvider>
   );
