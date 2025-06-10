@@ -79,7 +79,7 @@ const StudyDescriptionCard = ({
           </div>
         </div>
 
-        <div className="flex gap-2 border-b pb-4">
+        <div className="flex gap-2 border-b pb-5">
           {studyDetailData.tags.map((item, index) => {
             return (
               <Tag.Card key={`${item}_${index}`} bold>
@@ -89,13 +89,15 @@ const StudyDescriptionCard = ({
           })}
         </div>
       </Card.Header>
-      <Card.Content className="gap-5">
+      <Card.Content className="gap-5 border-b pb-5">
         <ContentWrapper>
           <Typography.SubTitle1>스터디 소개</Typography.SubTitle1>
           {hasItem(studyDetailData.content) && (
             <CustomMdxRemote content={studyDetailData.content} />
           )}
         </ContentWrapper>
+      </Card.Content>
+      <Card.Footer className="flex-col gap-5">
         <ContentWrapper>
           <Typography.SubTitle1>참여 요건</Typography.SubTitle1>
           {hasItem(requirementsData) ? (
@@ -115,10 +117,9 @@ const StudyDescriptionCard = ({
             <span>참여 요건이 없습니다.</span>
           )}
         </ContentWrapper>
-
         {ListContent("스터디 규칙", rulesData)}
         {ListContent("스터디 혜택", benefitsData)}
-      </Card.Content>
+      </Card.Footer>
     </Card>
   );
 };
