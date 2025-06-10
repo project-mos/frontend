@@ -8,10 +8,11 @@ import Typography from "@/shared/components/atoms/Typography";
 import profileImg from "@/asset/images/profile_example.jpeg";
 import ActionConfirmModal from "@/shared/components/molecules/ActionConfirmModal";
 import useMultiModal from "@/shared/hooks/useMultiModal";
-import ProfileModal from "./ProfileModal";
+import ProfileModal from "@/app/(auth)/mypage/components/ProfileModal";
 import { useQuery } from "@tanstack/react-query";
 import { userInfoQueryOption } from "@/features/mypage/services/mypage.service";
 import { useTokenStore } from "@/shared/store/authStore";
+import { logout } from "@/shared/utils/logout";
 
 const ProfileCard = () => {
   const { accessToken } = useTokenStore();
@@ -26,6 +27,10 @@ const ProfileCard = () => {
     profileImage = profileImg,
     // joinDate = "0000-00-00",
   } = userInfo || {};
+
+  const handleClickLogOut = () => {
+    logout();
+  };
 
   return (
     <>
@@ -69,11 +74,6 @@ const ProfileCard = () => {
             로그아웃
           </Button.Ghost>
         </Card.Content>
-        {/* <Card.Footer>
-          <Typography.P3 className="mt-[10px] text-[14px] text-mos-gray-300">
-            가입일: {joinDate}
-          </Typography.P3>
-        </Card.Footer> */}
       </Card>
 
       <ProfileModal
@@ -90,6 +90,7 @@ const ProfileCard = () => {
         content="정말 로그아웃 하시겠습니까?"
         title="로그아웃"
         buttonLabel="로그아웃"
+        onSuccess={handleClickLogOut}
       />
     </>
   );
