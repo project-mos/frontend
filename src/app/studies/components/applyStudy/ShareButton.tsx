@@ -16,8 +16,9 @@ const ShareButton = () => {
       } else {
         toast.error("링크 복사를 이용해주세요!");
       }
-    } catch (error) {
-      toast.error(`${error}`);
+    } catch (err) {
+      console.error(err);
+      // toast.error(`공유 실패!`);
     }
   }
   async function onCopyButtonClick() {
