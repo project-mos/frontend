@@ -12,10 +12,16 @@ interface StudyCardProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const StudyCard = ({ data, className, ...props }: StudyCardProps) => {
-  // const content = data.content.slice(0, 50) + "...";
+  // 최대 6개까지만 보여주고, 각 태그 문자열은 최대 5글자까지만 잘라서 출력
+  const renderTags = () => {
+    return data.tags.slice(0, 6).map((tag, index) => {
+      const trimmed = tag.length > 5 ? `${tag.slice(0, 5)}…` : tag;
+      return <Tag.Detail key={index}>#{trimmed}</Tag.Detail>;
+    });
+  };
   return (
     <Card
-      className={`flex w-[255px] cursor-pointer flex-col gap-5 ${
+      className={`flex h-[300px] w-[255px] cursor-pointer flex-col justify-between ${
         className ?? ""
       }`}
       {...props}
@@ -40,31 +46,16 @@ const StudyCard = ({ data, className, ...props }: StudyCardProps) => {
 
         <div className="flex flex-col gap-1">
           <Meta icon="calendar" className="text-sm text-black">
-            {data.recruitmentEndDate} ~ {data.recruitmentEndDate}
+            {data.recruitmentStartDate} ~ {data.recruitmentEndDate}
           </Meta>
         </div>
       </Card.Header>
       <Card.Content className="">
         <div className="h-[50px] max-w-full truncate text-mos-gray-700">
-          <CustomMdxRemote
-            content={data.content}
-            components={
-              {
-                // h1: (props) => <span role="" {...props} />,
-                // h2: (props) => <span role="" {...props} />,
-                // h3: (props) => <span role="" {...props} />,
-                // h4: (props) => <span role="" {...props} />,
-                // ul: (props) => <span role="" {...props} />,
-              }
-            }
-          />
+          <CustomMdxRemote content={data.content} />
         </div>
       </Card.Content>
-      <div className="flex flex-wrap gap-[5px]">
-        {data.tags.map((tag, index) => (
-          <Tag.Detail key={index}>#{tag}</Tag.Detail>
-        ))}
-      </div>
+      <div className="flex flex-wrap gap-[5px]">{renderTags()}</div>
       <Card.Footer className="flex justify-between">
         <div className="flex gap-1  text-mos-gray-300">
           <Meta icon="person">

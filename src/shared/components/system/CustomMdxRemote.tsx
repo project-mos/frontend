@@ -8,7 +8,6 @@ import rehypeRaw from "rehype-raw";
 import rehypeHighlight from "rehype-highlight";
 
 function escapeCurlyBracesOutsideCodeBlocksAndInlineCode(input: string) {
-  console.log(input);
   const codeBlockRegex = /```[\s\S]*?```/g; // 코드블럭 잡기
   const inlineCodeRegex = /`[^`]*`/g; // 인라인 백틱 코드 잡기
   const pTagRegex = /(<p>)([\s\S]*?)(<\/p>)/g; // <p> 태그 잡기
