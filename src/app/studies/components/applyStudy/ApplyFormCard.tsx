@@ -58,7 +58,11 @@ const ApplyFormCard = ({
 
   const mutateOption = {
     onSuccess: () => {
-      success("스터디 지원이 완료되었습니다.");
+      if (getStatusText() === "지원 취소") {
+        success(`스터디 ${getStatusText()}가 완료되었습니다.`);
+      } else {
+        success(`스터디 ${getStatusText()}이 완료되었습니다.`);
+      }
       setIsApplyVisible(false);
       // router.replace(URL.HOME);
     },
@@ -77,6 +81,11 @@ const ApplyFormCard = ({
     studyJoinId: String(joinIdState!),
     options: mutateOption,
   });
+
+  const isButtonActive =
+    joinStatusState === "APPROVED" || joinStatusState === "PENDING"
+      ? true
+      : formState.isValid;
 
   const onSubmit = async () => {
     openModal("submit");
@@ -178,7 +187,9 @@ const ApplyFormCard = ({
               onSubmit={handleSubmit(onSubmit)}
               className="flex flex-col gap-3"
             >
-              {(!joinStatusState || joinStatusState === "REJECTED") &&
+              {(!joinStatusState ||
+                joinStatusState === "REJECTED" ||
+                joinStatusState === "CANCELED") &&
                 renderJoinForm(data)}
 
               {joinStatusState === "PENDING" && (
@@ -204,13 +215,7 @@ const ApplyFormCard = ({
                 >
                   취소
                 </Button.Ghost>
-                <Button.Solid
-                  color="Main"
-                  active={formState.isValid}
-                  disabled={
-                    joinStatusState !== "APPROVED" && !formState.isValid
-                  }
-                >
+                <Button.Solid color="Main" active={isButtonActive}>
                   {getStatusText()}하기
                 </Button.Solid>
               </div>

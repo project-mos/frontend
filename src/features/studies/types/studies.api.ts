@@ -85,5 +85,5 @@ export type StudyJoin = {
   title: string;
   category: GetStudyCategoriesResponse["categories"];
   studyJoinId: number;
-  studyJoinStatus: "PENDING" | "APPROVED" | "REJECTED";
+  studyJoinStatus: "PENDING" | "APPROVED" | "REJECTED" | "CANCELED";
 };

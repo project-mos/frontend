@@ -14,7 +14,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 const DefaultButton: React.FC<ButtonProps> = ({
   className,
   children,
-  active = false,
+  active = true,
   size = "md",
   ...props
 }) => {
@@ -31,6 +31,7 @@ const DefaultButton: React.FC<ButtonProps> = ({
         className
       )}
       data-active={active}
+      disabled={!active}
       {...props}
     >
       {children}
@@ -123,7 +124,6 @@ interface IconButtonProps extends Omit<SolidButtonProps, "color"> {
 const IconButton: React.FC<IconButtonProps> = ({
   className,
   children,
-  active = false,
   color = "Gray",
   size = "sm",
   ...props
@@ -140,7 +140,6 @@ const IconButton: React.FC<IconButtonProps> = ({
         IconButtonClass[color],
         className
       )}
-      active={active}
       {...props}
     >
       {children}

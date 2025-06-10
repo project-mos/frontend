@@ -46,6 +46,7 @@ const Pagination: React.FC<PaginationProps> = ({
           color="Main"
           key={pageNumber}
           active={pageNumber === activePage}
+          disabled={false}
           onClick={() => pushPage(pathname, pageNumber)}
         >
           {pageNumber}

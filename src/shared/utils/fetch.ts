@@ -16,8 +16,10 @@ export const fetchAPI = async <T>(
   // 백엔드에서 response 주는 것 같음.
   if (!response.ok) {
     const errorMessage =
-    contentType && contentType.includes("text/plain") && await response.text()
-      
+      contentType &&
+      contentType.includes("text/plain") &&
+      (await response.text());
+
     switch (response.status) {
       case 400:
         throw new FetchAPIError(errorMessage || "잘못된 요청입니다.");
@@ -26,18 +28,24 @@ export const fetchAPI = async <T>(
       case 403:
         throw new FetchAPIError(errorMessage || "접근 권한이 없습니다.");
       case 404:
-        throw new FetchAPIError(errorMessage || "요청한 리소스를 찾을 수 없습니다.");
+        throw new FetchAPIError(
+          errorMessage || "요청한 리소스를 찾을 수 없습니다."
+        );
       case 422:
         throw new FetchAPIError(errorMessage || "유효하지 않은 요청입니다.");
       case 503:
         throw new FetchAPIError(errorMessage || "서버가 현재 점검 중입니다.");
       case 504:
-        throw new FetchAPIError(errorMessage || "서버 응답이 지연되고 있습니다.");
+        throw new FetchAPIError(
+          errorMessage || "서버 응답이 지연되고 있습니다."
+        );
       default:
         if (response.status >= 500) {
-          throw new FetchAPIError(errorMessage || "예상치 못한 서버 오류입니다.");
+          throw new FetchAPIError(
+            errorMessage || "예상치 못한 서버 오류입니다."
+          );
         }
-        throw new FetchAPIError("클라이언트 오류");
+        throw new FetchAPIError(errorMessage || "클라이언트 오류");
     }
   }
 

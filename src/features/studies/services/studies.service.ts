@@ -105,6 +105,7 @@ export async function patchJoin(studyId: string, studyJoinId: string) {
   const { url, method } = API_ENDPOINT.join.patchJoin(studyId, studyJoinId);
   return await fetchAPI(url, {
     method,
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
