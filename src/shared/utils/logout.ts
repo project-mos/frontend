@@ -8,6 +8,7 @@ export const logout = async () => {
   // 상태 초기화
   authStoreReset();
   tokenStoreReset();
+  localStorage.setItem("logout", "true");
 
   // 서버에 쿠키 삭제 요청
   await fetch("/api/cookie", { method: "DELETE" });
