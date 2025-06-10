@@ -59,7 +59,7 @@ export async function getCategories() {
 
 // Refresh 토큰 기반 Access 토큰 재발급
 export async function getRefreshAuth() {
-  await fetchAPI(API_ENDPOINT.user.getRefreshAuth().url, {
+  await fetchAPI(API_ENDPOINT.auth.getRefreshAuth().url, {
     credentials: "include",
   });
 }
@@ -67,7 +67,7 @@ export async function getRefreshAuth() {
 // Access 토큰 확인 (읽기모드)
 export async function getAccessToken() {
   const response = await fetchAPI<GetAccessTokenResponse>(
-    API_ENDPOINT.user.getAccessToken().url
+    API_ENDPOINT.auth.getAccessToken().url
   );
   return response;
 }

@@ -207,7 +207,9 @@ const ApplyFormCard = ({
                 <Button.Solid
                   color="Main"
                   active={formState.isValid}
-                  disabled={!formState.isValid}
+                  disabled={
+                    joinStatusState !== "APPROVED" && !formState.isValid
+                  }
                 >
                   {getStatusText()}하기
                 </Button.Solid>

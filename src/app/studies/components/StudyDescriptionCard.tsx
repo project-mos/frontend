@@ -4,7 +4,8 @@ import Card from "@/shared/components/atoms/Card";
 import Tag from "@/shared/components/atoms/Tag";
 import Typography from "@/shared/components/atoms/Typography";
 import Meta from "@/shared/components/molecules/Meta";
-// import "github-markdown-css/github-markdown.css";
+
+import "highlight.js/styles/github-dark.css";
 
 import ShareButton from "@/app/studies/components/applyStudy/ShareButton";
 import profileImg from "@/asset/images/profile_example.jpeg";
@@ -15,8 +16,8 @@ import {
   GetStudyRequirementsResponse,
   GetStudyRulesResponse,
 } from "@/features/studies/types/studies.api";
+import CustomMdxRemote from "@/shared/components/system/CustomMdxRemote";
 import Profile from "@/shared/components/atoms/Profile";
-import EditorPreview from "./EditorPreview";
 
 interface StudyDescriptionCardProps {
   studyDetailData: GetStudyDetailResponse;
@@ -92,11 +93,9 @@ const StudyDescriptionCard = ({
         <ContentWrapper>
           <Typography.SubTitle1>스터디 소개</Typography.SubTitle1>
           {hasItem(studyDetailData.content) && (
-            // <MDXRemote source={studyDetailData.content} />
-            <EditorPreview content={studyDetailData.content} />
+            <CustomMdxRemote content={studyDetailData.content} />
           )}
         </ContentWrapper>
-
         <ContentWrapper>
           <Typography.SubTitle1>참여 요건</Typography.SubTitle1>
           {hasItem(requirementsData) ? (
