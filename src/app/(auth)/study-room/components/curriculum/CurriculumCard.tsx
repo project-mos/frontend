@@ -7,16 +7,24 @@ import { FormProvider, useForm } from "react-hook-form";
 
 import { StudyCurriculumCardInterface } from "@/features/study-room/types/study-room.type";
 import Curriculum from "./Curriculum";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 
 import { useTokenStore } from "@/shared/store/authStore";
-import { curriculumQueryOption } from "@/features/study-room/services/curriculum.service";
+import {
+  curriculumQueryOption,
+  useUpdateCurriculum,
+} from "@/features/study-room/services/curriculum.service";
 import { GetCurriculumResult } from "@/features/study-room/types/curriculum.api";
+import { useToast } from "@/shared/hooks/useToast";
 
 const CurriculumCard = ({ studyId }: { studyId: number }) => {
   const { accessToken } = useTokenStore();
+  const queryClient = useQueryClient();
+  const { success, error } = useToast();
   // 수정 여부 플래그
   const [isModifyState, setIsModifyState] = useState<boolean>(false);
+  // 커리큘럼 추가 버튼 플래그
+  const [isCreateState, setIsCreateState] = useState<boolean>(false);
   // 커리큘럼 데이터 조회
   const { data: curriculumData } = useSuspenseQuery<GetCurriculumResult[]>(
     curriculumQueryOption(accessToken, studyId)
@@ -43,14 +51,29 @@ const CurriculumCard = ({ studyId }: { studyId: number }) => {
   const addCurriculum = () => {
     const currentValues = getValues("curriculumList");
     const newItem = {
-      id: 0,
-      sectionId: 0,
+      sectionId: curriculumList.length + 1,
       title: "",
       content: "",
     };
     const updated = [...currentValues, newItem];
     setValue("curriculumList", updated);
   };
+
+  // 커리큘럼 생성 | 수정 | 삭제
+  const { mutate: updateCurriculum } = useUpdateCurriculum(studyId, {
+    onSuccess: () => {
+      success("등록되었습니다.");
+      queryClient.invalidateQueries({
+        queryKey: ["study_room_curriculum", studyId],
+      });
+      setIsCreateState(false);
+      setIsModifyState(false);
+    },
+
+    onError: (err) => {
+      error(String(err));
+    },
+  });
 
   // 빈 항목이 하나라도 있으면 false
   const isValidCurriculum = curriculumList.every(
@@ -60,7 +83,7 @@ const CurriculumCard = ({ studyId }: { studyId: number }) => {
   const onSubmit = (formData: {
     curriculumList: StudyCurriculumCardInterface[];
   }) => {
-    console.log("data", formData);
+    updateCurriculum(formData.curriculumList);
   };
 
   return (
@@ -70,26 +93,33 @@ const CurriculumCard = ({ studyId }: { studyId: number }) => {
           <Card.Header className="mb-[20px] justify-between">
             <Typography.SubTitle1>커리큘럼</Typography.SubTitle1>
             <div className="flex gap-2">
-              <Button.Ghost
-                color="Main"
-                active
-                className="h-[30px] p-0 pl-1.5 pr-3 text-[14px]"
-                onClick={addCurriculum}
-                type="button"
-              >
-                <i className="bi bi-plus text-[22px]"></i>
-                커리큘럼 추가
-              </Button.Ghost>
+              {isCreateState && (
+                <Button.Ghost
+                  color="Main"
+                  active
+                  className="h-[30px] p-0 pl-1.5 pr-3 text-[14px]"
+                  onClick={addCurriculum}
+                  type="button"
+                >
+                  <i className="bi bi-plus text-[22px]"></i>
+                  커리큘럼 추가
+                </Button.Ghost>
+              )}
               <Button.Solid
                 color="Main"
                 className="h-[30px] text-[14px]"
                 onClick={() => {
+                  setIsCreateState(true);
                   setIsModifyState((prev) => !prev);
                 }}
                 type={isModifyState ? "button" : "submit"}
                 active={isValidCurriculum}
               >
-                {isModifyState ? "확인" : "수정"}
+                {curriculumList.length === 0
+                  ? "등록"
+                  : isCreateState
+                  ? "확인"
+                  : "수정"}
               </Button.Solid>
             </div>
           </Card.Header>

@@ -71,9 +71,17 @@ const CurriculumEditView = ({ index, curriculum }: CurriculumItemProps) => {
   // 커리큘럼 삭제
   const deleteCurriculum = useCallback(
     (id: number) => {
-      const updatedList = curriculumList.filter((item) => item.id !== id);
+      const filteredList = curriculumList.filter((item) => item.id !== id);
+
+      // sectionId를 1부터 순차적으로 재정렬
+      const updatedList = filteredList.map((item, index) => ({
+        ...item,
+        sectionId: index + 1,
+      }));
+
       setValue("curriculumList", updatedList);
     },
+
     [curriculumList, setValue]
   );
 
@@ -208,7 +216,13 @@ const Curriculum = ({ isModify }: CurriculumProps) => {
     const updatedList = [...curriculumList];
     const [draggedItem] = updatedList.splice(dragIndex, 1); // draggedItem: 기존 배열에서 이동시킬 아이템을 뽑아옴
     updatedList.splice(hoverIndex, 0, draggedItem); // 기존 배열의 hoverIndex 위치에 draggedItem을 삽입
-    setValue("curriculumList", updatedList);
+    // sectionId를 index 순서에 맞게 재정렬
+    const reorderedList = updatedList.map((item, index) => ({
+      ...item,
+      sectionId: index + 1,
+    }));
+
+    setValue("curriculumList", reorderedList);
   };
 
   const renderItem = (
@@ -217,14 +231,14 @@ const Curriculum = ({ isModify }: CurriculumProps) => {
   ) =>
     isModify ? (
       <DraggableCurriculumEditView
-        key={curriculum.id}
+        key={curriculum.sectionId}
         index={index}
         curriculum={curriculum}
         moveItem={moveItem}
       />
     ) : (
       <CurriculumView
-        key={curriculum.id}
+        key={curriculum.sectionId}
         index={index}
         curriculum={curriculum}
       />

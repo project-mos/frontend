@@ -156,7 +156,8 @@ export const API_ENDPOINT = {
         method: Method.GET,
       };
     },
-    postCurriculums: (studyId: string) => {
+    // 스터디룸 - 커리큘럼 수정 | 삭제 | 생성
+    postCurriculums: (studyId: number) => {
       return {
         url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/curriculums`,
         method: Method.POST,

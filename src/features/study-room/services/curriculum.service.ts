@@ -1,4 +1,4 @@
-import { UseQueryOptions, QueryKey } from "@tanstack/react-query";
+import { UseQueryOptions, QueryKey, useMutation, UseMutationOptions } from "@tanstack/react-query";
 import { GetCurriculumResult } from "../types/curriculum.api";
 import { API_ENDPOINT } from "@/shared/constants/api-end-point";
 import { fetchAPI } from "@/shared/utils/fetch";
@@ -31,4 +31,25 @@ export function curriculumQueryOption(
     suspense: true, // Suspense 활성화
     ...options,
   };
+}
+
+// 커리큘럼 수정
+export async function updateCurriculum(studyId:number, data:GetCurriculumResult[]) {
+  const { url, method } = API_ENDPOINT.curriculums.postCurriculums(studyId)
+
+  return await fetchAPI<GetCurriculumResult[]>(url, {
+    credentials: "include",
+    method: method,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data)
+  })
+}
+
+export function useUpdateCurriculum(studyId: number, options?: UseMutationOptions<GetCurriculumResult[], Error, unknown>) {
+  return useMutation({
+    ...options,
+    mutationFn: (data: GetCurriculumResult[]) => updateCurriculum(studyId, data)
+  })
 }
