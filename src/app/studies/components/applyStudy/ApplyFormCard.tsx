@@ -211,6 +211,7 @@ const ApplyFormCard = ({
                 <Button.Ghost
                   color="Gray"
                   className="w-[90px]"
+                  active
                   onClick={() => setIsApplyVisible(false)}
                 >
                   취소
