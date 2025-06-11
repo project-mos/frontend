@@ -1,12 +1,17 @@
 import URL from "./URL";
 
-export type MenuItems = {
+export type MenuItem = {
   name: string;
   icon: string;
   path: string;
-}[];
+};
 
-export const MENU_ITEMS = (id: string): MenuItems => [
+export const MENU_ITEMS = (id: string): MenuItem[] => [
+  {
+    name: "소개",
+    icon: "bi-blockquote-left",
+    path: URL.STUDY_ROOM.DETAIL_MANAGE_OVERVIEW(id),
+  },
   {
     name: "일정",
     icon: "bi-calendar",
@@ -33,18 +38,13 @@ export const MENU_ITEMS = (id: string): MenuItems => [
     path: URL.STUDY_ROOM.DETAIL_CHAT(id),
   },
   {
-    name: "규칙/혜택",
-    icon: "bi-book",
-    path: URL.STUDY_ROOM.DETAIL_MANAGE_OVERVIEW(id),
-  },
-  {
     name: "공지사항",
     icon: "bi-megaphone",
     path: URL.STUDY_ROOM.DETAIL_NOTICE(id),
   },
 ];
 
-export const ADMIN_MENU_ITEMS = (id: string): MenuItems => [
+export const ADMIN_MENU_ITEMS = (id: string): MenuItem[] => [
   {
     name: "지원자 관리",
     icon: "bi-person-plus",

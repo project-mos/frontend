@@ -59,3 +59,7 @@ select {
   margin-top: 5px;
   margin-bottom: 5px;
 }
+.prose-sm ul {
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
