@@ -9,6 +9,7 @@ import {
   GetAttendancesRequest,
   GetAttendancesResponse,
 } from "../types/study-room.api";
+import { useQuery } from "@tanstack/react-query";
 
 /* study room overview */
 export async function editBenefit({ studyId, benefits }: EditBenefitRequest) {
@@ -101,5 +102,23 @@ export async function earlyLeave({
     headers: {
       "Content-Type": "application/json",
     },
+  });
+}
+
+export async function getStudySchedule(studyId: string) {
+  const { url, method } = API_ENDPOINT.study.getStudySchedule(studyId);
+
+  return await fetchAPI<GetAttendancesResponse[]>(url, {
+    method: method,
+    credentials: "include",
+  });
+}
+
+export function useGetStudySchedule(studyId: string) {
+  return useQuery({
+    queryKey: ["studySchedule", studyId],
+    queryFn: () => getStudySchedule(studyId),
+    staleTime: 3600,
+    enabled: !!studyId,
   });
 }
