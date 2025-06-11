@@ -129,7 +129,7 @@ export async function createStudy({ form }: CreateStudyRequest) {
 export async function uploadImage({ file }: UploadImageRequest) {
   const formData = new FormData();
   formData.append("file", file);
-  formData.append("type", "STUDY");
+  formData.append("type", "TEMP");
 
   const { url, method } = API_ENDPOINT.study.uploadImage();
 
