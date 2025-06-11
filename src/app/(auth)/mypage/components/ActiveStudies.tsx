@@ -182,13 +182,11 @@ const ActiveStudies = () => {
 
   // 참여 중인 스터디 조회
   const { data: myJoinedStudiesData } = useQuery(
-    myJoinedStudiesQueryOption(accessToken, userId)
+    myJoinedStudiesQueryOption(userId)
   );
 
   // 나의 지원 현황 조회
-  const { data: myApplyStatusData } = useQuery(
-    myApplyStatusQueryOption(accessToken)
-  );
+  const { data: myApplyStatusData } = useQuery(myApplyStatusQueryOption());
 
   useEffect(() => {
     if (myApplyStatusData && setAllApplyStatus) {

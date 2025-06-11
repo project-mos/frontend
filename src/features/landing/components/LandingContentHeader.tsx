@@ -158,6 +158,7 @@ const LandingContentHeader = ({ categories }: LandingContentHeaderProps) => {
               key={value || "all"}
               color="Main"
               active={currentSearchParams.get("category") === value}
+              disabled={false}
               onClick={() => onClickCategory(value || "")}
             >
               {label}
@@ -200,6 +201,7 @@ const LandingContentHeader = ({ categories }: LandingContentHeaderProps) => {
             color="Main"
             className=" hover:border-mos-main-500 hover:text-mos-main-500"
             active={currentSearchParams.get("liked") === "true"}
+            disabled={false}
             onClick={onClickLiked}
           >
             <i className="bi bi-heart" />

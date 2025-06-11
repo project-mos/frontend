@@ -62,7 +62,6 @@ export const API_ENDPOINT = {
         method: Method.GET,
       };
     },
-
     // 스터디 일정 생성
     createStudySchedule: (studyId: number) => {
       return {
@@ -102,6 +101,13 @@ export const API_ENDPOINT = {
     getStudy: (id: string) => {
       return {
         url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${id}`,
+        method: Method.GET,
+      };
+    },
+    // 스터디 일정 목록 조회
+    getStudySchedule: (studyId: string) => {
+      return {
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/schedules`,
         method: Method.GET,
       };
     },

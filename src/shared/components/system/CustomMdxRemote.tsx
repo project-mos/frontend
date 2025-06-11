@@ -38,7 +38,7 @@ function escapeCurlyBracesOutsideCodeBlocksAndInlineCode(input: string) {
   });
 
   // 4. 인라인 코드 원복
-  let output = escaped;
+  let output = escaped.replace(/(?<!<)\//g, "");
   for (const inlineCode of inlineCodes) {
     output = output.replace(inlineCodePlaceholder, inlineCode);
   }
