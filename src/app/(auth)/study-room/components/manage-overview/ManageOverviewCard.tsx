@@ -87,9 +87,9 @@ const ManageOverviewCard = ({
 
   return (
     <>
-      <Card className="col-span-12 h-fit gap-3 tablet:col-span-9 laptop:col-span-10">
+      <Card className="mt-5">
         <Card.Header className="mb-[10px] justify-between">
-          <Typography.SubTitle1>스터디 규칙/혜택</Typography.SubTitle1>
+          <Typography.SubTitle1>스터디 규칙 &middot; 혜택</Typography.SubTitle1>
         </Card.Header>
 
         <Card.Content>
@@ -131,9 +131,17 @@ const ManageOverviewCard = ({
               />
             )
           ) : tab === 1 ? (
-            <PreviewBox data={ruleData} setState={setIsEditMode} />
+            <PreviewBox
+              data={ruleData}
+              setState={setIsEditMode}
+              label={label}
+            />
           ) : (
-            <PreviewBox data={benefitData} setState={setIsEditMode} />
+            <PreviewBox
+              data={benefitData}
+              setState={setIsEditMode}
+              label={label}
+            />
           )}
         </Card.Content>
       </Card>
