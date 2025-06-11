@@ -1,36 +1,41 @@
 "use client";
-import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useParams, usePathname, useRouter } from "next/navigation";
 
 import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
 
-import { ADMIN_MENU_ITEMS, MENU_ITEMS } from "@/shared/constants/SidebarItems";
+import {
+  ADMIN_MENU_ITEMS,
+  MENU_ITEMS,
+  MenuItem,
+} from "@/shared/constants/SidebarItems";
 import StudyRoomTabListWrapper from "./StudyRoomTabListWrapper";
 
 const StudyRoomSideBarCard = () => {
-  const [activeTabState, setActiveTabState] = useState<string>("일정");
   const router = useRouter();
+  const pathname = usePathname();
 
   const params = useParams();
   const id = params.id as string;
 
-  const handleTabClick = (tabName: string, path?: string) => {
-    setActiveTabState(tabName);
-    if (path) router.push(path);
+  const handleTabClick = (path: string) => {
+    router.push(path);
   };
 
   // 메뉴
-  const renderTab = (item: { name: string; icon: string; path?: string }) => (
-    <StudyRoomTabListWrapper
-      key={item.name}
-      active={activeTabState === item.name}
-      onClick={() => handleTabClick(item.name, item.path)}
-    >
-      <i className={`bi ${item.icon}`} />
-      <Typography.P3>{item.name}</Typography.P3>
-    </StudyRoomTabListWrapper>
-  );
+  const renderTab = (item: MenuItem) => {
+    const isActive = pathname === item.path;
+    return (
+      <StudyRoomTabListWrapper
+        key={item.name}
+        active={isActive}
+        onClick={() => handleTabClick(item.path)}
+      >
+        <i className={`bi ${item.icon}`} />
+        <Typography.P3>{item.name}</Typography.P3>
+      </StudyRoomTabListWrapper>
+    );
+  };
 
   return (
     <div className="hidden tablet:col-span-3 tablet:block laptop:col-span-2">
