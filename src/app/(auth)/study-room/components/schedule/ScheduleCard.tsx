@@ -11,10 +11,16 @@ import { MockStudyScheduleApiResult } from "@/shared/mock/api/studies";
 import { StudyScheduleInterface } from "@/shared/types/api/studies/detail";
 import { useState } from "react";
 import ScheduleModal from "./ScheduleModal";
+import { useGetStudySchedule } from "@/features/study-room/services/study-room.service";
+import { useParams } from "next/navigation";
 
 const ScheduleCard = () => {
   // const { modal, openModal, closeModal } = useModal();
   const { modal, openModal, closeModal } = useMultiModal();
+  const params = useParams() as { id: string };
+
+  const { data: scheduleData } = useGetStudySchedule(params.id);
+  console.log(scheduleData);
 
   const [selectStudyData, setSelectStudyData] =
     useState<StudyScheduleInterface>();

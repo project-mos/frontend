@@ -1,11 +1,17 @@
+"use client";
+
 import { GetStudyDetailResponse } from "@/features/studies/types/studies.api";
+import { useGetStudySchedule } from "@/features/study-room/services/study-room.service";
 import Card from "@/shared/components/atoms/Card";
 import Tag from "@/shared/components/atoms/Tag";
 import Typography from "@/shared/components/atoms/Typography";
+import { useParams } from "next/navigation";
 
 const StudyRoomTitleCard = ({ data }: { data: GetStudyDetailResponse }) => {
-  console.log(data);
+  const params = useParams() as { id: string };
 
+  const { data: scheduleData } = useGetStudySchedule(params.id);
+  console.log(scheduleData);
   const getProgress = (): number => {
     const startDate = new Date(data.recruitmentStartDate);
     const endDate = new Date(data.recruitmentEndDate);
