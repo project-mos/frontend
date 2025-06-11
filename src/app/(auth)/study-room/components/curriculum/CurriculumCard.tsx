@@ -2,7 +2,7 @@
 import Button from "@/shared/components/atoms/Button";
 import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
 import { StudyCurriculumCardInterface } from "@/features/study-room/types/study-room.type";
@@ -33,19 +33,12 @@ const CurriculumCard = ({ studyId }: { studyId: number }) => {
   // react-hook-form
   const methods = useForm<{ curriculumList: StudyCurriculumCardInterface[] }>({
     defaultValues: {
-      curriculumList: [],
+      curriculumList: curriculumData,
     },
     mode: "onChange",
   });
   const { handleSubmit, setValue, getValues, watch } = methods;
   const curriculumList = watch("curriculumList");
-
-  // curriculumData가 로드된 후 defaultValues 업데이트
-  useEffect(() => {
-    if (curriculumData) {
-      setValue("curriculumList", curriculumData);
-    }
-  }, [curriculumData, setValue]);
 
   // 커리큘럼 추가
   const addCurriculum = () => {
