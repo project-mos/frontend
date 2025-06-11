@@ -18,11 +18,11 @@ export default function Error({
   useEffect(() => {
     // Log the error to an error reporting service
     // {"name":"FetchAPIError","environmentName":"Server","digest":"1755205413"} 같이 Error 생성자가 JSON으로 직렬화해서 내려옴
-    console.log(JSON.stringify(error), error.message);
-    const isInstanceOfFetchAPIError = error.name === "FetchAPIError";
-    if (isInstanceOfFetchAPIError) {
-      setErrorMessageState(error.message);
-    }
+    // console.log(JSON.stringify(error), error.message);
+    // const isInstanceOfFetchAPIError = error.name === "FetchAPIError";
+    // if (isInstanceOfFetchAPIError) {
+    setErrorMessageState(error.message || "");
+    // }
   }, [error]);
 
   return (
