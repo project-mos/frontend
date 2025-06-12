@@ -8,6 +8,7 @@ import {
   EditRuleResponse,
   GetAttendancesRequest,
   GetAttendancesResponse,
+  GetStudySchedule,
 } from "../types/study-room.api";
 import { useQuery } from "@tanstack/react-query";
 
@@ -108,7 +109,7 @@ export async function earlyLeave({
 export async function getStudySchedule(studyId: string) {
   const { url, method } = API_ENDPOINT.study.getStudySchedule(studyId);
 
-  return await fetchAPI<GetAttendancesResponse[]>(url, {
+  return await fetchAPI<GetStudySchedule[]>(url, {
     method: method,
     credentials: "include",
   });
