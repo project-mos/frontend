@@ -2,20 +2,39 @@
 import Button from "@/shared/components/atoms/Button";
 import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
-import { MockCurriculumCardApiResult } from "@/shared/mock/api/study-room";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
 import { StudyCurriculumCardInterface } from "@/features/study-room/types/study-room.type";
-import { generateUUID } from "@/shared/utils/generateUUID";
 import Curriculum from "./Curriculum";
+import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 
-const CurriculumCard = () => {
+import { useTokenStore } from "@/shared/store/authStore";
+import {
+  curriculumQueryOption,
+  useUpdateCurriculum,
+} from "@/features/study-room/services/curriculum.service";
+import { GetCurriculumResult } from "@/features/study-room/types/curriculum.api";
+import { useToast } from "@/shared/hooks/useToast";
+
+const CurriculumCard = ({ studyId }: { studyId: number }) => {
+  const { accessToken } = useTokenStore();
+  const queryClient = useQueryClient();
+  const { success, error } = useToast();
   // 수정 여부 플래그
   const [isModifyState, setIsModifyState] = useState<boolean>(false);
+  // 커리큘럼 추가 버튼 플래그
+  const [isCreateState, setIsCreateState] = useState<boolean>(false);
+  // 커리큘럼 데이터 조회
+  const { data: curriculumData } = useSuspenseQuery<GetCurriculumResult[]>(
+    curriculumQueryOption(accessToken, studyId)
+  );
+
   // react-hook-form
   const methods = useForm<{ curriculumList: StudyCurriculumCardInterface[] }>({
-    defaultValues: { curriculumList: MockCurriculumCardApiResult },
+    defaultValues: {
+      curriculumList: curriculumData,
+    },
     mode: "onChange",
   });
   const { handleSubmit, setValue, getValues, watch } = methods;
@@ -25,8 +44,7 @@ const CurriculumCard = () => {
   const addCurriculum = () => {
     const currentValues = getValues("curriculumList");
     const newItem = {
-      id: generateUUID(),
-      step: "",
+      sectionId: curriculumList.length + 1,
       title: "",
       content: "",
     };
@@ -34,25 +52,41 @@ const CurriculumCard = () => {
     setValue("curriculumList", updated);
   };
 
+  // 커리큘럼 생성 | 수정 | 삭제
+  const { mutate: updateCurriculum } = useUpdateCurriculum(studyId, {
+    onSuccess: () => {
+      success("등록되었습니다.");
+      queryClient.invalidateQueries({
+        queryKey: ["study_room_curriculum", studyId],
+      });
+      setIsCreateState(false);
+      setIsModifyState(false);
+    },
+
+    onError: (err) => {
+      error(String(err));
+    },
+  });
+
   // 빈 항목이 하나라도 있으면 false
   const isValidCurriculum = curriculumList.every(
-    (item) => item.step.trim() && item.title.trim() && item.content.trim()
+    (item) => item.sectionId && item.title.trim() && item.content.trim()
   );
 
   const onSubmit = (formData: {
     curriculumList: StudyCurriculumCardInterface[];
   }) => {
-    console.log("data", formData);
+    updateCurriculum(formData.curriculumList);
   };
 
   return (
-    <Card className="col-span-12 h-fit gap-3 tablet:col-span-9 laptop:col-span-10">
+    <Card className="col-span-12 h-fit min-h-[565px] gap-3 tablet:col-span-9 laptop:col-span-10">
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Card.Header className="mb-[20px] justify-between">
             <Typography.SubTitle1>커리큘럼</Typography.SubTitle1>
             <div className="flex gap-2">
-              {isModifyState && (
+              {isCreateState && (
                 <Button.Ghost
                   color="Main"
                   active
@@ -68,12 +102,17 @@ const CurriculumCard = () => {
                 color="Main"
                 className="h-[30px] text-[14px]"
                 onClick={() => {
+                  setIsCreateState(true);
                   setIsModifyState((prev) => !prev);
                 }}
                 type={isModifyState ? "button" : "submit"}
                 active={isValidCurriculum}
               >
-                {isModifyState ? "확인" : "수정"}
+                {curriculumList.length === 0
+                  ? "등록"
+                  : isCreateState
+                  ? "확인"
+                  : "수정"}
               </Button.Solid>
             </div>
           </Card.Header>
