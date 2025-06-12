@@ -20,7 +20,6 @@ interface ProfileModalProps extends ModalProps {
   preview?: string; // 프로필 사진 미리보기 url string
   onClose: ModalOnClose;
   userInfoData: GetUserInfoResult;
-  accessToken: string | undefined;
 }
 
 interface ProfileData {
@@ -34,7 +33,6 @@ const ProfileModal = ({
   preview,
   onClose,
   userInfoData,
-  accessToken,
   ...props
 }: ProfileModalProps) => {
   const queryClient = useQueryClient();
@@ -69,10 +67,10 @@ const ProfileModal = ({
     }
   }, [userInfoData, reset, introduction, nickname]);
 
-  const { mutate, isPending } = usePostUserInfo(accessToken!, {
+  const { mutate, isPending } = usePostUserInfo({
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["userInfo", accessToken],
+        queryKey: ["userInfo"],
       });
       success("프로필 정보가 수정되었습니다.");
 

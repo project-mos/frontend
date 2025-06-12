@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import Button from "@/shared/components/atoms/Button";
 import Grid from "@/shared/components/atoms/Grid";
 import Typography from "@/shared/components/atoms/Typography";
-import { useTokenStore } from "@/shared/store/authStore";
 import { useQuery } from "@tanstack/react-query";
 import { mySchedulesQueryOption } from "@/features/mypage/services/mypage.service";
 import useModal from "@/shared/hooks/useModal";
@@ -24,12 +23,11 @@ const cellStyle =
   "h-16 w-full min-w-10 mobile:min-w-20 border border-gray-200 p-2 mobile:h-20 tablet:min-w-[50px] ";
 
 function Calendar() {
-  const { accessToken } = useTokenStore();
   const [currentDateState, setCurrentDateState] = useState(new Date());
   const today = new Date();
 
   // 캘린더 일정
-  const { data: schedulesData } = useQuery(mySchedulesQueryOption(accessToken));
+  const { data: schedulesData } = useQuery(mySchedulesQueryOption());
   // 일정 수정 모달
   const { isModalOpenState, openModal, closeModal } = useModal();
   // 내가 선택한 날짜에 등록되어있는 일정 데이터

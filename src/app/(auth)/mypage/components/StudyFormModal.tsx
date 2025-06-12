@@ -121,7 +121,7 @@ const StudyFormModal = ({
 
   // 일정 생성
   const { mutate: createSchedule, isPending: isCreating } =
-    usePostCreateStudySchedule(accessToken, studyId, {
+    usePostCreateStudySchedule(studyId, {
       onSuccess: () => {
         success("생성되었습니다.");
         queryClient.invalidateQueries({
@@ -138,7 +138,7 @@ const StudyFormModal = ({
 
   // 일정 수정
   const { mutate: updateSchedule, isPending: isUpdating } =
-    useUpdateStudySchedule(accessToken, studyId, studyScheduleId, {
+    useUpdateStudySchedule(studyId, studyScheduleId, {
       onSuccess: () => {
         success("수정되었습니다.");
         queryClient.invalidateQueries({
@@ -155,7 +155,7 @@ const StudyFormModal = ({
 
   // 일정 삭제
   const { mutate: deleteSchedule, isPending: isDeleting } =
-    useDeleteStudySchedule(accessToken, studyId, studyScheduleId, {
+    useDeleteStudySchedule(studyId, studyScheduleId, {
       onSuccess: () => {
         success("삭제되었습니다.");
         queryClient.invalidateQueries({
