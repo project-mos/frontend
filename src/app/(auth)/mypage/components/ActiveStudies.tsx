@@ -8,20 +8,20 @@ import Tag from "@/shared/components/atoms/Tag";
 import Typography from "@/shared/components/atoms/Typography";
 import Meta from "@/shared/components/molecules/Meta";
 
+import {
+  myApplyStatusQueryOption,
+  myJoinedStudiesQueryOption,
+} from "@/features/mypage/services/mypage.service";
 import URL from "@/shared/constants/URL";
+import useDecodeToken from "@/shared/hooks/useDecodeToken";
+import { useTokenStore } from "@/shared/store/authStore";
+import { useApplyStatusStore } from "@/shared/store/useApplyStatusStore";
+import { useMyJoinedStudyStore } from "@/shared/store/useMyJoinedStudyStore";
 import {
   GetMyApplyStatusResult,
   GetMyJoinedStudiesResult,
 } from "@/shared/types/api/mypage";
 import { useQuery } from "@tanstack/react-query";
-import {
-  myApplyStatusQueryOption,
-  myJoinedStudiesQueryOption,
-} from "@/features/mypage/services/mypage.service";
-import { useApplyStatusStore } from "@/shared/store/useApplyStatusStore";
-import { useTokenStore } from "@/shared/store/authStore";
-import useDecodeToken from "@/shared/hooks/useDecodeToken";
-import { useMyJoinedStudyStore } from "@/shared/store/useMyJoinedStudyStore";
 
 const tagColors: Record<string, keyof typeof Tag> = {
   스터디장: "Green",
@@ -55,32 +55,16 @@ const StudyList = ({ data }: { data: GetMyJoinedStudiesResult[] }) => {
           }
         >
           <div className="flex justify-between">
-            {/* 왼쪽에 배치할 태그 */}
             <div className="flex gap-2">
-              {data.tags
-                .filter((tag) => tag !== "스터디장" && tag !== "스터디원")
-                .map((tag) => {
-                  const TagComponent = Tag[tagColors[tag] || "Green"]; // 기본값 "Green"
-                  return (
-                    <TagComponent border={true} key={tag}>
-                      {tag}
-                    </TagComponent>
-                  );
-                })}
+              <Tag.Blue>{data.category}</Tag.Blue>
             </div>
 
-            {/* 오른쪽에 배치할 태그 */}
             <div className="flex gap-2">
-              {data.tags
-                .filter((tag) => tag === "스터디장" || tag === "스터디원")
-                .map((tag) => {
-                  const TagComponent = Tag[tagColors[tag] || "Green"]; // 기본값 "Green"
-                  return (
-                    <TagComponent border={true} key={tag}>
-                      {tag}
-                    </TagComponent>
-                  );
-                })}
+              {data.studyMemberRole === "스터디장" ? (
+                <Tag.Green>{data.studyMemberRole}</Tag.Green>
+              ) : (
+                <Tag.Blue>{data.studyMemberRole}</Tag.Blue>
+              )}
             </div>
           </div>
           <Typography.Head3 className="text-[20px]">
