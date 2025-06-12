@@ -5,26 +5,49 @@ import { useGetStudySchedule } from "@/features/study-room/services/study-room.s
 import Card from "@/shared/components/atoms/Card";
 import Tag from "@/shared/components/atoms/Tag";
 import Typography from "@/shared/components/atoms/Typography";
+import { formatDate } from "@/shared/utils/date";
 import { useParams } from "next/navigation";
 
 const StudyRoomTitleCard = ({ data }: { data: GetStudyDetailResponse }) => {
   const params = useParams() as { id: string };
 
   const { data: scheduleData } = useGetStudySchedule(params.id);
-  console.log(scheduleData);
+  const formatScheduleDate = getFormatStartEndDate();
+
   const getProgress = (): number => {
-    const startDate = new Date(data.recruitmentStartDate);
-    const endDate = new Date(data.recruitmentEndDate);
-    const today = new Date();
+    if (formatScheduleDate) {
+      const startDate = new Date(formatScheduleDate?.startDate);
+      const endDate = new Date(formatScheduleDate?.endDate);
+      const today = new Date();
 
-    const total = endDate.getTime() - startDate.getTime();
-    const current = today.getTime() - startDate.getTime();
+      const total = endDate.getTime() - startDate.getTime();
+      const current = today.getTime() - startDate.getTime();
 
-    if (today < startDate) return 0;
-    if (today > endDate) return 100;
-
-    return Math.round((current / total) * 100);
+      if (today < startDate) return 0;
+      if (today > endDate) return 100;
+      return Math.round((current / total) * 100);
+    } else {
+      return 0;
+    }
   };
+  function getFormatStartEndDate() {
+    if (scheduleData && scheduleData?.length > 0) {
+      const formatStartDate = formatDate(
+        "YYYY-MM-DD",
+        scheduleData[0].startDateTime
+      );
+      const formatEndDate = formatDate(
+        "YYYY-MM-DD",
+        scheduleData[scheduleData.length - 1].endDateTime
+      );
+      return {
+        startDate: formatStartDate,
+        endDate: formatEndDate,
+      };
+    } else {
+      return undefined;
+    }
+  }
 
   return (
     <Card className="col-span-12 justify-between tablet:col-span-8">
@@ -49,8 +72,8 @@ const StudyRoomTitleCard = ({ data }: { data: GetStudyDetailResponse }) => {
           <Typography.Head3>{data.title}</Typography.Head3>
           <div className="flex gap-2">
             <Typography.P3 className="text-mos-gray-500">
-              기간: {data.recruitmentStartDate} ~ {data.recruitmentEndDate}{" "}
-              &middot; {data.schedule}
+              기간: {formatScheduleDate?.startDate} ~{" "}
+              {formatScheduleDate?.endDate} &middot; {data.schedule}
             </Typography.P3>
           </div>
         </div>
