@@ -12,7 +12,6 @@ import LabelTextAreaInput from "@/shared/components/molecules/LabelTextAreaInput
 
 import LabelSelectInput from "@/shared/components/molecules/LabelSelectInput";
 import { useMyJoinedStudyStore } from "@/shared/store/useMyJoinedStudyStore";
-import { useTokenStore } from "@/shared/store/authStore";
 import {
   useDeleteStudySchedule,
   usePostCreateStudySchedule,
@@ -47,7 +46,6 @@ const StudyFormModal = ({
   schedulesData,
   ...props
 }: NoticeModalProps) => {
-  const { accessToken } = useTokenStore();
   const queryClient = useQueryClient();
   const methods = useForm<ScheduleData>({
     defaultValues: {
@@ -163,7 +161,7 @@ const StudyFormModal = ({
     // API 호출
     if (isDelete) {
       // 삭제
-      deleteSchedule(accessToken);
+      deleteSchedule(data);
     } else if (isModifyMode) {
       // 수정
       updateSchedule(data);
@@ -255,6 +253,7 @@ const StudyFormModal = ({
                   name="startDateTime"
                   min={formatNowDate("YYYY-MM-DDTHH:mm")}
                   required
+                  disabled={isDelete}
                   registerOptions={{ required: "시작일자를 입력해주세요." }}
                 />
                 <LabelInputDateLocal<StudyScheduleInterface>
@@ -262,6 +261,7 @@ const StudyFormModal = ({
                   min={startDateTime}
                   name="endDateTime"
                   required
+                  disabled={isDelete}
                   registerOptions={{
                     required: "종료일자를 입력해주세요.",
                   }}
