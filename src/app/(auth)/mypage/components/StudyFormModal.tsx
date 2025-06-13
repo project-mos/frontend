@@ -121,7 +121,7 @@ const StudyFormModal = ({
 
   // 일정 생성
   const { mutate: createSchedule, isPending: isCreating } =
-    usePostCreateStudySchedule(accessToken, studyId, {
+    usePostCreateStudySchedule(studyId, {
       onSuccess: () => {
         success("생성되었습니다.");
         queryClient.invalidateQueries({
@@ -138,7 +138,7 @@ const StudyFormModal = ({
 
   // 일정 수정
   const { mutate: updateSchedule, isPending: isUpdating } =
-    useUpdateStudySchedule(accessToken, studyId, studyScheduleId, {
+    useUpdateStudySchedule(studyId, studyScheduleId, {
       onSuccess: () => {
         success("수정되었습니다.");
         queryClient.invalidateQueries({
@@ -155,7 +155,7 @@ const StudyFormModal = ({
 
   // 일정 삭제
   const { mutate: deleteSchedule, isPending: isDeleting } =
-    useDeleteStudySchedule(accessToken, studyId, studyScheduleId, {
+    useDeleteStudySchedule(studyId, studyScheduleId, {
       onSuccess: () => {
         success("삭제되었습니다.");
         queryClient.invalidateQueries({
@@ -207,7 +207,6 @@ const StudyFormModal = ({
   };
 
   const onClickCloseBtn = () => {
-    reset();
     onClose();
   };
 
@@ -326,20 +325,26 @@ const StudyFormModal = ({
           </Modal.Content>
 
           <Modal.Footer>
-            <Button.Ghost color="Gray" onClick={onClickCloseBtn}>
+            <Button.Ghost
+              color="Gray"
+              onClick={onClickCloseBtn}
+              disabled={false}
+            >
               취소
             </Button.Ghost>
-            <Button.Ghost
-              color={"Red"}
-              disabled={studyScheduleId ? false : true}
-              active={studyScheduleId ? true : false}
-              className={
-                "text-mos-gray-100 hover:border-mos-gray-100 hover:text-mos-gray-100"
-              }
-              onClick={onClickDeleteBtn}
-            >
-              삭제
-            </Button.Ghost>
+            {isModifyMode && (
+              <Button.Ghost
+                color={"Red"}
+                disabled={studyScheduleId ? false : true}
+                active={studyScheduleId ? true : false}
+                className={
+                  "text-mos-gray-100 hover:border-mos-gray-100 hover:text-mos-gray-100"
+                }
+                onClick={onClickDeleteBtn}
+              >
+                삭제
+              </Button.Ghost>
+            )}
             <Button.Solid
               type="submit"
               color="Main"
