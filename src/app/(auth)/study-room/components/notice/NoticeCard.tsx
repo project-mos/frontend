@@ -34,7 +34,7 @@ const List = (
       {data.map((item) => (
         <div
           key={item.content}
-          className="rounded-md border border-mos-gray-100 px-[15px] py-[10px] hover:border-mos-main hover:bg-gray-50"
+          className="cursor-pointer rounded-md border border-mos-gray-100 px-[15px] py-[10px] hover:border-mos-main hover:bg-gray-50"
           onClick={() => handleEdit(item)}
         >
           <div className="flex items-center gap-2">
