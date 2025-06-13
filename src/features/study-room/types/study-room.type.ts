@@ -16,6 +16,8 @@ export interface StudyNoticeCardInterface {
   title: string;
   content: string;
   writer: string;
+  isImportantNoticeChecked: boolean
+  isPinned: boolean
 }
 
 /* study manage */
