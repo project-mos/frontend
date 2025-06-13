@@ -24,6 +24,7 @@ interface NoticeData {
   title: string;
   content: string;
   isImportantNoticeChecked: boolean;
+  isPinned: boolean;
 }
 
 const NoticeModal = ({ onClose, data, ...props }: NoticeModalProps) => {
@@ -91,11 +92,19 @@ const NoticeModal = ({ onClose, data, ...props }: NoticeModalProps) => {
               <Typography.P3 className="text-[14px]">
                 중요 공지로 설정
               </Typography.P3>
+              <Checkbox {...register("isPinned")} />
+              <Typography.P3 className="text-[14px]">
+                공지 상단에 고정
+              </Typography.P3>
             </div>
           </Modal.Content>
 
           <Modal.Footer>
-            <Button.Ghost color="Gray" onClick={onClickCloseBtn}>
+            <Button.Ghost
+              color="Gray"
+              onClick={onClickCloseBtn}
+              disabled={false}
+            >
               취소
             </Button.Ghost>
             <Button.Solid
