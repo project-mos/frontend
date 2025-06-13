@@ -207,7 +207,6 @@ const StudyFormModal = ({
   };
 
   const onClickCloseBtn = () => {
-    reset();
     onClose();
   };
 
@@ -326,20 +325,26 @@ const StudyFormModal = ({
           </Modal.Content>
 
           <Modal.Footer>
-            <Button.Ghost color="Gray" onClick={onClickCloseBtn}>
+            <Button.Ghost
+              color="Gray"
+              onClick={onClickCloseBtn}
+              disabled={false}
+            >
               취소
             </Button.Ghost>
-            <Button.Ghost
-              color={"Red"}
-              disabled={studyScheduleId ? false : true}
-              active={studyScheduleId ? true : false}
-              className={
-                "text-mos-gray-100 hover:border-mos-gray-100 hover:text-mos-gray-100"
-              }
-              onClick={onClickDeleteBtn}
-            >
-              삭제
-            </Button.Ghost>
+            {isModifyMode && (
+              <Button.Ghost
+                color={"Red"}
+                disabled={studyScheduleId ? false : true}
+                active={studyScheduleId ? true : false}
+                className={
+                  "text-mos-gray-100 hover:border-mos-gray-100 hover:text-mos-gray-100"
+                }
+                onClick={onClickDeleteBtn}
+              >
+                삭제
+              </Button.Ghost>
+            )}
             <Button.Solid
               type="submit"
               color="Main"
