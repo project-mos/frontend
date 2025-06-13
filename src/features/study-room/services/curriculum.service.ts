@@ -6,7 +6,7 @@ import { fetchAPI } from "@/shared/utils/fetch";
 // 커리큘럼 조회
 export async function getCurriculumsByStudy(
   accessToken: string,
-  studyId: number
+  studyId: string
 ): Promise<GetCurriculumResult[]> {
   const { url, method } = API_ENDPOINT.curriculums.getCurriculums(studyId);
 
@@ -22,7 +22,7 @@ export async function getCurriculumsByStudy(
 
 export function curriculumQueryOption(
   accessToken: string,
-  studyId: number,
+  studyId: string,
   options?: Omit<UseQueryOptions<GetCurriculumResult[], Error, GetCurriculumResult[], QueryKey>, "queryKey" | "queryFn">
 ) {
   return {

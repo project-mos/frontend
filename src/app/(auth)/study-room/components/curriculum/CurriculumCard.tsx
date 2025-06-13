@@ -27,7 +27,7 @@ const CurriculumCard = ({ studyId }: { studyId: number }) => {
   const [isCreateState, setIsCreateState] = useState<boolean>(false);
   // 커리큘럼 데이터 조회
   const { data: curriculumData } = useSuspenseQuery<GetCurriculumResult[]>(
-    curriculumQueryOption(accessToken, studyId)
+    curriculumQueryOption(accessToken, String(studyId))
   );
 
   // react-hook-form
