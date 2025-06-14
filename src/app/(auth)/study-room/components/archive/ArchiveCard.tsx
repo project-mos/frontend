@@ -1,16 +1,20 @@
 "use client";
-import { uploadMaterials } from "@/features/study-room/services/study-room.service";
+import {
+  getMaterials,
+  uploadMaterials,
+} from "@/features/study-room/services/study-room.service";
 import Button from "@/shared/components/atoms/Button";
 import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
 import { useParams } from "next/navigation";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 const ArchiveCard = () => {
   const params = useParams();
   const id = params.id as string;
-
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // const [fileList, setFileList] = useState([]);
 
   const handleButtonClick = () => {
     fileInputRef.current?.click();
@@ -23,6 +27,15 @@ const ArchiveCard = () => {
       console.log(result);
     }
   };
+
+  const getMaterialList = async () => {
+    const result = await getMaterials({ studyId: id });
+    console.log(result);
+  };
+
+  useEffect(() => {
+    getMaterialList();
+  }, []);
 
   return (
     <Card className="col-span-12 h-fit gap-4 tablet:col-span-9 laptop:col-span-10">

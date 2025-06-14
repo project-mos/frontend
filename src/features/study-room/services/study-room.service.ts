@@ -9,6 +9,8 @@ import {
   EditRuleResponse,
   GetAttendancesRequest,
   GetAttendancesResponse,
+  GetMaterialsRequest,
+  GetMaterialsResponse,
   GetStudySchedule,
   UploadMaterialsRequest,
 } from "../types/study-room.api";
@@ -148,10 +150,10 @@ export async function uploadMaterials({
   return res;
 }
 
-export async function getMaterials(studyId: string) {
+export async function getMaterials({ studyId }: GetMaterialsRequest) {
   const { url, method } = API_ENDPOINT.materials.getMaterials(studyId);
 
-  return await fetchAPI(url, {
+  return await fetchAPI<GetMaterialsResponse>(url, {
     credentials: "include",
     method: method,
   });
