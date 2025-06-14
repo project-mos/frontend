@@ -86,16 +86,16 @@ const NoticeModal = ({ onClose, data, ...props }: NoticeModalProps) => {
     <FormProvider {...methods}>
       <Modal {...props} onClose={onClickCloseBtn}>
         <Modal.Header onClose={onClickCloseBtn}>
-          <div className="flex gap-2">
+          <div className="gap flex items-center gap-2">
             <Typography.Head3>공지사항</Typography.Head3>
             {data && (
               // 데이터가 있는 경우만 수정 버튼 노출
               <Button.Icon
                 color="Main"
-                className="w-5"
+                className="!py-3 px-1"
                 onClick={() => setIsModifyMode((prev) => !prev)}
               >
-                <i className="bi bi-pencil" />
+                <i className="bi bi-pencil text-[14px]" />
               </Button.Icon>
             )}
           </div>
