@@ -37,6 +37,7 @@ function Calendar() {
 
   // 로컬스토리지에 저장된 초기 컬러 맵을 ref로 관리
   const studyIdColorMapRef = useRef<Record<number, string>>({});
+  const usedColorsRef = useRef<Set<string>>(new Set()); // 사용된 컬러를 추적
 
   // 초기 로컬스토리지 데이터 로드
   if (
@@ -57,6 +58,24 @@ function Calendar() {
       "bg-pink-400",
       "bg-teal-400",
     ];
+
+    // 사용되지 않은 컬러를 우선적으로 선택
+    const unusedColors = colors.filter(
+      (color) => !usedColorsRef.current.has(color)
+    );
+
+    if (unusedColors.length > 0) {
+      const color =
+        unusedColors[Math.floor(Math.random() * unusedColors.length)];
+      usedColorsRef.current.add(color);
+
+      // 모든 컬러가 사용되었으면 초기화
+      if (usedColorsRef.current.size === colors.length) {
+        usedColorsRef.current.clear();
+      }
+
+      return color;
+    }
     return colors[Math.floor(Math.random() * colors.length)];
   };
 

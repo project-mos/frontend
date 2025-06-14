@@ -10,10 +10,8 @@ import Typography from "@/shared/components/atoms/Typography";
 import LabelInput from "@/shared/components/molecules/LabelInput";
 import LabelTextAreaInput from "@/shared/components/molecules/LabelTextAreaInput";
 
-import LabelInputDate from "@/shared/components/molecules/LabelInputDate";
 import LabelSelectInput from "@/shared/components/molecules/LabelSelectInput";
 import { useMyJoinedStudyStore } from "@/shared/store/useMyJoinedStudyStore";
-import { useTokenStore } from "@/shared/store/authStore";
 import {
   useDeleteStudySchedule,
   usePostCreateStudySchedule,
@@ -23,6 +21,9 @@ import { useToast } from "@/shared/hooks/useToast";
 import { useQueryClient } from "@tanstack/react-query";
 import { GetMySchedulesResult } from "@/shared/types/api/mypage";
 import { useEffect, useMemo, useState } from "react";
+import LabelInputDateLocal from "@/shared/components/molecules/LabelDateTimeLocal";
+import { StudyScheduleInterface } from "@/shared/types/api/studies/detail";
+import { formatNowDate } from "@/shared/utils/date";
 
 interface NoticeModalProps extends ModalProps {
   onClose: ModalOnClose;
@@ -33,10 +34,6 @@ interface NoticeModalProps extends ModalProps {
 interface ScheduleData {
   title: string;
   description: string;
-  startDate?: string;
-  startTime?: string;
-  endDate?: string;
-  endTime?: string;
   startDateTime: string;
   endDateTime: string;
   studyId?: number;
@@ -49,7 +46,6 @@ const StudyFormModal = ({
   schedulesData,
   ...props
 }: NoticeModalProps) => {
-  const { accessToken } = useTokenStore();
   const queryClient = useQueryClient();
   const methods = useForm<ScheduleData>({
     defaultValues: {
@@ -63,6 +59,7 @@ const StudyFormModal = ({
   const { handleSubmit, reset, watch } = methods;
   const { success, error } = useToast();
   const studyId = Number(watch("studyId"));
+  const startDateTime = methods.watch("startDateTime");
   const studyScheduleId = Number(watch("studyScheduleId"));
   const [isDelete, setIsDelete] = useState<boolean>(false);
 
@@ -100,22 +97,8 @@ const StudyFormModal = ({
       methods.setValue("studyId", selectedScheduleData.studyId);
       methods.setValue("title", selectedScheduleData.title);
       methods.setValue("description", selectedScheduleData.description);
-      methods.setValue(
-        "startDate",
-        selectedScheduleData.startDateTime.split("T")[0]
-      );
-      methods.setValue(
-        "startTime",
-        selectedScheduleData.startDateTime.split("T")[1]
-      );
-      methods.setValue(
-        "endDate",
-        selectedScheduleData.endDateTime.split("T")[0]
-      );
-      methods.setValue(
-        "endTime",
-        selectedScheduleData.endDateTime.split("T")[1]
-      );
+      methods.setValue("startDateTime", selectedScheduleData.startDateTime);
+      methods.setValue("endDateTime", selectedScheduleData.endDateTime);
     }
   }, [selectedScheduleData, methods]);
 
@@ -172,33 +155,19 @@ const StudyFormModal = ({
     });
 
   const onSubmit = (data: ScheduleData) => {
-    const startDateTime = `${data.startDate}T${data.startTime}`;
-    const endDateTime = `${data.endDate}T${data.endTime}`;
-
-    // formattedData 생성
-    const formattedData = {
-      ...data,
-      startDateTime,
-      endDateTime,
-    };
-
     // 불필요한 필드 제거
-    delete formattedData.startDate;
-    delete formattedData.startTime;
-    delete formattedData.endDate;
-    delete formattedData.endTime;
-    delete formattedData.studyId;
+    delete data.studyId;
 
     // API 호출
     if (isDelete) {
       // 삭제
-      deleteSchedule(accessToken);
+      deleteSchedule(data);
     } else if (isModifyMode) {
       // 수정
-      updateSchedule(formattedData);
+      updateSchedule(data);
     } else {
       // 셍성
-      createSchedule(formattedData);
+      createSchedule(data);
     }
   };
 
@@ -207,6 +176,7 @@ const StudyFormModal = ({
   };
 
   const onClickCloseBtn = () => {
+    reset();
     onClose();
   };
 
@@ -277,50 +247,26 @@ const StudyFormModal = ({
               registerOptions={{ required: "필수 입력입니다." }}
             />
             <div className="flex w-full flex-col gap-3 mobile:flex-row">
-              <LabelInputDate
-                name="startDate"
-                label="일정 시작일"
-                required
-                registerOptions={{
-                  required: "일정 시작일을 선택해주세요",
-                }}
-              />
-              <LabelInput
-                label="일정 시작 시간"
-                name="startTime"
-                placeholder="00:00:00"
-                required
-                registerOptions={{
-                  required: "00:00:00 형식에 맞게 입력하세요.",
-                  pattern: {
-                    value: /^\d{2}:\d{2}:\d{2}$/,
-                    message: "00:00:00 형식에 맞게 입력하세요.",
-                  },
-                }}
-              />
-            </div>
-            <div className="flex w-full flex-col gap-3 mobile:flex-row">
-              <LabelInputDate
-                name="endDate"
-                label="일정 마감일"
-                required
-                registerOptions={{
-                  required: "일정 마감일을 선택해주세요",
-                }}
-              />
-              <LabelInput
-                label="일정 종료 시간"
-                name="endTime"
-                placeholder="00:00:00"
-                required
-                registerOptions={{
-                  required: "00:00:00 형식에 맞게 입력하세요.",
-                  pattern: {
-                    value: /^\d{2}:\d{2}:\d{2}$/,
-                    message: "00:00:00 형식에 맞게 입력하세요.",
-                  },
-                }}
-              />
+              <div className="flex w-full flex-col gap-5">
+                <LabelInputDateLocal<StudyScheduleInterface>
+                  label="시작 일시"
+                  name="startDateTime"
+                  min={formatNowDate("YYYY-MM-DDTHH:mm")}
+                  required
+                  disabled={isDelete}
+                  registerOptions={{ required: "시작일자를 입력해주세요." }}
+                />
+                <LabelInputDateLocal<StudyScheduleInterface>
+                  label="종료 일시"
+                  min={startDateTime}
+                  name="endDateTime"
+                  required
+                  disabled={isDelete}
+                  registerOptions={{
+                    required: "종료일자를 입력해주세요.",
+                  }}
+                />
+              </div>
             </div>
           </Modal.Content>
 
