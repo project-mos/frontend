@@ -7,6 +7,7 @@ import { FileInterface } from "@/features/study-room/types/study-room.api";
 import Button from "@/shared/components/atoms/Button";
 import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
+import { useToast } from "@/shared/hooks/useToast";
 import { useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
@@ -14,7 +15,7 @@ const ArchiveCard = () => {
   const params = useParams();
   const id = params.id as string;
   const fileInputRef = useRef<HTMLInputElement>(null);
-
+  const toast = useToast();
   const [fileList, setFileList] = useState<FileInterface[]>([]);
 
   const handleButtonClick = () => {
@@ -23,9 +24,23 @@ const ArchiveCard = () => {
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      const result = await uploadMaterials({ file, studyId: id });
-      console.log(result);
+    if (!file) return;
+
+    try {
+      await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(true);
+        reader.onerror = () => reject();
+        reader.readAsArrayBuffer(file);
+      });
+
+      await uploadMaterials({ file, studyId: id });
+      toast.success("성공적으로 업로드하였습니다.");
+      await getMaterialList();
+    } catch {
+      toast.error("파일 업로드에 실패하였습니다.");
+    } finally {
+      if (fileInputRef.current) fileInputRef.current.value = "";
     }
   };
 
@@ -34,7 +49,6 @@ const ArchiveCard = () => {
     setFileList(result.fileList);
   };
 
-  console.log(fileList);
   useEffect(() => {
     getMaterialList();
   }, []);
