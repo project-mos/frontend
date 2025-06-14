@@ -147,3 +147,24 @@ export async function uploadMaterials({
 
   return res;
 }
+
+export async function getMaterials(studyId: string) {
+  const { url, method } = API_ENDPOINT.materials.getMaterials(studyId);
+
+  return await fetchAPI(url, {
+    credentials: "include",
+    method: method,
+  });
+}
+
+export async function getMaterial(studyId: string, materialId: string) {
+  const { url, method } = API_ENDPOINT.materials.getMaterial(
+    studyId,
+    materialId
+  );
+
+  return await fetchAPI(url, {
+    credentials: "include",
+    method: method,
+  });
+}
