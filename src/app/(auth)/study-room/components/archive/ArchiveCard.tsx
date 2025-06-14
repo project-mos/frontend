@@ -1,16 +1,43 @@
+"use client";
+import { uploadMaterials } from "@/features/study-room/services/study-room.service";
 import Button from "@/shared/components/atoms/Button";
 import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
+import { useParams } from "next/navigation";
+import { useRef } from "react";
 
 const ArchiveCard = () => {
+  const params = useParams();
+  const id = params.id as string;
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleButtonClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const result = await uploadMaterials({ file, studyId: id });
+      console.log(result);
+    }
+  };
+
   return (
     <Card className="col-span-12 h-fit gap-4 tablet:col-span-9 laptop:col-span-10">
       <Card.Header className="flex items-center justify-between">
         <Typography.SubTitle1>자료실</Typography.SubTitle1>
-        <Button.Solid color="Main" active size="sm">
+        <Button.Solid onClick={handleButtonClick} color="Main" active size="sm">
           <i className="bi bi-upload" />
           파일 업로드
         </Button.Solid>
+        <input
+          type="file"
+          ref={fileInputRef}
+          style={{ display: "none" }}
+          onChange={handleFileChange}
+        />
       </Card.Header>
       <Card.Content>
         <table className="text-surface min-w-full text-left text-sm font-light">
