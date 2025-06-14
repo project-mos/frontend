@@ -65,14 +65,16 @@ export interface GetMaterialsRequest {
 
 export interface GetMaterialsResponse {
   count: number;
-  fileList: {
-    filePath: string;
-    fileSize: number;
-    id: number;
-    originalName: string;
-    studyId: number;
-    studyMemberId: number;
-    userId: number;
-  }[];
+  fileList: FileInterface[];
   totalFileSize: number;
+}
+
+export interface FileInterface {
+  filePath: string;
+  fileSize: number;
+  id: number;
+  originalName: string;
+  studyId: number;
+  studyMemberId: number;
+  userId: number;
 }
