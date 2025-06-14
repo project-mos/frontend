@@ -1,7 +1,13 @@
 "use client";
 import { useTokenStore } from "@/shared/store/authStore";
 
-const useDecodeToken = () => {
+type JwtToken = {
+  sub: string;
+  id: number;
+  exp: number;
+};
+
+const useDecodeToken = (): JwtToken | null => {
   const { accessToken } = useTokenStore();
 
   if (!accessToken) return null;

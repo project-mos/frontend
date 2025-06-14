@@ -84,9 +84,12 @@ export function useGetMembers(studyId: string) {
 // 현재 스터디룸에서 나의 멤버 역할이 무엇인지 알려주는 훅
 export function useMyStudyRole(studyId: string) {
   const decodeToken = useDecodeToken();
-
   const { data: members } = useGetMembers(studyId);
 
-  return members?.find((member) => member.userId === decodeToken.id)
-    ?.studyMemberRoleType;
+  if (decodeToken && members) {
+    return members?.find((member) => member.userId === decodeToken.id)
+      ?.studyMemberRoleType;
+  } else {
+    return null;
+  }
 }
