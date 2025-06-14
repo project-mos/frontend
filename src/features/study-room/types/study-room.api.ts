@@ -53,3 +53,8 @@ export interface StudyCurriculumResList {
   title: string;
   content: string;
 }
+
+export interface UploadMaterialsRequest {
+  file: File;
+  studyId: string;
+}

@@ -285,4 +285,13 @@ export const API_ENDPOINT = {
       };
     },
   },
+  materials: {
+    upload: (studyId: string) => {
+      const url = `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/materials`;
+      return {
+        url,
+        method: Method.POST,
+      };
+    },
+  },
 };

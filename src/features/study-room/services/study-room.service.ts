@@ -1,5 +1,6 @@
 import { API_ENDPOINT } from "@/shared/constants/api-end-point";
 import { fetchAPI } from "@/shared/utils/fetch";
+import { useQuery } from "@tanstack/react-query";
 import {
   AttendanceRequest,
   EditBenefitRequest,
@@ -9,8 +10,8 @@ import {
   GetAttendancesRequest,
   GetAttendancesResponse,
   GetStudySchedule,
+  UploadMaterialsRequest,
 } from "../types/study-room.api";
-import { useQuery } from "@tanstack/react-query";
 
 /* study room overview */
 export async function editBenefit({ studyId, benefits }: EditBenefitRequest) {
@@ -122,4 +123,27 @@ export function useGetStudySchedule(studyId: string) {
     staleTime: 3600,
     enabled: !!studyId,
   });
+}
+
+export async function uploadMaterials({
+  file,
+  studyId,
+}: UploadMaterialsRequest) {
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("type", "STUDY");
+
+  const { url, method } = API_ENDPOINT.materials.upload(studyId);
+
+  const res = await fetchAPI(url, {
+    credentials: "include",
+    body: formData,
+    method: method,
+  });
+
+  if (!res) {
+    throw new Error("파일 업로드 실패");
+  }
+
+  return res;
 }
