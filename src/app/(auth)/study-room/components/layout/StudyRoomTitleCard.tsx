@@ -1,7 +1,8 @@
 "use client";
 
 import { GetStudyDetailResponse } from "@/features/studies/types/studies.api";
-import { useGetStudySchedule } from "@/features/study-room/services/study-room.service";
+import { useGetStudySchedule } from "@/features/study-room/hooks/useStudyRoomQueries";
+
 import Card from "@/shared/components/atoms/Card";
 import Tag from "@/shared/components/atoms/Tag";
 import Typography from "@/shared/components/atoms/Typography";
@@ -50,7 +51,7 @@ const StudyRoomTitleCard = ({ data }: { data: GetStudyDetailResponse }) => {
   }
 
   return (
-    <Card className="col-span-12 justify-between tablet:col-span-8">
+    <Card className="col-span-12 min-h-48 justify-between tablet:col-span-8">
       <Card.Header className="flex-col gap-3">
         <div className="flex justify-between gap-2">
           <div className="flex flex-col gap-2">
