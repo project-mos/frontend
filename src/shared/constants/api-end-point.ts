@@ -111,6 +111,13 @@ export const API_ENDPOINT = {
         method: Method.GET,
       };
     },
+    // 스터디 일정 목록 생성
+    postStudySchedule: (studyId: string) => {
+      return {
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/schedules`,
+        method: Method.POST,
+      };
+    },
   },
   requirement: {
     getRequirement: (studyId: string) => {

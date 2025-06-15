@@ -53,3 +53,11 @@ export interface StudyCurriculumResList {
   title: string;
   content: string;
 }
+
+export interface PostStudySchedule {
+  curriculumIds: number[];
+  title: string;
+  description: string;
+  startDateTime: string;
+  endDateTime: string;
+}
