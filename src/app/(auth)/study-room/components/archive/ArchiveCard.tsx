@@ -8,6 +8,7 @@ import Button from "@/shared/components/atoms/Button";
 import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
 import { useToast } from "@/shared/hooks/useToast";
+import { formatFileSize } from "@/shared/utils/format";
 import { useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
@@ -132,7 +133,7 @@ const ArchiveCard = () => {
                   </td>
                   <td className="whitespace-nowrap px-1 py-2">
                     <Typography.P3 className="text-[14px] font-medium tablet:text-sm">
-                      {file.fileSize}
+                      {formatFileSize(file.fileSize)}
                     </Typography.P3>
                   </td>
                   <td className="whitespace-nowrap px-1 py-2">
