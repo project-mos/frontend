@@ -161,6 +161,7 @@ export const API_ENDPOINT = {
       };
     },
   },
+  // 스터디룸 - 커리큘럼 조회
   curriculums: {
     getCurriculums: (studyId: string) => {
       return {
@@ -168,7 +169,8 @@ export const API_ENDPOINT = {
         method: Method.GET,
       };
     },
-    postCurriculums: (studyId: string) => {
+    // 스터디룸 - 커리큘럼 수정 | 삭제 | 생성
+    postCurriculums: (studyId: number) => {
       return {
         url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/curriculums`,
         method: Method.POST,
@@ -287,6 +289,29 @@ export const API_ENDPOINT = {
       return {
         url,
         method: Method.PATCH,
+      };
+    },
+  },
+  materials: {
+    upload: (studyId: string) => {
+      const url = `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/materials`;
+      return {
+        url,
+        method: Method.POST,
+      };
+    },
+    getMaterials: (studyId: string) => {
+      const url = `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/materials`;
+      return {
+        url,
+        method: Method.GET,
+      };
+    },
+    getMaterial: (studyId: string, materialId: string) => {
+      const url = `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/materials/${materialId}`;
+      return {
+        url,
+        method: Method.GET,
       };
     },
   },

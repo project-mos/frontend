@@ -1,11 +1,10 @@
 "use client";
 import cn from "@/shared/utils/cn";
-import { useEffect, useState } from "react";
+import { useRef, useState } from "react";
 
 import Button from "@/shared/components/atoms/Button";
 import Grid from "@/shared/components/atoms/Grid";
 import Typography from "@/shared/components/atoms/Typography";
-import { useTokenStore } from "@/shared/store/authStore";
 import { useQuery } from "@tanstack/react-query";
 import { mySchedulesQueryOption } from "@/features/mypage/services/mypage.service";
 import useModal from "@/shared/hooks/useModal";
@@ -24,21 +23,30 @@ const cellStyle =
   "h-16 w-full min-w-10 mobile:min-w-20 border border-gray-200 p-2 mobile:h-20 tablet:min-w-[50px] ";
 
 function Calendar() {
-  const { accessToken } = useTokenStore();
   const [currentDateState, setCurrentDateState] = useState(new Date());
   const today = new Date();
 
   // 캘린더 일정
-  const { data: schedulesData } = useQuery(mySchedulesQueryOption(accessToken));
+  const { data: schedulesData } = useQuery(mySchedulesQueryOption());
   // 일정 수정 모달
   const { isModalOpenState, openModal, closeModal } = useModal();
   // 내가 선택한 날짜에 등록되어있는 일정 데이터
   const [dailySchedules, setDailySchedules] = useState<GetMySchedulesResult[]>(
     []
   );
-  const [studyIdColorMap, setStudyIdColorMap] = useState<{
-    [key: number]: string;
-  }>({});
+
+  // 로컬스토리지에 저장된 초기 컬러 맵을 ref로 관리
+  const studyIdColorMapRef = useRef<Record<number, string>>({});
+  const usedColorsRef = useRef<Set<string>>(new Set()); // 사용된 컬러를 추적
+
+  // 초기 로컬스토리지 데이터 로드
+  if (
+    typeof window !== "undefined" &&
+    Object.keys(studyIdColorMapRef.current).length === 0
+  ) {
+    const saved = localStorage.getItem("studyIdColorMap");
+    studyIdColorMapRef.current = saved ? JSON.parse(saved) : {};
+  }
 
   const getRandomColor = () => {
     const colors = [
@@ -50,50 +58,53 @@ function Calendar() {
       "bg-pink-400",
       "bg-teal-400",
     ];
+
+    // 사용되지 않은 컬러를 우선적으로 선택
+    const unusedColors = colors.filter(
+      (color) => !usedColorsRef.current.has(color)
+    );
+
+    if (unusedColors.length > 0) {
+      const color =
+        unusedColors[Math.floor(Math.random() * unusedColors.length)];
+      usedColorsRef.current.add(color);
+
+      // 모든 컬러가 사용되었으면 초기화
+      if (usedColorsRef.current.size === colors.length) {
+        usedColorsRef.current.clear();
+      }
+
+      return color;
+    }
     return colors[Math.floor(Math.random() * colors.length)];
   };
 
-  // 로컬 스토리지에서 색상 매핑 복원
-  useEffect(() => {
-    const savedColorMap = localStorage.getItem("studyIdColorMap");
-    if (savedColorMap) {
-      setStudyIdColorMap(JSON.parse(savedColorMap));
-    }
-  }, []);
-
-  // schedulesData가 변경될 때 색상 매핑 업데이트
-  useEffect(() => {
-    if (schedulesData) {
-      const newColorMap = { ...studyIdColorMap };
-
-      schedulesData.forEach((item) => {
-        if (!newColorMap[item.studyId]) {
-          newColorMap[item.studyId] = getRandomColor();
-        }
-      });
-
-      setStudyIdColorMap(newColorMap);
-      localStorage.setItem("studyIdColorMap", JSON.stringify(newColorMap)); // 로컬 스토리지에 저장
-    }
-  }, [schedulesData]);
-
+  // schedulesData가 존재할 때 바로 처리
   const getSchedulesByDate = schedulesData
-    ? schedulesData.reduce(
-        (acc: CalendarProps, item) => {
-          const dateKey = item.startDateTime.split("T")[0];
-          if (!acc[dateKey]) {
-            acc[dateKey] = [];
-          }
-          acc[dateKey].push({
-            id: item.studyId,
-            title: item.title,
-            color: studyIdColorMap[item.studyId] || "bg-gray-400", // 매핑된 색상 사용
-          });
-          return acc;
-        },
-        {} // 초기값은 빈 객체
-      )
-    : {}; // schedulesData가 없을 경우 빈 객체 반환
+    ? schedulesData.reduce((acc: CalendarProps, item) => {
+        const dateKey = item.startDateTime.split("T")[0];
+
+        if (!studyIdColorMapRef.current[item.studyId]) {
+          studyIdColorMapRef.current[item.studyId] = getRandomColor();
+          localStorage.setItem(
+            "studyIdColorMap",
+            JSON.stringify(studyIdColorMapRef.current)
+          );
+        }
+
+        if (!acc[dateKey]) {
+          acc[dateKey] = [];
+        }
+
+        acc[dateKey].push({
+          id: item.studyId,
+          title: item.title,
+          color: studyIdColorMapRef.current[item.studyId],
+        });
+
+        return acc;
+      }, {})
+    : {};
 
   // 예시 일정 데이터 (키: "YYYY-MM-DD" Parameters)
   const events: CalendarProps = getSchedulesByDate!;

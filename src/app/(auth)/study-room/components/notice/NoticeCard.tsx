@@ -34,28 +34,23 @@ const List = (
       {data.map((item) => (
         <div
           key={item.content}
-          className="rounded-md border border-mos-gray-100 px-[15px] py-[10px]"
+          className="cursor-pointer rounded-md border border-mos-gray-100 px-[15px] py-[10px] hover:border-mos-main hover:bg-gray-50"
+          onClick={() => handleEdit(item)}
         >
-          <div className="mb-2 flex items-center gap-2">
+          <div className="flex items-center gap-2">
             <i className="bi bi-exclamation-circle text-orange-600"></i>
             <div className="flex w-full justify-between">
               <Typography.P3 className="text-[18px]">
                 {item.title}
               </Typography.P3>
-              <div className="flex items-center gap-2">
-                <i
-                  className="bi bi-pencil-square cursor-pointer transition-all duration-200 hover:text-mos-main"
-                  onClick={() => handleEdit(item)}
-                ></i>
-                <Checkbox
-                  className="size-[15px] border border-mos-main"
-                  onClick={() => handleCheckbox(item)}
-                />
-              </div>
+              <Checkbox
+                className="size-[15px] border border-mos-main"
+                onClick={() => handleCheckbox(item)}
+              />
             </div>
           </div>
-          <div className="flex items-center justify-between">
-            <Typography.P3 className="text-[16px] text-mos-gray-700">
+          <div className="mt-2 flex items-center justify-between">
+            <Typography.P3 className="truncate text-[16px] text-mos-gray-700">
               {item.content}
             </Typography.P3>
           </div>
@@ -82,7 +77,6 @@ const NoticeCard = () => {
       alert("삭제할 공지사항을 선택해주세요.");
     } else {
       openModal("notice_delete_confirm");
-      // console.log(selectedNoticeState);
     }
   };
 

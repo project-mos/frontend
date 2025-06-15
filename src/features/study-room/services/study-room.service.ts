@@ -1,5 +1,6 @@
 import { API_ENDPOINT } from "@/shared/constants/api-end-point";
 import { fetchAPI } from "@/shared/utils/fetch";
+
 import {
   AttendanceRequest,
   EditBenefitRequest,
@@ -8,8 +9,11 @@ import {
   EditRuleResponse,
   GetAttendancesRequest,
   GetAttendancesResponse,
+  GetMaterialsRequest,
+  GetMaterialsResponse,
   GetStudySchedule,
   PostStudySchedule,
+  UploadMaterialsRequest,
 } from "../types/study-room.api";
 
 /* study room overview */
@@ -127,5 +131,49 @@ export async function postStudySchedule(
       "Content-Type": "application/json",
     },
     body: JSON.stringify(data),
+  });
+}
+
+export async function uploadMaterials({
+  file,
+  studyId,
+}: UploadMaterialsRequest) {
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("type", "STUDY");
+
+  const { url, method } = API_ENDPOINT.materials.upload(studyId);
+
+  const res = await fetchAPI(url, {
+    credentials: "include",
+    body: formData,
+    method: method,
+  });
+
+  if (!res) {
+    throw new Error("파일 업로드 실패");
+  }
+
+  return res;
+}
+
+export async function getMaterials({ studyId }: GetMaterialsRequest) {
+  const { url, method } = API_ENDPOINT.materials.getMaterials(studyId);
+
+  return await fetchAPI<GetMaterialsResponse>(url, {
+    credentials: "include",
+    method: method,
+  });
+}
+
+export async function getMaterial(studyId: string, materialId: string) {
+  const { url, method } = API_ENDPOINT.materials.getMaterial(
+    studyId,
+    materialId
+  );
+
+  return await fetchAPI(url, {
+    credentials: "include",
+    method: method,
   });
 }

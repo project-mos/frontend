@@ -11,14 +11,12 @@ import useMultiModal from "@/shared/hooks/useMultiModal";
 import ProfileModal from "@/app/(auth)/mypage/components/ProfileModal";
 import { useQuery } from "@tanstack/react-query";
 import { userInfoQueryOption } from "@/features/mypage/services/mypage.service";
-import { useTokenStore } from "@/shared/store/authStore";
 import { logout } from "@/shared/utils/logout";
 
 const ProfileCard = () => {
-  const { accessToken } = useTokenStore();
   const { modal, openModal, closeModal } = useMultiModal();
   // 유저 정보 조회
-  const { data: userInfo } = useQuery(userInfoQueryOption(accessToken));
+  const { data: userInfo } = useQuery(userInfoQueryOption());
 
   const {
     nickname = "이름",
@@ -81,7 +79,6 @@ const ProfileCard = () => {
         onClose={() => closeModal("updateProfile")}
         preview={profileImg.src}
         userInfoData={userInfo!}
-        accessToken={accessToken!}
       />
       <ActionConfirmModal
         isOpen={modal.get("logout")!}

@@ -4,8 +4,8 @@ export interface StudyDetailPageProps {
 
 /* study curriculum */
 export interface StudyCurriculumCardInterface {
-  id: string;
-  step: string;
+  id?: number;
+  sectionId: number;
   title: string;
   content: string;
 }
@@ -16,6 +16,8 @@ export interface StudyNoticeCardInterface {
   title: string;
   content: string;
   writer: string;
+  isImportantNoticeChecked: boolean
+  isPinned: boolean
 }
 
 /* study manage */

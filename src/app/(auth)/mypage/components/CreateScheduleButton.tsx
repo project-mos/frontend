@@ -29,6 +29,7 @@ const CreateScheduleButton = () => {
         color="Main"
         className="h-[30px] p-0 pl-1.5 pr-3 text-[14px]"
         onClick={handleCreateSchedule}
+        disabled={false}
       >
         <i className="bi bi-plus text-[22px]" />
         일정 생성
