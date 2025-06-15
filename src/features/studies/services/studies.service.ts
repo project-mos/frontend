@@ -14,12 +14,6 @@ import { API_ENDPOINT } from "@/shared/constants/api-end-point";
 
 import { fetchAPI } from "@/shared/utils/fetch";
 
-import {
-  useMutation,
-  UseMutationOptions,
-  useQuery,
-} from "@tanstack/react-query";
-
 export async function getStudy(id: string) {
   const response = await fetchAPI<GetStudyDetailResponse>(
     API_ENDPOINT.study.getStudy(id).url
@@ -109,59 +103,5 @@ export async function patchJoin(studyId: string, studyJoinId: string) {
     headers: {
       "Content-Type": "application/json",
     },
-  });
-}
-
-// getQuestions React Query 훅
-export function useQuestions(studyId: string, enabled: boolean) {
-  return useQuery({
-    queryKey: ["questions", studyId],
-    queryFn: () => getQuestions(studyId),
-    staleTime: 10000,
-    enabled,
-  });
-}
-// postJoin React Query 훅
-export function usePostJoin({
-  studyId,
-  options,
-}: {
-  studyId: string;
-  options?: UseMutationOptions<PostStudyJoin, Error, PostStudyJoin, unknown>;
-}) {
-  return useMutation({
-    ...options,
-    mutationFn: (data: PostStudyJoin) => postJoin(studyId, data),
-  });
-}
-
-// patchJoin React Query 훅
-export function usePatchJoin({
-  studyId,
-  studyJoinId,
-
-  options,
-}: {
-  studyId: string;
-  studyJoinId: string;
-  options?: UseMutationOptions<unknown, Error, unknown, unknown>;
-}) {
-  return useMutation({
-    ...options,
-    mutationFn: () => patchJoin(studyId, studyJoinId),
-  });
-}
-
-export function useGetJoins({
-  studyJoinStatus,
-}: {
-  studyJoinStatus?: GetStudyJoinsRequest;
-  accessToken: string;
-}) {
-  return useQuery({
-    queryKey: ["joins", studyJoinStatus],
-    queryFn: () => getJoins({ studyJoinStatus }),
-    staleTime: 3600,
-    retry: false,
   });
 }
