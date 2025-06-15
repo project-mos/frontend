@@ -55,7 +55,7 @@ const StudyRoomSessionCard = ({
       </Card.Content>
       <Card.Footer>
         <Typography.P3 className="text-mos-gray-300">
-          {data.description}
+          {data.description === "" ? "일정 설명이 없습니다" : data.description}
         </Typography.P3>
       </Card.Footer>
     </Card>
