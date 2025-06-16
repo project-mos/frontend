@@ -1,12 +1,12 @@
 import axios from "axios";
+import URL from "../constants/URL";
+import { API_ENDPOINT } from "../constants/api-end-point";
 import {
+  clearTokens,
   getAccessToken,
   getRefreshToken,
   setTokens,
-  clearTokens,
 } from "../utils/token";
-import URL from "../constants/URL";
-import { API_ENDPOINT } from "../constants/api-end-point";
 
 // Axios 인스턴스 생성
 const axiosInstance = axios.create({
@@ -47,7 +47,7 @@ axiosInstance.interceptors.response.use(
 
       try {
         // refreshToken을 사용해 새로운 accessToken 요청
-        const res = await axios.post(API_ENDPOINT.user.getRefreshAuth().url);
+        const res = await axios.post(API_ENDPOINT.auth.getRefreshAuth().url);
 
         const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
           res.data;
