@@ -61,6 +61,7 @@ const ProfileCard = () => {
             color="Main"
             className="w-full"
             onClick={() => openModal("updateProfile")}
+            disabled={false}
           >
             프로필 수정
           </Button.Ghost>
@@ -68,6 +69,7 @@ const ProfileCard = () => {
             color="Gray"
             className="w-full"
             onClick={() => openModal("logout")}
+            disabled={false}
           >
             로그아웃
           </Button.Ghost>
