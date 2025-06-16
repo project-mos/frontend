@@ -48,6 +48,11 @@ const ProfileModal = ({
   const { handleSubmit, reset, control, formState } = methods;
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const { success, error } = useToast();
+  const isActiveBtn =
+    formState.isValid &&
+    !!methods.watch("nickname") &&
+    !!methods.watch("introduction");
+  //  && !!methods.watch("img");
 
   const {
     nickname,
@@ -189,12 +194,18 @@ const ProfileModal = ({
           </Modal.Content>
 
           <Modal.Footer>
-            <Button.Default onClick={onClickCloseBtn}>취소</Button.Default>
+            <Button.Ghost
+              color="Gray"
+              onClick={onClickCloseBtn}
+              disabled={false}
+            >
+              취소
+            </Button.Ghost>
             <Button.Solid
               type="submit"
               color="Main"
               active={formState.isValid}
-              disabled={isPending}
+              disabled={!isActiveBtn && isPending}
             >
               확인
             </Button.Solid>
