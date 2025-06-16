@@ -19,7 +19,7 @@ const LandingLoginToast = () => {
   useEffect(() => {
     if (!hasHydrated) return;
     if (shownRef.current) return;
-
+    console.log(isLoggedIn, wasLoggedIn);
     if (isLoggedIn === false && wasLoggedIn) {
       toast.error("로그인이 만료되었습니다.");
       setWasLoggedIn(null);
