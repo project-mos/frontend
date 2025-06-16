@@ -6,8 +6,8 @@ import Button from "@/shared/components/atoms/Button";
 import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
 
-import { useGetStudySchedule } from "@/features/study-room/services/study-room.service";
 import { useParams } from "next/navigation";
+import { useGetStudySchedule } from "@/features/study-room/hooks/useStudyRoomQueries";
 
 const StudyRoomIntendedCard = () => {
   const params = useParams() as { id: string };

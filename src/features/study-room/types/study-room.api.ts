@@ -78,3 +78,11 @@ export interface FileInterface {
   studyMemberId: number;
   userId: number;
 }
+
+export interface PostStudySchedule {
+  curriculumIds: number[];
+  title: string;
+  description: string;
+  startDateTime: string;
+  endDateTime: string;
+}

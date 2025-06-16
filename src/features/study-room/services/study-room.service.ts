@@ -1,6 +1,6 @@
 import { API_ENDPOINT } from "@/shared/constants/api-end-point";
 import { fetchAPI } from "@/shared/utils/fetch";
-import { useQuery } from "@tanstack/react-query";
+
 import {
   AttendanceRequest,
   EditBenefitRequest,
@@ -12,6 +12,7 @@ import {
   GetMaterialsRequest,
   GetMaterialsResponse,
   GetStudySchedule,
+  PostStudySchedule,
   UploadMaterialsRequest,
 } from "../types/study-room.api";
 
@@ -118,12 +119,18 @@ export async function getStudySchedule(studyId: string) {
   });
 }
 
-export function useGetStudySchedule(studyId: string) {
-  return useQuery({
-    queryKey: ["studySchedule", studyId],
-    queryFn: () => getStudySchedule(studyId),
-    staleTime: 3600,
-    enabled: !!studyId,
+export async function postStudySchedule(
+  studyId: string,
+  data: PostStudySchedule
+) {
+  const { url, method } = API_ENDPOINT.study.postStudySchedule(studyId);
+  return await fetchAPI<GetStudySchedule[]>(url, {
+    method: method,
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
   });
 }
 
