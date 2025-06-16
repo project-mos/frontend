@@ -22,6 +22,11 @@ const nextConfig: NextConfig = {
   compiler: {
     removeConsole: isProduction,
   },
+  // 외부 이미지 호스트 허용 설정
+  images: {
+    domains: ["mos-data-bucket.s3.amazonaws.com"],
+  },
+  
 };
 
 export default nextConfig;
