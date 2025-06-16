@@ -8,7 +8,7 @@ import Meta from "@/shared/components/molecules/Meta";
 import "highlight.js/styles/github-dark.css";
 
 import ShareButton from "@/app/studies/components/applyStudy/ShareButton";
-import profileImg from "@/asset/images/profile_example.jpeg";
+import profileImg from "@/asset/images/defaultProfile.png";
 import {
   GetStudyBenefitsResponse,
   GetStudyDetailResponse,
