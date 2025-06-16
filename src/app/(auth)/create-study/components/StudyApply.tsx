@@ -95,7 +95,12 @@ const StudyApply = () => {
           ))}
       </Card.Content>
       <Card.Footer className="mt-7 flex justify-end">
-        <Button.Ghost onClick={handleAddQuestion} color="Main" type="button">
+        <Button.Ghost
+          active
+          onClick={handleAddQuestion}
+          color="Main"
+          type="button"
+        >
           <i className="bi bi-plus text-[20px]"></i>
           질문 추가
         </Button.Ghost>

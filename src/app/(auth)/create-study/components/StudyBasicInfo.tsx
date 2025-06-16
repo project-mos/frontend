@@ -5,10 +5,15 @@ import LabelInput from "@/shared/components/molecules/LabelInput";
 import LabelInputDate from "@/shared/components/molecules/LabelInputDate";
 import LabelNumberInput from "@/shared/components/molecules/LabelNumberInput";
 import LabelSelectInput from "@/shared/components/molecules/LabelSelectInput";
+import { useFormContext } from "react-hook-form";
 import LabelTagInput from "./LabelTagInput";
 
 const StudyBasicInfo = () => {
   const categoryList = ["프로그래밍", "어학", "자격증", "독서", "취미"];
+
+  const { watch } = useFormContext();
+  const recruitmentStartDate =
+    watch("recruitmentStartDate") || new Date().toISOString().split("T")[0];
 
   return (
     <Card className="pb-[40px]">
@@ -47,6 +52,10 @@ const StudyBasicInfo = () => {
             required
             registerOptions={{
               required: "모집 시작일을 선택해주세요",
+              min: {
+                value: new Date().toISOString().split("T")[0],
+                message: "모집 시작 날짜는 오늘 이후여야 합니다.",
+              },
             }}
           />
           <LabelInputDate
@@ -55,6 +64,10 @@ const StudyBasicInfo = () => {
             required
             registerOptions={{
               required: "모집 마감일을 선택해주세요",
+              min: {
+                value: recruitmentStartDate,
+                message: "모집 마감 날짜는 시작 날짜 이후여야 합니다.",
+              },
             }}
           />
         </div>

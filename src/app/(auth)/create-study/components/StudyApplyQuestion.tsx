@@ -149,6 +149,7 @@ const StudyApplyQuestion = ({ i, index, onRemove }: QuestionProps) => {
       <div className="flex justify-between">
         <Typography.Head3 className="text-mos-main-500">Q{i}</Typography.Head3>
         <Button.Ghost
+          active
           color="Red"
           type="button"
           onClick={onRemove}
