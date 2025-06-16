@@ -187,12 +187,12 @@ export async function getMyJoinedStudies(
 }
 
 export function myJoinedStudiesQueryOption(
-  userId: string,
+  userId: number,
   options?: UseQueryOptions<GetMyJoinedStudiesResult[], Error>
 ) {
   return {
     queryKey: ["myJoinedStudies"],
-    queryFn: () => getMyJoinedStudies(userId),
+    queryFn: () => getMyJoinedStudies(userId.toString()),
     enabled: !!userId,
     ...options,
   };

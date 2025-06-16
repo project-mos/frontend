@@ -1,13 +1,7 @@
 import CreateStudyForm from "@/features/create-study/form/CreateStudyForm";
-import LandingLoginToast from "@/features/landing/components/LandingLoginToast";
 
 const CreateStudyPage = async () => {
-  return (
-    <div>
-      <LandingLoginToast />
-      <CreateStudyForm />
-    </div>
-  );
+  return <CreateStudyForm />;
 };
 
 export default CreateStudyPage;

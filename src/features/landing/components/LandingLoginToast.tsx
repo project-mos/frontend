@@ -1,6 +1,5 @@
 "use client";
 
-import URL from "@/shared/constants/URL";
 import { useToast } from "@/shared/hooks/useToast";
 import { useAuthStore } from "@/shared/store/authStore";
 import { useEffect, useRef } from "react";
@@ -23,7 +22,6 @@ const LandingLoginToast = () => {
 
     if (isLoggedIn === false && wasLoggedIn) {
       toast.error("로그인이 만료되었습니다.");
-      window.location.href = URL.HOME;
       setWasLoggedIn(null);
     }
 

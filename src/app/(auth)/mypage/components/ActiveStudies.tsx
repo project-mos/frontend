@@ -164,7 +164,7 @@ const ActiveStudies = () => {
 
   // 참여 중인 스터디 조회
   const { data: myJoinedStudiesData } = useQuery(
-    myJoinedStudiesQueryOption(userId!.toString())
+    myJoinedStudiesQueryOption(userId!)
   );
 
   // 나의 지원 현황 조회
