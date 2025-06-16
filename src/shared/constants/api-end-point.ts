@@ -111,6 +111,13 @@ export const API_ENDPOINT = {
         method: Method.GET,
       };
     },
+    // 스터디 일정 목록 생성
+    postStudySchedule: (studyId: string) => {
+      return {
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/schedules`,
+        method: Method.POST,
+      };
+    },
   },
   requirement: {
     getRequirement: (studyId: string) => {
@@ -282,6 +289,29 @@ export const API_ENDPOINT = {
       return {
         url,
         method: Method.PATCH,
+      };
+    },
+  },
+  materials: {
+    upload: (studyId: string) => {
+      const url = `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/materials`;
+      return {
+        url,
+        method: Method.POST,
+      };
+    },
+    getMaterials: (studyId: string) => {
+      const url = `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/materials`;
+      return {
+        url,
+        method: Method.GET,
+      };
+    },
+    getMaterial: (studyId: string, materialId: string) => {
+      const url = `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/materials/${materialId}`;
+      return {
+        url,
+        method: Method.GET,
       };
     },
   },

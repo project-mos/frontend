@@ -13,11 +13,7 @@ import Typography from "@/shared/components/atoms/Typography";
 import LabelTextAreaInput from "@/shared/components/molecules/LabelTextAreaInput";
 
 import LabelRadioInput from "@/shared/components/molecules/LabelRadioInput";
-import {
-  useGetJoins,
-  usePatchJoin,
-  usePostJoin,
-} from "@/features/studies/services/studies.service";
+
 import { useTokenStore } from "@/shared/store/authStore";
 import { useToast } from "@/shared/hooks/useToast";
 
@@ -29,6 +25,11 @@ import {
   PostStudyJoin,
   StudyJoin,
 } from "@/features/studies/types/studies.api";
+import {
+  useGetJoins,
+  usePostJoin,
+  usePatchJoin,
+} from "@/features/studies/hooks/useStudiesQueries";
 
 interface ApplyFormCardInterface {
   studyId: string;

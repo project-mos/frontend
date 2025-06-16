@@ -1,34 +1,9 @@
 import {
-  StudyCurriculumCardInterface,
   StudyManageCardInterface,
   StudyMemberAttendanceInterface,
   StudyMemberInterface,
   StudyNoticeCardInterface,
 } from "@/features/study-room/types/study-room.type";
-
-import { generateUUID } from "@/shared/utils/generateUUID";
-
-// <CurriculumCard/> 에 쓰일 mock data
-export const MockCurriculumCardApiResult: StudyCurriculumCardInterface[] = [
-  {
-    id: generateUUID(),
-    step: "알고리즘 기초",
-    title: "알고리즘 기초와 복잡도",
-    content: "시간 복잡도, 공간 복잡도, 빅오 표기법에 대해 학습합니다.",
-  },
-  {
-    id: generateUUID(),
-    step: "자료구조",
-    title: "배열과 연결 리스트",
-    content: "기본 자료구조인 배열과 연결 리스트의 특징과 활용법을 학습합니다.",
-  },
-  {
-    id: generateUUID(),
-    step: "자료구조",
-    title: "스택과 큐",
-    content: "스택과 큐의 개념, 구현 방법, 실전 문제 풀이를 진행합니다.",
-  },
-];
 
 // <NoticeCard/> 에 쓰일 mock data
 export const MockNoticeCardApiResult: StudyNoticeCardInterface[] = [
@@ -38,6 +13,8 @@ export const MockNoticeCardApiResult: StudyNoticeCardInterface[] = [
     content:
       "매주 화요일 오후 8시에 진행되며, 스터디 전 자료를 미리 읽어와 주시기 바랍니다!",
     writer: "작성자: 홍길동 • 2024-02-20",
+    isImportantNoticeChecked: true,
+    isPinned:false
   },
   {
     id: 2,
@@ -45,6 +22,8 @@ export const MockNoticeCardApiResult: StudyNoticeCardInterface[] = [
     content:
       "매주 화요일 오후 8시에 진행되며, 스터디 전 자료를 미리 읽어와 주시기 바랍니다.",
     writer: "작성자: 홍길동 • 2024-02-25",
+    isImportantNoticeChecked: false,
+    isPinned:false
   },
 ];
 

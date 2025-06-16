@@ -10,16 +10,28 @@ import Typography from "@/shared/components/atoms/Typography";
 import LabelInput from "@/shared/components/molecules/LabelInput";
 
 import LabelTextAreaInput from "@/shared/components/molecules/LabelTextAreaInput";
-import { StudyScheduleInterface } from "@/shared/types/api/studies/detail";
-import { useEffect, useState } from "react";
-import Checkbox from "@/shared/components/atoms/Checkbox";
+
 import Card from "@/shared/components/atoms/Card";
 import LabelInputDateLocal from "@/shared/components/molecules/LabelDateTimeLocal";
 import { formatNowDate, formatSeoulDate, nowDate } from "@/shared/utils/date";
 
+import { useParams } from "next/navigation";
+
+import clsx from "clsx";
+import {
+  useGetCurriculums,
+  usePostStudySchedule,
+} from "@/features/study-room/hooks/useStudyRoomQueries";
+import { useEffect } from "react";
+import {
+  GetStudySchedule,
+  PostStudySchedule,
+} from "@/features/study-room/types/study-room.api";
+import Label from "@/shared/components/molecules/Label";
+
 // success, close 시 실행할 함수들을 부모로부터 받음
 interface ScheduleModalProps extends ModalProps {
-  selectData?: StudyScheduleInterface;
+  selectData?: GetStudySchedule;
   onSuccess: () => void;
   onClose: ModalOnClose;
 }
@@ -30,22 +42,28 @@ const ScheduleModal = ({
   selectData,
   ...props
 }: ScheduleModalProps) => {
-  const methods = useForm<StudyScheduleInterface>({
+  const methods = useForm<PostStudySchedule>({
     defaultValues: {
       startDateTime: formatNowDate("YYYY-MM-DDTHH:mm"),
       endDateTime: "",
       title: "",
       description: "",
-      studyCurriculumResList: [],
+      curriculumIds: [],
     },
   });
-  const [isUsingCurriculum, setIsUsingCurriculum] = useState(false);
+
+  const { id } = useParams() as { id: string };
+  const { data: curriculumsData } = useGetCurriculums(id);
+  const { mutate: postStudyScheduleMutate } = usePostStudySchedule(id);
+
   const startDateTime = methods.watch("startDateTime");
   const endDateTime = methods.watch("endDateTime");
+  const curriculumIds = methods.watch("curriculumIds");
 
   const isSelect = !!selectData;
-  const onSubmit = (data: StudyScheduleInterface) => {
-    console.log("data", data);
+
+  const onSubmit = (data: PostStudySchedule) => {
+    postStudyScheduleMutate(data);
     onSuccess();
     onCloses();
   };
@@ -57,13 +75,9 @@ const ScheduleModal = ({
       endDateTime: "",
       title: "",
       description: "",
-      studyCurriculumResList: [],
+      curriculumIds: [],
     });
     onClose();
-  };
-
-  const checkboxChangeHandler = () => {
-    setIsUsingCurriculum(!isUsingCurriculum);
   };
 
   useEffect(() => {
@@ -109,14 +123,14 @@ const ScheduleModal = ({
             <div className="flex flex-col gap-2">
               <Typography.SubTitle1>스터디 시간</Typography.SubTitle1>
               <div className="flex flex-col gap-5">
-                <LabelInputDateLocal<StudyScheduleInterface>
+                <LabelInputDateLocal<PostStudySchedule>
                   label="시작 일자"
                   name="startDateTime"
                   min={formatNowDate("YYYY-MM-DDTHH:mm")}
                   required
                   registerOptions={{ required: "시작일자를 입력해주세요." }}
                 />
-                <LabelInputDateLocal<StudyScheduleInterface>
+                <LabelInputDateLocal<PostStudySchedule>
                   label="종료 일자"
                   min={startDateTime}
                   name="endDateTime"
@@ -129,49 +143,59 @@ const ScheduleModal = ({
             </div>
 
             <div className="flex flex-col gap-2">
-              <div className="flex flex-col gap-2 ">
-                <Typography.SubTitle1>스터디 내용</Typography.SubTitle1>
-                <div className="flex items-center gap-2">
-                  <Checkbox
-                    onChange={checkboxChangeHandler}
-                    defaultChecked={isUsingCurriculum}
-                  />
-                  <Typography.P3 className="text-[12px]">
-                    커리큘럼에서 가져오기
-                  </Typography.P3>
-                </div>
+              <Typography.SubTitle1>스터디 내용</Typography.SubTitle1>
+              <div className="flex flex-col gap-7">
+                <LabelInput<PostStudySchedule>
+                  label="제목"
+                  name="title"
+                  placeholder="제목을 입력하세요"
+                  registerOptions={{ required: "그만하쇼" }}
+                  required
+                />
+                <LabelTextAreaInput
+                  label="내용"
+                  name="description"
+                  className="w-full"
+                  placeholder="내용을 입력하세요"
+                />
+                {curriculumsData && (
+                  <div>
+                    <Label label="커리큘럼" />
+                    <div className="flex gap-2 overflow-x-scroll">
+                      {curriculumsData.map((item, index) => {
+                        const isCheck = curriculumIds.includes(item.sectionId);
+                        return (
+                          <CurriCulumCard
+                            key={`${item.title}_${index}`}
+                            title={item.title}
+                            content={item.content}
+                            isCheck={isCheck}
+                            onClick={() => {
+                              let currentCurriculumIds: number[];
+                              // 체크 되어있을때 누르면 해제
+                              if (isCheck) {
+                                currentCurriculumIds = curriculumIds.filter(
+                                  (id) => id !== item.sectionId
+                                );
+                                // 체크(중복 확인)
+                              } else {
+                                currentCurriculumIds = [
+                                  ...curriculumIds,
+                                  item.sectionId,
+                                ];
+                              }
+                              methods.setValue(
+                                "curriculumIds",
+                                currentCurriculumIds
+                              );
+                            }}
+                          />
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
               </div>
-
-              {isUsingCurriculum ? (
-                <div className="flex gap-2 overflow-x-scroll">
-                  {selectData?.studyCurriculumResList.map((item, index) => {
-                    return (
-                      <CurriCulumCard
-                        key={`${item.title}_${index}`}
-                        title={item.title}
-                        content={item.content}
-                        // description={item.content}
-                      />
-                    );
-                  })}
-                </div>
-              ) : (
-                <div className="flex flex-col gap-7">
-                  <LabelInput<StudyScheduleInterface>
-                    label="제목"
-                    name="title"
-                    placeholder="제목을 입력하세요"
-                    registerOptions={{ required: "그만하쇼" }}
-                    required
-                  />
-                  <LabelTextAreaInput
-                    label="내용"
-                    name="description"
-                    className="w-full"
-                    placeholder="내용을 입력하세요"
-                  />
-                </div>
-              )}
             </div>
           </Modal.Content>
 
@@ -196,12 +220,23 @@ const ScheduleModal = ({
 export const CurriCulumCard = ({
   title,
   content,
+  isCheck,
+  onClick,
 }: {
   title: string;
   content: string;
+  isCheck: boolean;
+  onClick: () => void;
 }) => {
   return (
-    <Card className="mb-2 min-w-[180px] max-w-[180px] p-3 shadow-none">
+    <Card
+      className={clsx(
+        "mb-2 min-w-[180px] max-w-[180px] cursor-pointer p-3 shadow-none transition-all",
+        "hover:border-mos-main",
+        isCheck && "border-mos-main bg-mos-main-100"
+      )}
+      onClick={onClick}
+    >
       <Card.Header>
         <Typography.P3 className="font-bold text-mos-main">
           {title}

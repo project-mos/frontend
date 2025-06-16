@@ -8,12 +8,13 @@ import StudyRoomSessionCard from "@/app/(auth)/study-room/components/layout/Stud
 import ActionConfirmModal from "@/shared/components/molecules/ActionConfirmModal";
 import useMultiModal from "@/shared/hooks/useMultiModal";
 
-import { StudyScheduleInterface } from "@/shared/types/api/studies/detail";
 import { useState } from "react";
 import ScheduleModal from "./ScheduleModal";
-import { useGetStudySchedule } from "@/features/study-room/services/study-room.service";
+
 import { useParams } from "next/navigation";
 import { GetStudySchedule } from "@/features/study-room/types/study-room.api";
+import { useMyStudyRole } from "@/features/studies/hooks/useStudiesQueries";
+import { useGetStudySchedule } from "@/features/study-room/hooks/useStudyRoomQueries";
 
 type ScheduleType = "upcoming" | "past";
 
@@ -25,25 +26,27 @@ interface ScheduleListProps {
 const ScheduleCard = () => {
   // const { modal, openModal, closeModal } = useModal();
   const { modal, openModal, closeModal } = useMultiModal();
-  const params = useParams() as { id: string };
+  const { id: studyId } = useParams() as { id: string };
 
-  const { data: scheduleData } = useGetStudySchedule(params.id);
+  const { data: scheduleData } = useGetStudySchedule(studyId);
+  const isAdmin = useMyStudyRole(studyId) === "스터디장";
 
-  const [selectStudyData, setSelectStudyData] =
-    useState<StudyScheduleInterface>();
+  const [selectStudyData, setSelectStudyData] = useState<GetStudySchedule>();
 
   // const handleEdit = (id: number) => {
-  //   const hasData = MockStudyScheduleApiResult.length > 0;
-  //   if (hasData) {
-  //     const findData = MockStudyScheduleApiResult.find(
-  //       (item) => item.studyId === id
-  //     );
-  //     if (findData) {
-  //       setSelectStudyData(findData);
-  //       openModal("schedule");
-  //     } else {
-  //       throw "Not Found Data";
+  //   if (scheduleData) {
+  //     const hasData = scheduleData.length > 0;
+  //     if (hasData) {
+  //       const findData = scheduleData.find((item) => item.studyId === id);
+  //       if (findData) {
+  //         setSelectStudyData(findData);
+  //         openModal("schedule");
+  //       } else {
+  //         throw "Not Found Data";
+  //       }
   //     }
+  //   } else {
+  //     throw "Not Found Data";
   //   }
   // };
 
@@ -64,11 +67,12 @@ const ScheduleCard = () => {
         <StudyScheduleCard
           title="예정된 스터디 일정"
           onAdd={() => openModal("schedule")}
+          isAdmin={isAdmin}
           // onDelete={() => openModal("schedule_delete_confirm")}
         >
           <ScheduleList scheduleData={scheduleData} type="upcoming" />
         </StudyScheduleCard>
-        <StudyScheduleCard title="마감된 스터디 일정">
+        <StudyScheduleCard title="마감된 스터디 일정" isAdmin={isAdmin}>
           <ScheduleList scheduleData={scheduleData} type="past" />
         </StudyScheduleCard>
       </div>
@@ -90,14 +94,16 @@ const StudyScheduleCard = ({
   onAdd,
   // onDelete,
   children,
+  isAdmin,
 }: {
   title: string;
   onAdd?: () => void;
   // onDelete?: () => void;
   children: React.ReactNode;
+  isAdmin: boolean;
 }) => {
   return (
-    <Card className="mb-3 max-h-[400px] overflow-y-auto pt-0 tablet:max-h-[310px]">
+    <Card className="mb-3 max-h-[400px] min-h-52 overflow-y-auto pt-0 tablet:max-h-[310px]">
       <Card.Header className="sticky top-0 z-[1] flex flex-col justify-between gap-3 bg-white py-4">
         <div className="flex w-full justify-between">
           <Typography.SubTitle1>{title}</Typography.SubTitle1>
@@ -107,7 +113,7 @@ const StudyScheduleCard = ({
                 삭제
               </Button.Ghost>
             )} */}
-            {onAdd && (
+            {isAdmin && onAdd && (
               <Button.Solid color="Main" active size="sm" onClick={onAdd}>
                 <i className="bi bi-plus text-xl" /> 일정 추가
               </Button.Solid>
