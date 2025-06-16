@@ -5,7 +5,7 @@ import Card from "@/shared/components/atoms/Card";
 import Profile from "@/shared/components/atoms/Profile";
 import Typography from "@/shared/components/atoms/Typography";
 
-import profileImg from "@/asset/images/profile_example.jpeg";
+import profileImg from "@/asset/images/defaultProfile.png";
 import ActionConfirmModal from "@/shared/components/molecules/ActionConfirmModal";
 import useMultiModal from "@/shared/hooks/useMultiModal";
 import ProfileModal from "@/app/(auth)/mypage/components/ProfileModal";
@@ -21,9 +21,7 @@ const ProfileCard = () => {
   const {
     nickname = "이름",
     introduction = "한 줄 소개를 등록해 주세요.",
-    // categories,
-    profileImage = profileImg,
-    // joinDate = "0000-00-00",
+    imagePath = profileImg,
   } = userInfo || {};
 
   const handleClickLogOut = () => {
@@ -37,7 +35,7 @@ const ProfileCard = () => {
           <Profile
             width={160}
             height={160}
-            src={profileImage}
+            src={imagePath}
             className="mt-[45px]"
           />
           <Typography.Head3>{nickname}</Typography.Head3>
