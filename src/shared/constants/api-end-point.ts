@@ -41,6 +41,13 @@ export const API_ENDPOINT = {
         method: Method.PATCH,
       };
     },
+    // 유저 프로필 이미지 수정
+    updateProfileImg: () => {
+      return {
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/users/images`,
+        method: Method.PATCH,
+      }
+    },
     // 캘린더 일정 조회
     getMySchedules: () => {
       return {
