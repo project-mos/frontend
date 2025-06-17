@@ -126,9 +126,42 @@ export async function createStudy({ form }: CreateStudyRequest) {
   });
 }
 
+const convertToWebP = (file: File): Promise<Blob> => {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      img.src = reader.result as string;
+    };
+
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return reject("Canvas context 불러오기 실패");
+
+      ctx.drawImage(img, 0, 0);
+      canvas.toBlob(
+        (blob) => {
+          if (blob) resolve(blob);
+          else reject("WebP 변환 실패");
+        },
+        "image/webp",
+        0.8 // 품질: 0~1
+      );
+    };
+
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+};
+
 export async function uploadImage({ file }: UploadImageRequest) {
+  const convertedImage = await convertToWebP(file);
   const formData = new FormData();
-  formData.append("file", file);
+  formData.append("file", convertedImage);
   formData.append("type", "TEMP");
 
   const { url, method } = API_ENDPOINT.study.uploadImage();

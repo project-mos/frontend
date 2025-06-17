@@ -10,7 +10,10 @@ import Modal, {
 } from "@/shared/components/atoms/Modal";
 import Typography from "@/shared/components/atoms/Typography";
 
-import { usePostUserInfo } from "@/features/mypage/services/mypage.service";
+import {
+  usePostProfileImg,
+  usePostUserInfo,
+} from "@/features/mypage/services/mypage.service";
 import LabelInput from "@/shared/components/molecules/LabelInput";
 import { useToast } from "@/shared/hooks/useToast";
 import { GetUserInfoResult } from "@/shared/types/api/mypage";
@@ -23,7 +26,7 @@ interface ProfileModalProps extends ModalProps {
 }
 
 interface ProfileData {
-  img?: File;
+  imagePath?: File | string;
   nickname: string;
   introduction: string;
   categories: string[];
@@ -36,38 +39,40 @@ const ProfileModal = ({
   ...props
 }: ProfileModalProps) => {
   const queryClient = useQueryClient();
+  const { success, error } = useToast();
+  const { nickname, introduction, imagePath } = userInfoData || {};
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [previewState, setPreviewState] = useState<string | undefined>(preview);
   const methods = useForm<ProfileData>({
     defaultValues: {
-      nickname: "",
-      introduction: "",
-      categories: [],
+      imagePath: imagePath || "",
+      nickname: nickname || "",
+      introduction: introduction || "",
+      categories: ["HOBBY"], // 백엔드 카테고리 제거되면 뺴야 함
     },
     mode: "onChange",
   });
-  const [previewState, setPreviewState] = useState<string | undefined>(preview);
   const { handleSubmit, reset, control, formState } = methods;
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const { success, error } = useToast();
-
-  const {
-    nickname,
-    introduction,
-    // categories,
-    // profileImage = profileImg,
-    // joinDate = "0000-00-00",
-  } = userInfoData || {};
+  const isActiveBtn =
+    formState.isValid &&
+    !!methods.watch("nickname") &&
+    !!methods.watch("introduction");
 
   useEffect(() => {
     if (userInfoData) {
       reset({
+        imagePath: imagePath || "",
         nickname: nickname || "",
         introduction: introduction || "",
         categories: ["HOBBY"], // 백엔드 카테고리 제거되면 뺴야 함
       });
+      // 프로필 이미지 미리보기 상태 업데이트
+      setPreviewState(imagePath ? String(imagePath) : preview);
     }
   }, [userInfoData, reset, introduction, nickname]);
 
-  const { mutate, isPending } = usePostUserInfo({
+  // 닉네임, 한 줄 소개 수정 API
+  const { mutate: updateUserInfo, isPending } = usePostUserInfo({
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["userInfo"],
@@ -83,14 +88,46 @@ const ProfileModal = ({
     },
   });
 
+  // 프로필 이미지 업데이트 API
+  const { mutate: updateUserProfileImg } = usePostProfileImg();
+
   const onSubmit = (data: ProfileData) => {
-    const submitData = { ...data }; // data 객체 복사
-    delete submitData.img; // 백엔드 요청 데이터에 맞게 우선 img 빼둠
-    mutate(submitData); // API 호출
+    const { imagePath, ...rest } = data;
+
+    // 이미지 처리
+    if (imagePath instanceof File) {
+      const formData = new FormData();
+      formData.append("file", imagePath);
+      formData.append("type", "USER");
+
+      // 이미지 업로드 API 호출
+      updateUserProfileImg(
+        {
+          file: formData.get("file") as File,
+          type: formData.get("type") as string,
+        },
+        {
+          onSuccess: () => {
+            // 이미지 업로드 성공 시 받은 나머지 사용자 정보 업데이트
+            updateUserInfo({
+              ...rest,
+            });
+          },
+          onError: (err) => {
+            error("프로필 이미지 수정 실패했습니다. 다시 시도해 주세요.");
+            console.log(err);
+          },
+        }
+      );
+    } else {
+      // 새 이미지가 없는 경우 기본 정보만 업데이트
+      updateUserInfo({
+        ...rest,
+      });
+    }
   };
 
   const onClickCloseBtn = () => {
-    setPreviewState(preview);
     reset();
     onClose();
   };
@@ -114,7 +151,7 @@ const ProfileModal = ({
             <div className="flex justify-center">
               <div className="max-h-40 max-w-40">
                 <Controller
-                  name="img"
+                  name="imagePath"
                   control={control}
                   rules={{
                     required: previewState ? false : "이미지를 넣어주세요.", // previewState가 있으면 required 무시
@@ -181,20 +218,21 @@ const ProfileModal = ({
               required
               registerOptions={{ required: "필수 입력입니다." }}
             />
-            {/* <LabelTagInput
-              name="tags"
-              label="태그"
-              placeholder="태그를 입력하세요"
-            /> */}
           </Modal.Content>
 
           <Modal.Footer>
-            <Button.Default onClick={onClickCloseBtn}>취소</Button.Default>
+            <Button.Ghost
+              color="Gray"
+              onClick={onClickCloseBtn}
+              disabled={false}
+            >
+              취소
+            </Button.Ghost>
             <Button.Solid
               type="submit"
               color="Main"
               active={formState.isValid}
-              disabled={isPending}
+              disabled={!isActiveBtn && isPending}
             >
               확인
             </Button.Solid>

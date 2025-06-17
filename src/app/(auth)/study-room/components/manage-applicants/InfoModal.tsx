@@ -8,7 +8,7 @@ import Modal, {
 import Profile from "@/shared/components/atoms/Profile";
 import Typography from "@/shared/components/atoms/Typography";
 
-import profileImg from "@/asset/images/profile_example.jpeg";
+import profileImg from "@/asset/images/defaultProfile.png";
 import { StudyManageCardInterface } from "@/features/study-room/types/study-room.type";
 
 interface CurriculumModalProps extends ModalProps {

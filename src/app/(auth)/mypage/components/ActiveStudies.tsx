@@ -14,7 +14,6 @@ import {
 } from "@/features/mypage/services/mypage.service";
 import URL from "@/shared/constants/URL";
 import useDecodeToken from "@/shared/hooks/useDecodeToken";
-import { useTokenStore } from "@/shared/store/authStore";
 import { useApplyStatusStore } from "@/shared/store/useApplyStatusStore";
 import { useMyJoinedStudyStore } from "@/shared/store/useMyJoinedStudyStore";
 import {
@@ -151,8 +150,7 @@ const ApplyList = ({ data }: { data: GetMyApplyStatusResult[] }) => {
 };
 
 const ActiveStudies = () => {
-  const { accessToken } = useTokenStore();
-  const decoded = useDecodeToken(accessToken);
+  const decoded = useDecodeToken();
   const userId = decoded?.id;
 
   const [selectedTabState, setSelectedTabState] =
@@ -166,7 +164,7 @@ const ActiveStudies = () => {
 
   // 참여 중인 스터디 조회
   const { data: myJoinedStudiesData } = useQuery(
-    myJoinedStudiesQueryOption(userId)
+    myJoinedStudiesQueryOption(userId!)
   );
 
   // 나의 지원 현황 조회

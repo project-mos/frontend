@@ -44,9 +44,9 @@ const ActionConfirmModal = ({
         <Typography.P3>{content}</Typography.P3>
       </Modal.Content>
       <Modal.Footer>
-        <Button.Solid onClick={onClose} color="Gray" size="sm">
+        <Button.Ghost onClick={onClose} color="Gray" size="sm" disabled={false}>
           취소
-        </Button.Solid>
+        </Button.Ghost>
         <Button.Solid
           onClick={onSuccess}
           color={danger ? "Red" : "Main"}

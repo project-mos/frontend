@@ -18,7 +18,7 @@ export interface GetUserInfoResult {
   nickname: string;
   introduction: string;
   categories: string[];
-  profileImage: string;
+  imagePath: string;
   joinDate: string;
 }
 
@@ -27,6 +27,12 @@ export interface UpdateUserInfoResult {
   introduction: string;
   categories: string[];
 }
+
+export interface UpdateProfileImgResult {
+  file: File;
+  type: string;
+}
+
 
 export interface GetMyApplyStatusResult {
   studyId: number;
