@@ -1,6 +1,6 @@
 "use client";
 
-import profileImg from "@/asset/images/profile_example.jpeg";
+import profileImg from "@/asset/images/defaultProfile.png";
 import { StudyMemberAttendanceInterface } from "@/features/study-room/types/study-room.type";
 import Button from "@/shared/components/atoms/Button";
 import Modal, {
