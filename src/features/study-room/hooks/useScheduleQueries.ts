@@ -1,15 +1,15 @@
+import { deleteStudySchedule } from "@/features/mypage/services/mypage.service";
 import {
-  deleteStudySchedule,
   getStudySchedule,
   postStudySchedule,
   putStudySchedule,
-} from "@/features/study-room/services/schedule.service";
+} from "@/features/study-room/services/study-room.service";
 import { PostStudySchedule } from "@/features/study-room/types/study-room.api";
 import { useToast } from "@/shared/hooks/useToast";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 // 스터디 일정 조회
-export function useGetStudySchedule(studyId: string) {
+export function useGetStudySchedule(studyId: number) {
   return useQuery({
     queryKey: ["studySchedule", studyId],
     queryFn: () => getStudySchedule(studyId),
@@ -27,7 +27,7 @@ export function useGetStudySchedule(studyId: string) {
 }
 
 // 스터디 일정 추가
-export function usePostStudySchedule(studyId: string) {
+export function usePostStudySchedule(studyId: number) {
   const queryClient = useQueryClient();
   const toast = useToast();
 
@@ -54,12 +54,12 @@ export function usePutStudySchedule(studyId: number) {
   return useMutation({
     mutationKey: ["studySchedule", studyId],
     mutationFn: ({
-      scheduleId,
+      studyScheduleId,
       data,
     }: {
-      scheduleId: number;
+      studyScheduleId: number;
       data: PostStudySchedule;
-    }) => putStudySchedule(studyId, scheduleId, data),
+    }) => putStudySchedule({ studyId, studyScheduleId, data }),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["studySchedule", studyId],
@@ -72,7 +72,7 @@ export function usePutStudySchedule(studyId: number) {
   });
 }
 
-// 스터디 일정 수정
+// 스터디 일정 삭제
 export function useDeleteStudySchedule(studyId: number) {
   const queryClient = useQueryClient();
   const toast = useToast();
