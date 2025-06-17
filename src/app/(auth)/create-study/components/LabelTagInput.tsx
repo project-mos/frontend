@@ -56,7 +56,7 @@ const LabelTagInput = ({
         />
         <Button.Ghost
           type="button"
-          active
+          disabled={false}
           onClick={handleClickAddButton}
           color="Main"
           className="h-[47px] w-[50px] rounded-l-none"

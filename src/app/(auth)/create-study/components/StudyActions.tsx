@@ -17,7 +17,7 @@ const StudyActions = ({
         {solidLabel}
       </Button.Solid>
       <Button.Ghost
-        active
+        disabled={false}
         onClick={onClickBackButton}
         type="button"
         color="Gray"

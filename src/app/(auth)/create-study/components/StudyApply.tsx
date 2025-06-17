@@ -96,7 +96,7 @@ const StudyApply = () => {
       </Card.Content>
       <Card.Footer className="mt-7 flex justify-end">
         <Button.Ghost
-          active
+          disabled={false}
           onClick={handleAddQuestion}
           color="Main"
           type="button"

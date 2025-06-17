@@ -92,6 +92,7 @@ const Option = ({
         }}
       />
       <Button.Ghost
+        disabled={false}
         type="button"
         color="Red"
         className="h-[42px] w-[50px] rounded-l-none bg-gray-100"
@@ -128,6 +129,7 @@ const OptionBox = ({ index }: { index: number }) => {
       )}
 
       <Button.Ghost
+        disabled={false}
         onClick={handleAddOption}
         color="Main"
         className="bg-gray-100"
@@ -149,7 +151,7 @@ const StudyApplyQuestion = ({ i, index, onRemove }: QuestionProps) => {
       <div className="flex justify-between">
         <Typography.Head3 className="text-mos-main-500">Q{i}</Typography.Head3>
         <Button.Ghost
-          active
+          disabled={false}
           color="Red"
           type="button"
           onClick={onRemove}

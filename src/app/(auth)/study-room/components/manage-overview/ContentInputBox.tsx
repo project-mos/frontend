@@ -48,6 +48,7 @@ const InlineInput = ({
       placeholder={placeholder}
     />
     <Button.Ghost
+      disabled={false}
       type="button"
       color="Main"
       className="h-[47px] w-[50px] rounded-l-none"
