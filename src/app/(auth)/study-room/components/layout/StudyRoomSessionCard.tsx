@@ -3,18 +3,26 @@ import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
 import { StudyScheduleInterface } from "@/shared/types/api/studies/detail";
 import { formatDate } from "@/shared/utils/date";
+import clsx from "clsx";
 
 const StudyRoomSessionCard = ({
   handleEdit,
   handleDelete,
   data,
+  className,
 }: {
   data: StudyScheduleInterface;
-  handleEdit?: (data: number) => void;
-  handleDelete?: (data: number) => void;
+  className?: string;
+  handleEdit?: (id: number) => void;
+  handleDelete?: (id: number) => void;
 }) => {
   return (
-    <Card className="col-span-12 gap-3 shadow-none mobile:gap-1 tablet:col-span-10">
+    <Card
+      className={clsx(
+        "col-span-12 gap-3 shadow-none mobile:gap-1 tablet:col-span-10",
+        className
+      )}
+    >
       <Card.Header className="relative justify-between">
         <div className="flex w-full flex-wrap gap-1">
           <Badge color="Blue">
@@ -32,13 +40,13 @@ const StudyRoomSessionCard = ({
             {handleEdit && (
               <i
                 className="bi bi-pencil-square cursor-pointer transition-all duration-200 hover:text-mos-main"
-                onClick={() => handleEdit(data.studyId)}
+                onClick={() => handleEdit(data.studyScheduleId)}
               ></i>
             )}
             {handleDelete && (
               <i
                 className="bi bi-trash cursor-pointer transition-all duration-200 hover:text-red-400"
-                onClick={() => handleDelete(data.studyId)}
+                onClick={() => handleDelete(data.studyScheduleId)}
               ></i>
             )}
             {/* {handleCheckbox && (
