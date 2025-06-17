@@ -10,18 +10,26 @@ const StudyRoomSessionCard = ({
   handleDelete,
   data,
   className,
+  onClick,
 }: {
   data: StudyScheduleInterface;
   className?: string;
   handleEdit?: (id: number) => void;
   handleDelete?: (id: number) => void;
+  onClick?: (id: number) => void;
 }) => {
   return (
     <Card
       className={clsx(
-        "col-span-12 gap-3 shadow-none mobile:gap-1 tablet:col-span-10",
+        "col-span-12 cursor-pointer gap-3 shadow-none mobile:gap-1 tablet:col-span-10",
         className
       )}
+      onClick={(event) => {
+        if (onClick) {
+          event.stopPropagation();
+          onClick(data.studyScheduleId);
+        }
+      }}
     >
       <Card.Header className="relative justify-between">
         <div className="flex w-full flex-wrap gap-1">
@@ -40,13 +48,19 @@ const StudyRoomSessionCard = ({
             {handleEdit && (
               <i
                 className="bi bi-pencil-square cursor-pointer transition-all duration-200 hover:text-mos-main"
-                onClick={() => handleEdit(data.studyScheduleId)}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  handleEdit(data.studyScheduleId);
+                }}
               ></i>
             )}
             {handleDelete && (
               <i
                 className="bi bi-trash cursor-pointer transition-all duration-200 hover:text-red-400"
-                onClick={() => handleDelete(data.studyScheduleId)}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  handleDelete(data.studyScheduleId);
+                }}
               ></i>
             )}
             {/* {handleCheckbox && (
