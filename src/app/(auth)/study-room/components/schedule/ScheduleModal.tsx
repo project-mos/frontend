@@ -19,15 +19,16 @@ import { useParams } from "next/navigation";
 
 import clsx from "clsx";
 import {
-  useGetCurriculums,
   usePostStudySchedule,
-} from "@/features/study-room/hooks/useStudyRoomQueries";
-import { useEffect } from "react";
+  usePutStudySchedule,
+} from "@/features/study-room/hooks/useScheduleQueries";
+import { useEffect, useRef } from "react";
 import {
   GetStudySchedule,
   PostStudySchedule,
 } from "@/features/study-room/types/study-room.api";
 import Label from "@/shared/components/molecules/Label";
+import { useGetCurriculums } from "@/features/study-room/hooks/useCurriculumQueries";
 
 // success, close 시 실행할 함수들을 부모로부터 받음
 interface ScheduleModalProps extends ModalProps {
@@ -51,19 +52,32 @@ const ScheduleModal = ({
       curriculumIds: [],
     },
   });
+  // 수정되었는지 비교하기 위한 변수
+  const editPastData = useRef<PostStudySchedule>(null);
 
   const { id } = useParams() as { id: string };
   const { data: curriculumsData } = useGetCurriculums(id);
-  const { mutate: postStudyScheduleMutate } = usePostStudySchedule(id);
+  const { mutate: postStudyScheduleMutate } = usePostStudySchedule(Number(id));
+  const { mutate: putStudyScheduleMutate } = usePutStudySchedule(Number(id));
 
   const startDateTime = methods.watch("startDateTime");
   const endDateTime = methods.watch("endDateTime");
   const curriculumIds = methods.watch("curriculumIds");
 
-  const isSelect = !!selectData;
+  const isEdit = !!selectData;
+
+  // const isEqualPastData = editPastData.current === methods.getValues();
 
   const onSubmit = (data: PostStudySchedule) => {
-    postStudyScheduleMutate(data);
+    if (isEdit) {
+      putStudyScheduleMutate({
+        studyScheduleId: selectData.studyScheduleId,
+        data,
+      });
+    } else {
+      postStudyScheduleMutate(data);
+    }
+
     onSuccess();
     onCloses();
   };
@@ -82,8 +96,18 @@ const ScheduleModal = ({
 
   useEffect(() => {
     if (selectData) {
+      const formatForm: PostStudySchedule = {
+        title: selectData.title,
+        description: selectData.description,
+        startDateTime: selectData.startDateTime,
+        endDateTime: selectData.endDateTime,
+        curriculumIds: selectData.studyCurriculumResList.map(
+          (item) => item.sectionId
+        ),
+      };
+      editPastData.current = formatForm;
       methods.reset({
-        ...selectData,
+        ...formatForm,
       });
     }
   }, [selectData, methods]);
@@ -112,7 +136,7 @@ const ScheduleModal = ({
       <Modal {...props} onClose={onCloses}>
         <Modal.Header onClose={onCloses}>
           <Typography.Head3>
-            스터디 일정 {isSelect ? "수정" : "등록"}
+            스터디 일정 {isEdit ? "수정" : "등록"}
           </Typography.Head3>
         </Modal.Header>
         <form
@@ -209,7 +233,7 @@ const ScheduleModal = ({
               active={methods.formState.isValid}
               disabled={!methods.formState.isValid}
             >
-              확인
+              {isEdit ? "수정" : "등록"}
             </Button.Solid>
           </Modal.Footer>
         </form>

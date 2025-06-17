@@ -14,13 +14,18 @@ import ScheduleModal from "./ScheduleModal";
 import { useParams } from "next/navigation";
 import { GetStudySchedule } from "@/features/study-room/types/study-room.api";
 import { useMyStudyRole } from "@/features/studies/hooks/useStudiesQueries";
-import { useGetStudySchedule } from "@/features/study-room/hooks/useStudyRoomQueries";
+import {
+  useDeleteStudySchedule,
+  useGetStudySchedule,
+} from "@/features/study-room/hooks/useScheduleQueries";
 
 type ScheduleType = "upcoming" | "past";
 
-interface ScheduleListProps {
+export interface ScheduleListProps {
   scheduleData?: GetStudySchedule[];
   type: ScheduleType;
+  handleEdit?: (id: number) => void;
+  handleDelete?: (id: number) => void;
 }
 
 const ScheduleCard = () => {
@@ -28,27 +33,35 @@ const ScheduleCard = () => {
   const { modal, openModal, closeModal } = useMultiModal();
   const { id: studyId } = useParams() as { id: string };
 
-  const { data: scheduleData } = useGetStudySchedule(studyId);
+  const { data: scheduleData } = useGetStudySchedule(Number(studyId));
+  const { mutate: deleteScheduleMutate } = useDeleteStudySchedule(
+    Number(studyId)
+  );
   const isAdmin = useMyStudyRole(studyId) === "스터디장";
 
   const [selectStudyData, setSelectStudyData] = useState<GetStudySchedule>();
 
-  // const handleEdit = (id: number) => {
-  //   if (scheduleData) {
-  //     const hasData = scheduleData.length > 0;
-  //     if (hasData) {
-  //       const findData = scheduleData.find((item) => item.studyId === id);
-  //       if (findData) {
-  //         setSelectStudyData(findData);
-  //         openModal("schedule");
-  //       } else {
-  //         throw "Not Found Data";
-  //       }
-  //     }
-  //   } else {
-  //     throw "Not Found Data";
-  //   }
-  // };
+  const handleEdit = (scheduleId: number) => {
+    if (scheduleData) {
+      const hasData = scheduleData.length > 0;
+      if (hasData) {
+        const findData = scheduleData.find(
+          (item) => item.studyScheduleId === scheduleId
+        );
+        if (findData) {
+          setSelectStudyData(findData);
+          openModal("schedule");
+        } else {
+          throw "Not Found Data";
+        }
+      }
+    } else {
+      throw "Not Found Data";
+    }
+  };
+  const handleDelete = (scheduleId: number) => {
+    deleteScheduleMutate({ scheduleId });
+  };
 
   return (
     <>
@@ -68,9 +81,13 @@ const ScheduleCard = () => {
           title="예정된 스터디 일정"
           onAdd={() => openModal("schedule")}
           isAdmin={isAdmin}
-          // onDelete={() => openModal("schedule_delete_confirm")}
         >
-          <ScheduleList scheduleData={scheduleData} type="upcoming" />
+          <ScheduleList
+            scheduleData={scheduleData}
+            type="upcoming"
+            handleEdit={handleEdit}
+            handleDelete={handleDelete}
+          />
         </StudyScheduleCard>
         <StudyScheduleCard title="마감된 스터디 일정" isAdmin={isAdmin}>
           <ScheduleList scheduleData={scheduleData} type="past" />
@@ -92,13 +109,11 @@ const ScheduleCard = () => {
 const StudyScheduleCard = ({
   title,
   onAdd,
-  // onDelete,
   children,
   isAdmin,
 }: {
   title: string;
   onAdd?: () => void;
-  // onDelete?: () => void;
   children: React.ReactNode;
   isAdmin: boolean;
 }) => {
@@ -108,11 +123,6 @@ const StudyScheduleCard = ({
         <div className="flex w-full justify-between">
           <Typography.SubTitle1>{title}</Typography.SubTitle1>
           <div className="flex gap-2">
-            {/* {onDelete && (
-              <Button.Ghost color="Red" size="sm" onClick={onDelete}>
-                삭제
-              </Button.Ghost>
-            )} */}
             {isAdmin && onAdd && (
               <Button.Solid color="Main" active size="sm" onClick={onAdd}>
                 <i className="bi bi-plus text-xl" /> 일정 추가
@@ -126,7 +136,12 @@ const StudyScheduleCard = ({
   );
 };
 
-function ScheduleList({ scheduleData, type }: ScheduleListProps) {
+function ScheduleList({
+  scheduleData,
+  type,
+  handleEdit,
+  handleDelete,
+}: ScheduleListProps) {
   if (!scheduleData)
     return (
       <div className="flex items-center justify-center p-10 text-xl text-gray-500">
@@ -139,8 +154,8 @@ function ScheduleList({ scheduleData, type }: ScheduleListProps) {
   // 공통 필터링 로직
   const filteredSchedules = scheduleData.filter((item) =>
     type === "upcoming"
-      ? new Date(item.endDateTime).getTime() > now
-      : new Date(item.endDateTime).getTime() < now
+      ? new Date(item.startDateTime).getTime() > now
+      : new Date(item.startDateTime).getTime() - 15 * 60 * 1000 < now
   );
 
   const emptyMessage =
@@ -155,11 +170,17 @@ function ScheduleList({ scheduleData, type }: ScheduleListProps) {
       </div>
     );
   }
+  // 최신순으로 정렬
 
   return (
     <>
       {filteredSchedules.map((item, index) => (
-        <StudyRoomSessionCard data={item} key={`${item.studyId}_${index}`} />
+        <StudyRoomSessionCard
+          data={item}
+          key={`${item.studyId}_${index}`}
+          handleEdit={handleEdit}
+          handleDelete={handleDelete}
+        />
       ))}
     </>
   );
