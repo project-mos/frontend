@@ -134,6 +134,42 @@ export async function postStudySchedule(
   });
 }
 
+export async function putStudySchedule(
+  studyId: number,
+  studyScheduleId: number,
+  data: PostStudySchedule
+) {
+  const { url, method } = API_ENDPOINT.mypage.updateStudySchedule(
+    studyId,
+    studyScheduleId
+  );
+  return await fetchAPI(url, {
+    method: method,
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+}
+
+export async function deleteStudySchedule(
+  studyId: number,
+  studyScheduleId: number
+) {
+  const { url, method } = API_ENDPOINT.mypage.deleteStudySchedule(
+    studyId,
+    studyScheduleId
+  );
+  return await fetchAPI(url, {
+    method: method,
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
+
 export async function uploadMaterials({
   file,
   studyId,
