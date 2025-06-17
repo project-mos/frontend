@@ -28,11 +28,14 @@ export interface ScheduleListProps {
   date: number;
   handleEdit?: (id: number) => void;
   handleDelete?: (id: number) => void;
+  onClick?: (id: number) => void;
 }
 
 const ScheduleCard = () => {
   // const { modal, openModal, closeModal } = useModal();
   const { modal, openModal, closeModal } = useMultiModal();
+  // 모달 상세보기
+  const [isModalReadonly, setIsModalReadOnly] = useState(false);
   const { id: studyId } = useParams() as { id: string };
 
   const { data: scheduleData } = useGetStudySchedule(Number(studyId));
@@ -48,7 +51,7 @@ const ScheduleCard = () => {
     setNow(Date.now());
   }, []);
 
-  const handleEdit = (scheduleId: number) => {
+  const handleViewModal = (scheduleId: number, type: "view" | "edit") => {
     if (scheduleData) {
       const hasData = scheduleData.length > 0;
       if (hasData) {
@@ -57,6 +60,11 @@ const ScheduleCard = () => {
         );
         if (findData) {
           setSelectStudyData(findData);
+          if (type === "view") {
+            setIsModalReadOnly(true);
+          } else {
+            setIsModalReadOnly(false);
+          }
           openModal("schedule");
         } else {
           throw "Not Found Data";
@@ -75,6 +83,7 @@ const ScheduleCard = () => {
       <ScheduleModal
         selectData={selectStudyData}
         isOpen={modal.get("schedule")!}
+        readOnly={isModalReadonly}
         onClose={() => {
           setSelectStudyData(undefined);
           closeModal("schedule");
@@ -83,10 +92,14 @@ const ScheduleCard = () => {
           console.log("success!!");
         }}
       />
+
       <div className="col-span-12 h-fit gap-3 tablet:col-span-9 laptop:col-span-10">
         <StudyScheduleCard
           title="예정된 스터디 일정"
-          onAdd={() => openModal("schedule")}
+          onAdd={() => {
+            setIsModalReadOnly(false);
+            openModal("schedule");
+          }}
           isAdmin={isAdmin}
         >
           {now && (
@@ -95,14 +108,20 @@ const ScheduleCard = () => {
               type="upcoming"
               isAdmin={isAdmin}
               date={now}
-              handleEdit={handleEdit}
+              handleEdit={(id) => handleViewModal(id, "edit")}
               handleDelete={handleDelete}
+              onClick={(id) => handleViewModal(id, "view")}
             />
           )}
         </StudyScheduleCard>
         <StudyScheduleCard title="마감된 스터디 일정" isAdmin={isAdmin}>
           {now && (
-            <ScheduleList date={now} scheduleData={scheduleData} type="past" />
+            <ScheduleList
+              date={now}
+              scheduleData={scheduleData}
+              type="past"
+              onClick={(id) => handleViewModal(id, "view")}
+            />
           )}
         </StudyScheduleCard>
       </div>
@@ -156,6 +175,7 @@ function ScheduleList({
   date,
   handleEdit,
   handleDelete,
+  onClick,
 }: ScheduleListProps) {
   if (!scheduleData)
     return (
@@ -193,6 +213,7 @@ function ScheduleList({
           key={`${item.studyId}_${index}`}
           handleEdit={isAdmin ? handleEdit : undefined}
           handleDelete={isAdmin ? handleDelete : undefined}
+          onClick={onClick}
         />
       ))}
     </>
