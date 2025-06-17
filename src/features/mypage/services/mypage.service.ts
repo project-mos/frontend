@@ -173,7 +173,7 @@ export function useDeleteStudySchedule(
 
 // 참여 중인 스터디 //
 export async function getMyJoinedStudies(
-  userId: string
+  userId: number
 ): Promise<GetMyJoinedStudiesResult[]> {
   const { url, method } = API_ENDPOINT.mypage.getMyJoinedStudies(userId);
 
@@ -187,7 +187,7 @@ export async function getMyJoinedStudies(
 }
 
 export function myJoinedStudiesQueryOption(
-  userId: string,
+  userId: number,
   options?: UseQueryOptions<GetMyJoinedStudiesResult[], Error>
 ) {
   return {

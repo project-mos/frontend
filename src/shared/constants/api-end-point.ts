@@ -49,7 +49,7 @@ export const API_ENDPOINT = {
       };
     },
     // 잠여중인 스터디 조회
-    getMyJoinedStudies: (userId: string) => {
+    getMyJoinedStudies: (userId: number) => {
       return {
         url: `${process.env.NEXT_PUBLIC_BASE_URL}/users/${userId}/studies`, // 임시 URL 백엔드 코드 수정되면 파라미터 제거해야함
         method: Method.GET,

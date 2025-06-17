@@ -8,7 +8,10 @@ export default async function Layout({
   return (
     <>
       {/* 개발시에는 isAuth 무효화 */}
-      <AuthInitializerProvider isAuth={process.env.NODE_ENV === "production"} />
+      <AuthInitializerProvider
+        isAuth={true}
+        // isAuth={process.env.NODE_ENV === "production"}
+      />
       {children}
     </>
   );
