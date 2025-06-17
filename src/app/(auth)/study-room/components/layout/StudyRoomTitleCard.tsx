@@ -1,7 +1,7 @@
 "use client";
 
 import { GetStudyDetailResponse } from "@/features/studies/types/studies.api";
-import { useGetStudySchedule } from "@/features/study-room/hooks/useStudyRoomQueries";
+import { useGetStudySchedule } from "@/features/study-room/hooks/useScheduleQueries";
 
 import Card from "@/shared/components/atoms/Card";
 import Tag from "@/shared/components/atoms/Tag";
@@ -12,7 +12,7 @@ import { useParams } from "next/navigation";
 const StudyRoomTitleCard = ({ data }: { data: GetStudyDetailResponse }) => {
   const params = useParams() as { id: string };
 
-  const { data: scheduleData } = useGetStudySchedule(params.id);
+  const { data: scheduleData } = useGetStudySchedule(Number(params.id));
   const formatScheduleDate = getFormatStartEndDate();
 
   const getProgress = (): number => {
