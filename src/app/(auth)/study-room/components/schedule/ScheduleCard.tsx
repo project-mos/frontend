@@ -8,7 +8,7 @@ import StudyRoomSessionCard from "@/app/(auth)/study-room/components/layout/Stud
 import ActionConfirmModal from "@/shared/components/molecules/ActionConfirmModal";
 import useMultiModal from "@/shared/hooks/useMultiModal";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ScheduleModal from "./ScheduleModal";
 
 import { useParams } from "next/navigation";
@@ -24,6 +24,8 @@ type ScheduleType = "upcoming" | "past";
 export interface ScheduleListProps {
   scheduleData?: GetStudySchedule[];
   type: ScheduleType;
+  isAdmin?: boolean;
+  date: number;
   handleEdit?: (id: number) => void;
   handleDelete?: (id: number) => void;
 }
@@ -40,6 +42,11 @@ const ScheduleCard = () => {
   const isAdmin = useMyStudyRole(studyId) === "스터디장";
 
   const [selectStudyData, setSelectStudyData] = useState<GetStudySchedule>();
+  const [now, setNow] = useState<number>();
+
+  useEffect(() => {
+    setNow(Date.now());
+  }, []);
 
   const handleEdit = (scheduleId: number) => {
     if (scheduleData) {
@@ -82,15 +89,21 @@ const ScheduleCard = () => {
           onAdd={() => openModal("schedule")}
           isAdmin={isAdmin}
         >
-          <ScheduleList
-            scheduleData={scheduleData}
-            type="upcoming"
-            handleEdit={handleEdit}
-            handleDelete={handleDelete}
-          />
+          {now && (
+            <ScheduleList
+              scheduleData={scheduleData}
+              type="upcoming"
+              isAdmin={isAdmin}
+              date={now}
+              handleEdit={handleEdit}
+              handleDelete={handleDelete}
+            />
+          )}
         </StudyScheduleCard>
         <StudyScheduleCard title="마감된 스터디 일정" isAdmin={isAdmin}>
-          <ScheduleList scheduleData={scheduleData} type="past" />
+          {now && (
+            <ScheduleList date={now} scheduleData={scheduleData} type="past" />
+          )}
         </StudyScheduleCard>
       </div>
       {/* 공지사항 삭제 확인 모달 */}
@@ -139,6 +152,8 @@ const StudyScheduleCard = ({
 function ScheduleList({
   scheduleData,
   type,
+  isAdmin = false,
+  date,
   handleEdit,
   handleDelete,
 }: ScheduleListProps) {
@@ -149,13 +164,11 @@ function ScheduleList({
       </div>
     );
 
-  const now = Date.now();
-
   // 공통 필터링 로직
   const filteredSchedules = scheduleData.filter((item) =>
     type === "upcoming"
-      ? new Date(item.startDateTime).getTime() > now
-      : new Date(item.startDateTime).getTime() - 15 * 60 * 1000 < now
+      ? new Date(item.startDateTime).getTime() > date
+      : new Date(item.startDateTime).getTime() - 15 * 60 * 1000 < date
   );
 
   const emptyMessage =
@@ -178,8 +191,8 @@ function ScheduleList({
         <StudyRoomSessionCard
           data={item}
           key={`${item.studyId}_${index}`}
-          handleEdit={handleEdit}
-          handleDelete={handleDelete}
+          handleEdit={isAdmin ? handleEdit : undefined}
+          handleDelete={isAdmin ? handleDelete : undefined}
         />
       ))}
     </>

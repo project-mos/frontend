@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import StudyRoomSessionCard from "./StudyRoomSessionCard";
 
 import Button from "@/shared/components/atoms/Button";
@@ -13,11 +13,12 @@ const StudyRoomIntendedCard = () => {
   const params = useParams() as { id: string };
 
   const { data: scheduleData } = useGetStudySchedule(Number(params.id));
-  const now = Date.now();
+  const [now, setNow] = useState<number>();
+
   const getIsStudyingTime = (startDateTime: string, endDateTime: string) => {
     const start = new Date(startDateTime).getTime() - 15 * 60 * 1000;
     const end = new Date(endDateTime).getTime();
-    return now >= start && now <= end;
+    return now! >= start && now! <= end;
   };
   const filteredSchedules = scheduleData?.filter((item) => {
     return getIsStudyingTime(item.startDateTime, item.endDateTime);
@@ -31,6 +32,10 @@ const StudyRoomIntendedCard = () => {
   //     filteredSchedules[0].startDateTime,
   //     filteredSchedules[0].endDateTime
   //   );
+
+  useEffect(() => {
+    setNow(Date.now());
+  }, []);
   return (
     // 진행중인 일정같은 경우는 없다면 예정된 일정 중 가장 빠른걸로 보여준다.
     // 미리 출석(스터디 시작하고 15분 후에는 지각이고, 스터디 시작 전 15분에는 미리출석가능)
