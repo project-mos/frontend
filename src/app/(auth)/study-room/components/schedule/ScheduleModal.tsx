@@ -29,18 +29,21 @@ import {
 } from "@/features/study-room/types/study-room.api";
 import Label from "@/shared/components/molecules/Label";
 import { useGetCurriculums } from "@/features/study-room/hooks/useCurriculumQueries";
+import { GetStudyCurriculumResponse } from "@/features/studies/types/studies.api";
 
 // success, close 시 실행할 함수들을 부모로부터 받음
 interface ScheduleModalProps extends ModalProps {
   selectData?: GetStudySchedule;
   onSuccess: () => void;
   onClose: ModalOnClose;
+  readOnly: boolean;
 }
 
 const ScheduleModal = ({
   onSuccess,
   onClose,
   selectData,
+  readOnly,
   ...props
 }: ScheduleModalProps) => {
   const methods = useForm<PostStudySchedule>({
@@ -64,7 +67,8 @@ const ScheduleModal = ({
   const endDateTime = methods.watch("endDateTime");
   const curriculumIds = methods.watch("curriculumIds");
 
-  const isEdit = !!selectData;
+  const isEdit = !!selectData && !readOnly;
+  const isReadOnly = readOnly;
 
   // const isEqualPastData = editPastData.current === methods.getValues();
 
@@ -94,6 +98,25 @@ const ScheduleModal = ({
     onClose();
   };
 
+  const onCurriculumCardClick = (
+    isCheck: boolean,
+    item: GetStudyCurriculumResponse
+  ) => {
+    if (!isReadOnly) {
+      let currentCurriculumIds: number[];
+      // 체크 되어있을때 누르면 해제
+      if (isCheck) {
+        currentCurriculumIds = curriculumIds.filter(
+          (id) => id !== item.sectionId
+        );
+        // 체크(중복 확인)
+      } else {
+        currentCurriculumIds = [...curriculumIds, item.sectionId];
+      }
+      methods.setValue("curriculumIds", currentCurriculumIds);
+    }
+  };
+
   useEffect(() => {
     if (selectData) {
       const formatForm: PostStudySchedule = {
@@ -113,21 +136,23 @@ const ScheduleModal = ({
   }, [selectData, methods]);
 
   useEffect(() => {
-    if (nowDate() > formatSeoulDate(startDateTime)) {
-      methods.setError("startDateTime", {
-        type: "validate",
-        message: "시작일자는 현재 시간보다 이후여야 합니다.",
-      });
-    } else {
-      methods.clearErrors("startDateTime");
-    }
-    if (formatSeoulDate(endDateTime) < formatSeoulDate(startDateTime)) {
-      methods.setError("endDateTime", {
-        type: "validate",
-        message: "종료일자는 시작일자보다 이후여야 합니다.",
-      });
-    } else {
-      methods.clearErrors("endDateTime");
+    if (!readOnly) {
+      if (nowDate() > formatSeoulDate(startDateTime)) {
+        methods.setError("startDateTime", {
+          type: "validate",
+          message: "시작일자는 현재 시간보다 이후여야 합니다.",
+        });
+      } else {
+        methods.clearErrors("startDateTime");
+      }
+      if (formatSeoulDate(endDateTime) < formatSeoulDate(startDateTime)) {
+        methods.setError("endDateTime", {
+          type: "validate",
+          message: "종료일자는 시작일자보다 이후여야 합니다.",
+        });
+      } else {
+        methods.clearErrors("endDateTime");
+      }
     }
   }, [endDateTime, methods, startDateTime]);
 
@@ -136,7 +161,7 @@ const ScheduleModal = ({
       <Modal {...props} onClose={onCloses}>
         <Modal.Header onClose={onCloses}>
           <Typography.Head3>
-            스터디 일정 {isEdit ? "수정" : "등록"}
+            스터디 일정 {isReadOnly ? "상세 보기" : isEdit ? "수정" : "등록"}
           </Typography.Head3>
         </Modal.Header>
         <form
@@ -152,6 +177,7 @@ const ScheduleModal = ({
                   name="startDateTime"
                   min={formatNowDate("YYYY-MM-DDTHH:mm")}
                   required
+                  disabled={isReadOnly}
                   registerOptions={{ required: "시작일자를 입력해주세요." }}
                 />
                 <LabelInputDateLocal<PostStudySchedule>
@@ -159,6 +185,7 @@ const ScheduleModal = ({
                   min={startDateTime}
                   name="endDateTime"
                   required
+                  disabled={isReadOnly}
                   registerOptions={{
                     required: "종료일자를 입력해주세요.",
                   }}
@@ -172,15 +199,21 @@ const ScheduleModal = ({
                 <LabelInput<PostStudySchedule>
                   label="제목"
                   name="title"
-                  placeholder="제목을 입력하세요"
-                  registerOptions={{ required: "그만하쇼" }}
+                  placeholder={
+                    isReadOnly ? "제목이 없습니다." : "제목을 입력하세요"
+                  }
+                  disabled={isReadOnly}
+                  registerOptions={{ required: "제목을 입력해주세요." }}
                   required
                 />
                 <LabelTextAreaInput
                   label="내용"
                   name="description"
                   className="w-full"
-                  placeholder="내용을 입력하세요"
+                  disabled={isReadOnly}
+                  placeholder={
+                    isReadOnly ? "내용이 없습니다." : "내용을 입력하세요"
+                  }
                 />
                 {curriculumsData && (
                   <div>
@@ -194,25 +227,7 @@ const ScheduleModal = ({
                             title={item.title}
                             content={item.content}
                             isCheck={isCheck}
-                            onClick={() => {
-                              let currentCurriculumIds: number[];
-                              // 체크 되어있을때 누르면 해제
-                              if (isCheck) {
-                                currentCurriculumIds = curriculumIds.filter(
-                                  (id) => id !== item.sectionId
-                                );
-                                // 체크(중복 확인)
-                              } else {
-                                currentCurriculumIds = [
-                                  ...curriculumIds,
-                                  item.sectionId,
-                                ];
-                              }
-                              methods.setValue(
-                                "curriculumIds",
-                                currentCurriculumIds
-                              );
-                            }}
+                            onClick={() => onCurriculumCardClick(isCheck, item)}
                           />
                         );
                       })}
@@ -224,17 +239,32 @@ const ScheduleModal = ({
           </Modal.Content>
 
           <Modal.Footer>
-            <Button.Ghost color="Gray" onClick={onCloses}>
-              취소
-            </Button.Ghost>
-            <Button.Solid
-              type="submit"
-              color="Main"
-              active={methods.formState.isValid}
-              disabled={!methods.formState.isValid}
-            >
-              {isEdit ? "수정" : "등록"}
-            </Button.Solid>
+            {isReadOnly ? (
+              <Button.Solid
+                color="Main"
+                active={true}
+                onClick={() => {
+                  onSuccess();
+                  onCloses();
+                }}
+              >
+                확인
+              </Button.Solid>
+            ) : (
+              <>
+                <Button.Ghost color="Gray" onClick={onCloses}>
+                  취소
+                </Button.Ghost>
+                <Button.Solid
+                  type="submit"
+                  color="Main"
+                  active={methods.formState.isValid}
+                  disabled={!methods.formState.isValid}
+                >
+                  {isEdit ? "수정" : "등록"}
+                </Button.Solid>
+              </>
+            )}
           </Modal.Footer>
         </form>
       </Modal>
@@ -250,7 +280,7 @@ export const CurriCulumCard = ({
   title: string;
   content: string;
   isCheck: boolean;
-  onClick: () => void;
+  onClick?: () => void;
 }) => {
   return (
     <Card
