@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 
 import Card from "@/shared/components/atoms/Card";
 import Tag from "@/shared/components/atoms/Tag";
@@ -68,30 +68,27 @@ const StudyDescriptionCard = ({
           </Typography.P1>
         </div>
 
-        <div className="flex gap-5 text-mos-gray-500">
-          <Typography.P1 className="w-[80px]">모집일자</Typography.P1>{" "}
+        <MetaList title="모집일자">
           <Typography.P1 className="text-black">
             {studyDetailData.recruitmentStartDate} -{" "}
             {studyDetailData.recruitmentEndDate}
           </Typography.P1>
-        </div>
-        <div className="flex gap-5 text-mos-gray-500">
-          <Typography.P1 className="w-[80px]">활동시간</Typography.P1>
+        </MetaList>
+
+        <MetaList title="활동시간">
           <Typography.P1 className="text-black">
             {studyDetailData.schedule}
           </Typography.P1>
-        </div>
+        </MetaList>
 
-        <div className="flex gap-5 text-mos-gray-500">
-          <Typography.P1 className="w-[80px]">모집 인원</Typography.P1>
+        <MetaList title="모집인원">
           <Typography.P1 className="text-black">
             {studyDetailData.currentStudyMemberCount} /{" "}
             {studyDetailData.maxStudyMemberCount} 명
           </Typography.P1>
-        </div>
+        </MetaList>
 
-        <div className="flex gap-5 text-mos-gray-500 ">
-          <Typography.P1 className="w-[80px]">태그</Typography.P1>
+        <MetaList title="태그">
           <div className="flex gap-2">
             {studyDetailData.tags.map((item, index) => {
               return (
@@ -101,7 +98,7 @@ const StudyDescriptionCard = ({
               );
             })}
           </div>
-        </div>
+        </MetaList>
       </Card.Header>
       <Card.Content className="gap-5 border-y py-5">
         <ContentWrapper>
@@ -142,6 +139,21 @@ const StudyDescriptionCard = ({
   );
 };
 
+const MetaList = ({
+  title,
+  children,
+}: {
+  title: string;
+  children: ReactNode;
+}) => {
+  return (
+    <div className="flex gap-5 text-mos-gray-500">
+      <Typography.P1 className="w-[80px]">{title}</Typography.P1>{" "}
+      <Typography.P1 className="text-black">{children}</Typography.P1>
+    </div>
+  );
+};
+
 const ContentWrapper = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="prose prose-sm flex max-w-full flex-col gap-0">
@@ -173,6 +185,7 @@ const ListContent = (
     </>
   );
 };
+
 // 아이템이 있는지 여부를 리턴하는 함수
 function hasItem<T>(item: T[] | T) {
   if (Array.isArray(item)) return item.length > 0;
