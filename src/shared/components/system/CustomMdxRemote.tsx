@@ -7,11 +7,28 @@ import rehypeSanitize, { defaultSchema } from "rehype-sanitize";
 import rehypeRaw from "rehype-raw";
 import rehypeHighlight from "rehype-highlight";
 
-function escapeOutsideCodeAndMarkdown(input: string) {
+function escapeOutsideCodeAndMarkdown(input: string, preview = false) {
   const codeBlockRegex = /```[\s\S]*?```/g;
   const inlineCodeRegex = /`[^`]*`/g;
   const markdownLinkRegex = /!?\[.*?\]\(.*?\)/g;
   const pTagRegex = /(<p>)([\s\S]*?)(<\/p>)/g;
+
+  const imgTagRegex = /<img[^>]*>/g;
+  const markdownImageRegex = /!\[.*?\]\(.*?\)/g;
+  const preTagRegex = /<pre[\s\S]*?<\/pre>/g;
+  const htmlAnchorTagRegex = /<a[\s\S]*?<\/a>/g;
+  const markdownTextLinkRegex = /\[[^\]]+\]\([^)]+\)/g;
+  const halfCodeBlockRegex = /```[\s\S]*?/g;
+  // preview 옵션: 이미지 제거
+  if (preview) {
+    input = input
+      .replace(halfCodeBlockRegex, "") // ```코드``` 제거
+      .replace(preTagRegex, "") // <pre> 코드 제거
+      .replace(imgTagRegex, "") // <img> 제거
+      .replace(markdownImageRegex, "") // ![]() 제거
+      .replace(htmlAnchorTagRegex, "") // <a>링크 제거
+      .replace(markdownTextLinkRegex, ""); // [text](url) 제거
+  }
 
   // 코드블럭 저장
   const codeBlocks: string[] = [];
@@ -75,11 +92,13 @@ interface CustomMdxRemoteProps {
   content: string;
   components?: MDXComponents;
   options?: EvaluateOptions<Record<string, unknown>> | undefined;
+  preview?: boolean;
 }
 const CustomMdxRemote = ({
   content,
   components,
   options,
+  preview = false,
 }: CustomMdxRemoteProps) => {
   const withStaticComponentOption: MDXComponents = {
     ...components,
@@ -100,10 +119,10 @@ const CustomMdxRemote = ({
       ],
     },
   };
-  console.log(escapeOutsideCodeAndMarkdown(content));
+  console.log(escapeOutsideCodeAndMarkdown(content, preview));
   return (
     <MDXRemote
-      source={escapeOutsideCodeAndMarkdown(content)}
+      source={escapeOutsideCodeAndMarkdown(content, preview)}
       components={withStaticComponentOption}
       options={withStaticMdxOptions}
     />

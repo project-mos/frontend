@@ -52,7 +52,7 @@ const StudyCard = ({ data, className, ...props }: StudyCardProps) => {
       </Card.Header>
       <Card.Content className="">
         <div className="h-[50px] max-w-full truncate text-mos-gray-700">
-          <CustomMdxRemote content={data.content} />
+          <CustomMdxRemote content={data.content} preview />
         </div>
       </Card.Content>
       <div className="flex flex-wrap gap-[5px]">{renderTags()}</div>
