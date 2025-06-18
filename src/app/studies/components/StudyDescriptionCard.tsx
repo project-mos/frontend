@@ -3,7 +3,6 @@ import React from "react";
 import Card from "@/shared/components/atoms/Card";
 import Tag from "@/shared/components/atoms/Tag";
 import Typography from "@/shared/components/atoms/Typography";
-import Meta from "@/shared/components/molecules/Meta";
 
 import "highlight.js/styles/github-dark.css";
 
@@ -16,8 +15,8 @@ import {
   GetStudyRequirementsResponse,
   GetStudyRulesResponse,
 } from "@/features/studies/types/studies.api";
-import CustomMdxRemote from "@/shared/components/system/CustomMdxRemote";
 import Profile from "@/shared/components/atoms/Profile";
+import CustomMdxRemote from "@/shared/components/system/CustomMdxRemote";
 
 interface StudyDescriptionCardProps {
   studyDetailData: GetStudyDetailResponse;
@@ -39,7 +38,7 @@ const StudyDescriptionCard = ({
   );
 
   return (
-    <Card className="flex w-[85%] flex-col gap-5 pb-10 sm-mobile:w-full">
+    <Card className="flex w-[85%] flex-col gap-5 border-none pb-10 shadow-none outline-none sm-mobile:w-full">
       <Card.Header className="flex-col gap-3">
         <div className="flex items-center justify-between">
           <div className="flex gap-2">
@@ -59,39 +58,56 @@ const StudyDescriptionCard = ({
         <div className="flex justify-between">
           <Typography.Head2>{studyDetailData.title}</Typography.Head2>
         </div>
-        <div className="flex items-center gap-2 border-b pb-3">
-          <Profile width={30} height={30} src={profileImg} />
-          <Typography.P3>{findLeader?.nickname}</Typography.P3>
+        <div className="flex items-center justify-between gap-2 border-b py-3">
+          <div className="flex items-center gap-2">
+            <Profile width={35} height={35} src={profileImg} />
+            <Typography.P1>{findLeader?.nickname}</Typography.P1>
+          </div>
+          <Typography.P1 className="text-mos-gray-700">
+            조회수 {studyDetailData.viewCount}회
+          </Typography.P1>
         </div>
 
-        <div className="flex flex-col gap-1">
-          <Meta icon="calendar">
-            모집일자: {studyDetailData.recruitmentStartDate} ~{" "}
+        <div className="flex gap-5 text-mos-gray-500">
+          <Typography.P1 className="w-[80px]">모집일자</Typography.P1>{" "}
+          <Typography.P1 className="text-black">
+            {studyDetailData.recruitmentStartDate} -{" "}
             {studyDetailData.recruitmentEndDate}
-          </Meta>
-          <Meta icon="clock">활동시간: {studyDetailData.schedule}</Meta>
+          </Typography.P1>
+        </div>
+        <div className="flex gap-5 text-mos-gray-500">
+          <Typography.P1 className="w-[80px]">활동시간</Typography.P1>
+          <Typography.P1 className="text-black">
+            {studyDetailData.schedule}
+          </Typography.P1>
+        </div>
+
+        <div className="flex gap-5 text-mos-gray-500">
+          <Typography.P1 className="w-[80px]">모집 인원</Typography.P1>
+          <Typography.P1 className="text-black">
+            {studyDetailData.currentStudyMemberCount} /{" "}
+            {studyDetailData.maxStudyMemberCount} 명
+          </Typography.P1>
+        </div>
+
+        <div className="flex gap-5 text-mos-gray-500 ">
+          <Typography.P1 className="w-[80px]">태그</Typography.P1>
           <div className="flex gap-2">
-            <Meta icon="person">
-              {studyDetailData.currentStudyMemberCount}/
-              {studyDetailData.maxStudyMemberCount}
-            </Meta>
-            <Meta icon="eye">{studyDetailData.viewCount}</Meta>
+            {studyDetailData.tags.map((item, index) => {
+              return (
+                <Tag.Detail key={`${item}_${index}`} bold>
+                  {item}
+                </Tag.Detail>
+              );
+            })}
           </div>
         </div>
-
-        <div className="flex gap-2 border-b pb-5">
-          {studyDetailData.tags.map((item, index) => {
-            return (
-              <Tag.Card key={`${item}_${index}`} bold>
-                #{item}
-              </Tag.Card>
-            );
-          })}
-        </div>
       </Card.Header>
-      <Card.Content className="gap-5 border-b pb-5">
+      <Card.Content className="gap-5 border-y py-5">
         <ContentWrapper>
-          <Typography.SubTitle1>스터디 소개</Typography.SubTitle1>
+          <Typography.SubTitle1 className="pb-4 font-bold">
+            스터디 소개
+          </Typography.SubTitle1>
           {hasItem(studyDetailData.content) && (
             <CustomMdxRemote content={studyDetailData.content} />
           )}
@@ -99,7 +115,9 @@ const StudyDescriptionCard = ({
       </Card.Content>
       <Card.Footer className="flex-col gap-5">
         <ContentWrapper>
-          <Typography.SubTitle1>참여 요건</Typography.SubTitle1>
+          <Typography.SubTitle1 className="font-bold">
+            참여 요건
+          </Typography.SubTitle1>
           {hasItem(requirementsData) ? (
             <div>
               {requirementsData.map((item, index) => {
@@ -139,7 +157,9 @@ const ListContent = (
   return (
     <>
       <ContentWrapper>
-        <Typography.SubTitle1 className="m-0">{title}</Typography.SubTitle1>
+        <Typography.SubTitle1 className="m-0 font-bold">
+          {title}
+        </Typography.SubTitle1>
         {hasItem<GetStudyRulesResponse | GetStudyBenefitsResponse>(items) ? (
           <ul className="study-detail m-0 text-mos-gray-700">
             {items.map((item, index) => {
