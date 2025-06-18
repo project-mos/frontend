@@ -119,7 +119,7 @@ const CustomMdxRemote = ({
       ],
     },
   };
-  console.log(escapeOutsideCodeAndMarkdown(content, preview));
+
   return (
     <MDXRemote
       source={escapeOutsideCodeAndMarkdown(content, preview)}
