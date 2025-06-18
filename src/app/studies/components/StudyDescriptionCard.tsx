@@ -149,7 +149,7 @@ const MetaList = ({
   return (
     <div className="flex gap-5 text-mos-gray-500">
       <Typography.P1 className="w-[80px]">{title}</Typography.P1>{" "}
-      <Typography.P1 className="text-black">{children}</Typography.P1>
+      <div className="text-black">{children}</div>
     </div>
   );
 };
