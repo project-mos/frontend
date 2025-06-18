@@ -2,6 +2,7 @@ import {
   getJoins,
   getMembers,
   getQuestions,
+  getStudy,
   patchJoin,
   postJoin,
 } from "@/features/studies/services/studies.service";
@@ -16,6 +17,15 @@ import {
   UseMutationOptions,
   useQuery,
 } from "@tanstack/react-query";
+
+export function useGetStudy(studyId: string) {
+  return useQuery({
+    queryKey: ["study", studyId],
+    queryFn: () => getStudy(studyId),
+    staleTime: 3600,
+    enabled: !!studyId,
+  });
+}
 
 // getQuestions React Query 훅
 export function useQuestions(studyId: string, enabled: boolean) {
