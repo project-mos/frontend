@@ -72,9 +72,9 @@ const StudyRoomTitleCard = ({ data }: { data: GetStudyDetailResponse }) => {
         <div className="flex flex-col gap-1">
           <Typography.Head3>{data.title}</Typography.Head3>
           <div className="flex gap-2">
+            {/* 추후 API 연동 예정 */}
             <Typography.P3 className="text-mos-gray-500">
-              기간: {formatScheduleDate?.startDate} ~{" "}
-              {formatScheduleDate?.endDate} &middot; {data.schedule}
+              내일은 선릉역에서 봐요!
             </Typography.P3>
           </div>
         </div>

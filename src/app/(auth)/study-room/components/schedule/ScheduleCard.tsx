@@ -13,11 +13,16 @@ import ScheduleModal from "./ScheduleModal";
 
 import { useParams } from "next/navigation";
 import { GetStudySchedule } from "@/features/study-room/types/study-room.api";
-import { useMyStudyRole } from "@/features/studies/hooks/useStudiesQueries";
+import {
+  useGetStudy,
+  useMyStudyRole,
+} from "@/features/studies/hooks/useStudiesQueries";
 import {
   useDeleteStudySchedule,
   useGetStudySchedule,
 } from "@/features/study-room/hooks/useScheduleQueries";
+import Meta from "@/shared/components/molecules/Meta";
+import { formatDate } from "@/shared/utils/date";
 
 type ScheduleType = "upcoming" | "past";
 
@@ -39,10 +44,13 @@ const ScheduleCard = () => {
   const { id: studyId } = useParams() as { id: string };
 
   const { data: scheduleData } = useGetStudySchedule(Number(studyId));
+  const { data: studyData } = useGetStudy(studyId);
+
   const { mutate: deleteScheduleMutate } = useDeleteStudySchedule(
     Number(studyId)
   );
   const isAdmin = useMyStudyRole(studyId) === "스터디장";
+  const formatScheduleDate = getFormatStartEndDate();
 
   const [selectStudyData, setSelectStudyData] = useState<GetStudySchedule>();
   const [now, setNow] = useState<number>();
@@ -78,6 +86,25 @@ const ScheduleCard = () => {
     deleteScheduleMutate({ scheduleId });
   };
 
+  function getFormatStartEndDate() {
+    if (scheduleData && scheduleData?.length > 0) {
+      const formatStartDate = formatDate(
+        "YYYY-MM-DD",
+        scheduleData[0].startDateTime
+      );
+      const formatEndDate = formatDate(
+        "YYYY-MM-DD",
+        scheduleData[scheduleData.length - 1].endDateTime
+      );
+      return {
+        startDate: formatStartDate,
+        endDate: formatEndDate,
+      };
+    } else {
+      return undefined;
+    }
+  }
+
   return (
     <>
       <ScheduleModal
@@ -94,6 +121,12 @@ const ScheduleCard = () => {
       />
 
       <div className="col-span-12 h-fit gap-3 tablet:col-span-9 laptop:col-span-10">
+        <Card className="mb-3">
+          <Meta icon="calendar">
+            {formatScheduleDate?.startDate} ~ {formatScheduleDate?.endDate}{" "}
+            &middot; {studyData?.schedule}
+          </Meta>
+        </Card>
         <StudyScheduleCard
           title="예정된 스터디 일정"
           onAdd={() => {
