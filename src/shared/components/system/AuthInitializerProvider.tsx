@@ -17,7 +17,7 @@ const AuthInitializerProvider = async ({
 
   let isRefresh = false;
 
-  if (isAuth && (!accessToken || !refreshToken)) {
+  if (isAuth && !accessToken && !refreshToken) {
     redirect(URL.HOME);
   }
   if (!accessToken && refreshToken) {

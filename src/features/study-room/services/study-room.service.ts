@@ -110,7 +110,7 @@ export async function earlyLeave({
   });
 }
 
-export async function getStudySchedule(studyId: string) {
+export async function getStudySchedule(studyId: number) {
   const { url, method } = API_ENDPOINT.study.getStudySchedule(studyId);
 
   return await fetchAPI<GetStudySchedule[]>(url, {
@@ -120,7 +120,7 @@ export async function getStudySchedule(studyId: string) {
 }
 
 export async function postStudySchedule(
-  studyId: string,
+  studyId: number,
   data: PostStudySchedule
 ) {
   const { url, method } = API_ENDPOINT.study.postStudySchedule(studyId);
@@ -131,6 +131,48 @@ export async function postStudySchedule(
       "Content-Type": "application/json",
     },
     body: JSON.stringify(data),
+  });
+}
+
+export async function putStudySchedule({
+  studyId,
+  studyScheduleId,
+  data,
+}: {
+  studyId: number;
+  studyScheduleId: number;
+  data: PostStudySchedule;
+}) {
+  console.log(studyId, studyScheduleId, data);
+  const { url, method } = API_ENDPOINT.mypage.updateStudySchedule(
+    studyId,
+    studyScheduleId
+  );
+
+  return await fetchAPI(url, {
+    method: method,
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+}
+
+export async function deleteStudySchedule(
+  studyId: number,
+  studyScheduleId: number
+) {
+  const { url, method } = API_ENDPOINT.mypage.deleteStudySchedule(
+    studyId,
+    studyScheduleId
+  );
+  return await fetchAPI(url, {
+    method: method,
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
   });
 }
 

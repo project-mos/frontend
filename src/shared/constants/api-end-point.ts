@@ -112,14 +112,14 @@ export const API_ENDPOINT = {
       };
     },
     // 스터디 일정 목록 조회
-    getStudySchedule: (studyId: string) => {
+    getStudySchedule: (studyId: number) => {
       return {
         url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/schedules`,
         method: Method.GET,
       };
     },
     // 스터디 일정 목록 생성
-    postStudySchedule: (studyId: string) => {
+    postStudySchedule: (studyId: number) => {
       return {
         url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/schedules`,
         method: Method.POST,

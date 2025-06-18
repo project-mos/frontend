@@ -1,7 +1,7 @@
 "use client";
 
 import { GetStudyDetailResponse } from "@/features/studies/types/studies.api";
-import { useGetStudySchedule } from "@/features/study-room/hooks/useStudyRoomQueries";
+import { useGetStudySchedule } from "@/features/study-room/hooks/useScheduleQueries";
 
 import Card from "@/shared/components/atoms/Card";
 import Tag from "@/shared/components/atoms/Tag";
@@ -12,7 +12,7 @@ import { useParams } from "next/navigation";
 const StudyRoomTitleCard = ({ data }: { data: GetStudyDetailResponse }) => {
   const params = useParams() as { id: string };
 
-  const { data: scheduleData } = useGetStudySchedule(params.id);
+  const { data: scheduleData } = useGetStudySchedule(Number(params.id));
   const formatScheduleDate = getFormatStartEndDate();
 
   const getProgress = (): number => {
@@ -72,9 +72,9 @@ const StudyRoomTitleCard = ({ data }: { data: GetStudyDetailResponse }) => {
         <div className="flex flex-col gap-1">
           <Typography.Head3>{data.title}</Typography.Head3>
           <div className="flex gap-2">
+            {/* 추후 API 연동 예정 */}
             <Typography.P3 className="text-mos-gray-500">
-              기간: {formatScheduleDate?.startDate} ~{" "}
-              {formatScheduleDate?.endDate} &middot; {data.schedule}
+              내일은 선릉역에서 봐요!
             </Typography.P3>
           </div>
         </div>
