@@ -49,7 +49,7 @@ const SettingCard = ({ studyId }: { studyId: string }) => {
                 color="Red"
                 active
               >
-                스터디 나가기
+                나가기
               </Button.Ghost>
             </div>
             <div className="flex items-center justify-between rounded-md border border-mos-gray-100 p-5">
