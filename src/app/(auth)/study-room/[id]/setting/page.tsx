@@ -1,9 +1,7 @@
+import SettingCard from "../../components/setting/SettingCard";
+
 const SettingPage = () => {
-  return (
-    <div>
-      <p>setting</p>
-    </div>
-  );
+  return <SettingCard />;
 };
 
 export default SettingPage;
