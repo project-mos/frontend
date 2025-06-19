@@ -42,6 +42,11 @@ export const MENU_ITEMS = (id: string): MenuItem[] => [
     icon: "bi-megaphone",
     path: URL.STUDY_ROOM.DETAIL_NOTICE(id),
   },
+  {
+    name: "설정",
+    icon: "bi-gear",
+    path: URL.STUDY_ROOM.DETAIL_SETTING(id),
+  },
 ];
 
 export const ADMIN_MENU_ITEMS = (id: string): MenuItem[] => [

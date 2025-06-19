@@ -34,6 +34,9 @@ const URL = {
     DETAIL_MANAGE_OVERVIEW(id: string) {
       return `/study-room/${id}/overview`;
     },
+    DETAIL_SETTING(id: string) {
+      return `/study-room/${id}/setting`;
+    },
   },
   MYPAGE: "/mypage",
 };
