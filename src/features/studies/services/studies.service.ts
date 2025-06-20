@@ -55,6 +55,7 @@ export async function getQuestions(studyId: string) {
   );
   return response;
 }
+
 export async function getMembers(studyId: string) {
   const response = await fetchAPI<GetStudyMembersResponse>(
     API_ENDPOINT.members.getMembers(studyId).url,
@@ -62,6 +63,7 @@ export async function getMembers(studyId: string) {
   );
   return response;
 }
+
 export async function getJoins({
   studyJoinStatus,
 }: {
@@ -97,6 +99,17 @@ export async function postJoin(
 
 export async function patchJoin(studyId: string, studyJoinId: string) {
   const { url, method } = API_ENDPOINT.join.patchJoin(studyId, studyJoinId);
+  return await fetchAPI(url, {
+    method,
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
+
+export async function leaveStudy(studyId: string) {
+  const { url, method } = API_ENDPOINT.members.leaveStudy(studyId);
   return await fetchAPI(url, {
     method,
     credentials: "include",

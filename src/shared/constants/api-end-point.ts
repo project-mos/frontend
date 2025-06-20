@@ -46,7 +46,7 @@ export const API_ENDPOINT = {
       return {
         url: `${process.env.NEXT_PUBLIC_BASE_URL}/users/images`,
         method: Method.PATCH,
-      }
+      };
     },
     // 캘린더 일정 조회
     getMySchedules: () => {
@@ -189,6 +189,12 @@ export const API_ENDPOINT = {
       return {
         url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/members`,
         method: Method.GET,
+      };
+    },
+    leaveStudy: (studyId: string) => {
+      return {
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/members`,
+        method: Method.DELETE,
       };
     },
   },
