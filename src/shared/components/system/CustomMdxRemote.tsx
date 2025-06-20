@@ -3,63 +3,102 @@ import {
   MDXComponents,
   MDXRemote,
 } from "next-mdx-remote-client/rsc";
-import rehypeSanitize from "rehype-sanitize";
+import rehypeSanitize, { defaultSchema } from "rehype-sanitize";
 import rehypeRaw from "rehype-raw";
 import rehypeHighlight from "rehype-highlight";
 
-function escapeCurlyBracesOutsideCodeBlocksAndInlineCode(input: string) {
-  const codeBlockRegex = /```[\s\S]*?```/g; // 코드블럭 잡기
-  const inlineCodeRegex = /`[^`]*`/g; // 인라인 백틱 코드 잡기
-  const pTagRegex = /(<p>)([\s\S]*?)(<\/p>)/g; // <p> 태그 잡기
+function escapeOutsideCodeAndMarkdown(input: string, preview = false) {
+  const codeBlockRegex = /```[\s\S]*?```/g;
+  const inlineCodeRegex = /`[^`]*`/g;
+  const markdownLinkRegex = /!?\[.*?\]\(.*?\)/g;
+  const pTagRegex = /(<p>)([\s\S]*?)(<\/p>)/g;
 
-  // 1. 코드블럭 먼저 임시 토큰으로 치환
-  const codeBlocks: unknown[] = [];
+  const imgTagRegex = /<img[^>]*>/g;
+  const markdownImageRegex = /!\[.*?\]\(.*?\)/g;
+  const preTagRegex = /<pre[\s\S]*?<\/pre>/g;
+  const htmlAnchorTagRegex = /<a[\s\S]*?<\/a>/g;
+  const markdownTextLinkRegex = /\[[^\]]+\]\([^)]+\)/g;
+  const halfCodeBlockRegex = /```[\s\S]*?/g;
+  // preview 옵션: 이미지 제거
+  if (preview) {
+    input = input
+      .replace(halfCodeBlockRegex, "") // ```코드``` 제거
+      .replace(preTagRegex, "") // <pre> 코드 제거
+      .replace(imgTagRegex, "") // <img> 제거
+      .replace(markdownImageRegex, "") // ![]() 제거
+      .replace(htmlAnchorTagRegex, "") // <a>링크 제거
+      .replace(markdownTextLinkRegex, ""); // [text](url) 제거
+  }
+
+  // 코드블럭 저장
+  const codeBlocks: string[] = [];
   const codeBlockPlaceholder = "___CODE_BLOCK_PLACEHOLDER___";
-  let temp = input.replace(codeBlockRegex, (m) => {
+  input = input.replace(codeBlockRegex, (m) => {
     codeBlocks.push(m);
     return codeBlockPlaceholder;
   });
 
-  // 2. 인라인 백틱 코드 임시 토큰으로 치환
+  // 인라인 코드 저장
   const inlineCodes: string[] = [];
   const inlineCodePlaceholder = "___INLINE_CODE_PLACEHOLDER___";
-  temp = temp.replace(inlineCodeRegex, (m) => {
+  input = input.replace(inlineCodeRegex, (m) => {
     inlineCodes.push(m);
     return inlineCodePlaceholder;
   });
 
-  // 3. <p> 태그 내 중괄호만 변환
-  const escaped = temp.replace(pTagRegex, (full, open, content, close) => {
-    // content 내 중괄호만 변환
+  // 마크다운 링크 저장
+  const markdownLinks: string[] = [];
+  const markdownLinkPlaceholder = "___MARKDOWN_LINK_PLACEHOLDER___";
+  input = input.replace(markdownLinkRegex, (m) => {
+    markdownLinks.push(m);
+    return markdownLinkPlaceholder;
+  });
+
+  // <p> 안쪽 중괄호만 escape
+  let temp = input.replace(pTagRegex, (full, open, content, close) => {
     const escapedContent = content
       .replace(/\{/g, "&#123;")
       .replace(/\}/g, "&#125;");
     return open + escapedContent + close;
   });
 
-  // 4. 인라인 코드 원복
-  let output = escaped.replace(/(?<!<)\//g, "");
+  // 태그 밖에 있는 /, {, } escape
+  temp = temp.replace(/(<[^>]+>)|([^<]+)/g, (match, tag, text) => {
+    if (tag) return tag;
+    if (text) {
+      return text
+        .replace(/\//g, "")
+        .replace(/\{/g, "&#123;")
+        .replace(/\}/g, "&#125;");
+    }
+    return match;
+  });
+
+  // 저장했던 항목 복원
+  for (const markdownLink of markdownLinks) {
+    temp = temp.replace(markdownLinkPlaceholder, markdownLink);
+  }
   for (const inlineCode of inlineCodes) {
-    output = output.replace(inlineCodePlaceholder, inlineCode);
+    temp = temp.replace(inlineCodePlaceholder, inlineCode);
   }
-
-  // 5. 코드블럭 원복
   for (const codeBlock of codeBlocks) {
-    output = output.replace(codeBlockPlaceholder, codeBlock as string);
+    temp = temp.replace(codeBlockPlaceholder, codeBlock);
   }
 
-  return output;
+  return temp;
 }
 
 interface CustomMdxRemoteProps {
   content: string;
   components?: MDXComponents;
   options?: EvaluateOptions<Record<string, unknown>> | undefined;
+  preview?: boolean;
 }
 const CustomMdxRemote = ({
   content,
   components,
   options,
+  preview = false,
 }: CustomMdxRemoteProps) => {
   const withStaticComponentOption: MDXComponents = {
     ...components,
@@ -70,19 +109,20 @@ const CustomMdxRemote = ({
     mdxOptions: {
       rehypePlugins: [
         [
-          rehypeHighlight,
           rehypeRaw,
           {
             passThrough: ["mdxJsxFlowElement", "mdxJsxTextElement"],
           },
-          rehypeSanitize,
         ],
+        [rehypeSanitize, defaultSchema],
+        rehypeHighlight,
       ],
     },
   };
+
   return (
     <MDXRemote
-      source={escapeCurlyBracesOutsideCodeBlocksAndInlineCode(content)}
+      source={escapeOutsideCodeAndMarkdown(content, preview)}
       components={withStaticComponentOption}
       options={withStaticMdxOptions}
     />
