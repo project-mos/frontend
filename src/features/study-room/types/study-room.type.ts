@@ -1,3 +1,5 @@
+import { StudyRule } from "@/entities/study/rules";
+
 export interface StudyDetailPageProps {
   params: Promise<{ id: string }>;
 }
@@ -16,8 +18,8 @@ export interface StudyNoticeCardInterface {
   title: string;
   content: string;
   writer: string;
-  isImportantNoticeChecked: boolean
-  isPinned: boolean
+  isImportantNoticeChecked: boolean;
+  isPinned: boolean;
 }
 
 /* study manage */
@@ -54,10 +56,7 @@ export interface Attendance {
 }
 
 /* study overview */
-export interface RuleInterface {
-  ruleNum: number;
-  content: string;
-}
+export type RuleInterface = Omit<StudyRule, "id">;
 
 export interface BenefitInterface {
   benefitNum: number;

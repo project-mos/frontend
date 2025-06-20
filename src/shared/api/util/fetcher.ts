@@ -1,11 +1,35 @@
-export class FetchAPIError extends Error {
+enum Method {
+  GET = "GET",
+  POST = "POST",
+  PUT = "PUT",
+  DELETE = "DELETE",
+  PATCH = "PATCH",
+}
+
+type ApiEndpoint = {
+  url: string;
+  method: Method;
+};
+
+class FetchAPIError extends Error {
   constructor(message: string) {
     super(message);
     this.name = "";
   }
 }
 
-export const fetchAPI = async <T>(
+function createJsonRequestInit(method: Method, body?: unknown): RequestInit {
+  return {
+    method,
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: body ? JSON.stringify(body) : undefined,
+  };
+}
+
+const fetchAPI = async <T>(
   input: string | URL | globalThis.Request,
   init?: RequestInit
 ): Promise<T> => {
@@ -59,3 +83,6 @@ export const fetchAPI = async <T>(
   // throw new FetchAPIError("예상치 못한 서버 오류입니다.");
   return data as T;
 };
+
+export { fetchAPI, FetchAPIError, createJsonRequestInit, Method };
+export type { ApiEndpoint };
