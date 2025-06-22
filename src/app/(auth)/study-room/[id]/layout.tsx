@@ -3,9 +3,9 @@ import React from "react";
 import StudyRoomIntendedCard from "@/app/(auth)/study-room/components/layout/StudyRoomIntendedCard";
 import StudyRoomSideBarCard from "@/app/(auth)/study-room/components/layout/StudyRoomSideBarCard";
 import StudyRoomTitleCard from "@/app/(auth)/study-room/components/layout/StudyRoomTitleCard";
-import ImportantNoticeBar from "@/app/(auth)/study-room/components/notice/ImportantNoticeBar";
 import Grid from "@/shared/components/atoms/Grid";
 import { getStudy } from "@/features/studies/services/studies.service";
+import ImportantNoticeBar from "@/entities/notice/ui/ImportantNoticeBar";
 
 interface StudyRoomLayoutProps {
   children: React.ReactNode;

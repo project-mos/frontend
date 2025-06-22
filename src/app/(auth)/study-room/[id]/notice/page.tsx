@@ -1,7 +1,9 @@
-import NoticeCard from "@/app/(auth)/study-room/components/notice/NoticeCard";
+import NoticeCard from "@/entities/notice/ui/NoticeCard";
 
-const Notice = () => {
-  return <NoticeCard />;
+const Notice = async ({ params }: { params: Promise<{ id: number }> }) => {
+  const { id } = await params;
+
+  return <NoticeCard studyId={Number(id)} />;
 };
 
 export default Notice;
