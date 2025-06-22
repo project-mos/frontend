@@ -5,10 +5,10 @@ import Badge from "@/shared/components/atoms/Badge";
 import Typography from "@/shared/components/atoms/Typography";
 import URL from "@/shared/constants/URL";
 
-import StudyActions from "@/app/(auth)/create-study/components/StudyActions";
-import StudyBenefits from "@/app/(auth)/create-study/components/StudyBenefits";
-import StudyDescription from "@/app/(auth)/create-study/components/StudyDescription";
-import StudyRules from "@/app/(auth)/create-study/components/StudyRules";
+import StudyActions from "@/features/create-study/components/StudyActions";
+import StudyBenefits from "@/features/create-study/components/StudyBenefits";
+import StudyDescription from "@/features/create-study/components/StudyDescription";
+import StudyRules from "@/features/create-study/components/StudyRules";
 import { StudyFormInterface } from "../types/create-study.type";
 
 const CreateStudyForm2 = () => {
