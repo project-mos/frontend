@@ -59,7 +59,7 @@ const ScheduleModal = ({
   const editPastData = useRef<PostStudySchedule>(null);
 
   const { id } = useParams() as { id: string };
-  const { data: curriculumsData } = useGetCurriculums(id);
+  const { data: curriculumsData } = useGetCurriculums(Number(id));
   const { mutate: postStudyScheduleMutate } = usePostStudySchedule(Number(id));
   const { mutate: putStudyScheduleMutate } = usePutStudySchedule(Number(id));
 

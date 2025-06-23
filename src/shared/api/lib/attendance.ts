@@ -1,11 +1,13 @@
 import { Method } from "@/shared/api/util/fetcher";
 
-export const attendance = {
-  attendance: (studyId: string, studyScheduleId: string) => ({
+export const attendances = {
+  // (전 api 명) attendance
+  postAttendances: (studyId: string, studyScheduleId: string) => ({
     url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/schedules/${studyScheduleId}/attendances`,
     method: Method.POST,
   }),
-  editAttendance: (studyId: string, studyScheduleId: string) => ({
+  // (전 api 명) editAttendance
+  putAttendances: (studyId: string, studyScheduleId: string) => ({
     url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/schedules/${studyScheduleId}/attendances`,
     method: Method.PUT,
   }),
@@ -13,7 +15,8 @@ export const attendance = {
     url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/members/attendances`,
     method: Method.GET,
   }),
-  earlyLeave: (studyId: string, studyScheduleId: string) => ({
+  // (전 api 명) earlyLeave
+  patchAttendances: (studyId: string, studyScheduleId: string) => ({
     url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/schedules/${studyScheduleId}/attendances/early-leave`,
     method: Method.PATCH,
   }),

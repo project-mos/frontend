@@ -5,7 +5,7 @@ export const benefits = {
     url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/benefits`,
     method: Method.GET,
   }),
-  editStudyBenefits: (studyId: string) => ({
+  postStudyBenefits: (studyId: string) => ({
     url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/benefits`,
     method: Method.POST,
   }),

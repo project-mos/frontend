@@ -12,7 +12,7 @@ const ManageOverview = async ({ params }: StudyDetailPageProps) => {
   const { id } = await params;
 
   const benefits = (await getBenefits(id)).map((item) => item.content);
-  const rules = (await getRules(id)).map((item) => item.content);
+  const rules = (await getRules(Number(id))).map((item) => item.content);
   const studyDetailData = await getStudy(id);
 
   return (

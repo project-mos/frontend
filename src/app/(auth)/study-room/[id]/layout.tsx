@@ -5,7 +5,7 @@ import StudyRoomSideBarCard from "@/app/(auth)/study-room/components/layout/Stud
 import StudyRoomTitleCard from "@/app/(auth)/study-room/components/layout/StudyRoomTitleCard";
 import Grid from "@/shared/components/atoms/Grid";
 import { getStudy } from "@/features/studies/services/studies.service";
-import ImportantNoticeBar from "@/entities/notice/ui/ImportantNoticeBar";
+import ImportantNoticeBar from "@/entities/study/notice/ui/ImportantNoticeBar";
 
 interface StudyRoomLayoutProps {
   children: React.ReactNode;

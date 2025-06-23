@@ -37,10 +37,7 @@ export const study = {
     url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/hots`,
     method: Method.GET,
   }),
-  getCategories: () => ({
-    url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/categories`,
-    method: Method.GET,
-  }),
+
   uploadImage: () => ({
     url: `${process.env.NEXT_PUBLIC_BASE_URL}/recruitment-images`,
     method: Method.POST,

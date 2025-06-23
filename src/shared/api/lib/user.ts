@@ -5,11 +5,11 @@ export const user = {
     url: `${process.env.NEXT_PUBLIC_BASE_URL}/users`,
     method: Method.GET,
   }),
-  updateUser: () => ({
+  patchUser: () => ({
     url: `${process.env.NEXT_PUBLIC_BASE_URL}/users`,
     method: Method.PATCH,
   }),
-  updateProfileImg: () => ({
+  patchProfileImg: () => ({
     url: `${process.env.NEXT_PUBLIC_BASE_URL}/users/images`,
     method: Method.PATCH,
   }),
