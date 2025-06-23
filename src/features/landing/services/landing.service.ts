@@ -4,11 +4,10 @@ import {
   GetHotStudiesResponse,
   GetAccessTokenResponse,
 } from "@/features/landing/types/landing.api";
-
+import { fetchAPI } from "@/shared/api/lib";
 import { API_ENDPOINT } from "@/shared/constants/api-end-point";
-import { GetStudyCategoriesResponse } from "@/shared/types/api/studies";
 
-import { fetchAPI } from "@/shared/utils/fetch";
+import { GetStudyCategoriesResponse } from "@/shared/types/api/studies";
 
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 

@@ -1,3 +1,4 @@
+import { fetchAPI } from "@/shared/api/lib";
 import { API_ENDPOINT } from "@/shared/constants/api-end-point";
 import {
   CreateStudyScheduleResult,
@@ -8,7 +9,7 @@ import {
   UpdateProfileImgResult,
   UpdateUserInfoResult,
 } from "@/shared/types/api/mypage";
-import { fetchAPI } from "@/shared/utils/fetch";
+
 import {
   useMutation,
   UseMutationOptions,
@@ -59,19 +60,19 @@ export function usePostUserInfo(
 }
 
 // 유저 프로필 이미지 수정 //
-export async function updateProfileImg(data:UpdateProfileImgResult) {
-  const {url, method} = API_ENDPOINT.mypage.updateProfileImg()
+export async function updateProfileImg(data: UpdateProfileImgResult) {
+  const { url, method } = API_ENDPOINT.mypage.updateProfileImg();
 
   // FormData 생성
   const formData = new FormData();
-  formData.append("file", data.file); 
-  formData.append("type", data.type); 
+  formData.append("file", data.file);
+  formData.append("type", data.type);
 
   return await fetchAPI<UpdateProfileImgResult>(url, {
     credentials: "include",
     method: method,
-    body: formData
-  })
+    body: formData,
+  });
 }
 
 export function usePostProfileImg(
@@ -79,8 +80,8 @@ export function usePostProfileImg(
 ) {
   return useMutation({
     ...options,
-    mutationFn: (data: UpdateProfileImgResult) => updateProfileImg(data)
-  })
+    mutationFn: (data: UpdateProfileImgResult) => updateProfileImg(data),
+  });
 }
 
 // 캘린더 일정 조회 //

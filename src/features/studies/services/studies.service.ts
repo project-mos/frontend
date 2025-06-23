@@ -10,9 +10,7 @@ import {
   GetStudyRulesResponse,
   PostStudyJoin,
 } from "@/features/studies/types/studies.api";
-import { API_ENDPOINT } from "@/shared/constants/api-end-point";
-
-import { fetchAPI } from "@/shared/utils/fetch";
+import { API_ENDPOINT, fetchAPI } from "@/shared/api/lib";
 
 export async function getStudy(id: string) {
   const response = await fetchAPI<GetStudyDetailResponse>(
@@ -27,7 +25,7 @@ export async function getRequirements(studyId: string) {
   );
   return response;
 }
-export async function getRules(studyId: string) {
+export async function getRules(studyId: number) {
   const response = await fetchAPI<GetStudyRulesResponse>(
     API_ENDPOINT.rules.getStudyRules(studyId).url
   );
@@ -41,7 +39,7 @@ export async function getBenefits(studyId: string) {
   return response;
 }
 
-export async function getCurriculums(studyId: string) {
+export async function getCurriculums(studyId: number) {
   const response = await fetchAPI<GetStudyCurriculumsResponse>(
     API_ENDPOINT.curriculums.getCurriculums(studyId).url
   );
@@ -109,7 +107,7 @@ export async function patchJoin(studyId: string, studyJoinId: string) {
 }
 
 export async function leaveStudy(studyId: string) {
-  const { url, method } = API_ENDPOINT.members.leaveStudy(studyId);
+  const { url, method } = API_ENDPOINT.members.deleteMember(studyId);
   return await fetchAPI(url, {
     method,
     credentials: "include",
