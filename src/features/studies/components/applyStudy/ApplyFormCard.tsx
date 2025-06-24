@@ -14,7 +14,7 @@ import LabelTextAreaInput from "@/shared/components/molecules/LabelTextAreaInput
 
 import LabelRadioInput from "@/shared/components/molecules/LabelRadioInput";
 
-import { useTokenStore } from "@/entities/auth/store/auth.store";
+import { useTokenStore } from "@/entities/auth/model/auth.store";
 import { useToast } from "@/shared/hooks/useToast";
 
 import {

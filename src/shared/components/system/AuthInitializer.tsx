@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuthStore, useTokenStore } from "@/entities/auth/store/auth.store";
+import { useAuthStore, useTokenStore } from "@/entities/auth/model/auth.store";
 import {
   getAccessToken,
   getRefreshAuth,

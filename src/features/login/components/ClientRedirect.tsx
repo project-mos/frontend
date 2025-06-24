@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 
-import { useAuthStore } from "@/entities/auth/store/auth.store";
+import { useAuthStore } from "@/entities/auth/model/auth.store";
 import oAuthLogin from "@/features/login/services/oAuthLogin.service";
 import URL from "@/shared/constants/URL";
 import { useRouter, useSearchParams } from "next/navigation";

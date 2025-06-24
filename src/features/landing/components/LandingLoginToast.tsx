@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuthStore } from "@/entities/auth/store/auth.store";
+import { useAuthStore } from "@/entities/auth/model/auth.store";
 import { useToast } from "@/shared/hooks/useToast";
 import { useEffect, useRef } from "react";
 

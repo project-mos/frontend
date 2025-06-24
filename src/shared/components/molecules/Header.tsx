@@ -1,5 +1,5 @@
 "use client";
-import { useAuthStore } from "@/entities/auth/store/auth.store";
+import { useAuthStore } from "@/entities/auth/model/auth.store";
 import cn from "@/shared/utils/cn";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";

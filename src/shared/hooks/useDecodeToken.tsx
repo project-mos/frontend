@@ -1,5 +1,5 @@
 "use client";
-import { useTokenStore } from "@/entities/auth/store/auth.store";
+import { useTokenStore } from "@/entities/auth/model/auth.store";
 
 type JwtToken = {
   sub: string;
