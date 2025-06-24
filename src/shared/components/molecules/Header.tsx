@@ -1,5 +1,5 @@
 "use client";
-import { useAuthStore } from "@/shared/store/authStore";
+import { useAuthStore } from "@/entities/auth/store/auty.store";
 import cn from "@/shared/utils/cn";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
@@ -13,9 +13,9 @@ import LoginModal from "@/features/login/components/LoginModal";
 import { ADMIN_MENU_ITEMS, MENU_ITEMS } from "@/shared/constants/SidebarItems";
 import URL from "@/shared/constants/URL";
 import useModal from "@/shared/hooks/useModal";
-import { Tooltip } from "@heroui/tooltip";
-import { logout } from "@/shared/utils/logout";
 import useMultiModal from "@/shared/hooks/useMultiModal";
+import { logout } from "@/shared/utils/logout";
+import { Tooltip } from "@heroui/tooltip";
 import ActionConfirmModal from "./ActionConfirmModal";
 
 const Header = () => {

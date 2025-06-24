@@ -14,22 +14,22 @@ import LabelTextAreaInput from "@/shared/components/molecules/LabelTextAreaInput
 
 import LabelRadioInput from "@/shared/components/molecules/LabelRadioInput";
 
-import { useTokenStore } from "@/shared/store/authStore";
+import { useTokenStore } from "@/entities/auth/store/auty.store";
 import { useToast } from "@/shared/hooks/useToast";
 
-import useMultiModal from "@/shared/hooks/useMultiModal";
-import ActionConfirmModal from "@/shared/components/molecules/ActionConfirmModal";
-import { useParams } from "next/navigation";
+import {
+  useGetJoins,
+  usePatchJoin,
+  usePostJoin,
+} from "@/features/studies/hooks/useStudiesQueries";
 import {
   GetStudyQuestionsResponse,
   PostStudyJoin,
   StudyJoin,
 } from "@/features/studies/types/studies.api";
-import {
-  useGetJoins,
-  usePostJoin,
-  usePatchJoin,
-} from "@/features/studies/hooks/useStudiesQueries";
+import ActionConfirmModal from "@/shared/components/molecules/ActionConfirmModal";
+import useMultiModal from "@/shared/hooks/useMultiModal";
+import { useParams } from "next/navigation";
 
 interface ApplyFormCardInterface {
   studyId: string;
