@@ -2,14 +2,14 @@
 import cn from "@/shared/utils/cn";
 import { useRef, useState } from "react";
 
+import StudyFormModal from "@/features/mypage/components/StudyFormModal";
+import { mySchedulesQueryOption } from "@/features/mypage/services/mypage.service";
 import Button from "@/shared/components/atoms/Button";
 import Grid from "@/shared/components/atoms/Grid";
 import Typography from "@/shared/components/atoms/Typography";
-import { useQuery } from "@tanstack/react-query";
-import { mySchedulesQueryOption } from "@/features/mypage/services/mypage.service";
 import useModal from "@/shared/hooks/useModal";
-import StudyFormModal from "@/app/(auth)/mypage/components/StudyFormModal";
 import { GetMySchedulesResult } from "@/shared/types/api/mypage";
+import { useQuery } from "@tanstack/react-query";
 
 interface CalendarProps {
   [key: string]: {

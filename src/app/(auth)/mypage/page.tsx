@@ -1,7 +1,7 @@
-import ActiveStudies from "@/app/(auth)/mypage/components/ActiveStudies";
-import ProfileCard from "@/app/(auth)/mypage/components/ProfileCard";
-import Statistics from "@/app/(auth)/mypage/components/Statistics";
-import StudySchedule from "@/app/(auth)/mypage/components/StudySchedule";
+import ActiveStudies from "@/features/mypage/components/ActiveStudies";
+import ProfileCard from "@/features/mypage/components/ProfileCard";
+import Statistics from "@/features/mypage/components/Statistics";
+import StudySchedule from "@/features/mypage/components/StudySchedule";
 
 const MyPage = async () => {
   return (

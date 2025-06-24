@@ -1,10 +1,10 @@
 export type {
-  EditRuleResponse,
   EditRuleRequest,
+  EditRuleResponse,
   EditStudyRule,
-  StudyRule,
   GetStudyRulesResponse,
-} from "@/entities/study/rule/api/rules.api.types";
+  StudyRule,
+} from "@/entities/study/overview/api/rules.api.types";
 
 import { createJsonRequestInit, fetchAPI } from "@/shared/api/util/fetcher";
 
@@ -14,7 +14,7 @@ import {
   GetStudyBenefitsResponse,
   PostBenefitRequest,
   PostBenefitResponse,
-} from "@/entities/study/benefit/api/benefit.api.types";
+} from "@/entities/study/overview/api/benefits.api.types";
 
 export async function getBenefits(studyId: string) {
   const response = await fetchAPI<GetStudyBenefitsResponse>(

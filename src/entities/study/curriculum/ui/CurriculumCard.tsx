@@ -6,10 +6,10 @@ import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
 import { StudyCurriculumCardInterface } from "@/features/study-room/types/study-room.type";
-import Curriculum from "./Curriculum";
 import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import Curriculum from "./Curriculum";
 
-import { useTokenStore } from "@/shared/store/authStore";
+import { useTokenStore } from "@/entities/auth/store/auth.store";
 import {
   curriculumQueryOption,
   useUpdateCurriculum,

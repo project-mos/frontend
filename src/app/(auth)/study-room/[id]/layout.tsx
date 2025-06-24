@@ -1,11 +1,11 @@
 import React from "react";
 
-import StudyRoomIntendedCard from "@/app/(auth)/study-room/components/layout/StudyRoomIntendedCard";
-import StudyRoomSideBarCard from "@/app/(auth)/study-room/components/layout/StudyRoomSideBarCard";
-import StudyRoomTitleCard from "@/app/(auth)/study-room/components/layout/StudyRoomTitleCard";
-import Grid from "@/shared/components/atoms/Grid";
-import { getStudy } from "@/features/studies/services/studies.service";
 import ImportantNoticeBar from "@/entities/study/notice/ui/ImportantNoticeBar";
+import { getStudy } from "@/features/studies/services/studies.service";
+import StudyRoomIntendedCard from "@/features/study-room/component/StudyRoomIntendedCard";
+import StudyRoomSideBarCard from "@/features/study-room/component/StudyRoomSideBarCard";
+import StudyRoomTitleCard from "@/features/study-room/component/StudyRoomTitleCard";
+import Grid from "@/shared/components/atoms/Grid";
 
 interface StudyRoomLayoutProps {
   children: React.ReactNode;

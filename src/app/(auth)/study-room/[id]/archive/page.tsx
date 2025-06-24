@@ -1,7 +1,7 @@
-import ArchiveCard from "@/app/(auth)/study-room/components/archive/ArchiveCard";
+import MaterialCard from "@/entities/study/material/ui/MaterialCard";
 
 const ArchivePage = () => {
-  return <ArchiveCard />;
+  return <MaterialCard />;
 };
 
 export default ArchivePage;

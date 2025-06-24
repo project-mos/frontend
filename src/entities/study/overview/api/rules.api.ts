@@ -1,10 +1,10 @@
 export type {
-  EditRuleResponse,
   EditRuleRequest,
+  EditRuleResponse,
   EditStudyRule,
-  StudyRule,
   GetStudyRulesResponse,
-} from "@/entities/study/rule/api/rules.api.types";
+  StudyRule,
+} from "@/entities/study/overview/api/rules.api.types";
 
 import { createJsonRequestInit, fetchAPI } from "@/shared/api/util/fetcher";
 
@@ -13,7 +13,7 @@ import {
   EditRuleResponse,
   GetStudyRulesResponse,
   StudyRule,
-} from "@/entities/study/rule/api/rules.api.types";
+} from "@/entities/study/overview/api/rules.api.types";
 import { API_ENDPOINT } from "@/shared/api/lib";
 
 export async function getRules(studyId: StudyRule["id"]) {

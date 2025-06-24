@@ -12,7 +12,7 @@ import { formatFileSize } from "@/shared/utils/format";
 import { useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
-const ArchiveCard = () => {
+const MaterialCard = () => {
   const params = useParams();
   const id = params.id as string;
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -159,4 +159,4 @@ const ArchiveCard = () => {
   );
 };
 
-export default ArchiveCard;
+export default MaterialCard;

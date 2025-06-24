@@ -1,4 +1,4 @@
-import ScheduleCard from "@/app/(auth)/study-room/components/schedule/ScheduleCard";
+import ScheduleCard from "@/entities/study/schedule/ui/ScheduleCard";
 
 const SchedulePage = () => {
   return <ScheduleCard />;

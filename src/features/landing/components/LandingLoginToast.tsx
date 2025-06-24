@@ -1,7 +1,7 @@
 "use client";
 
+import { useAuthStore } from "@/entities/auth/store/auth.store";
 import { useToast } from "@/shared/hooks/useToast";
-import { useAuthStore } from "@/shared/store/authStore";
 import { useEffect, useRef } from "react";
 
 const LandingLoginToast = () => {

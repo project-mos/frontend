@@ -2,9 +2,9 @@
 
 import { useEffect } from "react";
 
+import { useAuthStore } from "@/entities/auth/store/auth.store";
 import oAuthLogin from "@/features/login/services/oAuthLogin.service";
 import URL from "@/shared/constants/URL";
-import { useAuthStore } from "@/shared/store/authStore";
 import { useRouter, useSearchParams } from "next/navigation";
 
 const ClientRedirect = () => {

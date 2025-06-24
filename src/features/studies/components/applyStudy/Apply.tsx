@@ -6,12 +6,12 @@ import Button from "@/shared/components/atoms/Button";
 import useModal from "@/shared/hooks/useModal";
 import ApplyFormCard from "./ApplyFormCard";
 
+import { useAuthStore } from "@/entities/auth/store/auth.store";
 import URL from "@/shared/constants/URL";
-import { useAuthStore } from "@/shared/store/authStore";
 
+import { useQuestions } from "@/features/studies/hooks/useStudiesQueries";
 import { GetStudyDetailResponse } from "@/features/studies/types/studies.api";
 import { useParams } from "next/navigation";
-import { useQuestions } from "@/features/studies/hooks/useStudiesQueries";
 
 interface ApplyProps {
   data: GetStudyDetailResponse;

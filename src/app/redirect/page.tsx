@@ -1,5 +1,5 @@
 "use client";
-import ClientRedirect from "@/app/redirect/components/ClientRedirect";
+import ClientRedirect from "@/features/login/components/ClientRedirect";
 import Typography from "@/shared/components/atoms/Typography";
 import { useEffect, useState } from "react";
 
