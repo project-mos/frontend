@@ -1,5 +1,5 @@
 import { StudyDetailPageProps } from "@/features/study-room/types/study-room.type";
-import SettingCard from "../../components/setting/SettingCard";
+import SettingCard from "../../../../../entities/study/setting/ui/SettingCard";
 
 const SettingPage = async ({ params }: StudyDetailPageProps) => {
   const { id } = await params;

@@ -4,7 +4,7 @@ import Button from "@/shared/components/atoms/Button";
 import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
 
-import StudyRoomSessionCard from "@/app/(auth)/study-room/components/layout/StudyRoomSessionCard";
+import StudyRoomSessionCard from "@/features/study-room/component/StudyRoomSessionCard";
 import ActionConfirmModal from "@/shared/components/molecules/ActionConfirmModal";
 import useMultiModal from "@/shared/hooks/useMultiModal";
 
