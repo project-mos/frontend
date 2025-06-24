@@ -21,9 +21,9 @@ const page = async ({ params }: StudyDetailPageProps) => {
   const { id } = await params;
   const studyDetailData = await getStudy(id);
   const requirementsData = await getRequirements(id);
-  const rulesData = await getRules(id);
+  const rulesData = await getRules(Number(id));
   const benefitsData = await getBenefits(id);
-  const curriculumsData = await getCurriculums(id);
+  const curriculumsData = await getCurriculums(Number(id));
   const membersData = await getMembers(id);
 
   return (

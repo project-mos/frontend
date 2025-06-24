@@ -1,6 +1,4 @@
 import { API_ENDPOINT } from "@/shared/constants/api-end-point";
-import { fetchAPI } from "@/shared/utils/fetch";
-
 import {
   AttendanceRequest,
   EditBenefitRequest,
@@ -15,6 +13,7 @@ import {
   PostStudySchedule,
   UploadMaterialsRequest,
 } from "../types/study-room.api";
+import { fetchAPI } from "@/shared/api/lib";
 
 /* study room overview */
 export async function editBenefit({ studyId, benefits }: EditBenefitRequest) {

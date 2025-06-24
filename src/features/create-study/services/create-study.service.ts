@@ -1,10 +1,10 @@
 import { API_ENDPOINT } from "@/shared/constants/api-end-point";
-import { fetchAPI } from "@/shared/utils/fetch";
 import {
   CreateStudyRequest,
   CreateStudyResponse,
   UploadImageRequest,
 } from "../types/create-study.api";
+import { fetchAPI } from "@/shared/api/lib";
 
 function sanitizeCodeLikeLinesWithEscape(md: string): string {
   const CODE_LIKE_KEYWORDS = [
