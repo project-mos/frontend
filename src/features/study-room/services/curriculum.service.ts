@@ -1,7 +1,12 @@
-import { UseQueryOptions, QueryKey, useMutation, UseMutationOptions } from "@tanstack/react-query";
+import {
+  UseQueryOptions,
+  QueryKey,
+  useMutation,
+  UseMutationOptions,
+} from "@tanstack/react-query";
 import { GetCurriculumResult } from "../types/curriculum.api";
 import { API_ENDPOINT } from "@/shared/constants/api-end-point";
-import { fetchAPI } from "@/shared/utils/fetch";
+import { fetchAPI } from "@/shared/api/lib";
 
 // 커리큘럼 조회
 export async function getCurriculumsByStudy(
@@ -23,10 +28,18 @@ export async function getCurriculumsByStudy(
 export function curriculumQueryOption(
   accessToken: string,
   studyId: string,
-  options?: Omit<UseQueryOptions<GetCurriculumResult[], Error, GetCurriculumResult[], QueryKey>, "queryKey" | "queryFn">
+  options?: Omit<
+    UseQueryOptions<
+      GetCurriculumResult[],
+      Error,
+      GetCurriculumResult[],
+      QueryKey
+    >,
+    "queryKey" | "queryFn"
+  >
 ) {
   return {
-    queryKey: ["study_room_curriculum",studyId],
+    queryKey: ["study_room_curriculum", studyId],
     queryFn: () => getCurriculumsByStudy(accessToken, studyId),
     suspense: true, // Suspense 활성화
     ...options,
@@ -34,8 +47,11 @@ export function curriculumQueryOption(
 }
 
 // 커리큘럼 수정
-export async function updateCurriculum(studyId:number, data:GetCurriculumResult[]) {
-  const { url, method } = API_ENDPOINT.curriculums.postCurriculums(studyId)
+export async function updateCurriculum(
+  studyId: number,
+  data: GetCurriculumResult[]
+) {
+  const { url, method } = API_ENDPOINT.curriculums.postCurriculums(studyId);
 
   return await fetchAPI<GetCurriculumResult[]>(url, {
     credentials: "include",
@@ -43,13 +59,17 @@ export async function updateCurriculum(studyId:number, data:GetCurriculumResult[
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(data)
-  })
+    body: JSON.stringify(data),
+  });
 }
 
-export function useUpdateCurriculum(studyId: number, options?: UseMutationOptions<GetCurriculumResult[], Error, unknown>) {
+export function useUpdateCurriculum(
+  studyId: number,
+  options?: UseMutationOptions<GetCurriculumResult[], Error, unknown>
+) {
   return useMutation({
     ...options,
-    mutationFn: (data: GetCurriculumResult[]) => updateCurriculum(studyId, data)
-  })
+    mutationFn: (data: GetCurriculumResult[]) =>
+      updateCurriculum(studyId, data),
+  });
 }
