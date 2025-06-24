@@ -6,12 +6,12 @@ import Profile from "@/shared/components/atoms/Profile";
 import Typography from "@/shared/components/atoms/Typography";
 
 import profileImg from "@/asset/images/defaultProfile.png";
+import ProfileModal from "@/features/mypage/components/ProfileModal";
+import { userInfoQueryOption } from "@/features/mypage/services/mypage.service";
 import ActionConfirmModal from "@/shared/components/molecules/ActionConfirmModal";
 import useMultiModal from "@/shared/hooks/useMultiModal";
-import ProfileModal from "@/app/(auth)/mypage/components/ProfileModal";
-import { useQuery } from "@tanstack/react-query";
-import { userInfoQueryOption } from "@/features/mypage/services/mypage.service";
 import { logout } from "@/shared/utils/logout";
+import { useQuery } from "@tanstack/react-query";
 
 const ProfileCard = () => {
   const { modal, openModal, closeModal } = useMultiModal();
