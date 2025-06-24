@@ -1,4 +1,4 @@
-import MemberCard from "@/app/(auth)/study-room/components/member/MemberCard";
+import MemberCard from "@/entities/study/member/ui/MemberCard";
 import { getMembers } from "@/features/studies/services/studies.service";
 import { StudyDetailPageProps } from "@/features/study-room/types/study-room.type";
 

@@ -1,4 +1,4 @@
-import { StudyRule } from "@/entities/study/rule/api/rules.api.types";
+import { StudyRule } from "@/entities/study/overview/api/rules.api.types";
 
 export interface StudyDetailPageProps {
   params: Promise<{ id: string }>;

@@ -24,7 +24,6 @@ import Button from "@/shared/components/atoms/Button";
 import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
 import useModal from "@/shared/hooks/useModal";
-
 import MemberModal from "./MemberModal";
 
 interface MemberCardProps {

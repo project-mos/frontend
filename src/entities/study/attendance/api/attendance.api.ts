@@ -1,10 +1,10 @@
 export type {
-  EditRuleResponse,
   EditRuleRequest,
+  EditRuleResponse,
   EditStudyRule,
-  StudyRule,
   GetStudyRulesResponse,
-} from "@/entities/study/rule/api/rules.api.types";
+  StudyRule,
+} from "@/entities/study/overview/api/rules.api.types";
 
 import { createJsonRequestInit, fetchAPI } from "@/shared/api/util/fetcher";
 

@@ -9,10 +9,7 @@ import ActionConfirmModal from "@/shared/components/molecules/ActionConfirmModal
 import useMultiModal from "@/shared/hooks/useMultiModal";
 
 import { useEffect, useState } from "react";
-import ScheduleModal from "./ScheduleModal";
 
-import { useParams } from "next/navigation";
-import { GetStudySchedule } from "@/features/study-room/types/study-room.api";
 import {
   useGetStudy,
   useMyStudyRole,
@@ -21,8 +18,11 @@ import {
   useDeleteStudySchedule,
   useGetStudySchedule,
 } from "@/features/study-room/hooks/useScheduleQueries";
+import { GetStudySchedule } from "@/features/study-room/types/study-room.api";
 import Meta from "@/shared/components/molecules/Meta";
 import { formatDate } from "@/shared/utils/date";
+import { useParams } from "next/navigation";
+import ScheduleModal from "./ScheduleModal";
 
 type ScheduleType = "upcoming" | "past";
 

@@ -1,9 +1,9 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   getBenefits,
   postBenefit,
-} from "@/entities/study/benefit/api/benefit.api";
-import { PostBenefitRequest } from "@/entities/study/benefit/api/benefit.api.types";
+} from "@/entities/study/overview/api/benefits.api";
+import { PostBenefitRequest } from "@/entities/study/overview/api/benefits.api.types";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 // Query Key 생성 함수
 export const BenefitsQueryKey = (studyId: string) => [
