@@ -1,4 +1,4 @@
-import { useAuthStore, useTokenStore } from "@/entities/auth/store/auty.store";
+import { useAuthStore, useTokenStore } from "@/entities/auth/store/auth.store";
 import URL from "@/shared/constants/URL";
 
 export const logout = async () => {

@@ -6,7 +6,7 @@ import Button from "@/shared/components/atoms/Button";
 import useModal from "@/shared/hooks/useModal";
 import ApplyFormCard from "./ApplyFormCard";
 
-import { useAuthStore } from "@/entities/auth/store/auty.store";
+import { useAuthStore } from "@/entities/auth/store/auth.store";
 import URL from "@/shared/constants/URL";
 
 import { useQuestions } from "@/features/studies/hooks/useStudiesQueries";

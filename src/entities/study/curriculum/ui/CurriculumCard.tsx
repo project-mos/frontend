@@ -9,7 +9,7 @@ import { StudyCurriculumCardInterface } from "@/features/study-room/types/study-
 import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import Curriculum from "./Curriculum";
 
-import { useTokenStore } from "@/entities/auth/store/auty.store";
+import { useTokenStore } from "@/entities/auth/store/auth.store";
 import {
   curriculumQueryOption,
   useUpdateCurriculum,
