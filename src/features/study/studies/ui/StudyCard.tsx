@@ -22,7 +22,7 @@ const StudyCard = ({ data, className, ...props }: StudyCardProps) => {
       className="flex justify-center "
     >
       <Card
-        className={`flex h-[300px] w-[255px] cursor-pointer flex-col justify-between ${
+        className={`flex h-[300px] w-full cursor-pointer flex-col justify-between ${
           className ?? ""
         }`}
         {...props}
