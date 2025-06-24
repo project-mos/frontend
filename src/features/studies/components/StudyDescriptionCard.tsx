@@ -6,7 +6,6 @@ import Typography from "@/shared/components/atoms/Typography";
 
 import "highlight.js/styles/github-dark.css";
 
-import ShareButton from "@/app/studies/components/applyStudy/ShareButton";
 import profileImg from "@/asset/images/defaultProfile.png";
 import {
   GetStudyBenefitsResponse,
@@ -17,6 +16,7 @@ import {
 } from "@/features/studies/types/studies.api";
 import Profile from "@/shared/components/atoms/Profile";
 import CustomMdxRemote from "@/shared/components/system/CustomMdxRemote";
+import ShareButton from "@/features/studies/components/applyStudy/ShareButton";
 
 interface StudyDescriptionCardProps {
   studyDetailData: GetStudyDetailResponse;

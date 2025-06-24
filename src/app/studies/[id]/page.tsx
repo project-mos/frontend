@@ -1,7 +1,4 @@
-import StudyCurriculumCard from "@/app/studies/components/StudyCurriculumCard";
-import StudyDescriptionCard from "@/app/studies/components/StudyDescriptionCard";
-import Apply from "@/app/studies/components/applyStudy/Apply";
-import LandingLoginToast from "@/features/landing/components/LandingLoginToast";
+import LandingLoginToast from "@/widget/landing/ui/LandingLoginToast";
 import {
   getBenefits,
   getCurriculums,
@@ -10,6 +7,9 @@ import {
   getRules,
   getStudy,
 } from "@/features/studies/services/studies.service";
+import StudyDescriptionCard from "@/features/studies/components/StudyDescriptionCard";
+import StudyCurriculumCard from "@/features/studies/components/StudyCurriculumCard";
+import Apply from "@/features/studies/components/applyStudy/Apply";
 
 // import { MockStudiesApiResult } from "@/shared/mock/api/studies";
 

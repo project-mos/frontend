@@ -1,17 +1,12 @@
-import { HTMLAttributes } from "react";
-
 import Card from "@/shared/components/atoms/Card";
 import Tag from "@/shared/components/atoms/Tag";
 import Typography from "@/shared/components/atoms/Typography";
 import Meta from "@/shared/components/molecules/Meta";
-import { Study } from "@/features/landing/types/landing.api";
+
 import CustomMdxRemote from "@/shared/components/system/CustomMdxRemote";
 import Link from "next/link";
 import URL from "@/shared/constants/URL";
-
-interface StudyCardProps extends HTMLAttributes<HTMLDivElement> {
-  data: Study;
-}
+import { StudyCardProps } from "@/features/study/studies/ui/studies.ui.types";
 
 const StudyCard = ({ data, className, ...props }: StudyCardProps) => {
   // 최대 6개까지만 보여주고, 각 태그 문자열은 최대 5글자까지만 잘라서 출력

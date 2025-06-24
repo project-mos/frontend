@@ -1,13 +1,13 @@
-import Grid from "@/shared/components/atoms/Grid";
 import Typography from "@/shared/components/atoms/Typography";
 
-import LandingStudyCard from "./LandingStudyCard";
-
+import StudyCard from "@/features/study/studies/ui/StudyCard";
+import LandingGrid from "@/widget/landing/ui/LandingGrid";
+import LandingEmptyContents from "@/widget/landing/ui/LandingEmptyContents";
 import {
   GetHotStudiesResponse,
   GetStudiesResponse,
   Study,
-} from "@/features/landing/types/landing.api";
+} from "@/entities/study/studies/api/studies.api.type";
 
 interface LandingContentCards {
   studiesData: GetStudiesResponse;
@@ -32,9 +32,7 @@ const LandingContentCards = ({
           {/* 인기 */}
           {hasHotStudyData ? (
             hotStudiesData.map((item: Study, index: number) => {
-              return (
-                <LandingStudyCard key={`${item.id}_${index}`} data={item} />
-              );
+              return <StudyCard key={`${item.id}_${index}`} data={item} />;
             })
           ) : (
             <LandingEmptyContents content="인기 스터디가 없습니다." />
@@ -50,9 +48,7 @@ const LandingContentCards = ({
           {/* 일반 작성글 */}
           {hasStudiesData ? (
             studiesData.studies.map((item: Study, index) => {
-              return (
-                <LandingStudyCard key={`${item.id}_${index}`} data={item} />
-              );
+              return <StudyCard key={`${item.id}_${index}`} data={item} />;
             })
           ) : (
             <LandingEmptyContents content="등록된 스터디가 없습니다." />
@@ -64,25 +60,3 @@ const LandingContentCards = ({
 };
 
 export default LandingContentCards;
-
-const LandingGrid = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <Grid
-      cols={1}
-      gap={3}
-      className="gap-y-4 mobile:grid-cols-2 tablet:grid-cols-3 desktop:grid-cols-4"
-    >
-      {children}
-    </Grid>
-  );
-};
-
-const LandingEmptyContents = ({ content }: { content: string }) => {
-  return (
-    <div className="col-span-4 flex h-80 w-full items-center justify-center border-none p-[15px] shadow-none">
-      <Typography.Head2 className="text-mos-gray-700">
-        {content}
-      </Typography.Head2>
-    </div>
-  );
-};

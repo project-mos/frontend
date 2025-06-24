@@ -1,10 +1,8 @@
 "use client";
 
+import { getAccessToken, getRefreshAuth } from "@/entities/auth/api/auth.api";
 import { useAuthStore, useTokenStore } from "@/entities/auth/model/auth.store";
-import {
-  getAccessToken,
-  getRefreshAuth,
-} from "@/features/landing/services/landing.service";
+
 import { useCallback, useEffect } from "react";
 
 interface AppInitializerProps {

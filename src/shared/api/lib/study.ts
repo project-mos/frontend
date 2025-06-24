@@ -1,4 +1,4 @@
-import { GetStudiesRequest } from "@/features/landing/types/landing.api";
+import { GetStudiesRequest } from "@/entities/study/studies/api/studies.api.type";
 import { Method } from "@/shared/api/util/fetcher";
 
 export const study = {
