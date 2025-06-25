@@ -4,20 +4,17 @@ import { useState } from "react";
 import LoginModal from "@/features/login/components/LoginModal";
 import Button from "@/shared/components/atoms/Button";
 import useModal from "@/shared/hooks/useModal";
-import ApplyFormCard from "./ApplyFormCard";
+import ApplyFormCard from "./StudyApplicationFormCard";
 
 import { useAuthStore } from "@/entities/auth/model/auth.store";
 import URL from "@/shared/constants/URL";
 
-import { useQuestions } from "@/features/studies/hooks/useStudiesQueries";
-import { GetStudyDetailResponse } from "@/features/studies/types/studies.api";
 import { useParams } from "next/navigation";
+import { useGetQuestions } from "@/entities/study/question/model/question.queries";
+import { isTodayInRange } from "@/features/study/study-application/lib";
+import { StudyApplicationSectionProps } from "@/features/study/study-application/ui/study-application.ui.types";
 
-interface ApplyProps {
-  data: GetStudyDetailResponse;
-}
-
-const Apply = ({ data }: ApplyProps) => {
+const StudyApplicationSection = ({ data }: StudyApplicationSectionProps) => {
   const { id } = useParams() as { id: string };
 
   const [isApplyVisibleState, setIsApplyVisibleState] =
@@ -26,7 +23,7 @@ const Apply = ({ data }: ApplyProps) => {
 
   const { isLoggedIn } = useAuthStore();
 
-  const { data: questionData } = useQuestions(id, isLoggedIn);
+  const { data: questionData } = useGetQuestions(id);
 
   function onClickButton() {
     if (isLoggedIn) {
@@ -35,23 +32,6 @@ const Apply = ({ data }: ApplyProps) => {
       openModal();
     }
   }
-  const isTodayInRange = (start: string, end: string): boolean => {
-    const today = new Date();
-    const startDate = new Date(start);
-    const endDate = new Date(end);
-
-    // 날짜 비교를 위해 시간 제거
-    const normalize = (date: Date) =>
-      new Date(date.getFullYear(), date.getMonth(), date.getDate());
-
-    const normalizedToday = normalize(today);
-    const normalizedStart = normalize(startDate);
-    const normalizedEnd = normalize(endDate);
-
-    return (
-      normalizedToday >= normalizedStart && normalizedToday <= normalizedEnd
-    );
-  };
 
   return (
     <div className="flex w-full flex-col items-center gap-5">
@@ -77,4 +57,4 @@ const Apply = ({ data }: ApplyProps) => {
   );
 };
 
-export default Apply;
+export default StudyApplicationSection;

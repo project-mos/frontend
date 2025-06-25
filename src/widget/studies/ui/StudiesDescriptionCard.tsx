@@ -7,32 +7,21 @@ import Typography from "@/shared/components/atoms/Typography";
 import "highlight.js/styles/github-dark.css";
 
 import profileImg from "@/asset/images/defaultProfile.png";
-import {
-  GetStudyBenefitsResponse,
-  GetStudyDetailResponse,
-  GetStudyMembersResponse,
-  GetStudyRequirementsResponse,
-  GetStudyRulesResponse,
-} from "@/features/studies/types/studies.api";
+
 import Profile from "@/shared/components/atoms/Profile";
 import CustomMdxRemote from "@/shared/components/system/CustomMdxRemote";
 import ShareButton from "@/features/share/ui/ShareButton";
+import { StudiesDescriptionCardProps } from "@/widget/studies/ui/studies.ui.types";
+import { GetStudyRulesResponse } from "@/entities/study/overview/api/rules.api.types";
+import { GetStudyBenefitsResponse } from "@/entities/study/overview/api/benefits.api.types";
 
-interface StudyDescriptionCardProps {
-  studyDetailData: GetStudyDetailResponse;
-  requirementsData: GetStudyRequirementsResponse;
-  rulesData: GetStudyRulesResponse;
-  benefitsData: GetStudyBenefitsResponse;
-  membersData: GetStudyMembersResponse;
-}
-
-const StudyDescriptionCard = ({
+const StudiesDescriptionCard = ({
   studyDetailData,
   requirementsData,
   rulesData,
   benefitsData,
   membersData,
-}: StudyDescriptionCardProps) => {
+}: StudiesDescriptionCardProps) => {
   const findLeader = membersData.find(
     (item) => item.studyMemberRoleType === "스터디장"
   );
@@ -193,4 +182,4 @@ function hasItem<T>(item: T[] | T) {
   else return Boolean(item);
 }
 
-export default StudyDescriptionCard;
+export default StudiesDescriptionCard;
