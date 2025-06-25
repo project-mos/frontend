@@ -3,21 +3,13 @@ import Typography from "@/shared/components/atoms/Typography";
 import StudyCard from "@/features/study/studies/ui/StudyCard";
 import LandingGrid from "@/widget/landing/ui/LandingGrid";
 import LandingEmptyContents from "@/widget/landing/ui/LandingEmptyContents";
-import {
-  GetHotStudiesResponse,
-  GetStudiesResponse,
-  Study,
-} from "@/entities/study/studies/api/studies.api.type";
-
-interface LandingContentCards {
-  studiesData: GetStudiesResponse;
-  hotStudiesData: GetHotStudiesResponse;
-}
+import { Study } from "@/entities/study/studies/api/studies.api.type";
+import { LandingContentCardsProps } from "@/widget/landing/ui/landing.ui.types";
 
 const LandingContentCards = ({
   studiesData,
   hotStudiesData,
-}: LandingContentCards) => {
+}: LandingContentCardsProps) => {
   const hasHotStudyData = hotStudiesData && hotStudiesData.length > 0;
   const hasStudiesData = studiesData && studiesData.studies.length > 0;
 

@@ -1,6 +1,7 @@
 import Grid from "@/shared/components/atoms/Grid";
+import { LandingGridProps } from "@/widget/landing/ui/landing.ui.types";
 
-const LandingGrid = ({ children }: { children: React.ReactNode }) => {
+const LandingGrid = ({ children }: LandingGridProps) => {
   return (
     <Grid
       cols={1}
