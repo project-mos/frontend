@@ -16,7 +16,7 @@ import {
 } from "@/features/studies/types/studies.api";
 import Profile from "@/shared/components/atoms/Profile";
 import CustomMdxRemote from "@/shared/components/system/CustomMdxRemote";
-import ShareButton from "@/features/studies/components/applyStudy/ShareButton";
+import ShareButton from "@/features/share/ui/ShareButton";
 
 interface StudyDescriptionCardProps {
   studyDetailData: GetStudyDetailResponse;
@@ -52,7 +52,8 @@ const StudyDescriptionCard = ({
           </div>
 
           <div className="flex items-center gap-2">
-            <ShareButton />
+            <ShareButton type="copy" />
+            <ShareButton type="share" />
           </div>
         </div>
         <div className="flex justify-between">
