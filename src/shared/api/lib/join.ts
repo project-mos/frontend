@@ -1,12 +1,11 @@
-import { GetStudyJoinsRequest } from "@/features/studies/types/studies.api";
+import { JoinsRequest } from "@/entities/study/join/api/join.api.types";
 import { Method } from "@/shared/api/util/fetcher";
 
 export const join = {
-  getJoins: (studyJoinStatus?: GetStudyJoinsRequest) => {
-    const status = studyJoinStatus || "";
+  getJoins: (studyJoinStatus?: JoinsRequest) => {
     return {
-      url: `${process.env.NEXT_PUBLIC_BASE_URL}/study-joins?studyJoinStatus=${status}`,
-      method: Method.POST,
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}/study-joins?studyJoinStatus=${studyJoinStatus}`,
+      method: Method.GET,
     };
   },
   postJoin: (studyId: string) => ({
