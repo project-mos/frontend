@@ -32,7 +32,16 @@ const List = () => {
       createdAt: "",
       userId: 0,
       studyJoinId: 0,
-      questionAnswerResList: [{ question: "", answer: "" }],
+      questionAnswerResList: [
+        {
+          studyQuestionId: 0,
+          question: "",
+          questionNum: 0,
+          questionType: "주관식",
+          questionAnswerId: 0,
+          answer: "",
+        },
+      ],
     });
 
   const handleClick = (user: StudyManageCardInterface) => {

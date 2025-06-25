@@ -46,5 +46,14 @@ export interface GetStudyApplicantResponse {
   createdAt: string;
   userId: number;
   nickname: string;
-  questionAnswerResList: { question: string; answer: string }[];
+  questionAnswerResList: QuestionResInterface[];
+}
+
+export interface QuestionResInterface {
+  studyQuestionId: number;
+  question: string;
+  questionNum: number;
+  questionType: "주관식" | "객관식";
+  questionAnswerId: number;
+  answer: string;
 }

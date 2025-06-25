@@ -1,3 +1,4 @@
+import { QuestionResInterface } from "@/entities/study/join/api/join.api.types";
 import { StudyRule } from "@/entities/study/overview/api/rules.api.types";
 
 export interface StudyDetailPageProps {
@@ -28,7 +29,7 @@ export interface StudyManageCardInterface {
   userId: number;
   nickname: string;
   createdAt: string;
-  questionAnswerResList: { question: string; answer: string }[];
+  questionAnswerResList: QuestionResInterface[];
 }
 
 /* study member */
