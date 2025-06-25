@@ -1,7 +1,7 @@
 import Button from "@/shared/components/atoms/Button";
 import Typography from "@/shared/components/atoms/Typography";
 
-const StudyBanner = () => {
+const StudyLandingBanner = () => {
   return (
     <div className="flex min-h-[325px] w-full flex-col tablet:flex-row ">
       <div className="box-border flex w-full flex-col justify-center gap-5 px-3 tablet:w-1/2 tablet:gap-5 ">
@@ -46,4 +46,4 @@ const StudyBanner = () => {
   );
 };
 
-export default StudyBanner;
+export default StudyLandingBanner;

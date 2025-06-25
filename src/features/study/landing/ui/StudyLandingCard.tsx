@@ -6,9 +6,13 @@ import Meta from "@/shared/components/molecules/Meta";
 import CustomMdxRemote from "@/shared/components/system/CustomMdxRemote";
 import Link from "next/link";
 import URL from "@/shared/constants/URL";
-import { StudyCardProps } from "@/features/study/studies/ui/studies.ui.types";
+import { StudyLandingCardProps } from "@/features/study/landing/ui/landing.ui.types";
 
-const StudyCard = ({ data, className, ...props }: StudyCardProps) => {
+const StudyLandingCard = ({
+  data,
+  className,
+  ...props
+}: StudyLandingCardProps) => {
   // 최대 6개까지만 보여주고, 각 태그 문자열은 최대 5글자까지만 잘라서 출력
   const renderTags = () => {
     return data.tags.slice(0, 6).map((tag, index) => {
@@ -72,4 +76,4 @@ const StudyCard = ({ data, className, ...props }: StudyCardProps) => {
   );
 };
 
-export default StudyCard;
+export default StudyLandingCard;
