@@ -1,6 +1,6 @@
-import StudyCard from "@/app/studies/components/StudyCard";
-import URL from "@/shared/constants/URL";
 import { Study } from "@/features/landing/types/landing.api";
+import StudyCard from "@/features/studies/components/StudyCard";
+import URL from "@/shared/constants/URL";
 import Link from "next/link";
 
 interface LandingStudyCardProps {

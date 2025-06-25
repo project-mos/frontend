@@ -1,4 +1,4 @@
-import CurriculumCard from "@/app/(auth)/study-room/components/curriculum/CurriculumCard";
+import CurriculumCard from "@/entities/study/curriculum/ui/CurriculumCard";
 
 const Curriculum = async ({ params }: { params: Promise<{ id: number }> }) => {
   const { id } = await params;
