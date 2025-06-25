@@ -76,7 +76,7 @@ export type GetStudyMembersResponse = {
   lastAttendanceDate: string;
   participationRate: number;
 }[];
-export type GetStudyJoinsRequest = "대기" | "탈락" | "승낙" | "취소";
+export type GetStudyJoinsRequest = "대기" | "탈락" | "승낙" | "취소" | "";
 
 export type GetStudyJoinsResponse = StudyJoin[];
 
