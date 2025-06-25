@@ -48,16 +48,16 @@ const List = () => {
             onClick={() => handleClick(list)}
           >
             {/* 지원자, 지원일시 */}
-            <div className="flex w-full items-center justify-between">
+            <div className="flex w-full items-center justify-between py-5">
               <div className="flex flex-col gap-1">
-                <Typography.P3 className="text-[16px]">
+                <Typography.P3 className="text-[18px] font-semibold">
                   {list.name}
                 </Typography.P3>
-                <Typography.P3 className="text-[14px]">
+                <Typography.P3 className="text-[14px] text-mos-gray-700">
                   {list.date}
                 </Typography.P3>
               </div>
-              <Button.Ghost color="Main" size="sm">
+              <Button.Ghost disabled={false} color="Main" size="sm">
                 더보기
               </Button.Ghost>
             </div>
