@@ -8,6 +8,7 @@ import Typography from "@/shared/components/atoms/Typography";
 import { StudyManageCardInterface } from "@/features/study-room/types/study-room.type";
 import useModal from "@/shared/hooks/useModal";
 
+import { formatDate } from "@/shared/utils/date";
 import { useParams } from "next/navigation";
 import { getStudyApplicant } from "../api/join.api";
 import { GetStudyApplicantResponse } from "../api/join.api.types";
@@ -76,7 +77,8 @@ const List = () => {
                   {list.nickname}
                 </Typography.P3>
                 <Typography.P3 className="text-[14px] text-mos-gray-700">
-                  지원 일시: {list.createdAt}
+                  지원 일시:{" "}
+                  {formatDate("YYYY-MM-DDTHH:mm", list.createdAt).split("T")[0]}
                 </Typography.P3>
               </div>
               <Button.Ghost disabled={false} color="Main" size="sm">
