@@ -1,5 +1,5 @@
 "use client";
-import useShare from "@/features/share/hook/useShare";
+import useShare from "@/features/share/model/useShare";
 import { ShareButtonProps } from "@/features/share/ui/share.ui.types";
 import Button from "@/shared/components/atoms/Button";
 
