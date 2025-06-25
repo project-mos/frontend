@@ -40,19 +40,13 @@ const InfoModal = ({ onClose, data, ...props }: CurriculumModalProps) => {
           <div className="w-full">
             <div className="mb-4">
               <Typography.SubTitle1 className="text-[18px]">
-                {data.name}
+                {data.nickname}
               </Typography.SubTitle1>
-              <Typography.P3 className="text-[16px]">
-                📧 {data.email}
-              </Typography.P3>
-              <Typography.P3 className="text-[16px]">
-                📚 {data.experience}
-              </Typography.P3>
             </div>
           </div>
         </div>
 
-        {data.questionList.map((list) => (
+        {data.questionAnswerResList.map((list) => (
           <div className="mb-5" key={list.question}>
             <Typography.P3 className="mb-2 text-[18px] text-blue-800">
               {list.question}

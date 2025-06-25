@@ -24,11 +24,11 @@ export interface StudyNoticeCardInterface {
 
 /* study manage */
 export interface StudyManageCardInterface {
-  name: string;
-  date: string;
-  email: string;
-  experience: string;
-  questionList: { question: string; answer: string }[];
+  studyJoinId: number;
+  userId: number;
+  nickname: string;
+  createdAt: string;
+  questionAnswerResList: { question: string; answer: string }[];
 }
 
 /* study member */

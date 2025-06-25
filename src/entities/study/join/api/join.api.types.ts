@@ -40,3 +40,11 @@ export interface GetMyApplyStatusResponse {
   studyJoinStatus: string;
   createdAt: string;
 }
+
+export interface GetStudyApplicantResponse {
+  studyJoinId: number;
+  createdAt: string;
+  userId: number;
+  nickname: string;
+  questionAnswerResList: { question: string; answer: string }[];
+}

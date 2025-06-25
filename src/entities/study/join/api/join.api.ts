@@ -1,8 +1,9 @@
 import {
-  GetMyApplyStatusResponse,
   GetJoinsResponse,
-  PostJoin,
+  GetMyApplyStatusResponse,
+  GetStudyApplicantResponse,
   JoinsRequest,
+  PostJoin,
 } from "@/entities/study/join/api/join.api.types";
 
 import {
@@ -45,6 +46,15 @@ export async function getMyJoinedStudies(
 // 나의 지원 현황 //
 export async function getMyApplyStatus(): Promise<GetMyApplyStatusResponse[]> {
   const { url, method } = API_ENDPOINT.join.getMyApplyStatus();
+
+  return await fetchAPI(url, createJsonRequestInit(method));
+}
+
+// 스터디 지원자 목록 조회 //
+export async function getStudyApplicant(
+  studyId: string
+): Promise<GetStudyApplicantResponse[]> {
+  const { url, method } = API_ENDPOINT.join.getStudyApplicant(studyId);
 
   return await fetchAPI(url, createJsonRequestInit(method));
 }
