@@ -1,6 +1,6 @@
 "use client";
 
-import useStudyFilter from "@/features/study/study-filter/hook/useStudyFilter";
+import useStudyFilter from "@/features/study/study-filter/model/useStudyFilter";
 import { meetTypes, recruitmentTypes } from "@/features/study/study-filter/lib";
 import { StudyFilterDropdownProps } from "@/features/study/study-filter/ui/study-filter.ui.types";
 import Select from "@/shared/components/atoms/Select";

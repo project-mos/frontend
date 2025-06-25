@@ -1,14 +1,14 @@
 import StudyCategoryFilterButton from "@/features/study/study-filter/ui/StudyFilterButton";
 import StudyFilterDropdown from "@/features/study/study-filter/ui/StudyFilterDropdown";
 import StudyLikeFilterButton from "@/features/study/study-filter/ui/StudyLikeFilterButton";
-import StudyBanner from "@/features/study/studies/ui/StudyBanner";
+import StudyLandingBanner from "@/features/study/landing/ui/StudyLandingBanner";
 import { LandingContentHeaderProps } from "@/widget/landing/ui/landing.ui.types";
 
 const LandingContentHeader = ({ categories }: LandingContentHeaderProps) => {
   return (
     <div>
       {/* Banner */}
-      <StudyBanner />
+      <StudyLandingBanner />
       <div className="box-border flex size-full flex-col gap-3 py-6">
         {/* Buttons */}
         <StudyCategoryFilterButton categories={categories} />

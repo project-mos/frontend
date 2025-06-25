@@ -1,6 +1,6 @@
 import Typography from "@/shared/components/atoms/Typography";
 
-import StudyCard from "@/features/study/studies/ui/StudyCard";
+import StudyLandingCard from "@/features/study/landing/ui/StudyLandingCard";
 import LandingGrid from "@/widget/landing/ui/LandingGrid";
 import LandingEmptyContents from "@/widget/landing/ui/LandingEmptyContents";
 import { Study } from "@/entities/study/studies/api/studies.api.type";
@@ -24,7 +24,9 @@ const LandingContentCards = ({
           {/* 인기 */}
           {hasHotStudyData ? (
             hotStudiesData.map((item: Study, index: number) => {
-              return <StudyCard key={`${item.id}_${index}`} data={item} />;
+              return (
+                <StudyLandingCard key={`${item.id}_${index}`} data={item} />
+              );
             })
           ) : (
             <LandingEmptyContents content="인기 스터디가 없습니다." />
@@ -40,7 +42,9 @@ const LandingContentCards = ({
           {/* 일반 작성글 */}
           {hasStudiesData ? (
             studiesData.studies.map((item: Study, index) => {
-              return <StudyCard key={`${item.id}_${index}`} data={item} />;
+              return (
+                <StudyLandingCard key={`${item.id}_${index}`} data={item} />
+              );
             })
           ) : (
             <LandingEmptyContents content="등록된 스터디가 없습니다." />

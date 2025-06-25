@@ -1,5 +1,5 @@
 "use client";
-import useStudyFilter from "@/features/study/study-filter/hook/useStudyFilter";
+import useStudyFilter from "@/features/study/study-filter/model/useStudyFilter";
 import Button from "@/shared/components/atoms/Button";
 
 const StudyLikeFilterButton = () => {

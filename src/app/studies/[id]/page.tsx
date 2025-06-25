@@ -7,9 +7,9 @@ import {
   getRules,
   getStudy,
 } from "@/features/studies/services/studies.service";
-import StudyDescriptionCard from "@/features/studies/components/StudyDescriptionCard";
-import StudyCurriculumCard from "@/features/studies/components/StudyCurriculumCard";
-import Apply from "@/features/studies/components/applyStudy/Apply";
+import StudyDescriptionCard from "@/widget/studies/ui/StudiesDescriptionCard";
+import StudyCurriculumCard from "@/widget/studies/ui/StudiesCurriculumCard";
+import StudyApplicationSection from "@/features/study/study-application/ui/StudyApplicationSection";
 
 // import { MockStudiesApiResult } from "@/shared/mock/api/studies";
 
@@ -37,7 +37,7 @@ const page = async ({ params }: StudyDetailPageProps) => {
         membersData={membersData}
       />
       <StudyCurriculumCard data={curriculumsData} />
-      <Apply data={studyDetailData} />
+      <StudyApplicationSection data={studyDetailData} />
     </>
   );
 };
