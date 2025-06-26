@@ -58,3 +58,23 @@ export async function getStudyApplicant(
 
   return await fetchAPI(url, createJsonRequestInit(method));
 }
+
+// 스터디 지원 승인 //
+export async function approveApplicant(studyId: string, studyJoinId: string) {
+  const { url, method } = API_ENDPOINT.join.approveApplicant(
+    studyId,
+    studyJoinId
+  );
+
+  return await fetchAPI(url, createJsonRequestInit(method));
+}
+
+// 스터디 지원 거절 //
+export async function rejectApplicant(studyId: string, studyJoinId: string) {
+  const { url, method } = API_ENDPOINT.join.rejectApplicant(
+    studyId,
+    studyJoinId
+  );
+
+  return await fetchAPI(url, createJsonRequestInit(method));
+}

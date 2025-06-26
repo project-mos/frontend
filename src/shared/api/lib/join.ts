@@ -29,4 +29,12 @@ export const join = {
     url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/study-joins`,
     method: Method.GET,
   }),
+  approveApplicant: (studyId: string, studyJoinId: string) => ({
+    url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/study-joins/${studyJoinId}/approval`,
+    method: Method.PATCH,
+  }),
+  rejectApplicant: (studyId: string, studyJoinId: string) => ({
+    url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/study-joins/${studyJoinId}/rejection`,
+    method: Method.PATCH,
+  }),
 };

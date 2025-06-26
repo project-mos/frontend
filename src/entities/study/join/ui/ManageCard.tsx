@@ -61,6 +61,7 @@ const List = () => {
         isOpen={isModalOpenState}
         onClose={closeModal}
         data={selectedUserState}
+        studyId={id}
       />
 
       {/* 지원자 리스트 */}
