@@ -147,6 +147,7 @@ const ContentInputBox = ({
           </Button.Default>
           <div className="flex gap-4">
             <Button.Solid
+              disabled={false}
               color="Main"
               type="button"
               onClick={() => openModal("cancel")}

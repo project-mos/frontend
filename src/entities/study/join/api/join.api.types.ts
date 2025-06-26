@@ -40,3 +40,20 @@ export interface GetMyApplyStatusResponse {
   studyJoinStatus: string;
   createdAt: string;
 }
+
+export interface GetStudyApplicantResponse {
+  studyJoinId: number;
+  createdAt: string;
+  userId: number;
+  nickname: string;
+  questionAnswerResList: QuestionResInterface[];
+}
+
+export interface QuestionResInterface {
+  studyQuestionId: number;
+  question: string;
+  questionNum: number;
+  questionType: "주관식" | "객관식";
+  questionAnswerId: number;
+  answer: string;
+}
