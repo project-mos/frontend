@@ -20,7 +20,7 @@ export type GetStudiesResponse = {
   studies: Study[];
 };
 
-interface BaseStudy {
+export interface BaseStudy {
   id: number;
   title: string;
   content: string;
@@ -28,7 +28,7 @@ interface BaseStudy {
   recruitmentStartDate: string;
   recruitmentEndDate: string;
   viewCount: number;
-  recruitmentStatus: "모집 중" | "모집 완료";
+  recruitmentStatus: "모집 중" | "모집 완료" | "모집 예정";
   progressStatus: string;
   meetingType: string;
   tags: string[];

@@ -9,4 +9,5 @@ export const recruitmentTypes = [
   { label: "전체", value: null },
   { label: "모집 중", value: "모집 중" },
   { label: "모집 완료", value: "모집 완료" },
+  { label: "모집 예정", value: "모집 예정" },
 ];

@@ -14,6 +14,7 @@ import ShareButton from "@/features/share/ui/ShareButton";
 import { StudiesDescriptionCardProps } from "@/widget/studies/ui/studies.ui.types";
 import { GetStudyRulesResponse } from "@/entities/study/overview/api/rules.api.types";
 import { GetStudyBenefitsResponse } from "@/entities/study/overview/api/benefits.api.types";
+import RecruitmentStatusTag from "@/features/recruitment-status/ui/RecruitmentStatusTag";
 
 const StudiesDescriptionCard = ({
   studyDetailData,
@@ -33,11 +34,9 @@ const StudiesDescriptionCard = ({
           <div className="flex gap-2">
             <Tag.Green bold>{studyDetailData.category}</Tag.Green>
             <Tag.Blue bold>{studyDetailData.meetingType}</Tag.Blue>
-            {studyDetailData.recruitmentStatus === "모집 중" ? (
-              <Tag.Pink bold>{studyDetailData.recruitmentStatus}</Tag.Pink>
-            ) : (
-              <Tag.Gray bold>{studyDetailData.recruitmentStatus}</Tag.Gray>
-            )}
+            <RecruitmentStatusTag
+              recruitmentStatus={studyDetailData.recruitmentStatus}
+            />
           </div>
 
           <div className="flex items-center gap-2">

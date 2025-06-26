@@ -7,6 +7,7 @@ import CustomMdxRemote from "@/shared/components/system/CustomMdxRemote";
 import Link from "next/link";
 import URL from "@/shared/constants/URL";
 import { StudyLandingCardProps } from "@/features/study/landing/ui/landing.ui.types";
+import RecruitmentStatusTag from "@/features/recruitment-status/ui/RecruitmentStatusTag";
 
 const StudyLandingCard = ({
   data,
@@ -37,15 +38,7 @@ const StudyLandingCard = ({
               <Tag.Green bold>{data.category}</Tag.Green>
               <Tag.Blue bold>{data.meetingType}</Tag.Blue>
             </div>
-            {data.recruitmentStatus === "모집 중" ? (
-              <Tag.Green bold border={false}>
-                모집중
-              </Tag.Green>
-            ) : (
-              <Tag.Gray bold border={false}>
-                모집 완료
-              </Tag.Gray>
-            )}
+            <RecruitmentStatusTag recruitmentStatus={data.recruitmentStatus} />
           </div>
           <Typography.Head3 className="truncate">{data.title}</Typography.Head3>
 
