@@ -1,15 +1,15 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import StudyRoomSessionCard from "./StudyRoomSessionCard";
+import ScheduleSessionCard from "../../../../features/study/schedule/ui/ScheduleSessionCard";
 
 import Button from "@/shared/components/atoms/Button";
 import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
 
 import { useParams } from "next/navigation";
-import { useGetStudySchedule } from "@/features/study-room/hooks/useScheduleQueries";
+import { useGetStudySchedule } from "@/entities/study/schedule/model/schedule.queries";
 
-const StudyRoomIntendedCard = () => {
+const ScheduleIntendedCard = () => {
   const params = useParams() as { id: string };
 
   const { data: scheduleData } = useGetStudySchedule(Number(params.id));
@@ -49,10 +49,7 @@ const StudyRoomIntendedCard = () => {
       </Card.Header>
       <Card.Content className="h-full items-center justify-center">
         {isActive ? (
-          <StudyRoomSessionCard
-            data={filteredSchedules[0]}
-            className="w-full"
-          />
+          <ScheduleSessionCard data={filteredSchedules[0]} className="w-full" />
         ) : (
           <Typography.P3 className="text-mos-gray-500">
             진행중인 스터디가 없습니다!
@@ -63,4 +60,4 @@ const StudyRoomIntendedCard = () => {
   );
 };
 
-export default StudyRoomIntendedCard;
+export default ScheduleIntendedCard;

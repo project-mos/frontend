@@ -1,23 +1,17 @@
+import { ScheduleSessionCardProps } from "@/features/study/schedule/ui/schedule.ui.types";
 import Badge from "@/shared/components/atoms/Badge";
 import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
-import { StudyScheduleInterface } from "@/shared/types/api/studies/detail";
 import { formatDate } from "@/shared/utils/date";
 import clsx from "clsx";
 
-const StudyRoomSessionCard = ({
+const ScheduleSessionCard = ({
   handleEdit,
   handleDelete,
   data,
   className,
   onClick,
-}: {
-  data: StudyScheduleInterface;
-  className?: string;
-  handleEdit?: (id: number) => void;
-  handleDelete?: (id: number) => void;
-  onClick?: (id: number) => void;
-}) => {
+}: ScheduleSessionCardProps) => {
   return (
     <Card
       className={clsx(
@@ -34,11 +28,11 @@ const StudyRoomSessionCard = ({
       <Card.Header className="relative justify-between">
         <div className="flex w-full flex-wrap gap-1">
           <Badge color="Blue">
-            <i className="bi bi-calendar3 mr-1"></i>
+            <i className="bi bi-calendar3 mr-1" />
             {formatDate("YYYY-MM-DD HH:mm", data.startDateTime)}
           </Badge>
           <Badge color="Gray">
-            <i className="bi bi-calendar3 mr-1"></i>
+            <i className="bi bi-calendar3 mr-1" />
             {formatDate("YYYY-MM-DD HH:mm", data.endDateTime)}
           </Badge>
         </div>
@@ -84,4 +78,4 @@ const StudyRoomSessionCard = ({
   );
 };
 
-export default StudyRoomSessionCard;
+export default ScheduleSessionCard;

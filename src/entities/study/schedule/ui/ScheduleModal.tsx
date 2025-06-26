@@ -18,10 +18,7 @@ import { formatNowDate, formatSeoulDate, nowDate } from "@/shared/utils/date";
 import { useParams } from "next/navigation";
 
 import clsx from "clsx";
-import {
-  usePostStudySchedule,
-  usePutStudySchedule,
-} from "@/features/study-room/hooks/useScheduleQueries";
+
 import { useEffect, useRef } from "react";
 import {
   GetStudySchedule,
@@ -30,6 +27,10 @@ import {
 import Label from "@/shared/components/molecules/Label";
 import { useGetCurriculums } from "@/features/study-room/hooks/useCurriculumQueries";
 import { GetStudyCurriculumResponse } from "@/features/studies/types/studies.api";
+import {
+  usePostStudySchedule,
+  usePutStudySchedule,
+} from "@/entities/study/schedule/model/schedule.queries";
 
 // success, close 시 실행할 함수들을 부모로부터 받음
 interface ScheduleModalProps extends ModalProps {
@@ -75,7 +76,7 @@ const ScheduleModal = ({
   const onSubmit = (data: PostStudySchedule) => {
     if (isEdit) {
       putStudyScheduleMutate({
-        studyScheduleId: selectData.studyScheduleId,
+        scheduleId: selectData.studyScheduleId,
         data,
       });
     } else {

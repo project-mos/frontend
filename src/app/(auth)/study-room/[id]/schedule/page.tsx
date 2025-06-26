@@ -1,7 +1,7 @@
-import ScheduleCard from "@/entities/study/schedule/ui/ScheduleCard";
+import ScheduleWidget from "@/widget/study-room/schedule/ui/ScheduleWidget";
 
 const SchedulePage = () => {
-  return <ScheduleCard />;
+  return <ScheduleWidget />;
 };
 
 export default SchedulePage;
