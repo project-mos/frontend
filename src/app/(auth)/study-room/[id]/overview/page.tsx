@@ -1,12 +1,11 @@
+import ManageContentCard from "@/entities/study/overview/ui/ManageContentCard";
+import ManageOverviewCard from "@/entities/study/overview/ui/ManageOverviewCard";
 import {
   getBenefits,
   getRules,
   getStudy,
 } from "@/features/studies/services/studies.service";
 import { StudyDetailPageProps } from "@/features/study-room/types/study-room.type";
-import ManageOverviewCard from "../../components/manage-overview/ManageOverviewCard";
-
-import ManageContentCard from "@/app/(auth)/study-room/components/manage-overview/ManageContentCard";
 
 const ManageOverview = async ({ params }: StudyDetailPageProps) => {
   const { id } = await params;
