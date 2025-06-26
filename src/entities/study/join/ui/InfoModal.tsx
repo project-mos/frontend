@@ -10,16 +10,37 @@ import Typography from "@/shared/components/atoms/Typography";
 
 import profileImg from "@/asset/images/defaultProfile.png";
 import { StudyManageCardInterface } from "@/features/study-room/types/study-room.type";
+import { useToast } from "@/shared/hooks/useToast";
+import { approveApplicant, rejectApplicant } from "../api/join.api";
 
 interface CurriculumModalProps extends ModalProps {
   onClose: ModalOnClose;
   data: StudyManageCardInterface;
+  studyId: string;
 }
 
-const InfoModal = ({ onClose, data, ...props }: CurriculumModalProps) => {
+const InfoModal = ({
+  onClose,
+  data,
+  studyId,
+  ...props
+}: CurriculumModalProps) => {
+  const toast = useToast();
   const onClickCloseBtn = () => {
     onClose();
   };
+
+  async function approveApplicantFunction(studyJoinId: string) {
+    await approveApplicant(studyId, studyJoinId);
+    toast.success("지원 승인이 완료되었습니다.");
+    onClose();
+  }
+
+  async function rejectApplicantFunction(studyJoinId: string) {
+    await rejectApplicant(studyId, studyJoinId);
+    toast.success("지원 거절이 완료되었습니다.");
+    onClose();
+  }
 
   return (
     <Modal {...props} onClose={onClickCloseBtn}>
@@ -40,19 +61,13 @@ const InfoModal = ({ onClose, data, ...props }: CurriculumModalProps) => {
           <div className="w-full">
             <div className="mb-4">
               <Typography.SubTitle1 className="text-[18px]">
-                {data.name}
+                {data.nickname}
               </Typography.SubTitle1>
-              <Typography.P3 className="text-[16px]">
-                📧 {data.email}
-              </Typography.P3>
-              <Typography.P3 className="text-[16px]">
-                📚 {data.experience}
-              </Typography.P3>
             </div>
           </div>
         </div>
 
-        {data.questionList.map((list) => (
+        {data.questionAnswerResList.map((list) => (
           <div className="mb-5" key={list.question}>
             <Typography.P3 className="mb-2 text-[18px] text-blue-800">
               {list.question}
@@ -68,10 +83,22 @@ const InfoModal = ({ onClose, data, ...props }: CurriculumModalProps) => {
 
       <Modal.Footer className="flex justify-end gap-2">
         <div className="flex gap-2">
-          <Button.Solid color="Gray" active className="text-[14px]">
-            차단
+          <Button.Solid
+            onClick={() => rejectApplicantFunction(data.studyJoinId.toString())}
+            color="Gray"
+            active
+            className="text-[14px]"
+          >
+            거절
           </Button.Solid>
-          <Button.Solid color="Main" active className="text-[14px]">
+          <Button.Solid
+            onClick={() =>
+              approveApplicantFunction(data.studyJoinId.toString())
+            }
+            color="Main"
+            active
+            className="text-[14px]"
+          >
             승인
           </Button.Solid>
         </div>

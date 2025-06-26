@@ -1,6 +1,6 @@
 import ManageCard from "@/entities/study/join/ui/ManageCard";
 
-const ManageApplicants = () => {
+const ManageApplicants = async () => {
   return <ManageCard />;
 };
 
