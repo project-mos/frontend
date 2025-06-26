@@ -12,7 +12,7 @@ export interface GetStudyDetailResponse {
   recruitmentStartDate: string;
   recruitmentEndDate: string;
   viewCount: number;
-  recruitmentStatus: "모집 중" | "모집 완료";
+  recruitmentStatus: "모집 중" | "모집 완료" | "모집 예정";
   progressStatus: string;
   meetingType: string;
   tags: string[];
@@ -76,7 +76,7 @@ export type GetStudyMembersResponse = {
   lastAttendanceDate: string;
   participationRate: number;
 }[];
-export type GetStudyJoinsRequest = "대기" | "탈락" | "승낙" | "취소";
+export type GetStudyJoinsRequest = "대기" | "탈락" | "승낙" | "취소" | "";
 
 export type GetStudyJoinsResponse = StudyJoin[];
 

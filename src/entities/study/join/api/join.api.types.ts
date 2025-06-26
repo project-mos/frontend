@@ -6,7 +6,7 @@ export type PostJoin = {
   answer: string;
 }[];
 
-export type JoinsRequest = "대기" | "탈락" | "승낙" | "취소";
+export type JoinsRequest = "대기" | "탈락" | "승낙" | "취소" | "";
 
 export type GetJoinsResponse = Join[];
 

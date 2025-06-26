@@ -1,4 +1,9 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  UseMutationOptions,
+} from "@tanstack/react-query";
 import {
   getJoins,
   postJoin,
@@ -12,42 +17,75 @@ import {
 } from "@/entities/study/join/api/join.api.types";
 
 // 지원 목록
-export const JoinListQueryKey = (params: JoinsRequest) => [
+export const JoinListQueryKey = (params?: JoinsRequest) => [
   "study",
   "join",
-  params,
+  params || "",
 ];
 
 // 나의 스터디 지원 상태 조회
-export const useGetJoins = (params: JoinsRequest) => {
+export const useGetJoins = (params: JoinsRequest = "") => {
   return useQuery({
     queryKey: JoinListQueryKey(params),
     queryFn: () => getJoins(params),
-    enabled: !!params, // 상태가 있을 때만 조회
     retry: false,
   });
 };
 
 // 지원 등록
-export const usePostJoin = (params: JoinsRequest) => {
+export const usePostJoin = ({
+  params,
+  options,
+}: {
+  params?: JoinsRequest;
+  options: UseMutationOptions<
+    PostJoin,
+    unknown,
+    { studyId: string; data: PostJoin },
+    unknown
+  >;
+}) => {
   const queryClient = useQueryClient();
 
   return useMutation({
+    ...options,
     mutationFn: ({ studyId, data }: { studyId: string; data: PostJoin }) =>
       postJoin(studyId, data),
-    onSuccess: () => {
+    // 기본 onSuccess
+    onSuccess: (...args) => {
       queryClient.invalidateQueries({
-        queryKey: JoinListQueryKey(params), // 목록을 다시 불러오게
+        queryKey: JoinListQueryKey(params),
       });
+      // options에 onSuccess가 있다면 실행
+      options?.onSuccess?.(...args);
     },
   });
 };
 
 // 지원 수정 (패치)
-export const usePatchJoin = (params: JoinsRequest) => {
+export const usePatchJoin = ({
+  params,
+  options,
+}: {
+  params?: JoinsRequest;
+  options: UseMutationOptions<
+    unknown,
+    unknown,
+    { studyId: string; studyJoinId: string },
+    unknown
+  >;
+}) => {
   const queryClient = useQueryClient();
 
   return useMutation({
+    ...options,
+    onSuccess: (...args) => {
+      queryClient.invalidateQueries({
+        queryKey: JoinListQueryKey(params),
+      });
+      // options에 onSuccess가 있다면 실행
+      options?.onSuccess?.(...args);
+    },
     mutationFn: ({
       studyId,
       studyJoinId,
@@ -55,11 +93,6 @@ export const usePatchJoin = (params: JoinsRequest) => {
       studyId: string;
       studyJoinId: string;
     }) => patchJoin(studyId, studyJoinId),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: JoinListQueryKey(params), // 목록을 다시 불러오게
-      });
-    },
   });
 };
 

@@ -1,4 +1,4 @@
-import { GetStudiesRequest } from "@/features/landing/types/landing.api";
+import { GetStudiesRequest } from "@/entities/study/studies/api/studies.api.type";
 import { GetStudyJoinsRequest } from "@/features/studies/types/studies.api";
 import { Method } from "@/shared/api/lib";
 

@@ -4,6 +4,7 @@ import {
   deleteMember,
 } from "@/entities/study/member/api/member.api";
 import { GetStudyMembersResponse } from "@/entities/study/member/api/member.api.types";
+import useDecodeToken from "@/shared/hooks/useDecodeToken";
 
 // 쿼리 키 생성 함수
 export const MembersQueryKey = (studyId: string) => [
@@ -35,3 +36,16 @@ export const useDeleteMember = (studyId: string) => {
     },
   });
 };
+
+// 현재 스터디룸에서 나의 멤버 역할이 무엇인지 알려주는 훅
+export function useMyStudyRole(studyId: string) {
+  const decodeToken = useDecodeToken();
+  const { data: members } = useGetMembers(studyId);
+
+  if (decodeToken && members) {
+    return members?.find((member) => member.userId === decodeToken.id)
+      ?.studyMemberRoleType;
+  } else {
+    return null;
+  }
+}

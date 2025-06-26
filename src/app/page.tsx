@@ -1,14 +1,14 @@
-import LandingContentCards from "@/features/landing/components/LandingContentCards";
-import LandingContentHeader from "@/features/landing/components/LandingContentHeader";
-import LandingLoginToast from "@/features/landing/components/LandingLoginToast";
+import LandingContentCards from "@/widget/landing/ui/LandingContentCards";
+import LandingContentHeader from "@/widget/landing/ui/LandingContentHeader";
+import LandingLoginToast from "@/widget/landing/ui/LandingLoginToast";
 import Pagination from "@/shared/components/molecules/Pagination";
 
-import { GetStudiesRequest } from "@/features/landing/types/landing.api";
+import { getCategories } from "@/entities/study/category/api/category.api";
 import {
-  getCategories,
   getHotStudies,
   getStudies,
-} from "@/features/landing/services/landing.service";
+} from "@/entities/study/studies/api/studies.api";
+import { GetStudiesRequest } from "@/entities/study/studies/api/studies.api.type";
 
 interface HomeProps {
   searchParams: Promise<GetStudiesRequest>;

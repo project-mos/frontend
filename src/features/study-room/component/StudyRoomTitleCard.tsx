@@ -1,7 +1,7 @@
 "use client";
 
+import { useGetStudySchedule } from "@/entities/study/schedule/model/schedule.queries";
 import { GetStudyDetailResponse } from "@/features/studies/types/studies.api";
-import { useGetStudySchedule } from "@/features/study-room/hooks/useScheduleQueries";
 
 import Card from "@/shared/components/atoms/Card";
 import Tag from "@/shared/components/atoms/Tag";

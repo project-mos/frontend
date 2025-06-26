@@ -10,7 +10,6 @@ import {
   GetStudyJoinsRequest,
   PostStudyJoin,
 } from "@/features/studies/types/studies.api";
-import useDecodeToken from "@/shared/hooks/useDecodeToken";
 
 import {
   useMutation,
@@ -28,12 +27,11 @@ export function useGetStudy(studyId: string) {
 }
 
 // getQuestions React Query 훅
-export function useQuestions(studyId: string, enabled: boolean) {
+export function useQuestions(studyId: string) {
   return useQuery({
     queryKey: ["questions", studyId],
     queryFn: () => getQuestions(studyId),
     staleTime: 10000,
-    enabled,
   });
 }
 // postJoin React Query 훅
@@ -89,17 +87,4 @@ export function useGetMembers(studyId: string) {
     enabled: !!studyId,
     retry: false,
   });
-}
-
-// 현재 스터디룸에서 나의 멤버 역할이 무엇인지 알려주는 훅
-export function useMyStudyRole(studyId: string) {
-  const decodeToken = useDecodeToken();
-  const { data: members } = useGetMembers(studyId);
-
-  if (decodeToken && members) {
-    return members?.find((member) => member.userId === decodeToken.id)
-      ?.studyMemberRoleType;
-  } else {
-    return null;
-  }
 }
