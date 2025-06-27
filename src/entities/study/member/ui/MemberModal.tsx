@@ -31,13 +31,14 @@ const MemberModal = ({
     onClose();
   };
 
-  const onMandate = async (studyMemberId: string) => {
-    // 확인 모달 띄우기
-    try {
-      await mandateMember(studyId, studyMemberId);
-      toast.success("스터디장 위임이 완료되었습니다.");
-    } catch (e) {
-      toast.error(`${e}`);
+  const handleConfirmMandate = async (studyMemberId: string) => {
+    if (window.confirm("정말 스터디장을 위임하시겠습니까?")) {
+      try {
+        await mandateMember(studyId, studyMemberId);
+        toast.success("스터디장 위임이 완료되었습니다.");
+      } catch (e) {
+        toast.error(`${e}`);
+      }
     }
   };
 
@@ -53,85 +54,89 @@ const MemberModal = ({
   };
 
   return (
-    <Modal {...props} onClose={onClose}>
-      <Modal.Header onClose={onClose}>
-        <Typography.Head3>멤버 상세보기</Typography.Head3>
-      </Modal.Header>
+    <>
+      <Modal {...props} onClose={onClose}>
+        <Modal.Header onClose={onClose}>
+          <Typography.Head3>멤버 상세보기</Typography.Head3>
+        </Modal.Header>
 
-      <Modal.Content className="flex flex-col items-center gap-4 p-4">
-        {/* 프로필 정보 */}
-        {data ? (
-          <>
-            <Profile width={80} height={80} src={profileImg} />
-            <Typography.SubTitle1>{data.nickname}</Typography.SubTitle1>
-            {/* <Typography.P3 className="text-[14px]">📧 {email}</Typography.P3> */}
-            {/* <Typography.P3 className="text-[14px]">📚 {experience}</Typography.P3> */}
+        <Modal.Content className="flex flex-col items-center gap-4 p-4">
+          {/* 프로필 정보 */}
+          {data ? (
+            <>
+              <Profile width={80} height={80} src={profileImg} />
+              <Typography.SubTitle1>{data.nickname}</Typography.SubTitle1>
+              {/* <Typography.P3 className="text-[14px]">📧 {email}</Typography.P3> */}
+              {/* <Typography.P3 className="text-[14px]">📚 {experience}</Typography.P3> */}
 
-            {/* 출석률 */}
-            <div className="w-full border-t pt-3 text-center">
-              <Typography.SubTitle1>
-                출석률: {data.attendanceRate}%
-              </Typography.SubTitle1>
-            </div>
+              {/* 출석률 */}
+              <div className="w-full border-t pt-3 text-center">
+                <Typography.SubTitle1>
+                  출석률: {data.attendanceRate}%
+                </Typography.SubTitle1>
+              </div>
 
-            {/* 출석 기록 리스트 */}
-            <div className="max-h-60 w-full overflow-y-auto rounded-md border p-3">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b">
-                    <th className="p-2">날짜</th>
-                    <th className="p-2">출석 상태</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {data.attendanceRes.map((record, index) => (
-                    <tr key={index} className="border-b">
-                      <td className="p-2 text-center">
-                        {formatDate(record.studyScheduleStartDateTime)}
-                      </td>
-                      <td className="p-2 text-center">
-                        <Typography.P2>{record.attendanceStatus}</Typography.P2>
-                      </td>
+              {/* 출석 기록 리스트 */}
+              <div className="max-h-60 w-full overflow-y-auto rounded-md border p-3">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b">
+                      <th className="p-2">날짜</th>
+                      <th className="p-2">출석 상태</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </>
-        ) : (
-          <Typography.SubTitle1 className="text-mos-gray-500">
-            멤버 상세 정보가 존재하지 않습니다.
-          </Typography.SubTitle1>
-        )}
-      </Modal.Content>
+                  </thead>
+                  <tbody>
+                    {data.attendanceRes.map((record, index) => (
+                      <tr key={index} className="border-b">
+                        <td className="p-2 text-center">
+                          {formatDate(record.studyScheduleStartDateTime)}
+                        </td>
+                        <td className="p-2 text-center">
+                          <Typography.P2>
+                            {record.attendanceStatus}
+                          </Typography.P2>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
+          ) : (
+            <Typography.SubTitle1 className="text-mos-gray-500">
+              멤버 상세 정보가 존재하지 않습니다.
+            </Typography.SubTitle1>
+          )}
+        </Modal.Content>
 
-      <Modal.Footer className="flex justify-end gap-2">
-        <Button.Solid
-          color="Blue"
-          active
-          className="text-[14px]"
-          onClick={() => onMandate(data!.studyMemberId.toString())}
-        >
-          스터디장 위임
-        </Button.Solid>
-        <Button.Solid
-          color="Red"
-          active
-          className="text-[14px]"
-          onClick={onDelete}
-        >
-          탈퇴
-        </Button.Solid>
-        <Button.Solid
-          color="Main"
-          active
-          className="text-[14px]"
-          onClick={onClose}
-        >
-          확인
-        </Button.Solid>
-      </Modal.Footer>
-    </Modal>
+        <Modal.Footer className="flex justify-end gap-2">
+          <Button.Solid
+            color="Blue"
+            active
+            className="text-[14px]"
+            onClick={() => handleConfirmMandate(data!.studyMemberId.toString())}
+          >
+            스터디장 위임
+          </Button.Solid>
+          <Button.Solid
+            color="Red"
+            active
+            className="text-[14px]"
+            onClick={onDelete}
+          >
+            탈퇴
+          </Button.Solid>
+          <Button.Solid
+            color="Main"
+            active
+            className="text-[14px]"
+            onClick={onClose}
+          >
+            확인
+          </Button.Solid>
+        </Modal.Footer>
+      </Modal>
+    </>
   );
 };
 
