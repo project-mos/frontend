@@ -1,30 +1,45 @@
-import { useRef } from "react";
-import { Controller, useFormContext } from "react-hook-form";
+import { useEffect, useRef } from "react";
+import { useFormContext } from "react-hook-form";
 
+import { uploadImage } from "@/features/create-study/services/create-study.service";
 import MDEditor, {
   commands,
   TextAreaTextApi,
   TextState,
 } from "@uiw/react-md-editor";
-
-import { uploadImage } from "@/features/create-study/services/uploadImage.service";
+import rehypeSanitize from "rehype-sanitize";
 
 interface EditorProps {
   name: string;
 }
 
 const Editor = ({ name }: EditorProps) => {
-  const { control } = useFormContext();
+  const { watch, setValue } = useFormContext();
+  const value = watch(name);
   const editorRef = useRef<HTMLDivElement>(null);
 
+  // 이미지 업로드 후 마크다운 삽입
+  const uploadImageAndInsert = async (file: File) => {
+    try {
+      const url = await uploadImage({ file });
+      const insert = `![image](${url})`;
+      const newValue = (value ?? "") + "\n" + insert;
+      setValue(name, newValue);
+    } catch (e) {
+      console.error(e);
+      alert("이미지 업로드 중 오류가 발생했습니다.");
+    }
+  };
+
+  // 이미지 버튼 클릭
   const imageHandler = (
     api: TextAreaTextApi,
-    value?: string,
+    currentValue?: string,
     onChange?: (val: string) => void
   ) => {
     const input = document.createElement("input");
-    input.setAttribute("type", "file");
-    input.setAttribute("accept", "image/*");
+    input.type = "file";
+    input.accept = "image/*";
     input.click();
 
     input.addEventListener("change", async () => {
@@ -32,49 +47,85 @@ const Editor = ({ name }: EditorProps) => {
       if (!file) return;
 
       try {
-        const url = await uploadImage(file);
+        const url = await uploadImage({ file });
         const insert = `![image](${url})`;
 
         api.replaceSelection(insert);
 
         if (onChange) {
-          const newValue = (value ?? "") + "\n" + insert;
+          const newValue = (currentValue ?? "") + "\n" + insert;
           onChange(newValue);
         }
-      } catch (error) {
-        alert(error);
+      } catch (e) {
+        console.error(e);
+        alert("이미지 업로드에 실패했습니다.");
       }
     });
   };
 
+  // 기본 커맨드 중 "image" 제거
+  const defaultCommands = commands
+    .getCommands()
+    .filter((cmd) => cmd.name !== "image");
+
+  // 이미지 버튼 커맨드 정의
   const customImageCommand = {
     name: "image",
     keyCommand: "image",
     buttonProps: { "aria-label": "Insert image" },
     icon: <i className="bi bi-image" />,
     execute: (state: TextState, api: TextAreaTextApi) => {
-      imageHandler(api, state.text, api.replaceSelection);
+      imageHandler(api, value, (val) => setValue(name, val));
     },
   };
 
+  // 드래그앤드랍 이벤트 등록
+  useEffect(() => {
+    const wrapper = editorRef.current;
+    if (!wrapper) return;
+
+    const handleDrop = async (e: DragEvent) => {
+      e.preventDefault();
+      e.dataTransfer!.dropEffect = "move";
+
+      const file = e.dataTransfer?.files?.[0];
+      if (!file || !file.type.startsWith("image/")) return;
+      await uploadImageAndInsert(file);
+    };
+
+    const handleDragOver = (e: DragEvent) => {
+      e.preventDefault();
+      e.dataTransfer!.dropEffect = "copy";
+    };
+
+    wrapper.addEventListener("drop", handleDrop);
+    wrapper.addEventListener("dragover", handleDragOver);
+
+    return () => {
+      wrapper.removeEventListener("drop", handleDrop);
+      wrapper.removeEventListener("dragover", handleDragOver);
+    };
+  }, [value, name]);
+
   return (
-    <Controller
-      name={name}
-      control={control}
-      rules={{ required: "스터디 설명은 필수 입력사항입니다." }}
-      render={({ field }) => (
-        <div ref={editorRef}>
-          <MDEditor
-            value={field.value}
-            onChange={(value) => {
-              field.onChange(value);
-            }}
-            height={530}
-            commands={[...commands.getCommands(), customImageCommand]}
-          />
-        </div>
-      )}
-    />
+    <div ref={editorRef}>
+      <MDEditor
+        className="mt-[20px]"
+        value={value}
+        onChange={(val) => setValue(name, val ?? "")}
+        height={530}
+        style={{
+          height: 530,
+          minHeight: 530,
+          maxHeight: 530,
+          overflow: "auto",
+        }}
+        previewOptions={{
+          rehypePlugins: [[rehypeSanitize]],
+        }}
+        commands={[...defaultCommands, customImageCommand]}
+      />
+    </div>
   );
 };
 

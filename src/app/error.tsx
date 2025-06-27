@@ -1,6 +1,6 @@
 "use client"; // Error boundaries must be Client Components
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import Button from "@/shared/components/atoms/Button";
 import Typography from "@/shared/components/atoms/Typography";
@@ -11,12 +11,18 @@ export default function Error({
   error,
   reset,
 }: {
-  error: Error & { digest?: string };
+  error: Error | { digest?: string; name?: string; message: string };
   reset: () => void;
 }) {
+  const [errorMessageState, setErrorMessageState] = useState("");
   useEffect(() => {
     // Log the error to an error reporting service
-    console.error(error);
+    // {"name":"FetchAPIError","environmentName":"Server","digest":"1755205413"} 같이 Error 생성자가 JSON으로 직렬화해서 내려옴
+    // console.log(JSON.stringify(error), error.message);
+    // const isInstanceOfFetchAPIError = error.name === "FetchAPIError";
+    // if (isInstanceOfFetchAPIError) {
+    setErrorMessageState(error.message || "");
+    // }
   }, [error]);
 
   return (
@@ -27,7 +33,7 @@ export default function Error({
             <span className="sr-only">Error</span>Error!
           </Typography.Head1>
           <Typography.Head3 className="md:text-3xl text-2xl font-semibold">
-            예기치 못한 오류입니다.
+            {errorMessageState}
           </Typography.Head3>
           <div className="flex items-center justify-center gap-2">
             <Link

@@ -35,7 +35,7 @@ select {
 /* study detail 만 list-style 적용(StudyDetailListWrap) */
 .study-detail {
   list-style: disc;
-  padding-left: 40px;
+  padding-left: 20px;
 }
 
 .select_renewal {
@@ -54,4 +54,17 @@ select {
 }
 .sidebar {
   z-index: var(--sidebar-z-index);
+}
+
+/* md file parsing 스타일 적용 */
+.prose-sm h1,
+.prose-sm h2,
+.prose-sm img,
+.prose-sm p {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.prose-sm ul {
+  margin-top: 2px;
+  margin-bottom: 2px;
 }

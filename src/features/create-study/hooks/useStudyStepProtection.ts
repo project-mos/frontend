@@ -3,7 +3,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
 import URL from "@/shared/constants/URL";
-import { StudyFormInterface } from "../form/CreateStudyForm";
+import { StudyFormInterface } from "../types/create-study.type";
 
 const useStudyStepProtection = (
   watch: (name?: string) => Partial<StudyFormInterface>
@@ -15,7 +15,7 @@ const useStudyStepProtection = (
   const formValues = watch();
 
   const isStep1Completed =
-    !!formValues.name &&
+    !!formValues.title &&
     !!formValues.category &&
     !!formValues.recruitmentStartDate &&
     !!formValues.recruitmentEndDate &&

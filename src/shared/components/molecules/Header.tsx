@@ -1,7 +1,8 @@
 "use client";
+import { useAuthStore } from "@/entities/auth/model/auth.store";
 import cn from "@/shared/utils/cn";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import { useState } from "react";
 
 import SvgIcons from "@/asset/icon/SvgIcons";
@@ -12,15 +13,23 @@ import LoginModal from "@/features/login/components/LoginModal";
 import { ADMIN_MENU_ITEMS, MENU_ITEMS } from "@/shared/constants/SidebarItems";
 import URL from "@/shared/constants/URL";
 import useModal from "@/shared/hooks/useModal";
+import useMultiModal from "@/shared/hooks/useMultiModal";
+import { logout } from "@/shared/utils/logout";
 import { Tooltip } from "@heroui/tooltip";
+import ActionConfirmModal from "./ActionConfirmModal";
 
 const Header = () => {
-  const isLoggedIn = true;
+  const { isLoggedIn } = useAuthStore();
   const { isModalOpenState, openModal, closeModal } = useModal();
+  const pathname = usePathname();
 
   return (
     <>
-      <LoginModal isOpen={isModalOpenState} onClose={closeModal} />
+      <LoginModal
+        isOpen={isModalOpenState}
+        onClose={closeModal}
+        redirectUrl={pathname}
+      />
       <header className="header fixed left-0 top-0 flex h-[55px] w-full justify-center border-b border-gray-200 bg-white">
         <div className="flex w-[90%] max-w-[1300px] items-center justify-between">
           {/* 왼쪽: 로고 */}
@@ -76,9 +85,17 @@ export function Sidebar() {
   const [isOpenState, setIsOpenState] = useState(false);
   const pathname = usePathname();
   const isStudyRoom = pathname.split("/")?.[1] === "study-room"; // 첫 번째 경로 추출
+  const { modal, openModal, closeModal } = useMultiModal();
+
+  const params = useParams();
+  const id = params.id as string;
 
   const close = () => {
     setIsOpenState(false);
+  };
+
+  const handleClickLogOut = () => {
+    logout();
   };
 
   return (
@@ -166,7 +183,7 @@ export function Sidebar() {
                 <Typography.P1 className="px-7 py-3 font-bold">
                   스터디 룸
                 </Typography.P1>
-                {MENU_ITEMS.map((item, index) => {
+                {MENU_ITEMS(id).map((item, index) => {
                   return (
                     <li
                       className="px-12 py-1.5 hover:rounded-xl hover:bg-mos-main-100"
@@ -186,7 +203,7 @@ export function Sidebar() {
                   스터디 룸 관리자
                 </Typography.P1>
 
-                {ADMIN_MENU_ITEMS.map((item, index) => {
+                {ADMIN_MENU_ITEMS(id).map((item, index) => {
                   return (
                     <li
                       className="px-12 py-1.5 hover:rounded-xl hover:bg-mos-main-100"
@@ -209,6 +226,7 @@ export function Sidebar() {
               className="fixed bottom-5 left-[50%] w-4/5 translate-x-[-50%] "
               color="Main"
               active
+              onClick={() => openModal("logout")}
             >
               로그아웃
             </Button.Solid>
@@ -220,6 +238,15 @@ export function Sidebar() {
           </div>
         </ul>
       </div>
+      <ActionConfirmModal
+        isOpen={modal.get("logout")!}
+        onClose={() => closeModal("logout")}
+        type="action"
+        content="정말 로그아웃 하시겠습니까?"
+        title="로그아웃"
+        buttonLabel="로그아웃"
+        onSuccess={handleClickLogOut}
+      />
     </>
   );
 }

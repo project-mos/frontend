@@ -3,14 +3,14 @@ import cn from "@/shared/utils/cn";
 export interface TextareaProps
   extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   className?: string;
-  name: string;
+  name?: string;
 }
 
 const Textarea = ({ className, ...props }: TextareaProps) => {
   return (
     <textarea
       className={cn(
-        "h-[90px] w-full rounded-lg border border-gray-200 p-[10px] text-[14px] text-mos-gray-700 placeholder:text-mos-gray-500 focus:border-mos-main-500 focus:outline-none focus:ring-mos-main-500",
+        "focus:ring-mos-main-500, h-[90px] w-full rounded-lg border border-gray-200 p-[10px] text-[14px] text-mos-gray-700 placeholder:text-mos-gray-500 focus:border-mos-main-500 focus:outline-none disabled:border-none",
         className
       )}
       {...props}

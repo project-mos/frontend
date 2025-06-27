@@ -1,17 +1,23 @@
 "use client";
 import { usePathname, useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
 import Button from "../atoms/Button";
 
 interface PaginationProps {
   totalPage: number;
   activePage: number;
+  scrollIntoViewID?: string; // 스크롤 이동할 ID
 }
 
-const Pagination: React.FC<PaginationProps> = ({ totalPage, activePage }) => {
+const Pagination: React.FC<PaginationProps> = ({
+  totalPage,
+  activePage,
+  scrollIntoViewID,
+}) => {
   const router = useRouter();
   const pathname = usePathname();
+  const isFirstMount = useRef(true);
 
   const prevPage = activePage - 1;
   const nextPage = activePage + 1;
@@ -40,6 +46,7 @@ const Pagination: React.FC<PaginationProps> = ({ totalPage, activePage }) => {
           color="Main"
           key={pageNumber}
           active={pageNumber === activePage}
+          disabled={false}
           onClick={() => pushPage(pathname, pageNumber)}
         >
           {pageNumber}
@@ -54,8 +61,20 @@ const Pagination: React.FC<PaginationProps> = ({ totalPage, activePage }) => {
     router.push(`${pathname}?${searchParams.toString()}`);
   }
 
+  useEffect(() => {
+    if (activePage && !isFirstMount.current) {
+      const element = document.getElementById(scrollIntoViewID || "pagination");
+
+      element?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+    isFirstMount.current = false;
+  }, [activePage, scrollIntoViewID]);
+
   return (
-    <div className="flex flex-wrap justify-center gap-2">
+    <div className="flex flex-wrap justify-center gap-2" id="pagination">
       <Button.Ghost
         color="Main"
         disabled={activePage === 1}

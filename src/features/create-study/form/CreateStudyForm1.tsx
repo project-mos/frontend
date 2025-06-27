@@ -6,11 +6,10 @@ import Typography from "@/shared/components/atoms/Typography";
 import ActionConfirmModal from "@/shared/components/molecules/ActionConfirmModal";
 import useModal from "@/shared/hooks/useModal";
 
-import StudyActions from "@/app/create-study/components/StudyActions";
-import StudyBasicInfo from "@/app/create-study/components/StudyBasicInfo";
-import StudyMethod from "@/app/create-study/components/StudyMethod";
-
-import { StudyFormInterface } from "./CreateStudyForm";
+import StudyActions from "@/features/create-study/components/StudyActions";
+import StudyBasicInfo from "@/features/create-study/components/StudyBasicInfo";
+import StudyMethod from "@/features/create-study/components/StudyMethod";
+import { StudyFormInterface } from "../types/create-study.type";
 
 const CreateStudyForm1 = () => {
   const methods = useFormContext<StudyFormInterface>();

@@ -26,22 +26,23 @@ import Pagination from "@/shared/components/molecules/Pagination";
 import RadioGroup from "@/shared/components/molecules/RadioGroup";
 import SkeletonCard from "@/shared/components/molecules/SkeletonCard";
 
-import StudyCard from "@/app/studies/components/StudyCard";
-import StudyDescriptionCard from "@/app/studies/components/StudyDescriptionCard";
+// import StudyCard from "@/app/studies/components/StudyCard";
+// import StudyDescriptionCard from "@/app/studies/components/StudyDescriptionCard";
 
 import useModal from "@/shared/hooks/useModal";
-import {
-  MockStudiesApiResult,
-  MockStudyCardApiResult,
-} from "@/shared/mock/api/studies";
+// import {
+//   MockStudiesApiResult,
+//   MockStudyCardApiResult,
+// } from "@/shared/mock/api/studies";
 import LabelInputDateLocal from "@/shared/components/molecules/LabelDateTimeLocal";
+import { useToast } from "@/shared/hooks/useToast";
 
 interface FormData {
   test: string; // 'test' 필드 타입을 string으로 설정
 }
 
 export default function TestPage() {
-  const study = MockStudyCardApiResult.study;
+  // const study = MockStudyCardApiResult.study;
 
   // input 에시용
   const methods = useForm<FormData>();
@@ -68,6 +69,7 @@ export default function TestPage() {
     { label: "대면", value: "offline" },
     { label: "혼합", value: "hybrid" },
   ];
+  const toast = useToast();
 
   // modal
   const { isModalOpenState, openModal, closeModal } = useModal();
@@ -187,7 +189,7 @@ export default function TestPage() {
         </Card.Footer>
       </Card>
       {/* StudyCard */}
-      <StudyCard study={study} />
+      {/* <StudyCard data={study} /> */}
       {/* Meta */}
       <div className="flex gap-2">
         <Meta icon="person" className="text-mos-main-500">
@@ -200,9 +202,9 @@ export default function TestPage() {
         <Meta icon="eye">조회수 244</Meta>
       </div>
       {/* StudyCard */}
-      <StudyCard study={study} onClick={() => alert("click")} />
+      {/* <StudyCard data={study} onClick={() => alert("click")} /> */}
       {/* StudyDescriptionCard */}
-      <StudyDescriptionCard data={MockStudiesApiResult} />
+      {/* <StudyDescriptionCard data={MockStudiesApiResult} /> */}
       {/* Image */}
       <CustomImage
         src="https://letsenhance.io/static/73136da51c245e80edc6ccfe44888a99/1015f/MainBefore.jpg"
@@ -320,6 +322,15 @@ export default function TestPage() {
       <Button.Solid color="Main" active onClick={openModal}>
         승인 확인 모달
       </Button.Solid> */}
+      {/* toast */}
+      <button
+        onClick={() => {
+          toast.success("성공했어!");
+        }}
+      >
+        토스트 띄우기
+      </button>
+      {/* renderer로 전역상태 추가 */}
     </div>
   );
 }

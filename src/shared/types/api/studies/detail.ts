@@ -35,20 +35,6 @@ export interface Description {
   benefits: string[];
 }
 
-export interface StudyCardInterface {
-  study: {
-    title: string;
-    contents: string;
-    deadline: string;
-    category: string;
-    type: string;
-    recruit: boolean;
-    tags: string[];
-    members: { current: number; max: number };
-    views: number;
-  };
-}
-
 export interface StudyCurriculumInterface {
   step: string;
   title: string;

@@ -5,15 +5,18 @@ import Badge from "@/shared/components/atoms/Badge";
 import Typography from "@/shared/components/atoms/Typography";
 import ActionConfirmModal from "@/shared/components/molecules/ActionConfirmModal";
 
-import StudyActions from "@/app/create-study/components/StudyActions";
-import StudyApply from "@/app/create-study/components/StudyApply";
+import StudyActions from "@/features/create-study/components/StudyActions";
+import StudyApply from "@/features/create-study/components/StudyApply";
 import useModal from "@/shared/hooks/useModal";
 
-import { StudyFormInterface } from "./CreateStudyForm";
+import { createStudy } from "../services/create-study.service";
+import { StudyFormInterface } from "../types/create-study.type";
 
 const CreateStudyForm3 = () => {
   const methods = useFormContext<StudyFormInterface>();
   const router = useRouter();
+  const { watch } = useFormContext<StudyFormInterface>();
+  const formData = watch();
 
   const { isModalOpenState, openModal, closeModal } = useModal();
 
@@ -25,9 +28,13 @@ const CreateStudyForm3 = () => {
     router.push("/create-study?step=2");
   };
 
-  const handleClickCreateButton = () => {
+  const handleClickCreateButton = async () => {
+    const result = await createStudy({
+      form: formData,
+    });
     closeModal();
-    router.push("/create-study?step=4");
+    const studyID = result.studyId;
+    router.replace(`/studies/${studyID}`);
   };
 
   return (
