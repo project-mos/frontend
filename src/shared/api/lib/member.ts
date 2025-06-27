@@ -12,4 +12,10 @@ export const members = {
       method: Method.DELETE,
     };
   },
+  mandateMember: (studyId: string, studyMemberId: string) => {
+    return {
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/members/${studyMemberId}`,
+      method: Method.PATCH,
+    };
+  },
 };

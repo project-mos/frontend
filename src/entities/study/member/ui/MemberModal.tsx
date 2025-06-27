@@ -9,20 +9,36 @@ import Modal, {
 } from "@/shared/components/atoms/Modal";
 import Profile from "@/shared/components/atoms/Profile";
 import Typography from "@/shared/components/atoms/Typography";
+import { useToast } from "@/shared/hooks/useToast";
+import { mandateMember } from "../api/member.api";
 
 export interface MemberModalProps extends ModalProps {
   onClose: ModalOnClose;
+  studyId: string;
   data?: StudyMemberAttendanceInterface;
 }
 
-const MemberModal = ({ onClose, data, ...props }: MemberModalProps) => {
+const MemberModal = ({
+  onClose,
+  studyId,
+  data,
+  ...props
+}: MemberModalProps) => {
+  const toast = useToast();
+
   const onDelete = () => {
     console.log("onDelete");
     onClose();
   };
-  const onEdit = () => {
-    console.log("onEdit");
-    onClose();
+
+  const onMandate = async (studyMemberId: string) => {
+    // 확인 모달 띄우기
+    try {
+      await mandateMember(studyId, studyMemberId);
+      toast.success("스터디장 위임이 완료되었습니다.");
+    } catch (e) {
+      toast.error(`${e}`);
+    }
   };
 
   const formatDate = (isoString: string): string => {
@@ -94,7 +110,7 @@ const MemberModal = ({ onClose, data, ...props }: MemberModalProps) => {
           color="Blue"
           active
           className="text-[14px]"
-          onClick={onEdit}
+          onClick={() => onMandate(data!.studyMemberId.toString())}
         >
           스터디장 위임
         </Button.Solid>

@@ -17,3 +17,11 @@ export async function deleteMember(studyId: string) {
   const { url, method } = API_ENDPOINT.members.deleteMember(studyId);
   return await fetchAPI(url, createJsonRequestInit(method));
 }
+
+export async function mandateMember(studyId: string, studyMemberId: string) {
+  const { url, method } = API_ENDPOINT.members.mandateMember(
+    studyId,
+    studyMemberId
+  );
+  return await fetchAPI(url, createJsonRequestInit(method));
+}
