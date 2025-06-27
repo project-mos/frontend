@@ -17,12 +17,14 @@ interface CurriculumModalProps extends ModalProps {
   onClose: ModalOnClose;
   data: StudyManageCardInterface;
   studyId: string;
+  status: "대기" | "승인" | "거절";
 }
 
 const InfoModal = ({
   onClose,
   data,
   studyId,
+  status,
   ...props
 }: CurriculumModalProps) => {
   const toast = useToast();
@@ -82,26 +84,35 @@ const InfoModal = ({
       </Modal.Content>
 
       <Modal.Footer className="flex justify-end gap-2">
-        <div className="flex gap-2">
-          <Button.Solid
-            onClick={() => rejectApplicantFunction(data.studyJoinId.toString())}
-            color="Gray"
-            active
-            className="text-[14px]"
-          >
-            거절
+        {status === "대기" && (
+          <div className="flex gap-2">
+            <Button.Solid
+              onClick={() =>
+                rejectApplicantFunction(data.studyJoinId.toString())
+              }
+              color="Gray"
+              active
+              className="text-[14px]"
+            >
+              거절
+            </Button.Solid>
+            <Button.Solid
+              onClick={() =>
+                approveApplicantFunction(data.studyJoinId.toString())
+              }
+              color="Main"
+              active
+              className="text-[14px]"
+            >
+              승인
+            </Button.Solid>
+          </div>
+        )}
+        {(status === "승인" || status === "거절") && (
+          <Button.Solid color="Main">
+            이미 지원 {status} 된 사용자입니다.
           </Button.Solid>
-          <Button.Solid
-            onClick={() =>
-              approveApplicantFunction(data.studyJoinId.toString())
-            }
-            color="Main"
-            active
-            className="text-[14px]"
-          >
-            승인
-          </Button.Solid>
-        </div>
+        )}
       </Modal.Footer>
     </Modal>
   );

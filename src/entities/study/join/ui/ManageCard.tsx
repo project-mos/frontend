@@ -77,6 +77,7 @@ const List = () => {
         onClose={closeModal}
         data={selectedUserState}
         studyId={id}
+        status="승인"
       />
 
       {/* 지원자 리스트 */}
