@@ -1,0 +1,21 @@
+import { HTMLAttributes } from "react";
+
+export interface ChatBubbleProps extends HTMLAttributes<HTMLDivElement> {
+  isMe: boolean;
+}
+export interface ChatTabProps {
+  active: ChatActiveTab;
+  onChange: (active: ChatTabProps["active"]) => void;
+}
+// 탭 타입 정의
+export type ChatActiveTab = "chat" | "notices" | "chatRoom";
+
+// 예시 데이터
+export interface Chat {
+  isMe: boolean;
+  content: string;
+}
+
+export interface ChatRoomProps {
+  data: Chat[];
+}

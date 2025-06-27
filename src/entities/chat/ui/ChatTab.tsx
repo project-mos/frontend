@@ -1,17 +1,9 @@
-import { ActiveTab } from "@/features/landing/components/chat/Chat";
+import { tabItems } from "@/entities/chat/lib";
+import { ChatTabProps } from "@/entities/chat/ui/chat.ui.types";
+
 import React from "react";
 
-export interface TabProps {
-  active: ActiveTab;
-  onChange: (active: TabProps["active"]) => void;
-}
-
-const tabItems: { key: TabProps["active"]; label: string }[] = [
-  { key: "chat", label: "채팅방" },
-  { key: "notices", label: "알림" },
-];
-
-const ChatTab = ({ active, onChange }: TabProps) => {
+const ChatTab = ({ active, onChange }: ChatTabProps) => {
   return (
     <div className="w-full p-3">
       <div className="flex items-center justify-around">

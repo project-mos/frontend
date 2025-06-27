@@ -1,0 +1,6 @@
+import { ChatTabProps } from "@/entities/chat/ui/chat.ui.types";
+
+export const tabItems: { key: ChatTabProps["active"]; label: string }[] = [
+  { key: "chat", label: "채팅방" },
+  //   { key: "notices", label: "알림" },
+];
