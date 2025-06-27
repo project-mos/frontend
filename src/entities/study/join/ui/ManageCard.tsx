@@ -31,7 +31,7 @@ const List = () => {
   const [applicants, setApplicants] = useState<GetStudyApplicantResponse[]>([]);
 
   async function getApplicants() {
-    const result = await getStudyApplicant(id); // 추후 필터링이 생기면 필터링 적용 예정
+    const result = await getStudyApplicant(id, TABS[tab - 1].label);
     setApplicants(result);
   }
 
@@ -77,7 +77,7 @@ const List = () => {
         onClose={closeModal}
         data={selectedUserState}
         studyId={id}
-        status="승인"
+        status={TABS[tab - 1].label}
       />
 
       {/* 지원자 리스트 */}

@@ -17,7 +17,7 @@ interface CurriculumModalProps extends ModalProps {
   onClose: ModalOnClose;
   data: StudyManageCardInterface;
   studyId: string;
-  status: "대기" | "승인" | "거절";
+  status: string;
 }
 
 const InfoModal = ({
