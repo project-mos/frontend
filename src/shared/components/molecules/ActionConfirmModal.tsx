@@ -26,28 +26,27 @@ const ActionConfirmModal = ({
   return (
     <Modal {...props} onClose={onClose} className="w-1/5 min-w-[300px]">
       <Modal.Header onClose={onClose}>
-        <div className="flex items-center gap-1">
-          {danger && (
-            <i className="bi bi-exclamation-triangle text-xl text-red-500" />
-          )}
-          <Typography.SubTitle1
-            className={cn(
-              "font-bold",
-              danger ? "text-red-500" : "text-mos-main"
-            )}
-          >
-            {title}
-          </Typography.SubTitle1>
-        </div>
+        <Typography.SubTitle1
+          className={cn("font-bold", danger ? "text-red-500" : "text-mos-main")}
+        >
+          {title}
+        </Typography.SubTitle1>
       </Modal.Header>
-      <Modal.Content>
+      <Modal.Content className="pb-4">
         <Typography.P3>{content}</Typography.P3>
       </Modal.Content>
-      <Modal.Footer>
-        <Button.Ghost onClick={onClose} color="Gray" size="sm" disabled={false}>
+      <Modal.Footer className="flex ">
+        <Button.Ghost
+          className="px-7 py-[18px]"
+          onClick={onClose}
+          color="Gray"
+          size="sm"
+          disabled={false}
+        >
           취소
         </Button.Ghost>
         <Button.Solid
+          className="px-7 py-[18px]"
           onClick={onSuccess}
           color={danger ? "Red" : "Main"}
           active

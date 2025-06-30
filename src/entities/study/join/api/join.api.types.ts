@@ -57,3 +57,11 @@ export interface QuestionResInterface {
   questionAnswerId: number;
   answer: string;
 }
+
+export interface StudyManageCardInterface {
+  studyJoinId: number;
+  userId: number;
+  nickname: string;
+  createdAt: string;
+  questionAnswerResList: QuestionResInterface[];
+}

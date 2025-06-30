@@ -130,6 +130,7 @@ const MemberCard = ({ members, studyId }: MemberCardProps) => {
     <>
       <MemberModal
         isOpen={isModalOpenState}
+        studyId={studyId}
         data={selectMemberAttendanceState}
         onClose={onClose}
       />
