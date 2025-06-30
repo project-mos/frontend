@@ -7,11 +7,13 @@ import Button from "@/shared/components/atoms/Button";
 import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
 
-import { StudyManageCardInterface } from "@/features/study-room/types/study-room.type";
 import useModal from "@/shared/hooks/useModal";
 import { formatDate } from "@/shared/utils/date";
 import { getStudyApplicant } from "../api/join.api";
-import { GetStudyApplicantResponse } from "../api/join.api.types";
+import {
+  GetStudyApplicantResponse,
+  StudyManageCardInterface,
+} from "../api/join.api.types";
 import InfoModal from "./InfoModal";
 
 const TABS = [
