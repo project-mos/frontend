@@ -5,14 +5,6 @@ export interface StudyDetailPageProps {
   params: Promise<{ id: string }>;
 }
 
-/* study curriculum */
-export interface StudyCurriculumCardInterface {
-  id?: number;
-  sectionId: number;
-  title: string;
-  content: string;
-}
-
 /* study notice */
 export interface StudyNoticeCardInterface {
   id: number;
