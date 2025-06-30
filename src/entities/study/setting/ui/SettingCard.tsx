@@ -102,7 +102,7 @@ const SettingCard = ({ studyId }: { studyId: string }) => {
         isOpen={modal.get("leave")!}
         onClose={() => closeModal("leave")}
         type="danger"
-        content="정말 스터디에서 탈퇴 하시겠습니까?"
+        content="정말 스터디에서 탈퇴하시겠습니까?"
         title="탈퇴하기"
         buttonLabel="탈퇴하기"
         onSuccess={handleLeaveButton}
