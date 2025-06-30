@@ -1,5 +1,5 @@
 import { memo } from "react";
-import { FieldError } from "react-hook-form";
+import { FieldError, useFormContext } from "react-hook-form";
 
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -11,7 +11,6 @@ import Textarea from "@/shared/components/atoms/Textarea";
 import Typography from "@/shared/components/atoms/Typography";
 import { StudyCurriculumCardInterface } from "@/entities/study/curriculum/model/curriculum.types";
 import useDragCurriculum from "@/features/curriculum/dnd/model/useDragCurriculum";
-import useDeleteCurriculum from "@/features/curriculum/delete-curriculum/model/useDeleteCurriculum";
 import Button from "@/shared/components/atoms/Button";
 import useAddCurriculum from "@/features/curriculum/add-curriculum/model/useAddCurriculum";
 import { DeleteButton } from "@/features/curriculum/delete-curriculum/ui/DeleteButton";
@@ -66,7 +65,7 @@ const CurriculumEditView = ({
   curriculum,
   hasAnyFieldError,
 }: CurriculumItemProps) => {
-  const { register } = useDeleteCurriculum();
+  const { register } = useFormContext();
 
   return (
     <div className="flex gap-[5px]">
@@ -179,13 +178,6 @@ const Curriculum = ({ studyId }: CurriculumProps) => {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      {curriculumList.length === 0 && (
-        <div className="flex h-[480px] items-center justify-center">
-          <Typography.P3 className="text-center">
-            등록된 커리큘럼이 없습니다.
-          </Typography.P3>
-        </div>
-      )}
       <div className="mb-4 flex items-center justify-between">
         <Typography.SubTitle1>커리큘럼</Typography.SubTitle1>
         <div className="flex gap-2">
@@ -204,11 +196,18 @@ const Curriculum = ({ studyId }: CurriculumProps) => {
             {curriculumList.length === 0
               ? "등록"
               : isModifyState
-              ? "확인"
+              ? "저장"
               : "수정"}
           </Button.Solid>
         </div>
       </div>
+      {curriculumList.length === 0 && (
+        <div className="flex h-[480px] items-center justify-center">
+          <Typography.P3 className="text-center">
+            등록된 커리큘럼이 없습니다.
+          </Typography.P3>
+        </div>
+      )}
       {curriculumList.map((curriculum, index) => renderItem(curriculum, index))}
     </DndProvider>
   );
