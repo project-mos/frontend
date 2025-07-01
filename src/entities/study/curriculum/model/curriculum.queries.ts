@@ -4,7 +4,7 @@ import {
   postCurriculum,
 } from "@/entities/study/curriculum/api/curriculum.api";
 import { GetCurriculumResponse } from "@/entities/study/curriculum/api/curriculum.api.types";
-import { UsePostCurriculumProps } from "@/entities/study/curriculum/model/curriculum.types";
+import { UsePostCurriculumProps } from "@/entities/study/curriculum/model/curriculum.queries.types";
 
 export const CurriculumsQueryKey = (studyId: number) => [
   "study",
