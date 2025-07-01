@@ -1,5 +1,5 @@
 import Button from "@/shared/components/atoms/Button";
-import useAddCurriculum from "@/features/curriculum/add-curriculum/model/useAddCurriculum";
+import useAddCurriculum from "@/features/study/curriculum/add-curriculum/model/useAddCurriculum";
 
 export const AddButton = () => {
   const { addCurriculum } = useAddCurriculum();

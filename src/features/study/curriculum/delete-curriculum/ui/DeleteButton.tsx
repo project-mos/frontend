@@ -1,4 +1,4 @@
-import useDeleteCurriculum from "@/features/curriculum/delete-curriculum/model/useDeleteCurriculum";
+import useDeleteCurriculum from "@/features/study/curriculum/delete-curriculum/model/useDeleteCurriculum";
 
 export const DeleteButton = ({ sectionId }: { sectionId: number }) => {
   const { deleteCurriculum } = useDeleteCurriculum();

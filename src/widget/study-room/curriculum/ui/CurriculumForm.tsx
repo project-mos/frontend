@@ -10,12 +10,12 @@ import Tag from "@/shared/components/atoms/Tag";
 import Textarea from "@/shared/components/atoms/Textarea";
 import Typography from "@/shared/components/atoms/Typography";
 import { StudyCurriculumCardInterface } from "@/entities/study/curriculum/model/curriculum.types";
-import useDragCurriculum from "@/features/curriculum/dnd/model/useDragCurriculum";
+import useDragCurriculum from "@/features/study/curriculum/dnd/model/useDragCurriculum";
 import Button from "@/shared/components/atoms/Button";
-import useAddCurriculum from "@/features/curriculum/add-curriculum/model/useAddCurriculum";
-import { DeleteButton } from "@/features/curriculum/delete-curriculum/ui/DeleteButton";
-import useUpdateCurriculum from "@/features/curriculum/update-curriculum/model/useUpdateCurriculum";
-import { AddButton } from "@/features/curriculum/add-curriculum/ui/AddButton";
+import useAddCurriculum from "@/features/study/curriculum/add-curriculum/model/useAddCurriculum";
+import { DeleteButton } from "@/features/study/curriculum/delete-curriculum/ui/DeleteButton";
+import useUpdateCurriculum from "@/features/study/curriculum/update-curriculum/model/useUpdateCurriculum";
+import { AddButton } from "@/features/study/curriculum/add-curriculum/ui/AddButton";
 
 interface CurriculumProps {
   studyId: number;

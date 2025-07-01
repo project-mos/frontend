@@ -1,7 +1,7 @@
 "use client";
 import Card from "@/shared/components/atoms/Card";
 import { FormProvider } from "react-hook-form";
-import useCurriculumForm from "@/features/curriculum/form-curriculum/model/useCurriculumForm";
+import useCurriculumForm from "@/features/study/curriculum/form-curriculum/model/useCurriculumForm";
 import CurriculumForm from "@/widget/study-room/curriculum/ui/CurriculumForm";
 
 const CurriculumCard = ({ studyId }: { studyId: number }) => {
