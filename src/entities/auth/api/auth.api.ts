@@ -1,7 +1,7 @@
 import {
   GetAccessTokenResponse,
   RequestLogin,
-} from "@/entities/auth/api/auth.api.types";
+} from "@/entities/auth/api/auth.api.type";
 import {
   API_ENDPOINT,
   createJsonRequestInit,
