@@ -116,3 +116,14 @@ export async function leaveStudy(studyId: string) {
     },
   });
 }
+
+export async function deleteStudy(studyId: string) {
+  const { url, method } = API_ENDPOINT.study.deleteStudy(studyId);
+  return await fetchAPI(url, {
+    method,
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
