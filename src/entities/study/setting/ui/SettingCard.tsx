@@ -61,23 +61,17 @@ const SettingCard = ({ studyId }: { studyId: string }) => {
               </div>
             </div>
             <Typography.P1 className="mt-3 font-bold text-mos-gray-700">
-              Danger Zone
+              관리자 설정
             </Typography.P1>
             <div className="flex items-center justify-between rounded-md border border-mos-gray-100 p-5">
               <div>
-                <Typography.P1 className="font-bold">
-                  스터디 나가기
-                </Typography.P1>
+                <Typography.P1 className="font-bold">스터디 수정</Typography.P1>
                 <Typography.P3 className="text-[14px] text-mos-gray-700">
-                  해당 스터디에서 탈퇴합니다. 이 설정은 되돌릴 수 없습니다.
+                  스터디 정보를 수정합니다
                 </Typography.P3>
               </div>
-              <Button.Ghost
-                onClick={() => openModal("leave")}
-                color="Red"
-                active
-              >
-                나가기
+              <Button.Ghost color="Gray" active>
+                수정하기
               </Button.Ghost>
             </div>
             <div className="flex items-center justify-between rounded-md border border-mos-gray-100 p-5">
@@ -95,6 +89,26 @@ const SettingCard = ({ studyId }: { studyId: string }) => {
                 active
               >
                 삭제하기
+              </Button.Ghost>
+            </div>
+            <Typography.P1 className="mt-3 font-bold text-mos-gray-700">
+              Danger Zone
+            </Typography.P1>
+            <div className="flex items-center justify-between rounded-md border border-mos-gray-100 p-5">
+              <div>
+                <Typography.P1 className="font-bold">
+                  스터디 나가기
+                </Typography.P1>
+                <Typography.P3 className="text-[14px] text-mos-gray-700">
+                  해당 스터디에서 탈퇴합니다. 이 설정은 되돌릴 수 없습니다.
+                </Typography.P3>
+              </div>
+              <Button.Ghost
+                onClick={() => openModal("leave")}
+                color="Red"
+                active
+              >
+                나가기
               </Button.Ghost>
             </div>
           </div>
