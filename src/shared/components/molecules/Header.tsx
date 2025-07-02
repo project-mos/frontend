@@ -9,7 +9,7 @@ import SvgIcons from "@/asset/icon/SvgIcons";
 import Button from "@/shared/components/atoms/Button";
 import Typography from "@/shared/components/atoms/Typography";
 
-import LoginModal from "@/features/login/components/LoginModal";
+import LoginModal from "@/features/login/ui/LoginModal";
 import { ADMIN_MENU_ITEMS, MENU_ITEMS } from "@/shared/constants/SidebarItems";
 import URL from "@/shared/constants/URL";
 import useModal from "@/shared/hooks/useModal";
