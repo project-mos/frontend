@@ -2,7 +2,7 @@ import {
   GetMaterialsRequest,
   GetMaterialsResponse,
   PostMaterialsRequest,
-} from "@/entities/study/material/api/material.api.types";
+} from "@/entities/study/material/api/material.api.type";
 import { API_ENDPOINT, fetchAPI } from "@/shared/api/lib";
 
 export async function getMaterials({ studyId }: GetMaterialsRequest) {

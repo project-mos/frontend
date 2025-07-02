@@ -1,8 +1,8 @@
-import { useMyStudyRole } from "@/entities/study/member/model/member.queries";
+import { useMyStudyRole } from "@/entities/study/member/model/member.query";
 import {
   useDeleteStudySchedule,
   useGetStudySchedule,
-} from "@/entities/study/schedule/model/schedule.queries";
+} from "@/entities/study/schedule/model/schedule.query";
 import { useGetStudy } from "@/features/studies/hooks/useStudiesQueries";
 
 import { GetStudySchedule } from "@/features/study-room/types/study-room.api";

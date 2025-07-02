@@ -1,8 +1,8 @@
 import {
   useGetCurriculum,
   usePostCurriculum,
-} from "@/entities/study/curriculum/model/curriculum.queries";
-import { StudyCurriculumCardInterface } from "@/entities/study/curriculum/model/curriculum.types";
+} from "@/entities/study/curriculum/model/curriculum.query";
+import { StudyCurriculumCardInterface } from "@/entities/study/curriculum/model/curriculum.type";
 import { useToast } from "@/shared/hooks/useToast";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
@@ -33,11 +33,7 @@ const useCurriculumForm = (studyId: number) => {
     mode: "onChange",
   });
 
-  const {
-    handleSubmit,
-    setValue,
-    watch,
-  } = methods;
+  const { handleSubmit, setValue, watch } = methods;
 
   const curriculumList = watch("curriculumList");
 

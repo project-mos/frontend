@@ -1,4 +1,4 @@
-import { GetStudyMembersResponse } from "@/entities/study/member/api/member.api.types";
+import { GetStudyMembersResponse } from "@/entities/study/member/api/member.api.type";
 import {
   API_ENDPOINT,
   createJsonRequestInit,

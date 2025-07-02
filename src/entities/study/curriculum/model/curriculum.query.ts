@@ -1,10 +1,10 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   getCurriculum,
   postCurriculum,
 } from "@/entities/study/curriculum/api/curriculum.api";
-import { GetCurriculumResponse } from "@/entities/study/curriculum/api/curriculum.api.types";
+import { GetCurriculumResponse } from "@/entities/study/curriculum/api/curriculum.api.type";
 import { UsePostCurriculumProps } from "@/entities/study/curriculum/model/curriculum.queries.types";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const CurriculumsQueryKey = (studyId: number) => [
   "study",
@@ -14,12 +14,12 @@ export const CurriculumsQueryKey = (studyId: number) => [
 
 // 커리큘럼 조회
 export const useGetCurriculum = (studyId: number) => {
-  return ({
+  return {
     queryKey: CurriculumsQueryKey(studyId),
     queryFn: () => getCurriculum(studyId),
     enabled: !!studyId,
     retry: false,
-  });
+  };
 };
 
 // 커리큘럼 생성/수정/삭제

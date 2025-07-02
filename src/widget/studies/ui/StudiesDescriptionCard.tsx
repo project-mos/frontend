@@ -8,13 +8,13 @@ import "highlight.js/styles/github-dark.css";
 
 import profileImg from "@/asset/images/defaultProfile.png";
 
+import { GetStudyBenefitsResponse } from "@/entities/study/overview/api/benefits.api.type";
+import { GetStudyRulesResponse } from "@/entities/study/overview/api/rules.api.type";
+import RecruitmentStatusTag from "@/features/recruitment-status/ui/RecruitmentStatusTag";
+import ShareButton from "@/features/share/ui/ShareButton";
 import Profile from "@/shared/components/atoms/Profile";
 import CustomMdxRemote from "@/shared/components/system/CustomMdxRemote";
-import ShareButton from "@/features/share/ui/ShareButton";
 import { StudiesDescriptionCardProps } from "@/widget/studies/ui/studies.ui.types";
-import { GetStudyRulesResponse } from "@/entities/study/overview/api/rules.api.types";
-import { GetStudyBenefitsResponse } from "@/entities/study/overview/api/benefits.api.types";
-import RecruitmentStatusTag from "@/features/recruitment-status/ui/RecruitmentStatusTag";
 
 const StudiesDescriptionCard = ({
   studyDetailData,

@@ -1,5 +1,5 @@
-import { QuestionResInterface } from "@/entities/study/join/api/join.api.types";
-import { StudyRule } from "@/entities/study/overview/api/rules.api.types";
+import { QuestionResInterface } from "@/entities/study/join/api/join.api.type";
+import { StudyRule } from "@/entities/study/overview/api/rules.api.type";
 
 export interface StudyDetailPageProps {
   params: Promise<{ id: string }>;

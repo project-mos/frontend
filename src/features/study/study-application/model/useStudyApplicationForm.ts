@@ -1,18 +1,18 @@
 // features/study-application/model/useStudyApplicationForm.ts
+import { useParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useParams } from "next/navigation";
 
-import { useToast } from "@/shared/hooks/useToast";
 import useMultiModal from "@/shared/hooks/useMultiModal";
+import { useToast } from "@/shared/hooks/useToast";
 
-import { Join, PostJoin } from "@/entities/study/join/api/join.api.types";
+import { Join, PostJoin } from "@/entities/study/join/api/join.api.type";
 
 import {
   useGetJoins,
   usePatchJoin,
   usePostJoin,
-} from "@/entities/study/join/model/join.queries";
+} from "@/entities/study/join/model/join.query";
 
 interface UseStudyApplicationFormProps {
   studyId: string;

@@ -1,6 +1,6 @@
-import { useFormContext } from "react-hook-form";
+import { FormValues } from "@/entities/study/curriculum/model/curriculum.type";
 import { useState } from "react";
-import { FormValues } from "@/entities/study/curriculum/model/curriculum.types";
+import { useFormContext } from "react-hook-form";
 
 const useAddCurriculum = () => {
   // 커리큘럼 추가 버튼 플래그

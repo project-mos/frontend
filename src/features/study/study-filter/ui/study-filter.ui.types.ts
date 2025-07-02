@@ -1,4 +1,4 @@
-import { GetStudyCategoriesResponse } from "@/entities/study/category/api/category.api.types";
+import { GetStudyCategoriesResponse } from "@/entities/study/category/api/category.api.type";
 import { SolidButtonProps } from "@/shared/components/atoms/Button";
 
 export type Categories =

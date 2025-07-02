@@ -1,6 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
 import { getRequirements } from "@/entities/study/requirement/api/requirement.api";
-import { GetStudyRequirementsResponse } from "@/entities/study/requirement/api/requirement.api.types";
+import { GetStudyRequirementsResponse } from "@/entities/study/requirement/api/requirement.api.type";
+import { useQuery } from "@tanstack/react-query";
 
 // 쿼리 키 생성 함수
 export const RequirementsQueryKey = (studyId: string) => [

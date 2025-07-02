@@ -13,7 +13,7 @@ import { getStudyApplicant } from "../api/join.api";
 import {
   GetStudyApplicantResponse,
   StudyManageCardInterface,
-} from "../api/join.api.types";
+} from "../api/join.api.type";
 import InfoModal from "./InfoModal";
 
 const TABS = [

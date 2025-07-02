@@ -1,14 +1,14 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   getAttendances,
+  patchAttendances,
   postAttendance,
   putAttendance,
-  patchAttendances,
 } from "@/entities/study/attendance/api/attendance.api";
 import {
   AttendanceRequest,
   GetAttendancesRequest,
-} from "@/entities/study/attendance/api/attendance.api.types";
+} from "@/entities/study/attendance/api/attendance.api.type";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 // Query Key 생성 함수
 export const AttendancesQueryKey = (studyId: string) => [

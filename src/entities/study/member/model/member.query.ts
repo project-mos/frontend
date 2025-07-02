@@ -1,10 +1,10 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
-  getMembers,
   deleteMember,
+  getMembers,
 } from "@/entities/study/member/api/member.api";
-import { GetStudyMembersResponse } from "@/entities/study/member/api/member.api.types";
+import { GetStudyMembersResponse } from "@/entities/study/member/api/member.api.type";
 import useDecodeToken from "@/shared/hooks/useDecodeToken";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 // 쿼리 키 생성 함수
 export const MembersQueryKey = (studyId: string) => [

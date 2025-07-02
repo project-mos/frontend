@@ -1,4 +1,4 @@
-import { Curriculum } from "@/entities/study/curriculum/api/curriculum.api.types";
+import { Curriculum } from "@/entities/study/curriculum/api/curriculum.api.type";
 
 export interface GetSchedulesResponse {
   studyScheduleId: number;

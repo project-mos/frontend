@@ -1,4 +1,4 @@
-import { Question } from "@/entities/study/question/api/question.api.types";
+import { Question } from "@/entities/study/question/api/question.api.type";
 
 // Study 다 건 조회 request
 export type GetStudiesRequest = {

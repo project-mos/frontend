@@ -1,12 +1,8 @@
-import { FormValues } from "@/entities/study/curriculum/model/curriculum.types";
+import { FormValues } from "@/entities/study/curriculum/model/curriculum.type";
 import { useFormContext } from "react-hook-form";
 
 const useDeleteCurriculum = () => {
-  const {
-    register,
-    getValues,
-    setValue,
-  } = useFormContext<FormValues>();
+  const { register, getValues, setValue } = useFormContext<FormValues>();
 
   // 커리큘럼 삭제
   const deleteCurriculum = (sectionId: number) => {

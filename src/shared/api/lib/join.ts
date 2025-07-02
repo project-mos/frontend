@@ -1,4 +1,4 @@
-import { JoinsRequest } from "@/entities/study/join/api/join.api.types";
+import { JoinsRequest } from "@/entities/study/join/api/join.api.type";
 import { Method } from "@/shared/api/util/fetcher";
 
 export const join = {

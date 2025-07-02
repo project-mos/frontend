@@ -4,7 +4,7 @@ export type {
   EditStudyRule,
   GetStudyRulesResponse,
   StudyRule,
-} from "@/entities/study/overview/api/rules.api.types";
+} from "@/entities/study/overview/api/rules.api.type";
 
 import { createJsonRequestInit, fetchAPI } from "@/shared/api/util/fetcher";
 
@@ -14,7 +14,7 @@ import {
   AttendanceRequest,
   GetAttendancesRequest,
   GetAttendancesResponse,
-} from "@/entities/study/attendance/api/attendance.api.types";
+} from "@/entities/study/attendance/api/attendance.api.type";
 
 /* study room attendance */
 export async function getAttendances({ studyId }: GetAttendancesRequest) {

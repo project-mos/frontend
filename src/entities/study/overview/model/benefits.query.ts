@@ -2,7 +2,7 @@ import {
   getBenefits,
   postBenefit,
 } from "@/entities/study/overview/api/benefits.api";
-import { PostBenefitRequest } from "@/entities/study/overview/api/benefits.api.types";
+import { PostBenefitRequest } from "@/entities/study/overview/api/benefits.api.type";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 // Query Key 생성 함수
