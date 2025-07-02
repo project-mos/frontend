@@ -21,6 +21,7 @@ const SettingCard = ({ studyId }: { studyId: string }) => {
   const handleLeaveButton = async () => {
     try {
       await leaveStudy(studyId);
+      localStorage.setItem("leave", "true");
       closeModal("leave");
       router.push(URL.MYPAGE);
     } catch (e) {
@@ -33,6 +34,7 @@ const SettingCard = ({ studyId }: { studyId: string }) => {
   const handleDeleteButton = async () => {
     try {
       await deleteStudy(studyId);
+      localStorage.setItem("delete", "true");
       closeModal("delete");
       router.push(URL.MYPAGE);
     } catch (e) {
