@@ -44,6 +44,11 @@ const SettingCard = ({ studyId }: { studyId: string }) => {
     }
   };
 
+  const handleEditButton = async () => {
+    router.push(URL.STUDY.EDIT(studyId));
+    closeModal("edit");
+  };
+
   return (
     <>
       <Card className="col-span-12 h-fit gap-4 tablet:col-span-9 laptop:col-span-10">
@@ -67,10 +72,14 @@ const SettingCard = ({ studyId }: { studyId: string }) => {
               <div>
                 <Typography.P1 className="font-bold">스터디 수정</Typography.P1>
                 <Typography.P3 className="text-[14px] text-mos-gray-700">
-                  스터디 정보를 수정합니다
+                  스터디 정보를 수정합니다.
                 </Typography.P3>
               </div>
-              <Button.Ghost color="Gray" active>
+              <Button.Ghost
+                onClick={() => openModal("edit")}
+                color="Gray"
+                active
+              >
                 수정하기
               </Button.Ghost>
             </div>
@@ -131,6 +140,15 @@ const SettingCard = ({ studyId }: { studyId: string }) => {
         title="삭제하기"
         buttonLabel="삭제하기"
         onSuccess={handleDeleteButton}
+      />
+      <ActionConfirmModal
+        isOpen={modal.get("edit")!}
+        onClose={() => closeModal("edit")}
+        type="action"
+        content="해당 스터디를 수정하시겠습니까?"
+        title="수정하기"
+        buttonLabel="수정하기"
+        onSuccess={handleEditButton}
       />
     </>
   );

@@ -7,6 +7,7 @@ const URL = {
   },
   STUDY: {
     CREATE: "/create-study",
+    EDIT: (id: string) => `/edit-study/${id}`,
     DETAIL: (id: number) => `/studies/${id}`,
   },
   STUDY_ROOM: {
