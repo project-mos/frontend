@@ -213,7 +213,7 @@ export function Sidebar() {
                       key={`${item}_${index}`}
                     >
                       <Link href={item.path}>
-                        <Typography.P2 className="text-mos-gray-30 flex gap-3 font-semibold group-hover:text-mos-main">
+                        <Typography.P2 className="flex gap-3 font-semibold text-mos-gray-300 group-hover:text-mos-main">
                           <i className={cn(item.icon)} />
                           {item.name}
                         </Typography.P2>
