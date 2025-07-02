@@ -1,4 +1,4 @@
-import CurriculumCard from "@/entities/study/curriculum/ui/CurriculumCard";
+import CurriculumCard from "@/widget/study-room/curriculum/ui/CurriculumCard";
 
 const Curriculum = async ({ params }: { params: Promise<{ id: number }> }) => {
   const { id } = await params;
