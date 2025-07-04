@@ -1,16 +1,13 @@
 import {
   getJoins,
-  getMembers,
-  getQuestions,
-  getStudy,
   patchJoin,
   postJoin,
-} from "@/features/studies/services/studies.service";
-import {
-  GetStudyJoinsRequest,
-  PostStudyJoin,
-} from "@/features/studies/types/studies.api";
-
+} from "@/entities/study/join/api/join.api";
+import { JoinsRequest } from "@/entities/study/join/api/join.api.type";
+import { getMembers } from "@/entities/study/member/api/member.api";
+import { getQuestions } from "@/entities/study/question/api/question.api";
+import { getStudy } from "@/entities/study/studies/api/studies.api";
+import { PostStudyJoin } from "@/entities/study/studies/api/studies.api.type";
 import {
   useMutation,
   UseMutationOptions,
@@ -68,12 +65,12 @@ export function usePatchJoin({
 export function useGetJoins({
   studyJoinStatus,
 }: {
-  studyJoinStatus?: GetStudyJoinsRequest;
+  studyJoinStatus?: JoinsRequest;
   accessToken: string;
 }) {
   return useQuery({
     queryKey: ["joins", studyJoinStatus],
-    queryFn: () => getJoins({ studyJoinStatus }),
+    queryFn: () => getJoins(studyJoinStatus!),
     staleTime: 3600,
     retry: false,
   });

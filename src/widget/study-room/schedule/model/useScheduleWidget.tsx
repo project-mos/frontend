@@ -3,7 +3,7 @@ import {
   useDeleteStudySchedule,
   useGetStudySchedule,
 } from "@/entities/study/schedule/model/schedule.query";
-import { useGetStudy } from "@/features/studies/hooks/useStudiesQueries";
+import { useGetStudy } from "@/features/studies/model/useStudiesQueries";
 
 import { GetStudySchedule } from "@/features/study-room/types/study-room.api";
 import useMultiModal from "@/shared/hooks/useMultiModal";

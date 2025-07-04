@@ -1,14 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import {
-  EditRuleRequest,
-  editRules,
-  getRules,
-} from "@/entities/study/overview/api/rules.api";
+import { editRules, getRules } from "@/entities/study/overview/api/rules.api";
+import { EditRulesRequest } from "@/features/study-room/types/study-room.api";
 
-export const RulesQueryKey = (studyId: number) => ["study", "rules", studyId];
+export const RulesQueryKey = (studyId: string) => ["study", "rules", studyId];
 
-export const useGetStudyRules = (studyId: number) => {
+export const useGetStudyRules = (studyId: string) => {
   return useQuery({
     queryKey: RulesQueryKey(studyId),
     queryFn: () => getRules(studyId), // getRules 함수 사용
@@ -17,13 +14,13 @@ export const useGetStudyRules = (studyId: number) => {
   });
 };
 
-export const useEditStudyRules = ({ studyId, rules }: EditRuleRequest) => {
+export const useEditStudyRules = ({ studyId, rules }: EditRulesRequest) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: () => editRules({ studyId, rules }),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: RulesQueryKey(Number(studyId)),
+        queryKey: RulesQueryKey(studyId),
       });
     },
   });

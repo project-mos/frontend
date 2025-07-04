@@ -1,6 +1,6 @@
 "use client";
 import useShare from "@/features/share/model/useShare";
-import { ShareButtonProps } from "@/features/share/ui/share.ui.types";
+import { ShareButtonProps } from "@/features/share/ui/share.ui.type";
 import Button from "@/shared/components/atoms/Button";
 
 import { Tooltip } from "@heroui/tooltip";

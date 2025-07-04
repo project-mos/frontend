@@ -1,11 +1,3 @@
-export type {
-  EditRuleRequest,
-  EditRuleResponse,
-  EditStudyRule,
-  GetStudyRulesResponse,
-  StudyRule,
-} from "@/entities/study/overview/api/rules.api.type";
-
 import { GetCurriculumResponse } from "@/entities/study/curriculum/api/curriculum.api.type";
 import {
   API_ENDPOINT,

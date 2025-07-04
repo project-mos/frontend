@@ -9,9 +9,9 @@ export type GetStudyBenefitResponse = {
 
 export type GetStudyBenefitsResponse = GetStudyBenefitResponse[];
 
-export type PostBenefitRequest = {
+export type EditBenefitRequest = {
   studyId: string;
   benefits: Benefit[];
 };
 
-export type PostBenefitResponse = Benefit;
+export type EditBenefitResponse = Benefit[];

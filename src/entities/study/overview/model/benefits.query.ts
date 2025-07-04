@@ -1,8 +1,8 @@
 import {
+  editBenefits,
   getBenefits,
-  postBenefit,
 } from "@/entities/study/overview/api/benefits.api";
-import { PostBenefitRequest } from "@/entities/study/overview/api/benefits.api.type";
+import { EditBenefitRequest } from "@/entities/study/overview/api/benefits.api.type";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 // Query Key 생성 함수
@@ -27,7 +27,7 @@ export const usePostBenefits = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: PostBenefitRequest) => postBenefit(data),
+    mutationFn: (data: EditBenefitRequest) => editBenefits(data),
     onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({
         queryKey: BenefitsQueryKey(variables.studyId),

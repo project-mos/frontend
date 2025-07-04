@@ -19,11 +19,6 @@ import { useParams } from "next/navigation";
 
 import clsx from "clsx";
 
-import {
-  usePostStudySchedule,
-  usePutStudySchedule,
-} from "@/entities/study/schedule/model/schedule.query";
-import { GetStudyCurriculumResponse } from "@/features/studies/types/studies.api";
 import { useGetCurriculums } from "@/features/study-room/hooks/useCurriculumQueries";
 import {
   GetStudySchedule,
@@ -31,6 +26,12 @@ import {
 } from "@/features/study-room/types/study-room.api";
 import Label from "@/shared/components/molecules/Label";
 import { useEffect, useRef } from "react";
+
+import {
+  usePostStudySchedule,
+  usePutStudySchedule,
+} from "@/entities/study/schedule/model/schedule.query";
+import { GetStudyCurriculumResponse } from "../../studies/api/studies.api.type";
 
 // success, close 시 실행할 함수들을 부모로부터 받음
 interface ScheduleModalProps extends ModalProps {
