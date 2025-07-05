@@ -9,7 +9,7 @@ import Input from "@/shared/components/atoms/Input";
 import Tag from "@/shared/components/atoms/Tag";
 import Textarea from "@/shared/components/atoms/Textarea";
 import Typography from "@/shared/components/atoms/Typography";
-import { StudyCurriculumCardInterface } from "@/entities/study/curriculum/model/curriculum.types";
+import { StudyCurriculumCardInterface } from "@/entities/study/curriculum/model/curriculum.queries.types";
 import useDragCurriculum from "@/features/study/curriculum/dnd/model/useDragCurriculum";
 import Button from "@/shared/components/atoms/Button";
 import useAddCurriculum from "@/features/study/curriculum/add-curriculum/model/useAddCurriculum";

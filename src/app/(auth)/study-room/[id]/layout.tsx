@@ -1,6 +1,6 @@
 import React from "react";
 
-import ImportantNoticeBar from "@/entities/study/notice/ui/ImportantNoticeBar";
+import ImportantNoticeBar from "@/widget/study-room/notice/ui/ImportantNoticeBar";
 import { getStudy } from "@/features/studies/services/studies.service";
 import ScheduleIntendedCard from "@/widget/study-room/schedule/ui/ScheduleIntendedCard";
 import StudyRoomSideBarCard from "@/features/study-room/component/StudyRoomSideBarCard";

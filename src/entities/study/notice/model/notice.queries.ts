@@ -7,6 +7,7 @@ import {
   deleteNotice,
 } from "@/entities/study/notice/api/notice.api";
 import { NoticeRequest } from "@/entities/study/notice/api/notice.api.types";
+import { usePachNoticeProps, UsePostNoticeProps } from "./notice.queries.types";
 
 // queryKey
 export const noticeKeys = {
@@ -23,7 +24,7 @@ export const useGetNotices = (studyId: number) =>
     enabled: !!studyId,
   });
 
-//  공지사항 단건 조회
+// 공지사항 단건 조회
 export const useGetNotice = (studyId: number, noticeId: number) =>
   useQuery({
     queryKey: noticeKeys.detail(studyId, noticeId),
@@ -31,37 +32,53 @@ export const useGetNotice = (studyId: number, noticeId: number) =>
     enabled: !!studyId && !!noticeId,
   });
 
-//  공지사항 등록
-export const usePostNotice = (studyId: number) => {
+// 공지사항 등록
+export const usePostNotice = ({
+  onSuccess,
+  onError,
+  studyId
+}: UsePostNoticeProps) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (data: NoticeRequest) => postNotice(studyId, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: noticeKeys.all(studyId) });
+      onSuccess?.();
+    },
+    onError: (error) => {
+      onError?.(error);
     },
   });
 };
 
-//  공지사항 수정
-export const usePatchNotice = (studyId: number, noticeId: number) => {
+// 공지사항 수정
+export const usePatchNotice = ({onSuccess,
+  onError, studyId, noticeId}: usePachNoticeProps) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (data: NoticeRequest) => patchNotice(studyId, noticeId, data),
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: noticeKeys.detail(studyId, noticeId),
-      });
+      queryClient.invalidateQueries({ queryKey: noticeKeys.all(studyId) });
+      onSuccess?.();
+    },
+    onError: (error) => {
+      onError?.(error);
     },
   });
 };
 
-//  공지사항 삭제
-export const useDeleteNotice = (studyId: number, noticeId: number) => {
+// 공지사항 삭제
+export const useDeleteNotice = ({onSuccess,
+  onError, studyId, noticeId}: usePachNoticeProps) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: () => deleteNotice(studyId, noticeId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: noticeKeys.all(studyId) });
+      onSuccess?.();
+    },
+    onError: (error) => {
+      onError?.(error);
     },
   });
 };

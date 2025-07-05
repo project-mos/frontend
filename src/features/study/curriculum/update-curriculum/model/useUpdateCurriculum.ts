@@ -1,6 +1,6 @@
 import { useFormContext } from "react-hook-form";
 import { useState } from "react";
-import { FormValues } from "@/entities/study/curriculum/model/curriculum.types";
+import { FormValues } from "@/entities/study/curriculum/model/curriculum.queries.types";
 
 const useUpdateCurriculum = () => {
   // 수정 여부 플래그
