@@ -1,45 +1,39 @@
 "use client";
-import { useEffect } from "react";
 
 import Typography from "@/shared/components/atoms/Typography";
+import useFetchNotice from "@/features/study/notice/fetch-notice/model/useFetchNotice";
 
-import { useNoticeStore } from "@/shared/store/useNoticeStore";
+const ImportantNoticeBar = ({ studyId }: { studyId: number }) => {
+  const { noticesData } = useFetchNotice(studyId);
 
-const ImportantNoticeBar = () => {
-  // 전역 상태 관리
-  const { importantNotice, setImportantNotice } = useNoticeStore();
-
-  useEffect(() => {
-    const content = localStorage.getItem("importantNoticeContent");
-    setImportantNotice(content);
-  }, []);
+  const importantNotice = noticesData?.find((item) => item.important);
 
   const onDeleteBarClick = () => {
-    localStorage.removeItem("importantNoticeContent");
-    setImportantNotice(null);
+    // 추후 구현 예정
   };
 
-  if (importantNotice) {
-    return (
-      <>
-        <div className="fixed left-0 top-0 mt-[55px] flex w-full items-center justify-center border-b border-orange-200 bg-orange-50">
-          <div className="flex w-[90%] max-w-[1300px] items-center justify-between">
-            <Typography.P3 className="text-orange-400">
-              <i className="bi bi-info-circle mr-2 text-orange-500"></i>
-              {importantNotice}
-            </Typography.P3>
-            <i
-              className="bi bi-x cursor-pointer text-[23px] text-orange-500"
-              onClick={onDeleteBarClick}
-            ></i>
-          </div>
+  if (!importantNotice) return null;
+
+  return (
+    <>
+      <div className="fixed left-0 top-0 mt-[55px] flex w-full items-center justify-center border-b border-orange-200 bg-orange-50">
+        <div className="flex w-[90%] max-w-[1300px] items-center justify-between">
+          <Typography.P3
+            className="w-full cursor-pointer overflow-hidden truncate whitespace-nowrap text-orange-400"
+            title={importantNotice.content}
+          >
+            <i className="bi bi-info-circle mr-2 text-orange-500"></i>
+            {importantNotice.content}
+          </Typography.P3>
+          <i
+            className="bi bi-x cursor-pointer text-[23px] text-orange-500"
+            onClick={onDeleteBarClick}
+          ></i>
         </div>
-        <div className="mb-10"></div>
-      </>
-    );
-  } else {
-    return null;
-  }
+      </div>
+      <div className="mb-10"></div>
+    </>
+  );
 };
 
 export default ImportantNoticeBar;

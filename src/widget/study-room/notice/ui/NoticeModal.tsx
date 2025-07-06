@@ -11,8 +11,6 @@ import Typography from "@/shared/components/atoms/Typography";
 import LabelInput from "@/shared/components/molecules/LabelInput";
 import LabelTextAreaInput from "@/shared/components/molecules/LabelTextAreaInput";
 
-import { useNoticeStore } from "@/shared/store/useNoticeStore";
-
 import { NoticeRequest } from "@/entities/study/notice/api/notice.api.types";
 import useHandleAddNotice from "@/features/study/notice/add-notice/model/useHandleAddNotice";
 import useHandleUpdateNotice from "@/features/study/notice/update-notice/model/useHandleUpdateNotice";
@@ -35,13 +33,19 @@ const NoticeModal = ({
   isCreateMode,
   ...props
 }: NoticeModalProps) => {
-  const { setImportantNotice } = useNoticeStore();
   // 폼 상태 관리
   const { methods, noticeData, isActiveBtn, noticeId } = useFormNotice(studyId);
   const { handleSubmit, formState, setValue, register, reset } = methods;
 
   // 생성
-  const { createNotice, isCreating } = useHandleAddNotice(studyId);
+  const { createNotice, isCreating } = useHandleAddNotice(studyId, () =>
+    reset({
+      title: "",
+      content: "",
+      important: false,
+      pinned: false,
+    })
+  );
 
   // 수정
   const { isModifyMode, setIsModifyMode, updateNotice, isUpdating } =
@@ -73,12 +77,6 @@ const NoticeModal = ({
       updateNotice(data);
     } else {
       createNotice(data);
-    }
-
-    // 중요 공지로 설정 시 내용 저장
-    if (data.important) {
-      localStorage.setItem("importantNoticeContent", data.content);
-      setImportantNotice(data.content);
     }
 
     onClickCloseBtn();

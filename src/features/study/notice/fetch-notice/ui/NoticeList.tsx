@@ -27,7 +27,9 @@ export const NoticeList = ({ studyId }: { studyId: number }) => {
               }}
             >
               <div className="flex items-center gap-2">
-                <i className="bi bi-exclamation-circle text-orange-600"></i>
+                {item.pinned && (
+                  <i className="bi bi-exclamation-circle text-orange-600"></i>
+                )}
                 <div className="flex w-full justify-between">
                   <Typography.P3 className="text-[18px]">
                     {item.title}

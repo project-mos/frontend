@@ -4,6 +4,7 @@ import { useState } from "react";
 
 const useHandleAddNotice = (
   studyId: number,
+  onSuccess?: () => void
 ) => {
   const { success, error } = useToast();
   const [isCreate, setIsCreate] = useState<boolean>(false);
@@ -13,6 +14,7 @@ const useHandleAddNotice = (
     studyId,
     onSuccess: () => {
       success("등록되었습니다.");
+      onSuccess?.()
     },
     onError: (err) => {
       error(String(err));

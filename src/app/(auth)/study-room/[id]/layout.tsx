@@ -18,7 +18,7 @@ const layout = async ({ children, params }: StudyRoomLayoutProps) => {
 
   return (
     <>
-      <ImportantNoticeBar />
+      <ImportantNoticeBar studyId={Number(id)} />
       <Grid cols={12} gap={5}>
         <StudyRoomTitleCard data={studyDetailData} />
         <ScheduleIntendedCard />
