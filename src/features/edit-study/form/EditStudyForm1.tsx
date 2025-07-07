@@ -38,8 +38,9 @@ const EditStudyForm1 = () => {
       studyId: id,
     });
     closeModal("edit");
+    localStorage.setItem("edit", "true");
 
-    router.replace(`/studies/${id}`);
+    router.replace(`${URL.STUDY_ROOM.DETAIL_MANAGE_OVERVIEW(id)}`);
   };
 
   return (
