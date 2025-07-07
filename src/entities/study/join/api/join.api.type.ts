@@ -66,11 +66,3 @@ export interface StudyManageCardInterface {
   createdAt: string;
   questionAnswerResList: QuestionResInterface[];
 }
-
-export interface StudyManageCardInterface {
-  studyJoinId: number;
-  userId: number;
-  nickname: string;
-  createdAt: string;
-  questionAnswerResList: QuestionResInterface[];
-}
