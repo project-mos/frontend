@@ -1,5 +1,7 @@
+import EditStudyForm from "@/features/edit-study/form/EditStudyForm";
+
 const EditStudyPage = async () => {
-  return <div>edit study page</div>;
+  return <EditStudyForm />;
 };
 
 export default EditStudyPage;
