@@ -3,12 +3,16 @@
 import {
   chatMockData,
   chatRoomMockData,
+  chatUserMockData,
   ChatRoomPreview,
+  ChatUser,
 } from "@/entities/chat/lib/mock/chat.mock";
 import { ChatActiveTab } from "@/features/chat/ui/chat.ui.types";
 import ChatInput from "@/features/chat/ui/ChatInput";
 import ChatItem from "@/features/chat/ui/ChatItem";
 import ChatRoom from "@/features/chat/ui/ChatRoom";
+import ChatTab from "@/features/chat/ui/ChatTab";
+import ChatUserItem from "@/features/chat/ui/ChatUserItem";
 
 import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
@@ -33,11 +37,11 @@ const Chat = () => {
 
   // 헤더 타이틀 설정
   const title =
-    activeTab === "chat"
+    isChatRoom && selectItem
+      ? selectItem.user.name
+      : activeTab === "chat"
       ? "채팅방"
-      : activeTab === "chatRoom"
-      ? selectItem?.user.name
-      : "알림";
+      : activeTab === "user" && "유저";
 
   // FAB 버튼 클릭 시 채팅창 토글
   const onButtonClick = () => {
@@ -51,16 +55,38 @@ const Chat = () => {
   };
 
   // 탭 변경
-  // const onTabChange = (tab: ActiveTab) => {
-  //   setActiveTab(tab);
-  //   setIsChatRoomState(false);
-  // };
+  const onTabChange = (tab: ChatActiveTab) => {
+    setActiveTab(tab);
+    setIsChatRoomState(false);
+  };
 
   // 채팅방 클릭 시 해당 채팅방으로 진입
   const onChatListClick = (item: ChatRoomPreview) => {
     setIsChatRoomState(true);
-    setActiveTab("chatRoom");
+    setActiveTab("user");
     setSelectItem(item);
+  };
+
+  // 유저와 채팅 시작
+  const onChatStart = (user: ChatUser) => {
+    // 채팅방으로 이동하고 선택한 유저 정보 저장(미리 생성)
+    const userChatRoom: ChatRoomPreview = {
+      roomId: `chat-${user.id}`,
+      user: {
+        id: user.id,
+        name: user.name,
+        avatarUrl: user.avatarUrl,
+      },
+      lastMessage: {
+        content: "",
+        type: "text",
+        timestamp: new Date().toISOString(),
+      },
+      unreadCount: 0,
+    };
+
+    setSelectItem(userChatRoom);
+    setIsChatRoomState(true);
   };
 
   const onDotClick = (
@@ -106,12 +132,15 @@ const Chat = () => {
           {/* 컨텐츠 영역 */}
           <Card.Content className="h-full max-h-[480px] overflow-y-auto">
             {isChatRoom ? (
-              <ChatRoom data={chatMockData} /> // 채팅방 화면
+              <ChatRoom
+                data={
+                  selectItem?.roomId.startsWith("chat-") ? [] : chatMockData
+                }
+              /> // 새로운 채팅방이면 빈 배열, 기존 채팅방이면 기존 데이터
             ) : (
               <div className="flex flex-col gap-3 p-2">
                 {/* 채팅방 리스트 */}
-                {
-                  // activeTab === "chat" &&
+                {activeTab === "chat" &&
                   chatRoomMockData.map((item, index) => (
                     <ChatItem
                       item={item}
@@ -121,14 +150,18 @@ const Chat = () => {
                         onDotClick(event, item);
                       }}
                     />
-                  ))
-                }
-                {/* 알림 탭 (미완성) */}
-                {activeTab === "notices" && (
-                  <div className="text-black">
-                    <h3 className="mb-2 font-bold">알림</h3>
-                    <p>알림 내용이 여기에 표시됩니다.</p>
-                  </div>
+                  ))}
+                {/* 유저 탭 */}
+                {activeTab === "user" && (
+                  <>
+                    {chatUserMockData.map((user, index) => (
+                      <ChatUserItem
+                        key={`${user.id}_${index}`}
+                        user={user}
+                        onChatStart={onChatStart}
+                      />
+                    ))}
+                  </>
                 )}
               </div>
             )}
@@ -136,12 +169,11 @@ const Chat = () => {
 
           {/* 푸터 영역: 채팅 입력창 또는 탭 전환 */}
           <Card.Footer className="rounded-b-3xl">
-            {
-              isChatRoom && <ChatInput />
-              // : (
-              //   <ChatTab active={activeTab} onChange={onTabChange} />
-              // )}
-            }
+            {isChatRoom ? (
+              <ChatInput />
+            ) : (
+              <ChatTab active={activeTab} onChange={onTabChange} />
+            )}
             {
               <>
                 <div

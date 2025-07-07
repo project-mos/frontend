@@ -15,6 +15,14 @@ export interface ChatRoomPreview {
   unreadCount: number;
 }
 
+// 채팅 유저 타입
+export interface ChatUser {
+  id: string;
+  name: string;
+  avatarUrl: string;
+  role?: "admin" | "member" | "guest"; // 역할
+}
+
 // ✅ 예시 mock data
 export const chatRoomMockData: ChatRoomPreview[] = [
   {
@@ -58,6 +66,52 @@ export const chatRoomMockData: ChatRoomPreview[] = [
       timestamp: "2025-04-18T11:45:00Z",
     },
     unreadCount: 5,
+  },
+];
+
+// 채팅 유저 목록 mock data
+export const chatUserMockData: ChatUser[] = [
+  {
+    id: "admin",
+    name: "운영자",
+    avatarUrl: "https://placekitten.com/80/80",
+    role: "admin",
+  },
+  {
+    id: "john123",
+    name: "John",
+    avatarUrl: "https://placekitten.com/81/81",
+    role: "member",
+  },
+  {
+    id: "alice",
+    name: "Alice",
+    avatarUrl: "https://placekitten.com/82/82",
+    role: "member",
+  },
+  {
+    id: "bob456",
+    name: "Bob",
+    avatarUrl: "https://placekitten.com/83/83",
+    role: "member",
+  },
+  {
+    id: "charlie789",
+    name: "Charlie",
+    avatarUrl: "https://placekitten.com/84/84",
+    role: "guest",
+  },
+  {
+    id: "diana101",
+    name: "Diana",
+    avatarUrl: "https://placekitten.com/85/85",
+    role: "member",
+  },
+  {
+    id: "Jin1130",
+    name: "Jin",
+    avatarUrl: "https://placekitten.com/85/85",
+    role: "member",
   },
 ];
 
