@@ -20,6 +20,7 @@ const TABS = [
   { id: 1, label: "대기", value: "대기" },
   { id: 2, label: "승인", value: "승낙" },
   { id: 3, label: "거절", value: "탈락" },
+  { id: 4, label: "취소", value: "취소" },
 ];
 
 const List = () => {
