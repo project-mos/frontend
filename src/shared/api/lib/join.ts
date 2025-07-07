@@ -25,7 +25,7 @@ export const join = {
     method: Method.GET,
   }),
   getStudyApplicant: (studyId: string, status: string) => ({
-    url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/study-joins?studyJoinStatus=${status}`,
+    url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/study-joins?studyJoinStatusCond=${status}`,
     method: Method.GET,
   }),
   approveApplicant: (studyId: string, studyJoinId: string) => ({

@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useFormContext } from "react-hook-form";
 
-import { uploadImage } from "@/features/create-study/services/create-study.service";
+import { uploadImage } from "@/entities/study/studies/api/studies.api";
 import MDEditor, {
   commands,
   TextAreaTextApi,

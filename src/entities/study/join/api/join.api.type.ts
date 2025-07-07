@@ -46,6 +46,7 @@ export interface GetStudyApplicantResponse {
   createdAt: string;
   userId: number;
   nickname: string;
+  studyJoinStatus: string;
   questionAnswerResList: QuestionResInterface[];
 }
 

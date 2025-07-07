@@ -1,5 +1,3 @@
-import { QuestionResInterface } from "@/entities/study/join/api/join.api.type";
-
 export interface StudyDetailPageProps {
   params: Promise<{ id: string }>;
 }
@@ -12,15 +10,6 @@ export interface StudyNoticeCardInterface {
   writer: string;
   isImportantNoticeChecked: boolean;
   isPinned: boolean;
-}
-
-/* study manage */
-export interface StudyManageCardInterface {
-  studyJoinId: number;
-  userId: number;
-  nickname: string;
-  createdAt: string;
-  questionAnswerResList: QuestionResInterface[];
 }
 
 /* study member */
