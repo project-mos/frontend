@@ -1,4 +1,4 @@
-import NoticeCard from "@/entities/study/notice/ui/NoticeCard";
+import NoticeCard from "@/widget/study-room/notice/ui/NoticeCard";
 
 const Notice = async ({ params }: { params: Promise<{ id: number }> }) => {
   const { id } = await params;

@@ -4,18 +4,20 @@ import { FieldError, useFormContext } from "react-hook-form";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
-import { StudyCurriculumCardInterface } from "@/entities/study/curriculum/model/curriculum.type";
-import useAddCurriculum from "@/features/study/curriculum/add-curriculum/model/useAddCurriculum";
-import { AddButton } from "@/features/study/curriculum/add-curriculum/ui/AddButton";
-import { DeleteButton } from "@/features/study/curriculum/delete-curriculum/ui/DeleteButton";
-import useDragCurriculum from "@/features/study/curriculum/dnd/model/useDragCurriculum";
-import useUpdateCurriculum from "@/features/study/curriculum/update-curriculum/model/useUpdateCurriculum";
 import Button from "@/shared/components/atoms/Button";
 import Card from "@/shared/components/atoms/Card";
 import Input from "@/shared/components/atoms/Input";
 import Tag from "@/shared/components/atoms/Tag";
 import Textarea from "@/shared/components/atoms/Textarea";
 import Typography from "@/shared/components/atoms/Typography";
+
+import { StudyCurriculumCardInterface } from "@/entities/study/curriculum/model/curriculum.queries.types";
+import useDragCurriculum from "@/features/study/curriculum/dnd/model/useDragCurriculum";
+import useAddCurriculum from "@/features/study/curriculum/add-curriculum/model/useAddCurriculum";
+import { AddButton } from "@/features/study/curriculum/add-curriculum/ui/AddButton";
+import { DeleteButton } from "@/features/study/curriculum/delete-curriculum/ui/DeleteButton";
+import useUpdateCurriculum from "@/features/study/curriculum/update-curriculum/model/useUpdateCurriculum";
+
 
 interface CurriculumProps {
   studyId: number;

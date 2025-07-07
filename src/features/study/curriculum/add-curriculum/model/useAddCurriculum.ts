@@ -1,4 +1,4 @@
-import { FormValues } from "@/entities/study/curriculum/model/curriculum.type";
+import { FormValues } from "@/entities/study/curriculum/model/curriculum.queries.types";
 import { useState } from "react";
 import { useFormContext } from "react-hook-form";
 

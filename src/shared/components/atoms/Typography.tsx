@@ -6,6 +6,7 @@ type TypoType = "Head1" | "Head2" | "Head3" | "SubTitle1" | "P1" | "P2" | "P3";
 interface TypographyProps {
   children: ReactNode;
   className?: string;
+  title?: string;
 }
 
 const typoTypeMap: Record<TypoType, string> = {
@@ -22,9 +23,14 @@ const BaseTypography = ({
   type,
   children,
   className,
+  title,
 }: TypographyProps & { type: TypoType }) => {
   const style = typoTypeMap[type];
-  return <p className={cn(style, className)}>{children}</p>;
+  return (
+    <p className={cn(style, className)} title={title}>
+      {children}
+    </p>
+  );
 };
 
 const Typography = {
