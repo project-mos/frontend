@@ -1,28 +1,39 @@
 "use client";
+import cn from "@/shared/utils/cn";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import Button from "@/shared/components/atoms/Button";
 import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
 
-import { StudyManageCardInterface } from "@/features/study-room/types/study-room.type";
 import useModal from "@/shared/hooks/useModal";
-
 import { formatDate } from "@/shared/utils/date";
-import { useParams } from "next/navigation";
 import { getStudyApplicant } from "../api/join.api";
-import { GetStudyApplicantResponse } from "../api/join.api.types";
+import {
+  GetStudyApplicantResponse,
+  StudyManageCardInterface,
+} from "../api/join.api.type";
 import InfoModal from "./InfoModal";
+
+const TABS = [
+  { id: 1, label: "대기" },
+  { id: 2, label: "승인" },
+  { id: 3, label: "거절" },
+];
 
 const List = () => {
   const params = useParams();
   const id = params.id as string;
-  const { isModalOpenState, openModal, closeModal } = useModal();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const tab = Number(searchParams.get("tap") ?? "1");
 
+  const { isModalOpenState, openModal, closeModal } = useModal();
   const [applicants, setApplicants] = useState<GetStudyApplicantResponse[]>([]);
 
   async function getApplicants() {
-    const result = await getStudyApplicant(id);
+    const result = await getStudyApplicant(id, TABS[tab - 1].label);
     setApplicants(result);
   }
 
@@ -50,9 +61,15 @@ const List = () => {
     openModal();
   };
 
+  const handleTabClick = (id: number) => {
+    const newSearchParam = new URLSearchParams(searchParams);
+    newSearchParam.set("tap", id.toString());
+    router.push(`?${newSearchParam.toString()}`);
+  };
+
   useEffect(() => {
     getApplicants();
-  }, []);
+  }, [tab]);
 
   return (
     <>
@@ -62,10 +79,25 @@ const List = () => {
         onClose={closeModal}
         data={selectedUserState}
         studyId={id}
+        status={TABS[tab - 1].label}
       />
 
       {/* 지원자 리스트 */}
       <div className="flex flex-col gap-3">
+        <div className="flex w-full border-b">
+          {TABS.map(({ id, label }) => (
+            <div
+              key={id}
+              onClick={() => handleTabClick(id)}
+              className={cn(
+                "w-[90px] cursor-pointer pb-3 text-center transition-all",
+                tab === id && "border-b-2 border-mos-main font-semibold"
+              )}
+            >
+              <Typography.P1>{label}</Typography.P1>
+            </div>
+          ))}
+        </div>
         {applicants.map((list) => (
           <div
             key={list.studyJoinId}

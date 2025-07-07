@@ -10,13 +10,16 @@ import ProfileModal from "@/features/mypage/components/ProfileModal";
 import { userInfoQueryOption } from "@/features/mypage/services/mypage.service";
 import ActionConfirmModal from "@/shared/components/molecules/ActionConfirmModal";
 import useMultiModal from "@/shared/hooks/useMultiModal";
+import { useToast } from "@/shared/hooks/useToast";
 import { logout } from "@/shared/utils/logout";
 import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 
 const ProfileCard = () => {
   const { modal, openModal, closeModal } = useMultiModal();
   // 유저 정보 조회
   const { data: userInfo } = useQuery(userInfoQueryOption());
+  const toast = useToast();
 
   const {
     nickname = "이름",
@@ -27,6 +30,17 @@ const ProfileCard = () => {
   const handleClickLogOut = () => {
     logout();
   };
+
+  useEffect(() => {
+    if (localStorage.getItem("leave") == "true") {
+      toast.success("스터디 탈퇴에 성공하였습니다.");
+      localStorage.removeItem("leave");
+    }
+    if (localStorage.getItem("delete") == "true") {
+      toast.success("스터디 삭제를 성공하였습니다.");
+      localStorage.removeItem("delete");
+    }
+  }, []);
 
   return (
     <>

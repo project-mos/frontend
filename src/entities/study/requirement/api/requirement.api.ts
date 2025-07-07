@@ -1,4 +1,4 @@
-import { GetStudyRequirementsResponse } from "@/entities/study/requirement/api/requirement.api.types";
+import { GetStudyRequirementsResponse } from "@/entities/study/requirement/api/requirement.api.type";
 import { API_ENDPOINT, fetchAPI } from "@/shared/api/lib";
 
 export async function getRequirements(studyId: string) {

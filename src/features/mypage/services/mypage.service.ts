@@ -1,5 +1,5 @@
-import { fetchAPI } from "@/shared/api/lib";
-import { API_ENDPOINT } from "@/shared/constants/api-end-point";
+import { API_ENDPOINT, fetchAPI } from "@/shared/api/lib";
+
 import {
   CreateStudyScheduleResult,
   GetMyApplyStatusResult,
@@ -18,7 +18,7 @@ import {
 
 // 유저 정보 //
 export async function getUserInfo(): Promise<GetUserInfoResult> {
-  const { url, method } = API_ENDPOINT.mypage.getUser();
+  const { url, method } = API_ENDPOINT.user.getUser();
 
   return await fetchAPI<GetUserInfoResult>(url, {
     credentials: "include",
@@ -38,7 +38,7 @@ export function userInfoQueryOption(
 
 // 유저 정보 수정 //
 export async function updateUserInfo(data: UpdateUserInfoResult) {
-  const { url, method } = API_ENDPOINT.mypage.updateUser();
+  const { url, method } = API_ENDPOINT.user.patchUser();
 
   return await fetchAPI<UpdateUserInfoResult>(url, {
     credentials: "include",
@@ -61,7 +61,7 @@ export function usePostUserInfo(
 
 // 유저 프로필 이미지 수정 //
 export async function updateProfileImg(data: UpdateProfileImgResult) {
-  const { url, method } = API_ENDPOINT.mypage.updateProfileImg();
+  const { url, method } = API_ENDPOINT.user.patchProfileImg();
 
   // FormData 생성
   const formData = new FormData();
@@ -86,7 +86,7 @@ export function usePostProfileImg(
 
 // 캘린더 일정 조회 //
 export async function getMySchedules(): Promise<GetMySchedulesResult[]> {
-  const { url, method } = API_ENDPOINT.mypage.getMySchedules();
+  const { url, method } = API_ENDPOINT.schedule.getSchedules();
 
   return await fetchAPI<GetMySchedulesResult[]>(url, {
     credentials: "include",
@@ -112,7 +112,7 @@ export async function createStudySchedule(
   studyId: number,
   data: CreateStudyScheduleResult
 ) {
-  const { url, method } = API_ENDPOINT.mypage.createStudySchedule(studyId);
+  const { url, method } = API_ENDPOINT.schedule.postStudySchedule(studyId);
 
   return await fetchAPI<CreateStudyScheduleResult>(url, {
     credentials: "include",
@@ -141,7 +141,7 @@ export async function updateStudySchedule(
   studyScheduleId: number,
   data: CreateStudyScheduleResult
 ) {
-  const { url, method } = API_ENDPOINT.mypage.updateStudySchedule(
+  const { url, method } = API_ENDPOINT.schedule.putStudySchedule(
     studyId,
     studyScheduleId
   );
@@ -173,7 +173,7 @@ export async function deleteStudySchedule(
   studyId: number,
   studyScheduleId: number
 ) {
-  const { url, method } = API_ENDPOINT.mypage.deleteStudySchedule(
+  const { url, method } = API_ENDPOINT.schedule.deleteStudySchedule(
     studyId,
     studyScheduleId
   );
@@ -202,7 +202,7 @@ export function useDeleteStudySchedule(
 export async function getMyJoinedStudies(
   userId: number
 ): Promise<GetMyJoinedStudiesResult[]> {
-  const { url, method } = API_ENDPOINT.mypage.getMyJoinedStudies(userId);
+  const { url, method } = API_ENDPOINT.join.getMyJoinedStudies(userId);
 
   return await fetchAPI(url, {
     credentials: "include",
@@ -227,7 +227,7 @@ export function myJoinedStudiesQueryOption(
 
 // 나의 지원 현황 //
 export async function getMyApplyStatus(): Promise<GetMyApplyStatusResult[]> {
-  const { url, method } = API_ENDPOINT.mypage.getMyApplyStatus();
+  const { url, method } = API_ENDPOINT.join.getMyApplyStatus();
 
   return await fetchAPI(url, {
     credentials: "include",

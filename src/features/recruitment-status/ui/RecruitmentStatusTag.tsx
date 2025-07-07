@@ -1,6 +1,5 @@
-import { RecruitmentStatusTagProps } from "@/features/recruitment-status/ui/recruitment-status.ui.types";
+import { RecruitmentStatusTagProps } from "@/features/recruitment-status/ui/recruitment-status.ui.type";
 import Tag from "@/shared/components/atoms/Tag";
-import React from "react";
 
 const RecruitmentStatusTag = ({
   recruitmentStatus,

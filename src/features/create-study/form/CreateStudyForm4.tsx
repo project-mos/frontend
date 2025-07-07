@@ -8,7 +8,7 @@ import Card from "@/shared/components/atoms/Card";
 import Tag from "@/shared/components/atoms/Tag";
 import Typography from "@/shared/components/atoms/Typography";
 
-import { StudyFormInterface } from "../types/create-study.type";
+import { StudyFormInterface } from "@/entities/study/create/api/create-study.type";
 
 import MDEditor from "@uiw/react-md-editor";
 

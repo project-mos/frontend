@@ -1,4 +1,4 @@
-import { GetStudyMembersResponse } from "@/entities/study/member/api/member.api.types";
+import { GetStudyMembersResponse } from "@/entities/study/member/api/member.api.type";
 import {
   API_ENDPOINT,
   createJsonRequestInit,
@@ -15,5 +15,13 @@ export async function getMembers(studyId: string) {
 
 export async function deleteMember(studyId: string) {
   const { url, method } = API_ENDPOINT.members.deleteMember(studyId);
+  return await fetchAPI(url, createJsonRequestInit(method));
+}
+
+export async function mandateMember(studyId: string, studyMemberId: string) {
+  const { url, method } = API_ENDPOINT.members.mandateMember(
+    studyId,
+    studyMemberId
+  );
   return await fetchAPI(url, createJsonRequestInit(method));
 }

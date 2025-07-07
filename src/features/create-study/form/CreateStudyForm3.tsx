@@ -5,12 +5,12 @@ import Badge from "@/shared/components/atoms/Badge";
 import Typography from "@/shared/components/atoms/Typography";
 import ActionConfirmModal from "@/shared/components/molecules/ActionConfirmModal";
 
-import StudyActions from "@/features/create-study/components/StudyActions";
-import StudyApply from "@/features/create-study/components/StudyApply";
+import StudyActions from "@/features/create-study/ui/StudyActions";
+import StudyApply from "@/features/create-study/ui/StudyApply";
 import useModal from "@/shared/hooks/useModal";
 
-import { createStudy } from "../services/create-study.service";
-import { StudyFormInterface } from "../types/create-study.type";
+import { createStudy } from "@/entities/study/create/api/create-study.api";
+import { StudyFormInterface } from "@/entities/study/create/api/create-study.type";
 
 const CreateStudyForm3 = () => {
   const methods = useFormContext<StudyFormInterface>();

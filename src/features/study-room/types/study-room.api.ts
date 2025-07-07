@@ -15,7 +15,7 @@ export type EditBenefitResponse = {
   content: string;
 };
 
-export type EditRuleRequest = {
+export type EditRulesRequest = {
   studyId: string;
   rules: RuleInterface[];
 };

@@ -1,11 +1,11 @@
 import React from "react";
 
-import ImportantNoticeBar from "@/entities/study/notice/ui/ImportantNoticeBar";
-import { getStudy } from "@/features/studies/services/studies.service";
-import ScheduleIntendedCard from "@/widget/study-room/schedule/ui/ScheduleIntendedCard";
+import { getStudy } from "@/entities/study/studies/api/studies.api";
+import ImportantNoticeBar from "@/widget/study-room/notice/ui/ImportantNoticeBar";
 import StudyRoomSideBarCard from "@/features/study-room/component/StudyRoomSideBarCard";
 import StudyRoomTitleCard from "@/features/study-room/component/StudyRoomTitleCard";
 import Grid from "@/shared/components/atoms/Grid";
+import ScheduleIntendedCard from "@/widget/study-room/schedule/ui/ScheduleIntendedCard";
 
 interface StudyRoomLayoutProps {
   children: React.ReactNode;
@@ -18,7 +18,7 @@ const layout = async ({ children, params }: StudyRoomLayoutProps) => {
 
   return (
     <>
-      <ImportantNoticeBar />
+      <ImportantNoticeBar studyId={Number(id)} />
       <Grid cols={12} gap={5}>
         <StudyRoomTitleCard data={studyDetailData} />
         <ScheduleIntendedCard />

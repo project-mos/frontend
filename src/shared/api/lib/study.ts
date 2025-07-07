@@ -42,4 +42,10 @@ export const study = {
     url: `${process.env.NEXT_PUBLIC_BASE_URL}/recruitment-images`,
     method: Method.POST,
   }),
+  deleteStudy: (studyId: string) => {
+    return {
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}`,
+      method: Method.DELETE,
+    };
+  },
 };

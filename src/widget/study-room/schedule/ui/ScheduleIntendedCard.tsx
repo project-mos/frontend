@@ -1,13 +1,13 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ScheduleSessionCard from "../../../../features/study/schedule/ui/ScheduleSessionCard";
 
 import Button from "@/shared/components/atoms/Button";
 import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
 
+import { useGetStudySchedule } from "@/entities/study/schedule/model/schedule.query";
 import { useParams } from "next/navigation";
-import { useGetStudySchedule } from "@/entities/study/schedule/model/schedule.queries";
 
 const ScheduleIntendedCard = () => {
   const params = useParams() as { id: string };

@@ -1,4 +1,4 @@
-import { JoinsRequest } from "@/entities/study/join/api/join.api.types";
+import { JoinsRequest } from "@/entities/study/join/api/join.api.type";
 import { Method } from "@/shared/api/util/fetcher";
 
 export const join = {
@@ -24,8 +24,8 @@ export const join = {
     url: `${process.env.NEXT_PUBLIC_BASE_URL}/study-joins`,
     method: Method.GET,
   }),
-  getStudyApplicant: (studyId: string) => ({
-    url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/study-joins`,
+  getStudyApplicant: (studyId: string, status: string) => ({
+    url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/study-joins?studyJoinStatus=${status}`,
     method: Method.GET,
   }),
   approveApplicant: (studyId: string, studyJoinId: string) => ({

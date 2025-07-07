@@ -9,7 +9,7 @@ import SvgIcons from "@/asset/icon/SvgIcons";
 import Button from "@/shared/components/atoms/Button";
 import Typography from "@/shared/components/atoms/Typography";
 
-import LoginModal from "@/features/login/components/LoginModal";
+import LoginModal from "@/features/login/ui/LoginModal";
 import { ADMIN_MENU_ITEMS, MENU_ITEMS } from "@/shared/constants/SidebarItems";
 import URL from "@/shared/constants/URL";
 import useModal from "@/shared/hooks/useModal";
@@ -142,7 +142,7 @@ export function Sidebar() {
       {/* 사이드바 */}
       <div
         className={cn(
-          "sidebar fixed right-0 top-0 h-full w-64 bg-white text-black transition-transform duration-200 ease-in-out",
+          "sidebar fixed right-0 top-0 h-full w-64 rounded-l-md bg-white text-black transition-transform duration-200 ease-in-out",
           isOpenState ? "translate-x-0" : "translate-x-full"
         )}
       >
@@ -154,67 +154,69 @@ export function Sidebar() {
         <ul className="mt-4 flex flex-col justify-between">
           <div>
             <li
-              className="p-3 hover:rounded-xl hover:bg-mos-main-100"
+              className="group p-3 hover:rounded-xl hover:bg-mos-main-100"
               onClick={close}
             >
               <Link href={URL.MYPAGE} className="flex items-center gap-3">
-                <i className="bi bi-house-door pl-4 text-[20px]" />
-                <Typography.P1 className="font-bold">마이페이지</Typography.P1>
+                <i className="bi bi-house-door pl-4 text-[18px] text-mos-gray-700 group-hover:text-mos-main" />
+                <Typography.P2 className="font-semibold text-mos-gray-700 group-hover:text-mos-main">
+                  마이페이지
+                </Typography.P2>
               </Link>
             </li>
             <li
-              className="p-3 hover:rounded-xl hover:bg-mos-main-100"
+              className="group p-3 hover:rounded-xl hover:bg-mos-main-100"
               onClick={close}
             >
               <Link
                 href={`${URL.STUDY.CREATE}?step=1`}
                 className="flex items-center gap-3"
               >
-                <i className="bi bi-pen pl-4 text-[19px]" />
+                <i className="bi bi-pen pl-4 text-[18px] text-mos-gray-300 group-hover:text-mos-main" />
 
-                <Typography.P1 className="font-bold">
+                <Typography.P2 className="font-semibold text-mos-gray-300 group-hover:text-mos-main">
                   스터디 만들기
-                </Typography.P1>
+                </Typography.P2>
               </Link>
             </li>
             {/* 스터디룸 메뉴 */}
             {isStudyRoom && (
               <div>
-                <Typography.P1 className="px-7 py-3 font-bold">
+                <Typography.P1 className="px-7 py-3 font-semibold text-mos-gray-300">
                   스터디 룸
                 </Typography.P1>
                 {MENU_ITEMS(id).map((item, index) => {
                   return (
                     <li
-                      className="px-12 py-1.5 hover:rounded-xl hover:bg-mos-main-100"
+                      className="group px-12 py-2.5 hover:rounded-xl hover:bg-mos-main-100"
                       onClick={close}
                       key={`${item}_${index}`}
                     >
                       <Link href={item.path}>
-                        <Typography.P1 className="flex gap-3 font-semibold">
+                        <Typography.P2 className="flex gap-3 font-semibold text-mos-gray-300 group-hover:text-mos-main">
                           <i className={cn(item.icon)} />
                           {item.name}
-                        </Typography.P1>
+                        </Typography.P2>
                       </Link>
                     </li>
                   );
                 })}
-                <Typography.P1 className="px-7 py-3 font-bold">
+                <Typography.P1 className="px-7 py-3 font-semibold text-mos-gray-300">
                   스터디 룸 관리자
                 </Typography.P1>
 
                 {ADMIN_MENU_ITEMS(id).map((item, index) => {
                   return (
                     <li
-                      className="px-12 py-1.5 hover:rounded-xl hover:bg-mos-main-100"
+                      className="group px-12 py-2.5 hover:rounded-xl hover:bg-mos-main-100"
                       onClick={close}
                       key={`${item}_${index}`}
                     >
                       <Link href={item.path}>
-                        <Typography.P1 className="flex gap-3 font-semibold">
+                        <Typography.P2 className="flex gap-3 font-semibold text-mos-gray-300 group-hover:text-mos-main">
                           <i className={cn(item.icon)} />
                           {item.name}
-                        </Typography.P1>
+                        </Typography.P2>
                       </Link>
                     </li>
                   );

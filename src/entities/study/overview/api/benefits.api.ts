@@ -1,20 +1,12 @@
-export type {
-  EditRuleRequest,
-  EditRuleResponse,
-  EditStudyRule,
-  GetStudyRulesResponse,
-  StudyRule,
-} from "@/entities/study/overview/api/rules.api.types";
-
 import { createJsonRequestInit, fetchAPI } from "@/shared/api/util/fetcher";
 
 import { API_ENDPOINT } from "@/shared/api/lib";
 
 import {
+  EditBenefitRequest,
+  EditBenefitResponse,
   GetStudyBenefitsResponse,
-  PostBenefitRequest,
-  PostBenefitResponse,
-} from "@/entities/study/overview/api/benefits.api.types";
+} from "@/entities/study/overview/api/benefits.api.type";
 
 export async function getBenefits(studyId: string) {
   const response = await fetchAPI<GetStudyBenefitsResponse>(
@@ -23,10 +15,10 @@ export async function getBenefits(studyId: string) {
   return response;
 }
 
-export async function postBenefit({ studyId, benefits }: PostBenefitRequest) {
+export async function editBenefits({ studyId, benefits }: EditBenefitRequest) {
   const { url, method } = API_ENDPOINT.benefits.postStudyBenefits(studyId);
 
-  return await fetchAPI<PostBenefitResponse[]>(
+  return await fetchAPI<EditBenefitResponse[]>(
     url,
     createJsonRequestInit(method, benefits)
   );

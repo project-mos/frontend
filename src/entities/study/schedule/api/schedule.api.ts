@@ -1,11 +1,3 @@
-export type {
-  EditRuleRequest,
-  EditRuleResponse,
-  EditStudyRule,
-  GetStudyRulesResponse,
-  StudyRule,
-} from "@/entities/study/overview/api/rules.api.types";
-
 import { createJsonRequestInit, fetchAPI } from "@/shared/api/util/fetcher";
 
 import {
