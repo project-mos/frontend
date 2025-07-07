@@ -1,9 +1,5 @@
 "use client";
 
-import {
-  deleteStudy,
-  leaveStudy,
-} from "@/features/studies/services/studies.service";
 import Button from "@/shared/components/atoms/Button";
 import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
@@ -12,6 +8,7 @@ import URL from "@/shared/constants/URL";
 import useMultiModal from "@/shared/hooks/useMultiModal";
 import { useToast } from "@/shared/hooks/useToast";
 import { useRouter } from "next/navigation";
+import { deleteStudy, leaveStudy } from "../api/setting.api";
 
 const SettingCard = ({ studyId }: { studyId: string }) => {
   const router = useRouter();

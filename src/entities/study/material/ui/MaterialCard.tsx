@@ -1,8 +1,5 @@
 "use client";
-import {
-  getMaterials,
-  uploadMaterials,
-} from "@/features/study-room/services/study-room.service";
+
 import { FileInterface } from "@/features/study-room/types/study-room.api";
 import Button from "@/shared/components/atoms/Button";
 import Card from "@/shared/components/atoms/Card";
@@ -11,6 +8,7 @@ import { useToast } from "@/shared/hooks/useToast";
 import { formatFileSize } from "@/shared/utils/format";
 import { useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { getMaterials, postMaterials } from "../api/material.api";
 
 const MaterialCard = () => {
   const params = useParams();
@@ -35,7 +33,7 @@ const MaterialCard = () => {
         reader.readAsArrayBuffer(file);
       });
 
-      await uploadMaterials({ file, studyId: id });
+      await postMaterials({ file, studyId: id });
       toast.success("성공적으로 업로드하였습니다.");
       await getMaterialList();
     } catch {

@@ -1,5 +1,4 @@
 import { QuestionResInterface } from "@/entities/study/join/api/join.api.type";
-import { StudyRule } from "@/entities/study/overview/api/rules.api.type";
 
 export interface StudyDetailPageProps {
   params: Promise<{ id: string }>;
@@ -47,9 +46,6 @@ export interface Attendance {
   studyScheduleId: number;
   studyScheduleStartDateTime: string;
 }
-
-/* study overview */
-export type RuleInterface = Omit<StudyRule, "id">;
 
 export interface BenefitInterface {
   benefitNum: number;

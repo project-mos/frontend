@@ -14,7 +14,7 @@ export type GetAttendancesResponse = {
   nickname: string;
   attendanceRes: Attendance[];
   attendanceRate: number;
-}[];
+};
 
 export interface Attendance {
   attendanceId: number;

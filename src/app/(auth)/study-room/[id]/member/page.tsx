@@ -1,5 +1,5 @@
+import { getMembers } from "@/entities/study/member/api/member.api";
 import MemberCard from "@/entities/study/member/ui/MemberCard";
-import { getMembers } from "@/features/studies/services/studies.service";
 import { StudyDetailPageProps } from "@/features/study-room/types/study-room.type";
 
 const MemberPage = async ({ params }: StudyDetailPageProps) => {

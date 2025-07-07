@@ -1,11 +1,12 @@
 import React from "react";
 
 import ImportantNoticeBar from "@/entities/study/notice/ui/ImportantNoticeBar";
-import { getStudy } from "@/features/studies/services/studies.service";
-import ScheduleIntendedCard from "@/widget/study-room/schedule/ui/ScheduleIntendedCard";
+
+import { getStudy } from "@/entities/study/studies/api/studies.api";
 import StudyRoomSideBarCard from "@/features/study-room/component/StudyRoomSideBarCard";
 import StudyRoomTitleCard from "@/features/study-room/component/StudyRoomTitleCard";
 import Grid from "@/shared/components/atoms/Grid";
+import ScheduleIntendedCard from "@/widget/study-room/schedule/ui/ScheduleIntendedCard";
 
 interface StudyRoomLayoutProps {
   children: React.ReactNode;

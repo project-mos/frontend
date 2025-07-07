@@ -16,14 +16,16 @@ import { useEffect, useState } from "react";
 // import Profile from "@/components/atoms/Profile";
 // import profileImg from "../../../../app/asset/images/profile_example.jpeg";
 
-import { getAttendances } from "@/features/study-room/services/study-room.service";
-import { GetAttendancesResponse } from "@/features/study-room/types/study-room.api";
-import { StudyMemberInterface } from "@/features/study-room/types/study-room.type";
+import {
+  StudyMemberAttendanceInterface,
+  StudyMemberInterface,
+} from "@/features/study-room/types/study-room.type";
 import Badge from "@/shared/components/atoms/Badge";
 import Button from "@/shared/components/atoms/Button";
 import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
 import useModal from "@/shared/hooks/useModal";
+import { getAttendances } from "../../attendance/api/attendance.api";
 import MemberModal from "./MemberModal";
 
 interface MemberCardProps {
@@ -42,8 +44,9 @@ const MemberCard = ({ members, studyId }: MemberCardProps) => {
   const { isModalOpenState, openModal, closeModal } = useModal();
 
   const [membersState] = useState(members);
+
   const [memberAttendanceState, setMemberAttendanceState] = useState<
-    GetAttendancesResponse[]
+    StudyMemberAttendanceInterface[]
   >([]);
   // 선택한 멤버
   const [selectMemberAttendanceState, setSelectMemberAttendanceState] =
