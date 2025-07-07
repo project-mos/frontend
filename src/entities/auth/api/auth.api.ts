@@ -8,11 +8,14 @@ import {
   fetchAPI,
 } from "@/shared/api/lib";
 
-export default async function OAuthLogin({ code, provider }: RequestLogin) {
+export default async function OAuthLogin({
+  code,
+  oauthProvider,
+}: RequestLogin) {
   const { url, method } = API_ENDPOINT.auth.signIn();
   const response = await fetchAPI(
     url,
-    createJsonRequestInit(method, JSON.stringify({ code, provider }))
+    createJsonRequestInit(method, JSON.stringify({ code, oauthProvider }))
   );
   return response;
 }

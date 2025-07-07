@@ -27,7 +27,7 @@ const ClientRedirect = () => {
     const callbackUrl = decodeURI[1];
 
     try {
-      await OAuthLogin({ code: code, provider });
+      await OAuthLogin({ code: code, oauthProvider: provider });
       setLoginSuccess(true);
       setWasLoggedIn(true);
       setLoggedIn(true);

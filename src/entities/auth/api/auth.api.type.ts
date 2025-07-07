@@ -1,6 +1,6 @@
 export interface RequestLogin {
   code: string;
-  provider: string;
+  oauthProvider: string;
 }
 
 export type GetAccessTokenResponse = {
