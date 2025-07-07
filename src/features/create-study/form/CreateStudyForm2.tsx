@@ -5,14 +5,14 @@ import Badge from "@/shared/components/atoms/Badge";
 import Typography from "@/shared/components/atoms/Typography";
 import URL from "@/shared/constants/URL";
 
-import { StudyFormInterface } from "@/entities/study/create/api/create-study.type";
+import { StudyForm } from "@/entities/study/studies/api/studies.api.type";
 import StudyActions from "@/features/create-study/ui/StudyActions";
 import StudyBenefits from "@/features/create-study/ui/StudyBenefits";
 import StudyDescription from "@/features/create-study/ui/StudyDescription";
 import StudyRules from "@/features/create-study/ui/StudyRules";
 
 const CreateStudyForm2 = () => {
-  const methods = useFormContext<StudyFormInterface>();
+  const methods = useFormContext<StudyForm>();
   const router = useRouter();
 
   const onSubmit = () => {

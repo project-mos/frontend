@@ -6,14 +6,14 @@ import Typography from "@/shared/components/atoms/Typography";
 import ActionConfirmModal from "@/shared/components/molecules/ActionConfirmModal";
 import useModal from "@/shared/hooks/useModal";
 
-import { StudyFormInterface } from "@/entities/study/create/api/create-study.type";
+import { StudyForm } from "@/entities/study/studies/api/studies.api.type";
 import StudyActions from "@/features/create-study/ui/StudyActions";
 import StudyBasicInfo from "@/features/create-study/ui/StudyBasicInfo";
 import StudyMethod from "@/features/create-study/ui/StudyMethod";
 import URL from "@/shared/constants/URL";
 
 const CreateStudyForm1 = () => {
-  const methods = useFormContext<StudyFormInterface>();
+  const methods = useFormContext<StudyForm>();
   const router = useRouter();
   const { isModalOpenState, openModal, closeModal } = useModal();
 
