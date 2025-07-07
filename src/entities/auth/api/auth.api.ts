@@ -15,7 +15,7 @@ export default async function OAuthLogin({
   const { url, method } = API_ENDPOINT.auth.signIn();
   const response = await fetchAPI(
     url,
-    createJsonRequestInit(method, JSON.stringify({ code, oauthProvider }))
+    createJsonRequestInit(method, { code, oauthProvider })
   );
   return response;
 }
