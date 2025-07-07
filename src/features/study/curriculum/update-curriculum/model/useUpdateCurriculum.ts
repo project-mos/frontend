@@ -1,15 +1,13 @@
-import { useFormContext } from "react-hook-form";
-import { useState } from "react";
 import { FormValues } from "@/entities/study/curriculum/model/curriculum.queries.types";
+
+import { useState } from "react";
+import { useFormContext } from "react-hook-form";
 
 const useUpdateCurriculum = () => {
   // 수정 여부 플래그
   const [isModifyState, setIsModifyState] = useState<boolean>(false);
 
-  const {
-    setValue,
-    watch,
-  } = useFormContext<FormValues>();
+  const { setValue, watch } = useFormContext<FormValues>();
   const curriculumList = watch("curriculumList");
 
   // dnd 아이템 이동
@@ -29,7 +27,7 @@ const useUpdateCurriculum = () => {
   };
 
   return {
-    isModifyState, 
+    isModifyState,
     setIsModifyState,
     moveItem,
   };

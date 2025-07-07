@@ -1,6 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
 import { getQuestions } from "@/entities/study/question/api/question.api";
-import { GetQuestionsResponse } from "@/entities/study/question/api/question.api.types";
+import { GetQuestionsResponse } from "@/entities/study/question/api/question.api.type";
+import { useQuery } from "@tanstack/react-query";
 
 // 쿼리 키 생성 함수
 export const QuestionsQueryKey = (studyId: string) => [

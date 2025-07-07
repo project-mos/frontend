@@ -1,22 +1,14 @@
-export type {
-  EditRuleRequest,
-  EditRuleResponse,
-  EditStudyRule,
-  GetStudyRulesResponse,
-  StudyRule,
-} from "@/entities/study/overview/api/rules.api.types";
-
 import { createJsonRequestInit, fetchAPI } from "@/shared/api/util/fetcher";
 
 import {
   EditRuleRequest,
-  EditRuleResponse,
+  EditRulesResponse,
   GetStudyRulesResponse,
-  StudyRule,
-} from "@/entities/study/overview/api/rules.api.types";
+} from "@/entities/study/overview/api/rules.api.type";
+
 import { API_ENDPOINT } from "@/shared/api/lib";
 
-export async function getRules(studyId: StudyRule["id"]) {
+export async function getRules(studyId: string) {
   const response = await fetchAPI<GetStudyRulesResponse>(
     API_ENDPOINT.rules.getStudyRules(studyId).url
   );
@@ -25,7 +17,7 @@ export async function getRules(studyId: StudyRule["id"]) {
 
 export async function editRules({ studyId, rules }: EditRuleRequest) {
   const { url, method } = API_ENDPOINT.rules.postStudyRules(studyId);
-  return await fetchAPI<EditRuleResponse>(
+  return await fetchAPI<EditRulesResponse>(
     url,
     createJsonRequestInit(method, rules)
   );

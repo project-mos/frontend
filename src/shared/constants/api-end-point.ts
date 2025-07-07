@@ -1,5 +1,7 @@
-import { GetStudiesRequest } from "@/entities/study/studies/api/studies.api.type";
-import { GetStudyJoinsRequest } from "@/features/studies/types/studies.api";
+import {
+  GetStudiesRequest,
+  GetStudyJoinsRequest,
+} from "@/entities/study/studies/api/studies.api.type";
 import { Method } from "@/shared/api/lib";
 
 export const API_ENDPOINT = {

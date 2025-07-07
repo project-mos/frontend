@@ -8,7 +8,7 @@ import Typography from "@/shared/components/atoms/Typography";
 import {
   QuestionInterface,
   StudyFormInterface,
-} from "@/features/create-study/types/create-study.type";
+} from "@/entities/study/create/api/create-study.type";
 import StudyApplyQuestion from "./StudyApplyQuestion";
 
 const StudyApply = () => {

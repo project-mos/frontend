@@ -2,7 +2,7 @@ import { useFormContext } from "react-hook-form";
 
 import cn from "@/shared/utils/cn";
 
-import { StudyFormInterface } from "@/features/create-study/types/create-study.type";
+import { StudyFormInterface } from "@/entities/study/create/api/create-study.type";
 import Button from "@/shared/components/atoms/Button";
 import Input from "@/shared/components/atoms/Input";
 import RadioButton from "@/shared/components/atoms/RadioButton";

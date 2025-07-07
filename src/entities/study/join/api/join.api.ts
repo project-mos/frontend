@@ -4,7 +4,7 @@ import {
   GetStudyApplicantResponse,
   JoinsRequest,
   PostJoin,
-} from "@/entities/study/join/api/join.api.types";
+} from "@/entities/study/join/api/join.api.type";
 
 import {
   API_ENDPOINT,

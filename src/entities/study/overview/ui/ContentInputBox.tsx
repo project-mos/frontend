@@ -5,10 +5,6 @@ import { useToast } from "@/shared/hooks/useToast";
 import Button from "@/shared/components/atoms/Button";
 import Input from "@/shared/components/atoms/Input";
 
-import {
-  editBenefit,
-  editRule,
-} from "@/features/study-room/services/study-room.service";
 import ActionConfirmModal from "@/shared/components/molecules/ActionConfirmModal";
 import useMultiModal from "@/shared/hooks/useMultiModal";
 
@@ -16,6 +12,8 @@ import {
   BenefitInterface,
   RuleInterface,
 } from "@/features/study-room/types/study-room.type";
+import { editBenefits } from "../api/benefits.api";
+import { editRules } from "../api/rules.api";
 
 interface ContentInputBoxProps {
   value: string[];
@@ -95,12 +93,12 @@ const ContentInputBox = ({
 
     try {
       if (isRule) {
-        await editRule({
+        await editRules({
           studyId: studyId,
           rules: arr as RuleInterface[],
         });
       } else {
-        await editBenefit({
+        await editBenefits({
           studyId: studyId,
           benefits: arr as BenefitInterface[],
         });

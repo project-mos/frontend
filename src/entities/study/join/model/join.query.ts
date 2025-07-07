@@ -1,20 +1,20 @@
 import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-  UseMutationOptions,
-} from "@tanstack/react-query";
-import {
   getJoins,
-  postJoin,
-  patchJoin,
-  getMyJoinedStudies,
   getMyApplyStatus,
+  getMyJoinedStudies,
+  patchJoin,
+  postJoin,
 } from "@/entities/study/join/api/join.api";
 import {
   JoinsRequest,
   PostJoin,
-} from "@/entities/study/join/api/join.api.types";
+} from "@/entities/study/join/api/join.api.type";
+import {
+  useMutation,
+  UseMutationOptions,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 
 // 지원 목록
 export const JoinListQueryKey = (params?: JoinsRequest) => [

@@ -1,5 +1,4 @@
-import { QuestionResInterface } from "@/entities/study/join/api/join.api.types";
-import { StudyRule } from "@/entities/study/overview/api/rules.api.types";
+import { QuestionResInterface } from "@/entities/study/join/api/join.api.type";
 
 export interface StudyDetailPageProps {
   params: Promise<{ id: string }>;
@@ -48,10 +47,12 @@ export interface Attendance {
   studyScheduleStartDateTime: string;
 }
 
-/* study overview */
-export type RuleInterface = Omit<StudyRule, "id">;
-
 export interface BenefitInterface {
   benefitNum: number;
+  content: string;
+}
+
+export interface RuleInterface {
+  ruleNum: number;
   content: string;
 }

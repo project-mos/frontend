@@ -1,4 +1,4 @@
-import { GetQuestionsResponse } from "@/entities/study/question/api/question.api.types";
+import { GetQuestionsResponse } from "@/entities/study/question/api/question.api.type";
 import { GetStudyResponse } from "@/entities/study/studies/api/studies.api.type";
 import { Dispatch, SetStateAction } from "react";
 

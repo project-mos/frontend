@@ -1,9 +1,5 @@
 "use client";
 
-import {
-  deleteStudy,
-  leaveStudy,
-} from "@/features/studies/services/studies.service";
 import Button from "@/shared/components/atoms/Button";
 import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
@@ -12,6 +8,7 @@ import URL from "@/shared/constants/URL";
 import useMultiModal from "@/shared/hooks/useMultiModal";
 import { useToast } from "@/shared/hooks/useToast";
 import { useRouter } from "next/navigation";
+import { deleteStudy, leaveStudy } from "../api/setting.api";
 
 const SettingCard = ({ studyId }: { studyId: string }) => {
   const router = useRouter();
@@ -21,6 +18,7 @@ const SettingCard = ({ studyId }: { studyId: string }) => {
   const handleLeaveButton = async () => {
     try {
       await leaveStudy(studyId);
+      localStorage.setItem("leave", "true");
       closeModal("leave");
       router.push(URL.MYPAGE);
     } catch (e) {
@@ -33,6 +31,7 @@ const SettingCard = ({ studyId }: { studyId: string }) => {
   const handleDeleteButton = async () => {
     try {
       await deleteStudy(studyId);
+      localStorage.setItem("delete", "true");
       closeModal("delete");
       router.push(URL.MYPAGE);
     } catch (e) {
@@ -40,6 +39,11 @@ const SettingCard = ({ studyId }: { studyId: string }) => {
       closeModal("delete");
       toast.error(`${e}`);
     }
+  };
+
+  const handleEditButton = async () => {
+    router.push(URL.STUDY.EDIT(studyId));
+    closeModal("edit");
   };
 
   return (
@@ -59,23 +63,21 @@ const SettingCard = ({ studyId }: { studyId: string }) => {
               </div>
             </div>
             <Typography.P1 className="mt-3 font-bold text-mos-gray-700">
-              Danger Zone
+              관리자 설정
             </Typography.P1>
             <div className="flex items-center justify-between rounded-md border border-mos-gray-100 p-5">
               <div>
-                <Typography.P1 className="font-bold">
-                  스터디 나가기
-                </Typography.P1>
+                <Typography.P1 className="font-bold">스터디 수정</Typography.P1>
                 <Typography.P3 className="text-[14px] text-mos-gray-700">
-                  해당 스터디에서 탈퇴합니다. 이 설정은 되돌릴 수 없습니다.
+                  스터디 정보를 수정합니다.
                 </Typography.P3>
               </div>
               <Button.Ghost
-                onClick={() => openModal("leave")}
-                color="Red"
+                onClick={() => openModal("edit")}
+                color="Gray"
                 active
               >
-                나가기
+                수정하기
               </Button.Ghost>
             </div>
             <div className="flex items-center justify-between rounded-md border border-mos-gray-100 p-5">
@@ -93,6 +95,26 @@ const SettingCard = ({ studyId }: { studyId: string }) => {
                 active
               >
                 삭제하기
+              </Button.Ghost>
+            </div>
+            <Typography.P1 className="mt-3 font-bold text-mos-gray-700">
+              Danger Zone
+            </Typography.P1>
+            <div className="flex items-center justify-between rounded-md border border-mos-gray-100 p-5">
+              <div>
+                <Typography.P1 className="font-bold">
+                  스터디 나가기
+                </Typography.P1>
+                <Typography.P3 className="text-[14px] text-mos-gray-700">
+                  해당 스터디에서 탈퇴합니다. 이 설정은 되돌릴 수 없습니다.
+                </Typography.P3>
+              </div>
+              <Button.Ghost
+                onClick={() => openModal("leave")}
+                color="Red"
+                active
+              >
+                나가기
               </Button.Ghost>
             </div>
           </div>
@@ -115,6 +137,15 @@ const SettingCard = ({ studyId }: { studyId: string }) => {
         title="삭제하기"
         buttonLabel="삭제하기"
         onSuccess={handleDeleteButton}
+      />
+      <ActionConfirmModal
+        isOpen={modal.get("edit")!}
+        onClose={() => closeModal("edit")}
+        type="action"
+        content="해당 스터디를 수정하시겠습니까?"
+        title="수정하기"
+        buttonLabel="수정하기"
+        onSuccess={handleEditButton}
       />
     </>
   );

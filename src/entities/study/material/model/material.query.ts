@@ -1,13 +1,13 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
-  getMaterials,
   getMaterial,
+  getMaterials,
   postMaterials,
 } from "@/entities/study/material/api/material.api";
 import {
   GetMaterialsRequest,
   PostMaterialsRequest,
-} from "@/entities/study/material/api/material.api.types";
+} from "@/entities/study/material/api/material.api.type";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 // 자료 목록 쿼리 키
 export const MaterialsQueryKey = (studyId: string) => [

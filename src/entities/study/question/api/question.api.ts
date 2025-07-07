@@ -1,4 +1,4 @@
-import { GetQuestionsResponse } from "@/entities/study/question/api/question.api.types";
+import { GetQuestionsResponse } from "@/entities/study/question/api/question.api.type";
 import { API_ENDPOINT, fetchAPI } from "@/shared/api/lib";
 
 export async function getQuestions(studyId: string) {
