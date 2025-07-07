@@ -10,6 +10,7 @@ import Typography from "@/shared/components/atoms/Typography";
 
 import { StudyFormInterface } from "@/entities/study/create/api/create-study.type";
 
+import URL from "@/shared/constants/URL";
 import MDEditor from "@uiw/react-md-editor";
 
 const CreateStudyForm4 = () => {
@@ -19,7 +20,7 @@ const CreateStudyForm4 = () => {
 
   const handleCompleteButton = () => {
     localStorage.removeItem("studyForm");
-    router.replace("/");
+    router.replace(URL.HOME);
   };
 
   useEffect(() => {

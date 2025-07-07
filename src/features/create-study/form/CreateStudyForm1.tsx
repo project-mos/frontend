@@ -10,6 +10,7 @@ import { StudyFormInterface } from "@/entities/study/create/api/create-study.typ
 import StudyActions from "@/features/create-study/ui/StudyActions";
 import StudyBasicInfo from "@/features/create-study/ui/StudyBasicInfo";
 import StudyMethod from "@/features/create-study/ui/StudyMethod";
+import URL from "@/shared/constants/URL";
 
 const CreateStudyForm1 = () => {
   const methods = useFormContext<StudyFormInterface>();
@@ -17,7 +18,7 @@ const CreateStudyForm1 = () => {
   const { isModalOpenState, openModal, closeModal } = useModal();
 
   const onSubmit = () => {
-    router.push("/create-study?step=2");
+    router.push(`${URL.STUDY.CREATE}?step=2`);
   };
 
   const onClickCancelButton = () => {
