@@ -9,9 +9,9 @@ import Profile from "@/shared/components/atoms/Profile";
 import Typography from "@/shared/components/atoms/Typography";
 
 import profileImg from "@/asset/images/defaultProfile.png";
-import { StudyManageCardInterface } from "@/features/study-room/types/study-room.type";
 import { useToast } from "@/shared/hooks/useToast";
 import { approveApplicant, rejectApplicant } from "../api/join.api";
+import { StudyManageCardInterface } from "../api/join.api.type";
 
 interface CurriculumModalProps extends ModalProps {
   onClose: ModalOnClose;
