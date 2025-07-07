@@ -53,7 +53,7 @@ export type PostStudyRequest = {
 };
 
 export type PatchStudyRequest = {
-  form: EditStudyForm;
+  form: PatchStudyForm;
   studyId: string;
 };
 
@@ -73,7 +73,7 @@ export type StudyForm = {
   applicationQuestions: Question[];
 };
 
-export type EditStudyForm = {
+export type PatchStudyForm = {
   title: string;
   category: string;
   maxStudyMemberCount: number;

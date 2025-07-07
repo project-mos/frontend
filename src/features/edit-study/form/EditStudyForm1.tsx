@@ -1,11 +1,11 @@
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useFormContext } from "react-hook-form";
 
 import Typography from "@/shared/components/atoms/Typography";
 import ActionConfirmModal from "@/shared/components/molecules/ActionConfirmModal";
 
-import { postStudy } from "@/entities/study/studies/api/studies.api";
-import { StudyForm } from "@/entities/study/studies/api/studies.api.type";
+import { patchStudy } from "@/entities/study/studies/api/studies.api";
+import { PatchStudyForm } from "@/entities/study/studies/api/studies.api.type";
 import StudyActions from "@/features/create-study/ui/StudyActions";
 import StudyBasicInfo from "@/features/create-study/ui/StudyBasicInfo";
 import StudyMethod from "@/features/create-study/ui/StudyMethod";
@@ -14,11 +14,13 @@ import useMultiModal from "@/shared/hooks/useMultiModal";
 import StudyDescription from "../ui/StudyDescription";
 
 const CreateStudyForm1 = () => {
-  const methods = useFormContext<StudyForm>();
+  const methods = useFormContext<PatchStudyForm>();
   const router = useRouter();
+  const params = useParams();
+  const id = params.id as string;
   const { modal, openModal, closeModal } = useMultiModal();
 
-  const { watch } = useFormContext<StudyForm>();
+  const { watch } = useFormContext<PatchStudyForm>();
   const formData = watch();
 
   const onSubmit = () => {
@@ -31,8 +33,9 @@ const CreateStudyForm1 = () => {
   };
 
   const handleClickCreateButton = async () => {
-    const result = await postStudy({
+    const result = await patchStudy({
       form: formData,
+      studyId: id,
     });
     closeModal("edit");
     const studyID = result.studyId;
