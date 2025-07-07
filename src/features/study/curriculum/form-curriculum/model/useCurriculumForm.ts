@@ -2,7 +2,7 @@ import {
   useGetCurriculum,
   usePostCurriculum,
 } from "@/entities/study/curriculum/model/curriculum.queries";
-import { StudyCurriculumCardInterface } from "@/entities/study/curriculum/model/curriculum.types";
+import { StudyCurriculumCardInterface } from "@/entities/study/curriculum/model/curriculum.queries.types";
 import { useToast } from "@/shared/hooks/useToast";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
