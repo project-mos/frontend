@@ -35,11 +35,11 @@ const ChatUserItem = ({ user, onChatStart, ...props }: ChatUserItemProps) => {
 
         <div className="flex flex-col">
           {/* 사용자 이름 + 역할 */}
-          <div className="flex items-center gap-2">
+          <div className="flex flex-col gap-0">
             <Typography.P1 className="font-bold">{user.name}</Typography.P1>
             {user.role && (
               <span
-                className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${getRoleBadgeColor(
+                className={`w-fit rounded-full px-2 py-0.5 text-[10px] font-medium ${getRoleBadgeColor(
                   user.role
                 )}`}
               >
@@ -51,11 +51,6 @@ const ChatUserItem = ({ user, onChatStart, ...props }: ChatUserItemProps) => {
               </span>
             )}
           </div>
-
-          {/* 유저 ID */}
-          <Typography.P1 className="text-[12px] text-gray-400">
-            @{user.id}
-          </Typography.P1>
         </div>
       </div>
 
