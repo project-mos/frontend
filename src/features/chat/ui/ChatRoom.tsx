@@ -1,5 +1,5 @@
-import { ChatRoomProps } from "@/entities/chat/ui/chat.ui.types";
-import ChatBubble from "@/entities/chat/ui/ChatBubble";
+import { ChatRoomProps } from "@/features/chat/ui/chat.ui.types";
+import ChatBubble from "@/features/chat/ui/ChatBubble";
 
 import React from "react";
 

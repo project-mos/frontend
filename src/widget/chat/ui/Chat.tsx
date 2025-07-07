@@ -5,20 +5,21 @@ import {
   chatRoomMockData,
   ChatRoomPreview,
 } from "@/entities/chat/lib/mock/chat.mock";
-import { ChatActiveTab } from "@/entities/chat/ui/chat.ui.types";
-import ChatInput from "@/entities/chat/ui/ChatInput";
-import ChatRoom from "@/entities/chat/ui/ChatRoom";
-// import ChatTab from "@/entities/chat/ui/ChatTab";
-import Button from "@/shared/components/atoms/Button";
+import { ChatActiveTab } from "@/features/chat/ui/chat.ui.types";
+import ChatInput from "@/features/chat/ui/ChatInput";
+import ChatItem from "@/features/chat/ui/ChatItem";
+import ChatRoom from "@/features/chat/ui/ChatRoom";
+
 import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
 import cn from "@/shared/utils/cn";
-import { formatDate } from "@/shared/utils/date";
+
 import clsx from "clsx";
-import React, { HTMLAttributes, useState } from "react";
+import React, { MouseEvent, useState } from "react";
 
 const Chat = () => {
   const [isOpenState, setIsOpenState] = useState<boolean>(false); // 채팅창 열림 여부
+  const [isChatOptionOpen, setIsChatOptionOpen] = useState<boolean>(false); // 채팅 옵션 열림 여부
   const [isChatRoom, setIsChatRoomState] = useState<boolean>(false); // 현재 채팅방에 들어가 있는지 여부
   const [activeTab, setActiveTab] = useState<ChatActiveTab>("chat"); // 현재 탭 상태
   const [selectItem, setSelectItem] = useState<ChatRoomPreview>(); // 선택한 채팅방 정보
@@ -55,11 +56,16 @@ const Chat = () => {
     setSelectItem(item);
   };
 
+  const onDotClick = (event: MouseEvent<HTMLButtonElement>) => {
+    console.log(event);
+    setIsChatOptionOpen(true);
+  };
+
   return (
     <>
       {/* 채팅창 카드 */}
       {isOpenState && (
-        <Card className="chat fixed bottom-24 right-5 flex h-[600px] w-96 rounded-3xl bg-white/90 p-0 text-white shadow-lg backdrop-blur">
+        <Card className="chat fixed bottom-24 right-5 flex h-[600px] w-96 overflow-hidden rounded-3xl bg-white/90 p-0 text-white shadow-lg backdrop-blur">
           {/* 헤더 영역 */}
           <Card.Header className="flex items-center justify-between rounded-t-3xl p-4 text-xl font-semibold text-black">
             {/* 채팅방 안에 있을 경우 뒤로가기 버튼 표시 */}
@@ -86,14 +92,17 @@ const Chat = () => {
             ) : (
               <div className="flex flex-col gap-3 p-2">
                 {/* 채팅방 리스트 */}
-                {activeTab === "chat" &&
+                {
+                  // activeTab === "chat" &&
                   chatRoomMockData.map((item, index) => (
                     <ChatItem
                       item={item}
                       key={`${item.roomId}_${index}`}
                       onClick={() => onChatListClick(item)}
+                      onDotClick={onDotClick}
                     />
-                  ))}
+                  ))
+                }
                 {/* 알림 탭 (미완성) */}
                 {activeTab === "notices" && (
                   <div className="text-black">
@@ -112,6 +121,30 @@ const Chat = () => {
               // : (
               //   <ChatTab active={activeTab} onChange={onTabChange} />
               // )}
+            }
+            {
+              <>
+                <div
+                  className={clsx(
+                    "absolute top-0 size-full cursor-pointer rounded-3xl  ",
+                    isChatOptionOpen ? "flex bg-black/20" : "hidden"
+                  )}
+                  onClick={() => setIsChatOptionOpen(false)}
+                />
+                <ul
+                  className={clsx(
+                    "absolute  z-10 flex h-20 w-full flex-col justify-center gap-2 rounded-b-3xl rounded-t-2xl bg-white  px-4 transition-all duration-300 ease-in-out",
+                    isChatOptionOpen ? "bottom-0 border-t" : "-bottom-20"
+                  )}
+                >
+                  <li className=" cursor-pointer text-mos-gray-500">
+                    <Typography.P3>고정</Typography.P3>
+                  </li>
+                  <li className="cursor-pointer text-red-500  transition-all">
+                    <Typography.P3>채팅방 나가기</Typography.P3>
+                  </li>
+                </ul>
+              </>
             }
           </Card.Footer>
         </Card>
@@ -137,47 +170,6 @@ const Chat = () => {
         </div>
       </div>
     </>
-  );
-};
-
-interface ChatItemProps extends HTMLAttributes<HTMLDivElement> {
-  item: ChatRoomPreview;
-}
-
-// 채팅방 미리보기 아이템
-const ChatItem = ({ item, ...props }: ChatItemProps) => {
-  return (
-    <div
-      className="group flex cursor-pointer items-center justify-between gap-3 rounded-md p-2 text-black transition hover:bg-gray-100 active:bg-gray-200"
-      {...props}
-    >
-      <div className="flex items-center gap-2">
-        {/* 프로필 이미지 */}
-        <div className="size-12 rounded-full bg-red-200" />
-        <div className="flex flex-col">
-          {/* 사용자 이름 + 시간 */}
-          <div className="flex items-center gap-2">
-            <Typography.P1 className="font-bold">
-              {item.user.name}
-            </Typography.P1>
-            <Typography.P1 className="text-[12px] font-light text-gray-400">
-              {formatDate("MM:DD", item.lastMessage.timestamp)}
-            </Typography.P1>
-          </div>
-          {/* 최근 메시지 내용 */}
-          <Typography.P1 className="text-[12px]">
-            {item.lastMessage.content}
-          </Typography.P1>
-        </div>
-      </div>
-
-      {/* 옵션 버튼 (3 dots) */}
-      <div className="mr-2">
-        <Button.Icon color="Gray" className="border-none">
-          <i className="bi bi-three-dots" />
-        </Button.Icon>
-      </div>
-    </div>
   );
 };
 

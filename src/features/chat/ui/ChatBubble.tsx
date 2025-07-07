@@ -1,4 +1,4 @@
-import { ChatBubbleProps } from "@/entities/chat/ui/chat.ui.types";
+import { ChatBubbleProps } from "@/features/chat/ui/chat.ui.types";
 import Typography from "@/shared/components/atoms/Typography";
 import clsx from "clsx";
 import React from "react";

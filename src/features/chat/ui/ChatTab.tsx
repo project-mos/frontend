@@ -1,5 +1,5 @@
 import { tabItems } from "@/entities/chat/lib";
-import { ChatTabProps } from "@/entities/chat/ui/chat.ui.types";
+import { ChatTabProps } from "@/features/chat/ui/chat.ui.types";
 
 import React from "react";
 
