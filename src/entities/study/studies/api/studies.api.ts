@@ -61,10 +61,10 @@ export async function postStudy({ form }: PostStudyRequest) {
     form.requirements as unknown as string
   );
 
-  const filteredRules = filterEmptyByKey(form.rules, "content");
-  const filteredBenefits = filterEmptyByKey(form.benefits, "content");
+  const filteredRules = filterEmptyByKey(form.rules!, "content");
+  const filteredBenefits = filterEmptyByKey(form.benefits!, "content");
   const filteredQuestions = filterEmptyByKey(
-    form.applicationQuestions,
+    form.applicationQuestions!,
     "question"
   );
 

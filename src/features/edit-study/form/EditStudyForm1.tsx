@@ -13,7 +13,7 @@ import URL from "@/shared/constants/URL";
 import useMultiModal from "@/shared/hooks/useMultiModal";
 import StudyDescription from "../ui/StudyDescription";
 
-const CreateStudyForm1 = () => {
+const EditStudyForm1 = () => {
   const methods = useFormContext<PatchStudyForm>();
   const router = useRouter();
   const params = useParams();
@@ -33,13 +33,13 @@ const CreateStudyForm1 = () => {
   };
 
   const handleClickCreateButton = async () => {
-    const result = await patchStudy({
+    await patchStudy({
       form: formData,
       studyId: id,
     });
     closeModal("edit");
-    const studyID = result.studyId;
-    router.replace(`/studies/${studyID}`);
+
+    router.replace(`/studies/${id}`);
   };
 
   return (
@@ -84,4 +84,4 @@ const CreateStudyForm1 = () => {
   );
 };
 
-export default CreateStudyForm1;
+export default EditStudyForm1;

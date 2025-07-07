@@ -3,22 +3,25 @@ import { FormProvider, useForm } from "react-hook-form";
 
 import EditStudyForm1 from "@/features/edit-study/form/EditStudyForm1";
 
-import { PatchStudyForm } from "@/entities/study/studies/api/studies.api.type";
+import {
+  PatchStudyForm,
+  StudyForm,
+} from "@/entities/study/studies/api/studies.api.type";
 
-const EditStudyForm = () => {
+const EditStudyForm = ({ study }: { study: StudyForm }) => {
   const methods = useForm<PatchStudyForm>({
     mode: "onChange",
     defaultValues: {
-      title: "",
-      category: "",
-      maxStudyMemberCount: 4,
-      recruitmentStartDate: "",
-      recruitmentEndDate: "",
-      tags: [],
-      meetingType: "",
-      schedule: "",
-      content: "",
-      requirements: "",
+      title: study.title,
+      category: study.category,
+      maxStudyMemberCount: study.maxStudyMemberCount,
+      recruitmentStartDate: study.recruitmentStartDate,
+      recruitmentEndDate: study.recruitmentEndDate,
+      tags: study.tags,
+      meetingType: study.meetingType,
+      schedule: study.schedule,
+      content: study.content,
+      requirements: study.requirements,
     },
   });
 

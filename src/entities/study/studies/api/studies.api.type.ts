@@ -67,10 +67,10 @@ export type StudyForm = {
   meetingType: string;
   schedule: string;
   content: string;
-  requirements: string;
-  rules: { ruleNum: number; content: string }[];
-  benefits: { benefitNum: number; content: string }[];
-  applicationQuestions: Question[];
+  requirements?: string;
+  rules?: { ruleNum: number; content: string }[];
+  benefits?: { benefitNum: number; content: string }[];
+  applicationQuestions?: Question[];
 };
 
 export type PatchStudyForm = {
@@ -83,7 +83,7 @@ export type PatchStudyForm = {
   meetingType: string;
   schedule: string;
   content: string;
-  requirements: string;
+  requirements?: string;
 };
 
 export type PostStudyResponse = {
