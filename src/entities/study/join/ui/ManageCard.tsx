@@ -17,9 +17,9 @@ import {
 import InfoModal from "./InfoModal";
 
 const TABS = [
-  { id: 1, label: "대기" },
-  { id: 2, label: "승인" },
-  { id: 3, label: "거절" },
+  { id: 1, label: "대기", value: "대기" },
+  { id: 2, label: "승인", value: "승낙" },
+  { id: 3, label: "거절", value: "탈락" },
 ];
 
 const List = () => {
@@ -33,7 +33,7 @@ const List = () => {
   const [applicants, setApplicants] = useState<GetStudyApplicantResponse[]>([]);
 
   async function getApplicants() {
-    const result = await getStudyApplicant(id, TABS[tab - 1].label);
+    const result = await getStudyApplicant(id, TABS[tab - 1].value);
     setApplicants(result);
   }
 
@@ -120,6 +120,13 @@ const List = () => {
             </div>
           </div>
         ))}
+        {applicants.length === 0 && (
+          <div className="flex h-[100px] items-center justify-center">
+            <Typography.P1 className="text-mos-gray-300">
+              현재 {TABS[tab - 1].label}상태인 지원자가 없습니다.
+            </Typography.P1>
+          </div>
+        )}
       </div>
     </>
   );

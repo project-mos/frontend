@@ -11,6 +11,7 @@ import Typography from "@/shared/components/atoms/Typography";
 import profileImg from "@/asset/images/defaultProfile.png";
 import { StudyManageCardInterface } from "@/features/study-room/types/study-room.type";
 import { useToast } from "@/shared/hooks/useToast";
+import { useRouter } from "next/navigation";
 import { approveApplicant, rejectApplicant } from "../api/join.api";
 
 interface CurriculumModalProps extends ModalProps {
@@ -27,6 +28,7 @@ const InfoModal = ({
   status,
   ...props
 }: CurriculumModalProps) => {
+  const router = useRouter();
   const toast = useToast();
   const onClickCloseBtn = () => {
     onClose();
@@ -36,12 +38,14 @@ const InfoModal = ({
     await approveApplicant(studyId, studyJoinId);
     toast.success("지원 승인이 완료되었습니다.");
     onClose();
+    router.refresh();
   }
 
   async function rejectApplicantFunction(studyJoinId: string) {
     await rejectApplicant(studyId, studyJoinId);
     toast.success("지원 거절이 완료되었습니다.");
     onClose();
+    router.refresh();
   }
 
   return (
