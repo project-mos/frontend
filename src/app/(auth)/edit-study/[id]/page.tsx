@@ -9,7 +9,6 @@ const EditStudyPage = async ({
   const { id } = await params;
   const study = await getStudy(id);
 
-  console.log(study);
   return <EditStudyForm study={study} />;
 };
 
