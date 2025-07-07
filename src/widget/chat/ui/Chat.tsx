@@ -12,12 +12,19 @@ import ChatRoom from "@/features/chat/ui/ChatRoom";
 
 import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
+import ActionConfirmModal from "@/shared/components/molecules/ActionConfirmModal";
+import useMultiModal from "@/shared/hooks/useMultiModal";
 import cn from "@/shared/utils/cn";
 
 import clsx from "clsx";
 import React, { MouseEvent, useState } from "react";
 
+const CHAT_DELETE_CONFIRM_MODAL_KEY = "chat_delete_confirm";
+const CHAT_STATIC_SORT_CONFIRM_MODAL_KEY = "chat_static_sort_confirm";
+
 const Chat = () => {
+  const { modal, openModal, closeModal } = useMultiModal();
+
   const [isOpenState, setIsOpenState] = useState<boolean>(false); // 채팅창 열림 여부
   const [isChatOptionOpen, setIsChatOptionOpen] = useState<boolean>(false); // 채팅 옵션 열림 여부
   const [isChatRoom, setIsChatRoomState] = useState<boolean>(false); // 현재 채팅방에 들어가 있는지 여부
@@ -56,9 +63,20 @@ const Chat = () => {
     setSelectItem(item);
   };
 
-  const onDotClick = (event: MouseEvent<HTMLButtonElement>) => {
-    console.log(event);
+  const onDotClick = (
+    event: MouseEvent<HTMLButtonElement>,
+    item: ChatRoomPreview
+  ) => {
     setIsChatOptionOpen(true);
+    setSelectItem(item);
+  };
+
+  const onChatOutClick = () => {
+    openModal(CHAT_DELETE_CONFIRM_MODAL_KEY);
+  };
+
+  const onChatPinClick = () => {
+    openModal(CHAT_STATIC_SORT_CONFIRM_MODAL_KEY);
   };
 
   return (
@@ -99,7 +117,9 @@ const Chat = () => {
                       item={item}
                       key={`${item.roomId}_${index}`}
                       onClick={() => onChatListClick(item)}
-                      onDotClick={onDotClick}
+                      onDotClick={(event) => {
+                        onDotClick(event, item);
+                      }}
                     />
                   ))
                 }
@@ -137,10 +157,16 @@ const Chat = () => {
                     isChatOptionOpen ? "bottom-0 border-t" : "-bottom-20"
                   )}
                 >
-                  <li className=" cursor-pointer text-mos-gray-500">
+                  <li
+                    className=" cursor-pointer text-mos-gray-500"
+                    onClick={onChatPinClick}
+                  >
                     <Typography.P3>고정</Typography.P3>
                   </li>
-                  <li className="cursor-pointer text-red-500  transition-all">
+                  <li
+                    className="cursor-pointer text-red-500  transition-all"
+                    onClick={onChatOutClick}
+                  >
                     <Typography.P3>채팅방 나가기</Typography.P3>
                   </li>
                 </ul>
@@ -169,6 +195,30 @@ const Chat = () => {
           />
         </div>
       </div>
+      <ActionConfirmModal
+        type="danger"
+        title="채팅방 나가기"
+        content="정말 채팅방을 나가시겠습니까?"
+        buttonLabel="나가기"
+        isOpen={modal.get(CHAT_DELETE_CONFIRM_MODAL_KEY)!}
+        onClose={() => closeModal(CHAT_DELETE_CONFIRM_MODAL_KEY)}
+        onClick={() => {
+          setIsChatOptionOpen(false);
+          console.log("opne");
+        }}
+      />
+      <ActionConfirmModal
+        type="action"
+        title="채팅방 고정"
+        content="채팅방을 고정하시겠습니까?"
+        buttonLabel="고정하기"
+        isOpen={modal.get(CHAT_STATIC_SORT_CONFIRM_MODAL_KEY)!}
+        onClose={() => closeModal(CHAT_STATIC_SORT_CONFIRM_MODAL_KEY)}
+        onClick={() => {
+          setIsChatOptionOpen(false);
+          console.log("opne");
+        }}
+      />
     </>
   );
 };
