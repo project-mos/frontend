@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { editRules, getRules } from "@/entities/study/overview/api/rules.api";
-import { EditRulesRequest } from "@/features/study-room/types/study-room.api";
+import { EditRuleRequest } from "../api/rules.api.type";
 
 export const RulesQueryKey = (studyId: string) => ["study", "rules", studyId];
 
@@ -14,7 +14,7 @@ export const useGetStudyRules = (studyId: string) => {
   });
 };
 
-export const useEditStudyRules = ({ studyId, rules }: EditRulesRequest) => {
+export const useEditStudyRules = ({ studyId, rules }: EditRuleRequest) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: () => editRules({ studyId, rules }),
