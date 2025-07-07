@@ -1,4 +1,4 @@
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { FormProvider, useFormContext } from "react-hook-form";
 
 import Badge from "@/shared/components/atoms/Badge";
@@ -9,14 +9,16 @@ import StudyActions from "@/features/create-study/ui/StudyActions";
 import StudyApply from "@/features/create-study/ui/StudyApply";
 import useModal from "@/shared/hooks/useModal";
 
-import { postStudy } from "@/entities/study/studies/api/studies.api";
-import { StudyForm } from "@/entities/study/studies/api/studies.api.type";
+import { patchStudy } from "@/entities/study/studies/api/studies.api";
+import { EditStudyForm } from "@/entities/study/studies/api/studies.api.type";
 import URL from "@/shared/constants/URL";
 
 const CreateStudyForm3 = () => {
-  const methods = useFormContext<StudyForm>();
+  const params = useParams();
+  const id = params.id as string;
+  const methods = useFormContext<EditStudyForm>();
   const router = useRouter();
-  const { watch } = useFormContext<StudyForm>();
+  const { watch } = useFormContext<EditStudyForm>();
   const formData = watch();
 
   const { isModalOpenState, openModal, closeModal } = useModal();
@@ -30,8 +32,9 @@ const CreateStudyForm3 = () => {
   };
 
   const handleClickCreateButton = async () => {
-    const result = await postStudy({
+    const result = await patchStudy({
       form: formData,
+      studyId: id,
     });
     closeModal();
     const studyID = result.studyId;

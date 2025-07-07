@@ -6,6 +6,10 @@ export const study = {
     url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies`,
     method: Method.POST,
   }),
+  patchStudy: (studyId: string) => ({
+    url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}`,
+    method: Method.PATCH,
+  }),
   getStudy: (id: string) => ({
     url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${id}`,
     method: Method.GET,

@@ -52,6 +52,11 @@ export type PostStudyRequest = {
   form: StudyForm;
 };
 
+export type PatchStudyRequest = {
+  form: EditStudyForm;
+  studyId: string;
+};
+
 export type StudyForm = {
   title: string;
   category: string;
@@ -66,6 +71,19 @@ export type StudyForm = {
   rules: { ruleNum: number; content: string }[];
   benefits: { benefitNum: number; content: string }[];
   applicationQuestions: Question[];
+};
+
+export type EditStudyForm = {
+  title: string;
+  category: string;
+  maxStudyMemberCount: number;
+  recruitmentStartDate: string;
+  recruitmentEndDate: string;
+  tags: string[];
+  meetingType: string;
+  schedule: string;
+  content: string;
+  requirements: string;
 };
 
 export type PostStudyResponse = {
