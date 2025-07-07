@@ -1,5 +1,5 @@
-import { fetchAPI } from "@/shared/api/lib";
-import { API_ENDPOINT } from "@/shared/constants/api-end-point";
+import { API_ENDPOINT, fetchAPI } from "@/shared/api/lib";
+
 import {
   CreateStudyRequest,
   CreateStudyResponse,
