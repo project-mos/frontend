@@ -77,7 +77,7 @@ const EditStudyForm1 = () => {
         onClose={() => closeModal("edit")}
         onSuccess={handleClickCreateButton}
         type="action"
-        content="스터디를 수정하시겠습니까"
+        content="스터디를 수정하시겠습니까?"
         title="스터디 수정"
         buttonLabel="수정하기"
       />
