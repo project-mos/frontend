@@ -1,19 +1,20 @@
-import { API_ENDPOINT, fetchAPI } from "@/shared/api/lib";
+import {
+  GetHotStudiesResponse,
+  GetStudiesRequest,
+  GetStudiesResponse,
+  GetStudyResponse,
+  PatchStudyRequest,
+  PostStudyRequest,
+  PostStudyResponse,
+  UploadImageRequest,
+} from "@/entities/study/studies/api/studies.api.type";
 import {
   convertToWebP,
   filterEmptyByKey,
   parseRequirements,
   sanitizeCodeLikeLinesWithEscape,
 } from "@/entities/study/studies/lib";
-import {
-  GetHotStudiesResponse,
-  GetStudiesRequest,
-  GetStudiesResponse,
-  GetStudyResponse,
-  PostStudyRequest,
-  PostStudyResponse,
-  UploadImageRequest,
-} from "@/entities/study/studies/api/studies.api.type";
+import { API_ENDPOINT, fetchAPI } from "@/shared/api/lib";
 
 export async function getStudies({
   page,
@@ -60,10 +61,10 @@ export async function postStudy({ form }: PostStudyRequest) {
     form.requirements as unknown as string
   );
 
-  const filteredRules = filterEmptyByKey(form.rules, "content");
-  const filteredBenefits = filterEmptyByKey(form.benefits, "content");
+  const filteredRules = filterEmptyByKey(form.rules!, "content");
+  const filteredBenefits = filterEmptyByKey(form.benefits!, "content");
   const filteredQuestions = filterEmptyByKey(
-    form.applicationQuestions,
+    form.applicationQuestions!,
     "question"
   );
 
@@ -86,6 +87,35 @@ export async function postStudy({ form }: PostStudyRequest) {
       rules: filteredRules,
       benefits: filteredBenefits,
       applicationQuestions: filteredQuestions,
+    }),
+    method: method,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
+
+export async function patchStudy({ form, studyId }: PatchStudyRequest) {
+  const { url, method } = API_ENDPOINT.study.patchStudy(studyId);
+  const parsedRequirements = parseRequirements(
+    form.requirements as unknown as string
+  );
+
+  const filteredContent = sanitizeCodeLikeLinesWithEscape(form.content);
+
+  return await fetchAPI<PostStudyResponse>(url, {
+    credentials: "include",
+    body: JSON.stringify({
+      title: form.title,
+      category: form.category,
+      maxStudyMemberCount: form.maxStudyMemberCount,
+      recruitmentStartDate: form.recruitmentStartDate,
+      recruitmentEndDate: form.recruitmentEndDate,
+      tags: form.tags,
+      meetingType: form.meetingType,
+      schedule: form.schedule,
+      content: filteredContent,
+      requirements: parsedRequirements,
     }),
     method: method,
     headers: {

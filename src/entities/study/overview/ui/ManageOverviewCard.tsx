@@ -7,6 +7,7 @@ import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
 import ActionConfirmModal from "@/shared/components/molecules/ActionConfirmModal";
 import useMultiModal from "@/shared/hooks/useMultiModal";
+import { useToast } from "@/shared/hooks/useToast";
 import ContentInputBox from "./ContentInputBox";
 import PreviewBox from "./PreviewBox";
 
@@ -29,6 +30,7 @@ const ManageOverviewCard = ({
   const router = useRouter();
   const searchParams = useSearchParams();
   const tab = Number(searchParams.get("tap") ?? "1");
+  const toast = useToast();
 
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
   const [pendingTabId, setPendingTabId] = useState<number | null>(null);
@@ -84,6 +86,13 @@ const ManageOverviewCard = ({
     setRuleData(rules);
     setBenefitData(benefits);
   }, [rules, benefits]);
+
+  useEffect(() => {
+    if (localStorage.getItem("edit") == "true") {
+      toast.success("스터디 수정이 성공적으로 완료되었습니다.");
+      localStorage.removeItem("edit");
+    }
+  }, []);
 
   return (
     <>

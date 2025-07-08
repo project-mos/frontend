@@ -9,6 +9,7 @@ import Tag from "@/shared/components/atoms/Tag";
 import Typography from "@/shared/components/atoms/Typography";
 
 import { StudyForm } from "@/entities/study/studies/api/studies.api.type";
+import URL from "@/shared/constants/URL";
 import MDEditor from "@uiw/react-md-editor";
 
 const CreateStudyForm4 = () => {
@@ -18,7 +19,7 @@ const CreateStudyForm4 = () => {
 
   const handleCompleteButton = () => {
     localStorage.removeItem("studyForm");
-    router.replace("/");
+    router.replace(URL.HOME);
   };
 
   useEffect(() => {

@@ -11,6 +11,7 @@ import useModal from "@/shared/hooks/useModal";
 
 import { postStudy } from "@/entities/study/studies/api/studies.api";
 import { StudyForm } from "@/entities/study/studies/api/studies.api.type";
+import URL from "@/shared/constants/URL";
 
 const CreateStudyForm3 = () => {
   const methods = useFormContext<StudyForm>();
@@ -25,7 +26,7 @@ const CreateStudyForm3 = () => {
   };
 
   const handleClickBackButton = () => {
-    router.push("/create-study?step=2");
+    router.push(`${URL.STUDY.CREATE}?step=2`);
   };
 
   const handleClickCreateButton = async () => {
