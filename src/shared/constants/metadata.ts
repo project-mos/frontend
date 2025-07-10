@@ -19,8 +19,13 @@ export const keywords = [
 ];
 
 export const ogImage = "/asset/thumbnail.png";
+const metadataBase =
+  process.env.NODE_ENV === "development"
+    ? new URL(`http://localhost:3000`)
+    : new URL(`${process.env.SITE_URL}`);
 
 export const staticMetadata: Metadata = {
+  metadataBase,
   title,
   description,
   keywords: keywords,
