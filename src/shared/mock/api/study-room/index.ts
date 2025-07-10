@@ -1,5 +1,4 @@
 import {
-  StudyManageCardInterface,
   StudyMemberAttendanceInterface,
   StudyMemberInterface,
   StudyNoticeCardInterface,
@@ -14,7 +13,7 @@ export const MockNoticeCardApiResult: StudyNoticeCardInterface[] = [
       "매주 화요일 오후 8시에 진행되며, 스터디 전 자료를 미리 읽어와 주시기 바랍니다!",
     writer: "작성자: 홍길동 • 2024-02-20",
     isImportantNoticeChecked: true,
-    isPinned:false
+    isPinned: false,
   },
   {
     id: 2,
@@ -23,39 +22,10 @@ export const MockNoticeCardApiResult: StudyNoticeCardInterface[] = [
       "매주 화요일 오후 8시에 진행되며, 스터디 전 자료를 미리 읽어와 주시기 바랍니다.",
     writer: "작성자: 홍길동 • 2024-02-25",
     isImportantNoticeChecked: false,
-    isPinned:false
+    isPinned: false,
   },
 ];
 
-// <ManageCard/> 에 쓰일 mock data
-export const MockManageCardApiResult: StudyManageCardInterface[] = [
-  {
-    name: "홍길동",
-    date: "지원일시: 2024-03-20 14:30",
-    email: "test@example.com",
-    experience: "소프트웨어 개발 경력 2년",
-    questionList: [
-      {
-        question: "지원동기",
-        answer: "알고리즘 실력 향상을 위해 함께 공부하고 싶습니다.",
-      },
-      { question: "스터디 투자 시간", answer: "10시간 이상" },
-    ],
-  },
-  {
-    name: "김연정",
-    date: "지원일시: 2024-03-03 14:33",
-    email: "test@example.com",
-    experience: "프론트엔드 개발 경력 2년",
-    questionList: [
-      {
-        question: "지원동기",
-        answer: "알고리즘 실력 향상을 위해 함께 공부하고 싶습니다!",
-      },
-      { question: "스터디 투자 시간", answer: "8시간 이상" },
-    ],
-  },
-];
 /**
  * <MemberCard/> 에 쓰일 mock data 'role' Enum이나 다른 값 필요함.
  * /studies/{studyId}/members

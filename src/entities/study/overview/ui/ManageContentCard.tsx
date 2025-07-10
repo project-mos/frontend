@@ -1,7 +1,7 @@
-import { GetStudyDetailResponse } from "@/features/studies/types/studies.api";
 import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
 import CustomMdxRemote from "@/shared/components/system/CustomMdxRemote";
+import { GetStudyDetailResponse } from "@/entities/study/studies/api/studies.api.type";
 import React from "react";
 
 interface ContentCardProps {

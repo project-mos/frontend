@@ -3,7 +3,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
 import URL from "@/shared/constants/URL";
-import { StudyFormInterface } from "../types/create-study.type";
+import { StudyFormInterface } from "@/entities/study/create/api/create-study.type";
 
 const useStudyStepProtection = (
   watch: (name?: string) => Partial<StudyFormInterface>
