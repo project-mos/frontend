@@ -1,4 +1,7 @@
-import { GetCurriculumResponse } from "@/entities/study/curriculum/api/curriculum.api.type";
+import {
+  GetCurriculumResponse,
+  PostCurriculumRequest,
+} from "@/entities/study/curriculum/api/curriculum.api.type";
 import {
   API_ENDPOINT,
   createJsonRequestInit,
@@ -20,7 +23,7 @@ export async function getCurriculum(
 // 커리큘럼 수정
 export async function postCurriculum(
   studyId: number,
-  data: GetCurriculumResponse[]
+  data: PostCurriculumRequest[]
 ) {
   const { url, method } = API_ENDPOINT.curriculums.postCurriculums(studyId);
 

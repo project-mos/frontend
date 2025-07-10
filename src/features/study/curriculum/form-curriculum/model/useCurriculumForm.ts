@@ -1,9 +1,9 @@
+import { PostCurriculumRequest } from "@/entities/study/curriculum/api/curriculum.api.type";
 import {
   useGetCurriculum,
   usePostCurriculum,
 } from "@/entities/study/curriculum/model/curriculum.query";
 
-import { StudyCurriculumCardInterface } from "@/entities/study/curriculum/model/curriculum.queries.types";
 import { useToast } from "@/shared/hooks/useToast";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
@@ -27,7 +27,7 @@ const useCurriculumForm = (studyId: number) => {
   });
 
   // react-hook-form
-  const methods = useForm<{ curriculumList: StudyCurriculumCardInterface[] }>({
+  const methods = useForm<{ curriculumList: PostCurriculumRequest[] }>({
     defaultValues: {
       curriculumList: curriculumData,
     },
@@ -45,9 +45,7 @@ const useCurriculumForm = (studyId: number) => {
     }
   }, [curriculumData, setValue]);
 
-  const onSubmit = (formData: {
-    curriculumList: StudyCurriculumCardInterface[];
-  }) => {
+  const onSubmit = (formData: { curriculumList: PostCurriculumRequest[] }) => {
     updateCurriculum({ studyId, data: formData.curriculumList });
   };
 
