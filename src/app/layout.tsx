@@ -9,6 +9,9 @@ import Header from "@/shared/components/molecules/Header";
 import AuthInitializerProvider from "@/shared/components/system/AuthInitializerProvider";
 import ToastRenderer from "@/shared/components/system/ToastRenderer";
 import Chat from "@/widget/chat/ui/Chat";
+import { staticMetadata } from "@/shared/constants/metadata";
+
+export const metadata = staticMetadata;
 
 export default async function RootLayout({
   children,
