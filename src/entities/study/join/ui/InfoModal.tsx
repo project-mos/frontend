@@ -39,12 +39,14 @@ const InfoModal = ({
     await approveApplicant(studyId, studyJoinId);
     toast.success("지원 승인이 완료되었습니다.");
     onClose();
+    window.location.reload();
   }
 
   async function rejectApplicantFunction(studyJoinId: string) {
     await rejectApplicant(studyId, studyJoinId);
     toast.success("지원 거절이 완료되었습니다.");
     onClose();
+    window.location.reload();
   }
 
   return (
@@ -113,8 +115,11 @@ const InfoModal = ({
         )}
         {(status === "승인" || status === "거절") && (
           <Button.Solid color="Main">
-            이미 지원 {status} 된 사용자입니다.
+            이미 지원 {status} 된 유저입니다.
           </Button.Solid>
+        )}
+        {status === "취소" && (
+          <Button.Solid color="Main">지원을 취소한 유저입니다.</Button.Solid>
         )}
       </Modal.Footer>
     </Modal>

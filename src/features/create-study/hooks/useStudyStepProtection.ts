@@ -2,11 +2,11 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
+import { StudyForm } from "@/entities/study/studies/api/studies.api.type";
 import URL from "@/shared/constants/URL";
-import { StudyFormInterface } from "@/entities/study/create/api/create-study.type";
 
 const useStudyStepProtection = (
-  watch: (name?: string) => Partial<StudyFormInterface>
+  watch: (name?: string) => Partial<StudyForm>
 ) => {
   const router = useRouter();
   const searchParams = useSearchParams();

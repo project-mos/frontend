@@ -8,7 +8,7 @@ import CreateStudyForm2 from "@/features/create-study/form/CreateStudyForm2";
 import CreateStudyForm3 from "@/features/create-study/form/CreateStudyForm3";
 import CreateStudyForm4 from "@/features/create-study/form/CreateStudyForm4";
 
-import { StudyFormInterface } from "@/entities/study/create/api/create-study.type";
+import { StudyForm } from "@/entities/study/studies/api/studies.api.type";
 import useStudyStepProtection from "../hooks/useStudyStepProtection";
 
 const CreateStudyForm = () => {
@@ -17,7 +17,7 @@ const CreateStudyForm = () => {
   const step = searchParams.get("step") || "1";
   const stepNumber = Number(step);
 
-  const methods = useForm<StudyFormInterface>({
+  const methods = useForm<StudyForm>({
     mode: "onChange",
     defaultValues: {
       title: "",

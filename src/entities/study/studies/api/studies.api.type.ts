@@ -52,6 +52,11 @@ export type PostStudyRequest = {
   form: StudyForm;
 };
 
+export type PatchStudyRequest = {
+  form: PatchStudyForm;
+  studyId: string;
+};
+
 export type StudyForm = {
   title: string;
   category: string;
@@ -62,10 +67,23 @@ export type StudyForm = {
   meetingType: string;
   schedule: string;
   content: string;
-  requirements: string;
-  rules: { ruleNum: number; content: string }[];
-  benefits: { benefitNum: number; content: string }[];
-  applicationQuestions: Question[];
+  requirements?: string;
+  rules?: { ruleNum: number; content: string }[];
+  benefits?: { benefitNum: number; content: string }[];
+  applicationQuestions?: Question[];
+};
+
+export type PatchStudyForm = {
+  title: string;
+  category: string;
+  maxStudyMemberCount: number;
+  recruitmentStartDate: string;
+  recruitmentEndDate: string;
+  tags: string[];
+  meetingType: string;
+  schedule: string;
+  content: string;
+  requirements?: string;
 };
 
 export type PostStudyResponse = {

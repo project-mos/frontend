@@ -9,13 +9,14 @@ import StudyActions from "@/features/create-study/ui/StudyActions";
 import StudyApply from "@/features/create-study/ui/StudyApply";
 import useModal from "@/shared/hooks/useModal";
 
-import { createStudy } from "@/entities/study/create/api/create-study.api";
-import { StudyFormInterface } from "@/entities/study/create/api/create-study.type";
+import { postStudy } from "@/entities/study/studies/api/studies.api";
+import { StudyForm } from "@/entities/study/studies/api/studies.api.type";
+import URL from "@/shared/constants/URL";
 
 const CreateStudyForm3 = () => {
-  const methods = useFormContext<StudyFormInterface>();
+  const methods = useFormContext<StudyForm>();
   const router = useRouter();
-  const { watch } = useFormContext<StudyFormInterface>();
+  const { watch } = useFormContext<StudyForm>();
   const formData = watch();
 
   const { isModalOpenState, openModal, closeModal } = useModal();
@@ -25,11 +26,11 @@ const CreateStudyForm3 = () => {
   };
 
   const handleClickBackButton = () => {
-    router.push("/create-study?step=2");
+    router.push(`${URL.STUDY.CREATE}?step=2`);
   };
 
   const handleClickCreateButton = async () => {
-    const result = await createStudy({
+    const result = await postStudy({
       form: formData,
     });
     closeModal();
