@@ -5,15 +5,14 @@ import Button from "@/shared/components/atoms/Button";
 import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
 
-import {
-  QuestionInterface,
-  StudyFormInterface,
-} from "@/entities/study/create/api/create-study.type";
+import { StudyForm } from "@/entities/study/studies/api/studies.api.type";
+import { Question } from "@/entities/study/question/api/question.api.type";
+
 import StudyApplyQuestion from "./StudyApplyQuestion";
 
 const StudyApply = () => {
   const { watch, setValue, setError, clearErrors } =
-    useFormContext<StudyFormInterface>();
+    useFormContext<StudyForm>();
   const watchedQuestions = useWatch({ name: "applicationQuestions" });
 
   const questions = watch("applicationQuestions") || [
@@ -42,7 +41,7 @@ const StudyApply = () => {
   const handleRemoveQuestion = (index: number) => {
     setValue(
       "applicationQuestions",
-      questions.filter((_: QuestionInterface, i: number) => i !== index)
+      questions.filter((_: Question, i: number) => i !== index)
     );
   };
 
@@ -59,7 +58,7 @@ const StudyApply = () => {
   }, []);
 
   useEffect(() => {
-    questions.forEach((q: QuestionInterface, index: number) => {
+    questions.forEach((q: Question, index: number) => {
       if (q.type === "객관식") {
         const validOptions = (q.options || []).filter(
           (opt) => opt.trim() !== ""
@@ -85,7 +84,7 @@ const StudyApply = () => {
       </Card.Header>
       <Card.Content className="flex flex-col gap-[20px]">
         {questions &&
-          questions.map((_: QuestionInterface, index: number) => (
+          questions.map((_: Question, index: number) => (
             <StudyApplyQuestion
               key={index}
               index={index}

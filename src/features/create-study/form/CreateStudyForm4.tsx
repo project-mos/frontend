@@ -41,7 +41,7 @@ const CreateStudyForm4 = () => {
               <Typography.Head2>{formData.title}</Typography.Head2>
 
               <div className="mb-4 mt-3 flex gap-2">
-                {formData.tags.map((tag, idx) => (
+                {formData.tags?.map((tag, idx) => (
                   <Tag.Default key={idx}>
                     <Typography.P3>{tag}</Typography.P3>
                   </Tag.Default>
@@ -79,7 +79,7 @@ const CreateStudyForm4 = () => {
               <div className="flex flex-col gap-2">
                 <Typography.SubTitle1>혜택</Typography.SubTitle1>
                 <div>
-                  {formData.benefits.map((benefit) => (
+                  {formData.benefits?.map((benefit) => (
                     <p key={benefit.benefitNum}>{benefit.content}</p>
                   ))}
                 </div>
@@ -88,7 +88,7 @@ const CreateStudyForm4 = () => {
               <div className="flex flex-col gap-2">
                 <Typography.SubTitle1>규칙 </Typography.SubTitle1>
                 <div>
-                  {formData.rules.map((rule) => (
+                  {formData.rules?.map((rule) => (
                     <p key={rule.ruleNum}>{rule.content}</p>
                   ))}
                 </div>
@@ -97,8 +97,9 @@ const CreateStudyForm4 = () => {
 
             <Typography.SubTitle1>질문</Typography.SubTitle1>
             <div className="flex flex-col gap-2">
-              {formData.applicationQuestions.length > 0 ? (
-                formData.applicationQuestions.map((question, index) => (
+              {formData.applicationQuestions &&
+              formData.applicationQuestions.length > 0 ? (
+                formData.applicationQuestions?.map((question, index) => (
                   <div key={index} className="rounded-md border p-3">
                     <Typography.P1>
                       <strong>질문 {index + 1}</strong>{" "}
