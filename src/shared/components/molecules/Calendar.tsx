@@ -2,8 +2,8 @@
 import cn from "@/shared/utils/cn";
 import { useRef, useState } from "react";
 
-import StudyFormModal from "@/features/mypage/components/StudyFormModal";
-import { mySchedulesQueryOption } from "@/features/mypage/services/mypage.service";
+import StudyFormModal from "@/widget/mypage/ui/StudyFormModal";
+import { mySchedulesQueryOption } from "@/features/user/services/mypage.service";
 import Button from "@/shared/components/atoms/Button";
 import Grid from "@/shared/components/atoms/Grid";
 import Typography from "@/shared/components/atoms/Typography";

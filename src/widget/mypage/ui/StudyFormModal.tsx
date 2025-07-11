@@ -16,7 +16,7 @@ import {
   useDeleteStudySchedule,
   usePostCreateStudySchedule,
   useUpdateStudySchedule,
-} from "@/features/mypage/services/mypage.service";
+} from "@/features/user/services/mypage.service";
 import { useToast } from "@/shared/hooks/useToast";
 import { useQueryClient } from "@tanstack/react-query";
 import { GetMySchedulesResult } from "@/shared/types/api/mypage";

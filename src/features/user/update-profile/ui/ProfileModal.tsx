@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import { useEffect, useRef, useState } from "react";
-import { Controller, FormProvider, useForm } from "react-hook-form";
+import { Controller, FormProvider } from "react-hook-form";
 
 import Button from "@/shared/components/atoms/Button";
 import Modal, {
@@ -10,122 +9,35 @@ import Modal, {
 } from "@/shared/components/atoms/Modal";
 import Typography from "@/shared/components/atoms/Typography";
 
-import {
-  usePostProfileImg,
-  usePostUserInfo,
-} from "@/features/mypage/services/mypage.service";
 import LabelInput from "@/shared/components/molecules/LabelInput";
-import { useToast } from "@/shared/hooks/useToast";
 import { GetUserInfoResult } from "@/shared/types/api/mypage";
-import { useQueryClient } from "@tanstack/react-query";
+
+import useUpdateProfile from "@/features/user/update-profile/model/useUpdateProfile";
 
 interface ProfileModalProps extends ModalProps {
   preview?: string; // 프로필 사진 미리보기 url string
   onClose: ModalOnClose;
   userInfoData: GetUserInfoResult;
 }
-
-interface ProfileData {
-  imagePath?: File | string;
-  nickname: string;
-  introduction: string;
-  categories: string[];
-}
-
 const ProfileModal = ({
   preview,
   onClose,
   userInfoData,
   ...props
 }: ProfileModalProps) => {
-  const queryClient = useQueryClient();
-  const { success, error } = useToast();
-  const { nickname, introduction, imagePath } = userInfoData || {};
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const [previewState, setPreviewState] = useState<string | undefined>(preview);
-  const methods = useForm<ProfileData>({
-    defaultValues: {
-      imagePath: imagePath || "",
-      nickname: nickname || "",
-      introduction: introduction || "",
-      categories: ["HOBBY"], // 백엔드 카테고리 제거되면 뺴야 함
-    },
-    mode: "onChange",
-  });
-  const { handleSubmit, reset, control, formState } = methods;
-  const isActiveBtn =
-    formState.isValid &&
-    !!methods.watch("nickname") &&
-    !!methods.watch("introduction");
-
-  useEffect(() => {
-    if (userInfoData) {
-      reset({
-        imagePath: imagePath || "",
-        nickname: nickname || "",
-        introduction: introduction || "",
-        categories: ["HOBBY"], // 백엔드 카테고리 제거되면 뺴야 함
-      });
-      // 프로필 이미지 미리보기 상태 업데이트
-      setPreviewState(imagePath ? String(imagePath) : preview);
-    }
-  }, [userInfoData, reset, introduction, nickname]);
-
-  // 닉네임, 한 줄 소개 수정 API
-  const { mutate: updateUserInfo, isPending } = usePostUserInfo({
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["userInfo"],
-      });
-      success("프로필 정보가 수정되었습니다.");
-
-      reset();
-      onClose();
-    },
-    onError: (err) => {
-      error("프로필 정보 수정 실패했습니다. 다시 시도해 주세요.");
-      console.log(err);
-    },
-  });
-
-  // 프로필 이미지 업데이트 API
-  const { mutate: updateUserProfileImg } = usePostProfileImg();
-
-  const onSubmit = (data: ProfileData) => {
-    const { imagePath, ...rest } = data;
-
-    // 이미지 처리
-    if (imagePath instanceof File) {
-      const formData = new FormData();
-      formData.append("file", imagePath);
-      formData.append("type", "USER");
-
-      // 이미지 업로드 API 호출
-      updateUserProfileImg(
-        {
-          file: formData.get("file") as File,
-          type: formData.get("type") as string,
-        },
-        {
-          onSuccess: () => {
-            // 이미지 업로드 성공 시 받은 나머지 사용자 정보 업데이트
-            updateUserInfo({
-              ...rest,
-            });
-          },
-          onError: (err) => {
-            error("프로필 이미지 수정 실패했습니다. 다시 시도해 주세요.");
-            console.log(err);
-          },
-        }
-      );
-    } else {
-      // 새 이미지가 없는 경우 기본 정보만 업데이트
-      updateUserInfo({
-        ...rest,
-      });
-    }
-  };
+  const {
+    fileInputRef,
+    previewState,
+    setPreviewState,
+    formState,
+    onSubmit,
+    handleSubmit,
+    methods,
+    control,
+    reset,
+    isActiveBtn,
+    isPending,
+  } = useUpdateProfile(preview, onClose, userInfoData);
 
   const onClickCloseBtn = () => {
     reset();

@@ -6,26 +6,19 @@ import Profile from "@/shared/components/atoms/Profile";
 import Typography from "@/shared/components/atoms/Typography";
 
 import profileImg from "@/asset/images/defaultProfile.png";
-import ProfileModal from "@/features/mypage/components/ProfileModal";
-import { userInfoQueryOption } from "@/features/mypage/services/mypage.service";
+import ProfileModal from "@/features/user/update-profile/ui/ProfileModal";
 import ActionConfirmModal from "@/shared/components/molecules/ActionConfirmModal";
 import useMultiModal from "@/shared/hooks/useMultiModal";
 import { useToast } from "@/shared/hooks/useToast";
 import { logout } from "@/shared/utils/logout";
-import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
+import useFetchProfile from "@/features/user/fetch-profile/model/useFetchProfile";
 
 const ProfileCard = () => {
+  const toast = useToast();
   const { modal, openModal, closeModal } = useMultiModal();
   // 유저 정보 조회
-  const { data: userInfo } = useQuery(userInfoQueryOption());
-  const toast = useToast();
-
-  const {
-    nickname = "이름",
-    introduction = "한 줄 소개를 등록해 주세요.",
-    imagePath = profileImg,
-  } = userInfo || {};
+  const { nickname, introduction, imagePath, userInfo } = useFetchProfile();
 
   const handleClickLogOut = () => {
     logout();
@@ -56,19 +49,6 @@ const ProfileCard = () => {
           <Typography.P3 className="mb-[26px] text-[14px] text-mos-gray-500">
             {introduction}
           </Typography.P3>
-          {/* <div className="mb-[10px] flex gap-2">
-            {Array.isArray(categories)
-              ? categories.map((tag: string) => (
-                  <Tag.Green key={tag} border={true}>
-                    {tag}
-                  </Tag.Green>
-                ))
-              : ["데이터 비어있음"].map((tag: string) => (
-                  <Tag.Green key={tag} border={true}>
-                    {tag}
-                  </Tag.Green>
-                ))}
-          </div> */}
           <Button.Ghost
             color="Main"
             className="w-full"

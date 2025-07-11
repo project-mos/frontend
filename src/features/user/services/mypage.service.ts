@@ -5,9 +5,6 @@ import {
   GetMyApplyStatusResult,
   GetMyJoinedStudiesResult,
   GetMySchedulesResult,
-  GetUserInfoResult,
-  UpdateProfileImgResult,
-  UpdateUserInfoResult,
 } from "@/shared/types/api/mypage";
 
 import {
@@ -15,74 +12,6 @@ import {
   UseMutationOptions,
   UseQueryOptions,
 } from "@tanstack/react-query";
-
-// 유저 정보 //
-export async function getUserInfo(): Promise<GetUserInfoResult> {
-  const { url, method } = API_ENDPOINT.user.getUser();
-
-  return await fetchAPI<GetUserInfoResult>(url, {
-    credentials: "include",
-    method: method,
-  });
-}
-
-export function userInfoQueryOption(
-  options?: UseQueryOptions<GetUserInfoResult, Error>
-) {
-  return {
-    queryKey: ["userInfo"],
-    queryFn: () => getUserInfo(),
-    ...options,
-  };
-}
-
-// 유저 정보 수정 //
-export async function updateUserInfo(data: UpdateUserInfoResult) {
-  const { url, method } = API_ENDPOINT.user.patchUser();
-
-  return await fetchAPI<UpdateUserInfoResult>(url, {
-    credentials: "include",
-    method: method,
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
-}
-
-export function usePostUserInfo(
-  options?: UseMutationOptions<UpdateUserInfoResult, Error, unknown>
-) {
-  return useMutation({
-    ...options,
-    mutationFn: (data: UpdateUserInfoResult) => updateUserInfo(data),
-  });
-}
-
-// 유저 프로필 이미지 수정 //
-export async function updateProfileImg(data: UpdateProfileImgResult) {
-  const { url, method } = API_ENDPOINT.user.patchProfileImg();
-
-  // FormData 생성
-  const formData = new FormData();
-  formData.append("file", data.file);
-  formData.append("type", data.type);
-
-  return await fetchAPI<UpdateProfileImgResult>(url, {
-    credentials: "include",
-    method: method,
-    body: formData,
-  });
-}
-
-export function usePostProfileImg(
-  options?: UseMutationOptions<UpdateProfileImgResult, Error, unknown>
-) {
-  return useMutation({
-    ...options,
-    mutationFn: (data: UpdateProfileImgResult) => updateProfileImg(data),
-  });
-}
 
 // 캘린더 일정 조회 //
 export async function getMySchedules(): Promise<GetMySchedulesResult[]> {

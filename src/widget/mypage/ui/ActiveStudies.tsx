@@ -11,7 +11,7 @@ import Meta from "@/shared/components/molecules/Meta";
 import {
   myApplyStatusQueryOption,
   myJoinedStudiesQueryOption,
-} from "@/features/mypage/services/mypage.service";
+} from "@/features/user/services/mypage.service";
 import URL from "@/shared/constants/URL";
 import useDecodeToken from "@/shared/hooks/useDecodeToken";
 import { useApplyStatusStore } from "@/shared/store/useApplyStatusStore";
