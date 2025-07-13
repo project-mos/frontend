@@ -1,4 +1,4 @@
-import AuthInitializerProvider from "@/shared/components/system/AuthInitializerProvider";
+import AuthInitializerProvider from "@/entities/auth/model/AuthInitializerProvider";
 import React from "react";
 
 const layout = ({ children }: { children: React.ReactNode }) => {

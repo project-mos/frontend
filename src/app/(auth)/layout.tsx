@@ -1,4 +1,4 @@
-import AuthInitializerProvider from "@/shared/components/system/AuthInitializerProvider";
+import AuthInitializerProvider from "@/entities/auth/model/AuthInitializerProvider";
 
 export default async function Layout({
   children,
