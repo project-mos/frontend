@@ -2,7 +2,7 @@ import {
   getCurriculum,
   postCurriculum,
 } from "@/entities/study/curriculum/api/curriculum.api";
-import { GetCurriculumResponse } from "@/entities/study/curriculum/api/curriculum.api.type";
+import { PostCurriculumRequest } from "@/entities/study/curriculum/api/curriculum.api.type";
 import { UsePostCurriculumProps } from "@/entities/study/curriculum/model/curriculum.queries.types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -35,7 +35,7 @@ export const usePostCurriculum = ({
       data,
     }: {
       studyId: number;
-      data: GetCurriculumResponse[];
+      data: PostCurriculumRequest[];
     }) => postCurriculum(studyId, data),
     onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({

@@ -12,7 +12,6 @@ export interface StudyNoticeCardInterface {
   isPinned: boolean;
 }
 
-/* study member */
 export interface StudyMemberInterface {
   userId: number;
   nickname: string;
