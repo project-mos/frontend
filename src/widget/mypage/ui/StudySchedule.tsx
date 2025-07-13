@@ -1,7 +1,7 @@
 import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
 
-import Calendar from "@/shared/components/molecules/Calendar";
+import Calendar from "@/widget/mypage/ui/Calendar";
 import CreateScheduleButton from "./CreateScheduleButton";
 
 const StudySchedule = () => {

@@ -18,6 +18,7 @@ export async function getUserInfo(): Promise<GetUserInfoResponse> {
     method: method,
   });
 }
+
 // 유저 정보 수정 //
 export async function updateUserInfo(data: PutUserInfoResponse) {
   const { url, method } = API_ENDPOINT.user.patchUser();

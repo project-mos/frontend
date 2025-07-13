@@ -4,6 +4,7 @@ import { useFormContext } from "react-hook-form";
 import Editor from "@/shared/components/atoms/Editor";
 import Typography from "@/shared/components/atoms/Typography";
 import Label from "@/shared/components/molecules/Label";
+import { uploadImage } from "@/entities/study/studies/api/studies.api";
 
 interface LabelEditorProps {
   label: string;
@@ -22,11 +23,16 @@ const LabelEditor = ({ label, name, required }: LabelEditorProps) => {
     }
   }, [errors[name]]);
 
+  const handleUploadImage = async (file: File) => {
+    const url = (await uploadImage({ file })) as { url: string };
+    return url;
+  };
+
   return (
     <div className="mb-[35px] gap-[5px]" id="scroll-container">
       <Label label={label} required={required} />
       <div className="h-[500px]">
-        <Editor name={name} />
+        <Editor name={name} uploadImage={handleUploadImage} />
       </div>
       {errors[name] && (
         <div className="mt-[40px]">

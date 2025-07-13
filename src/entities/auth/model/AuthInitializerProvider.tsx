@@ -1,4 +1,4 @@
-import AuthInitializer from "@/shared/components/system/AuthInitializer";
+import AuthInitializer from "@/entities/auth/model/AuthInitializer";
 import URL from "@/shared/constants/URL";
 
 import { cookies } from "next/headers";

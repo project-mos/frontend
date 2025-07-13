@@ -1,9 +1,8 @@
+import LabelEditor from "@/features/create-study/ui/LabelEditor";
 import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
 
 import LabelTextAreaInput from "@/shared/components/molecules/LabelTextAreaInput";
-
-import LabelEditor from "./LabelEditor";
 
 const StudyDescription = () => {
   return (

@@ -5,7 +5,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import Badge from "@/shared/components/atoms/Badge";
 import Button from "@/shared/components/atoms/Button";
 import Card from "@/shared/components/atoms/Card";
-import Editor from "@/shared/components/atoms/Editor";
+import Editor from "@/entities/study/studies/ui/Editor";
 import CustomImage from "@/shared/components/atoms/Image";
 import Input from "@/shared/components/atoms/Input";
 import RadioButton from "@/shared/components/atoms/RadioButton";
@@ -16,7 +16,7 @@ import Tag from "@/shared/components/atoms/Tag";
 import Typography from "@/shared/components/atoms/Typography";
 
 import ActionConfirmModal from "@/shared/components/molecules/ActionConfirmModal";
-import Calendar from "@/shared/components/molecules/Calendar";
+import Calendar from "@/widget/mypage/ui/Calendar";
 import LabelInput from "@/shared/components/molecules/LabelInput";
 import LabelInputDate from "@/shared/components/molecules/LabelInputDate";
 import LabelNumberInput from "@/shared/components/molecules/LabelNumberInput";

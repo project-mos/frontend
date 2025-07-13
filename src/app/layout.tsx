@@ -4,9 +4,8 @@ import "@/shared/styles/global.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 import Footer from "@/shared/components/molecules/Footer";
-import Header from "@/shared/components/molecules/Header";
-
-import AuthInitializerProvider from "@/shared/components/system/AuthInitializerProvider";
+import Header from "@/widget/header/Header";
+import AuthInitializerProvider from "@/entities/auth/model/AuthInitializerProvider";
 import ToastRenderer from "@/shared/components/system/ToastRenderer";
 import Chat from "@/widget/chat/ui/Chat";
 import { staticMetadata } from "@/shared/constants/metadata";
