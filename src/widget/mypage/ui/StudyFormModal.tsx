@@ -12,23 +12,24 @@ import LabelTextAreaInput from "@/shared/components/molecules/LabelTextAreaInput
 
 import LabelSelectInput from "@/shared/components/molecules/LabelSelectInput";
 import { useMyJoinedStudyStore } from "@/shared/store/useMyJoinedStudyStore";
-import {
-  useDeleteStudySchedule,
-  usePostCreateStudySchedule,
-  useUpdateStudySchedule,
-} from "@/features/mypage/services/mypage.service";
 import { useToast } from "@/shared/hooks/useToast";
 import { useQueryClient } from "@tanstack/react-query";
-import { GetMySchedulesResult } from "@/shared/types/api/mypage";
 import { useEffect, useMemo, useState } from "react";
 import LabelInputDateLocal from "@/shared/components/molecules/LabelDateTimeLocal";
 import { StudyScheduleInterface } from "@/shared/types/api/studies/detail";
 import { formatNowDate } from "@/shared/utils/date";
+import {
+  SchedulesQueryKey,
+  useDeleteStudySchedule,
+  usePostStudySchedule,
+  usePutStudySchedule,
+} from "@/entities/study/schedule/model/schedule.query";
+import { GetSchedulesResponse } from "@/entities/study/schedule/api/schedule.api.types";
 
 interface NoticeModalProps extends ModalProps {
   onClose: ModalOnClose;
   isModifyMode?: boolean;
-  schedulesData?: GetMySchedulesResult[];
+  schedulesData?: GetSchedulesResponse[];
 }
 
 interface ScheduleData {
@@ -104,11 +105,11 @@ const StudyFormModal = ({
 
   // 일정 생성
   const { mutate: createSchedule, isPending: isCreating } =
-    usePostCreateStudySchedule(studyId, {
+    usePostStudySchedule(studyId, {
       onSuccess: () => {
         success("생성되었습니다.");
         queryClient.invalidateQueries({
-          queryKey: ["mySchedules"],
+          queryKey: SchedulesQueryKey,
         });
 
         reset();
@@ -120,12 +121,13 @@ const StudyFormModal = ({
     });
 
   // 일정 수정
-  const { mutate: updateSchedule, isPending: isUpdating } =
-    useUpdateStudySchedule(studyId, studyScheduleId, {
+  const { mutate: updateSchedule, isPending: isUpdating } = usePutStudySchedule(
+    studyId,
+    {
       onSuccess: () => {
         success("수정되었습니다.");
         queryClient.invalidateQueries({
-          queryKey: ["mySchedules"],
+          queryKey: SchedulesQueryKey,
         });
 
         reset();
@@ -134,15 +136,16 @@ const StudyFormModal = ({
       onError: (err) => {
         error(String(err));
       },
-    });
+    }
+  );
 
   // 일정 삭제
   const { mutate: deleteSchedule, isPending: isDeleting } =
-    useDeleteStudySchedule(studyId, studyScheduleId, {
+    useDeleteStudySchedule(studyId, {
       onSuccess: () => {
         success("삭제되었습니다.");
         queryClient.invalidateQueries({
-          queryKey: ["mySchedules"],
+          queryKey: SchedulesQueryKey,
         });
 
         setIsDelete(false);
@@ -161,10 +164,10 @@ const StudyFormModal = ({
     // API 호출
     if (isDelete) {
       // 삭제
-      deleteSchedule(data);
+      deleteSchedule(studyScheduleId);
     } else if (isModifyMode) {
       // 수정
-      updateSchedule(data);
+      updateSchedule({ scheduleId: studyScheduleId, data: data });
     } else {
       // 셍성
       createSchedule(data);

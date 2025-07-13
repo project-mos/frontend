@@ -1,8 +1,8 @@
+import ActiveStudies from "@/widget/mypage/ui/ActiveStudies";
+import ProfileCard from "@/widget/mypage/ui/ProfileCard";
+import Statistics from "@/widget/mypage/ui/Statistics";
+import StudySchedule from "@/widget/mypage/ui/StudySchedule";
 import { Metadata } from "next";
-import ActiveStudies from "@/features/mypage/components/ActiveStudies";
-import ProfileCard from "@/features/mypage/components/ProfileCard";
-import Statistics from "@/features/mypage/components/Statistics";
-import StudySchedule from "@/features/mypage/components/StudySchedule";
 
 export const metadata: Metadata = {
   title: "마이페이지 - StudyMos",

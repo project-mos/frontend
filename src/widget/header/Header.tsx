@@ -16,7 +16,7 @@ import useModal from "@/shared/hooks/useModal";
 import useMultiModal from "@/shared/hooks/useMultiModal";
 import { logout } from "@/shared/utils/logout";
 import { Tooltip } from "@heroui/tooltip";
-import ActionConfirmModal from "./ActionConfirmModal";
+import ActionConfirmModal from "@/shared/components/molecules/ActionConfirmModal";
 
 const Header = () => {
   const { isLoggedIn } = useAuthStore();

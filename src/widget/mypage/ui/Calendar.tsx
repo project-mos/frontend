@@ -2,14 +2,13 @@
 import cn from "@/shared/utils/cn";
 import { useRef, useState } from "react";
 
-import StudyFormModal from "@/features/mypage/components/StudyFormModal";
-import { mySchedulesQueryOption } from "@/features/mypage/services/mypage.service";
+import StudyFormModal from "@/widget/mypage/ui/StudyFormModal";
 import Button from "@/shared/components/atoms/Button";
 import Grid from "@/shared/components/atoms/Grid";
 import Typography from "@/shared/components/atoms/Typography";
 import useModal from "@/shared/hooks/useModal";
-import { GetMySchedulesResult } from "@/shared/types/api/mypage";
-import { useQuery } from "@tanstack/react-query";
+import { useGetSchedules } from "@/entities/study/schedule/model/schedule.query";
+import { GetSchedulesResponse } from "@/entities/study/schedule/api/schedule.api.types";
 
 interface CalendarProps {
   [key: string]: {
@@ -27,11 +26,11 @@ function Calendar() {
   const today = new Date();
 
   // 캘린더 일정
-  const { data: schedulesData } = useQuery(mySchedulesQueryOption());
+  const { data: schedulesData } = useGetSchedules();
   // 일정 수정 모달
   const { isModalOpenState, openModal, closeModal } = useModal();
   // 내가 선택한 날짜에 등록되어있는 일정 데이터
-  const [dailySchedules, setDailySchedules] = useState<GetMySchedulesResult[]>(
+  const [dailySchedules, setDailySchedules] = useState<GetSchedulesResponse[]>(
     []
   );
 

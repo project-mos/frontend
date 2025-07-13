@@ -1,9 +1,9 @@
 import { create } from "zustand";
-import { GetMyJoinedStudiesResult } from "../types/api/mypage";
+import { GetMyJoinedResponse } from "@/entities/study/join/api/join.api.type";
 
 interface ScheduleStore {
-  myJoinedStudiesData: GetMyJoinedStudiesResult[] | null;
-  setMyJoinedStudiesData: (data: GetMyJoinedStudiesResult[]) => void;
+  myJoinedStudiesData: GetMyJoinedResponse[] | null;
+  setMyJoinedStudiesData: (data: GetMyJoinedResponse[]) => void;
 }
 
 // 내가 참여한 스터디 데이터를 관리하는 스토어

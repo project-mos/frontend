@@ -1,6 +1,7 @@
 import {
   GetJoinsResponse,
   GetMyApplyStatusResponse,
+  GetMyJoinedResponse,
   GetStudyApplicantResponse,
   JoinsRequest,
   PostJoin,
@@ -37,7 +38,7 @@ export async function patchJoin(studyId: string, studyJoinId: string) {
 // 참여 중인 스터디 //
 export async function getMyJoinedStudies(
   userId: number
-): Promise<GetJoinsResponse[]> {
+): Promise<GetMyJoinedResponse[]> {
   const { url, method } = API_ENDPOINT.join.getMyJoinedStudies(userId);
 
   return await fetchAPI(url, createJsonRequestInit(method));

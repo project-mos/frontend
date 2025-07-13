@@ -1,5 +1,4 @@
 import { getStudy } from "@/entities/study/studies/api/studies.api";
-import AuthInitializerProvider from "@/shared/components/system/AuthInitializerProvider";
 import { staticMetadata } from "@/shared/constants/metadata";
 
 import markdownToTxt from "markdown-to-txt";
