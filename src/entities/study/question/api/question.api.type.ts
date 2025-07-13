@@ -1,6 +1,6 @@
 // Study 질문 조회
 export type Question = {
-  id: number;
+  id?: number;
   questionNum: number;
   question: string;
   type: "객관식" | "주관식";
