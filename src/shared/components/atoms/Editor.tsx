@@ -1,11 +1,13 @@
 import { useEffect, useRef } from "react";
 import { useFormContext } from "react-hook-form";
+
 import MDEditor, {
   commands,
   TextAreaTextApi,
   TextState,
 } from "@uiw/react-md-editor";
 import rehypeSanitize from "rehype-sanitize";
+import { uploadImage } from "@/entities/study/studies/api/studies.api";
 
 interface EditorProps {
   name: string;

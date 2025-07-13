@@ -1,10 +1,11 @@
-import { GetStudyCurriculumsResponse } from "@/features/studies/types/studies.api";
+import { GetCurriculumResponse } from "@/entities/study/curriculum/api/curriculum.api.type";
+
 import Card from "@/shared/components/atoms/Card";
 import Tag from "@/shared/components/atoms/Tag";
 import Typography from "@/shared/components/atoms/Typography";
 
 interface StudiesCurriculumCardProps {
-  data: GetStudyCurriculumsResponse;
+  data: GetCurriculumResponse[];
 }
 
 const StudiesCurriculumCard = ({ data }: StudiesCurriculumCardProps) => {

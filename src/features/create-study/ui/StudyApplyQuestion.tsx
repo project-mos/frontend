@@ -2,11 +2,11 @@ import { useFormContext } from "react-hook-form";
 
 import cn from "@/shared/utils/cn";
 
-import { StudyFormInterface } from "@/entities/study/create/api/create-study.type";
 import Button from "@/shared/components/atoms/Button";
 import Input from "@/shared/components/atoms/Input";
 import RadioButton from "@/shared/components/atoms/RadioButton";
 import Typography from "@/shared/components/atoms/Typography";
+import { StudyForm } from "@/entities/study/studies/api/studies.api.type";
 
 interface QuestionProps {
   i: number;
@@ -109,7 +109,7 @@ const OptionBox = ({ index }: { index: number }) => {
     watch,
     setValue,
     formState: { errors },
-  } = useFormContext<StudyFormInterface>();
+  } = useFormContext<StudyForm>();
   const options = watch(`applicationQuestions.${index}.options`) || [];
   const error = errors?.applicationQuestions?.[index]?.options?.message;
 
@@ -143,7 +143,7 @@ const OptionBox = ({ index }: { index: number }) => {
 };
 
 const StudyApplyQuestion = ({ i, index, onRemove }: QuestionProps) => {
-  const { register, watch } = useFormContext<StudyFormInterface>();
+  const { register, watch } = useFormContext<StudyForm>();
   const type = watch(`applicationQuestions.${index}.type`);
 
   return (

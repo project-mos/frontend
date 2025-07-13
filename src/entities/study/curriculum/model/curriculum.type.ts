@@ -6,11 +6,6 @@ export interface StudyCurriculumCardInterface {
   content: string;
 }
 
-export interface UsePostCurriculumProps {
-  onSuccess?: () => void;
-  onError?: (error: unknown) => void;
-}
-
 export type FormValues = {
   curriculumList: StudyCurriculumCardInterface[];
 };

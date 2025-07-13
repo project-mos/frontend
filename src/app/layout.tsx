@@ -7,6 +7,10 @@ import Footer from "@/shared/components/molecules/Footer";
 import Header from "@/widget/header/Header";
 import AuthInitializerProvider from "@/entities/auth/model/AuthInitializerProvider";
 import ToastRenderer from "@/shared/components/system/ToastRenderer";
+import Chat from "@/widget/chat/ui/Chat";
+import { staticMetadata } from "@/shared/constants/metadata";
+
+export const metadata = staticMetadata;
 
 export default async function RootLayout({
   children,
@@ -25,6 +29,7 @@ export default async function RootLayout({
           </div>
           <Footer />
         </QueryClientProvider>
+        <Chat />
         <div id="portal"></div>
       </body>
     </html>
