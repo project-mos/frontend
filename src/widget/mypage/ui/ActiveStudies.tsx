@@ -8,10 +8,6 @@ import Tag from "@/shared/components/atoms/Tag";
 import Typography from "@/shared/components/atoms/Typography";
 import Meta from "@/shared/components/molecules/Meta";
 
-import {
-  myApplyStatusQueryOption,
-  myJoinedStudiesQueryOption,
-} from "@/features/user/services/mypage.service";
 import URL from "@/shared/constants/URL";
 import useDecodeToken from "@/shared/hooks/useDecodeToken";
 import { useApplyStatusStore } from "@/shared/store/useApplyStatusStore";
@@ -20,7 +16,10 @@ import {
   GetMyApplyStatusResult,
   GetMyJoinedStudiesResult,
 } from "@/shared/types/api/mypage";
-import { useQuery } from "@tanstack/react-query";
+import {
+  useGetMyApplyStatus,
+  useGetMyJoinedStudies,
+} from "@/entities/study/join/model/join.query";
 
 const tagColors: Record<string, keyof typeof Tag> = {
   스터디장: "Green",
@@ -163,12 +162,10 @@ const ActiveStudies = () => {
   );
 
   // 참여 중인 스터디 조회
-  const { data: myJoinedStudiesData } = useQuery(
-    myJoinedStudiesQueryOption(userId!)
-  );
+  const { data: myJoinedStudiesData } = useGetMyJoinedStudies(userId!);
 
   // 나의 지원 현황 조회
-  const { data: myApplyStatusData } = useQuery(myApplyStatusQueryOption());
+  const { data: myApplyStatusData } = useGetMyApplyStatus();
 
   useEffect(() => {
     if (myApplyStatusData && setAllApplyStatus) {
