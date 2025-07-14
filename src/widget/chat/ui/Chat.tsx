@@ -3,16 +3,18 @@
 import {
   chatMockData,
   chatRoomMockData,
-  chatUserMockData,
   ChatRoomPreview,
-  ChatUser,
 } from "@/entities/chat/lib/mock/chat.mock";
+import {
+  notificationMockData,
+  Notification,
+} from "@/entities/notification/lib/mock/notification.mock";
 import { ChatActiveTab } from "@/features/chat/ui/chat.ui.types";
+import NotificationList from "@/features/notification/ui/NotificationList";
 import ChatInput from "@/features/chat/ui/ChatInput";
 import ChatItem from "@/features/chat/ui/ChatItem";
 import ChatRoom from "@/features/chat/ui/ChatRoom";
 import ChatTab from "@/features/chat/ui/ChatTab";
-import ChatUserItem from "@/features/chat/ui/ChatUserItem";
 
 import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
@@ -34,6 +36,8 @@ const Chat = () => {
   const [isChatRoom, setIsChatRoomState] = useState<boolean>(false); // 현재 채팅방에 들어가 있는지 여부
   const [activeTab, setActiveTab] = useState<ChatActiveTab>("chat"); // 현재 탭 상태
   const [selectItem, setSelectItem] = useState<ChatRoomPreview>(); // 선택한 채팅방 정보
+  const [notifications, setNotifications] =
+    useState<Notification[]>(notificationMockData); // 알림 목록 상태
 
   // 헤더 타이틀 설정
   const title =
@@ -41,7 +45,7 @@ const Chat = () => {
       ? selectItem.user.name
       : activeTab === "chat"
       ? "채팅방"
-      : activeTab === "user" && "유저";
+      : "알림";
 
   // FAB 버튼 클릭 시 채팅창 토글
   const onButtonClick = () => {
@@ -63,30 +67,54 @@ const Chat = () => {
   // 채팅방 클릭 시 해당 채팅방으로 진입
   const onChatListClick = (item: ChatRoomPreview) => {
     setIsChatRoomState(true);
-    setActiveTab("user");
     setSelectItem(item);
   };
 
-  // 유저와 채팅 시작
-  const onChatStart = (user: ChatUser) => {
-    // 채팅방으로 이동하고 선택한 유저 정보 저장(미리 생성)
-    const userChatRoom: ChatRoomPreview = {
-      roomId: `chat-${user.id}`,
-      user: {
-        id: user.id,
-        name: user.name,
-        avatarUrl: user.avatarUrl,
-      },
-      lastMessage: {
-        content: "",
-        type: "text",
-        timestamp: new Date().toISOString(),
-      },
-      unreadCount: 0,
-    };
+  // 알림을 읽음 상태로 변경
+  const markNotificationAsRead = (notificationId: string) => {
+    setNotifications((prev) =>
+      prev.map((notification) =>
+        notification.id === notificationId
+          ? { ...notification, isRead: true }
+          : notification
+      )
+    );
+  };
 
-    setSelectItem(userChatRoom);
-    setIsChatRoomState(true);
+  // 알림 타입별 액션 처리
+  const handleNotificationAction = (notification: Notification) => {
+    switch (notification.type) {
+      case "study":
+        console.log("스터디 관련 페이지로 이동:", notification.title);
+        // TODO: 스터디 상세 페이지로 라우팅
+        break;
+      case "chat":
+        console.log("채팅방으로 이동:", notification.title);
+        // TODO: 해당 채팅방으로 이동
+        break;
+      case "system":
+        console.log("시스템 설정 페이지로 이동:", notification.title);
+        // TODO: 시스템 설정 페이지로 라우팅
+        break;
+      default:
+        console.log("알림 확인:", notification.title);
+    }
+  };
+
+  // 알림 클릭 핸들러
+  const handleNotificationClick = (notification: Notification) => {
+    // 읽지 않은 알림인 경우에만 읽음 처리
+    if (!notification.isRead) {
+      markNotificationAsRead(notification.id);
+    }
+
+    // 알림 타입별 액션 실행
+    handleNotificationAction(notification);
+  };
+
+  // 알림 삭제 핸들러
+  const handleDeleteNotification = (notificationId: string) => {
+    setNotifications((prev) => prev.filter((n) => n.id !== notificationId));
   };
 
   const onDotClick = (
@@ -132,36 +160,32 @@ const Chat = () => {
           {/* 컨텐츠 영역 */}
           <Card.Content className="h-full max-h-[480px] overflow-y-auto">
             {isChatRoom ? (
-              <ChatRoom
-                data={
-                  selectItem?.roomId.startsWith("chat-") ? [] : chatMockData
-                }
-              /> // 새로운 채팅방이면 빈 배열, 기존 채팅방이면 기존 데이터
+              <ChatRoom data={chatMockData} />
             ) : (
               <div className="flex flex-col gap-3 p-2">
                 {/* 채팅방 리스트 */}
-                {activeTab === "chat" &&
-                  chatRoomMockData.map((item, index) => (
-                    <ChatItem
-                      item={item}
-                      key={`${item.roomId}_${index}`}
-                      onClick={() => onChatListClick(item)}
-                      onDotClick={(event) => {
-                        onDotClick(event, item);
-                      }}
-                    />
-                  ))}
-                {/* 유저 탭 */}
-                {activeTab === "user" && (
-                  <>
-                    {chatUserMockData.map((user, index) => (
-                      <ChatUserItem
-                        key={`${user.id}_${index}`}
-                        user={user}
-                        onChatStart={onChatStart}
+                {activeTab === "chat" && (
+                  <div className="flex flex-col gap-3 p-2">
+                    {chatRoomMockData.map((item, index) => (
+                      <ChatItem
+                        item={item}
+                        key={`${item.roomId}_${index}`}
+                        onClick={() => onChatListClick(item)}
+                        onDotClick={(event) => {
+                          onDotClick(event, item);
+                        }}
                       />
                     ))}
-                  </>
+                  </div>
+                )}
+
+                {/* 알림 리스트 */}
+                {activeTab === "notification" && (
+                  <NotificationList
+                    notifications={notifications}
+                    onItemClick={handleNotificationClick}
+                    onDelete={handleDeleteNotification}
+                  />
                 )}
               </div>
             )}
@@ -222,7 +246,7 @@ const Chat = () => {
           <i
             className={clsx(
               "bi text-2xl",
-              isOpenState ? "bi-x" : "bi-chat-dots"
+              isOpenState ? "bi-x" : "bi-chat-square-dots-fill"
             )}
           />
         </div>
