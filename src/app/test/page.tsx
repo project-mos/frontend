@@ -5,7 +5,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import Badge from "@/shared/components/atoms/Badge";
 import Button from "@/shared/components/atoms/Button";
 import Card from "@/shared/components/atoms/Card";
-import Editor from "@/entities/study/studies/ui/Editor";
+
 import CustomImage from "@/shared/components/atoms/Image";
 import Input from "@/shared/components/atoms/Input";
 import RadioButton from "@/shared/components/atoms/RadioButton";
@@ -267,7 +267,7 @@ export default function TestPage() {
           <p>{endDateState}</p>
           <LabelNumberInput name="person" label="모집 인원" />
           <LabelInputDateLocal name="asd" label="시작 시간" />
-          <Editor name="test" />
+          {/* <Editor name="test" /> */}
         </form>
         <RadioButton label="test label" />
         <RadioGroup

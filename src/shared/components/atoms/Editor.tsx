@@ -7,7 +7,6 @@ import MDEditor, {
   TextState,
 } from "@uiw/react-md-editor";
 import rehypeSanitize from "rehype-sanitize";
-import { uploadImage } from "@/entities/study/studies/api/studies.api";
 
 interface EditorProps {
   name: string;
