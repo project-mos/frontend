@@ -10,7 +10,7 @@ const StudyList = ({ userId }: { userId: number }) => {
 
   const { myJoinedStudiesData } = useFetchActiveStudies(userId!);
 
-  if (myJoinedStudiesData!.length === 0) {
+  if (!myJoinedStudiesData || myJoinedStudiesData.length === 0) {
     return (
       <div className="flex h-[200px] items-center justify-center">
         <Typography.P3>참여중인 스터디가 없습니다.</Typography.P3>
@@ -20,7 +20,7 @@ const StudyList = ({ userId }: { userId: number }) => {
 
   return (
     <>
-      {myJoinedStudiesData!.map((data) => (
+      {myJoinedStudiesData.map((data) => (
         <div
           key={data.id}
           className="mb-[20px] flex cursor-pointer flex-col gap-[10px] rounded-[10px] border border-mos-gray-100 p-[20px] transition-colors duration-200 hover:border-mos-main-500 active:bg-gray-50"

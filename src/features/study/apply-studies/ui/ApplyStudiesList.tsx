@@ -20,7 +20,7 @@ const ApplyList = () => {
 
   const { myApplyStatusData } = useFetchApplyStudies();
 
-  if (myApplyStatusData!.length === 0) {
+  if (!myApplyStatusData || myApplyStatusData.length === 0) {
     return (
       <div className="flex h-[200px] items-center justify-center">
         <Typography.P3>지원중인 스터디가 없습니다.</Typography.P3>
@@ -29,7 +29,7 @@ const ApplyList = () => {
   }
   return (
     <>
-      {myApplyStatusData!.map((data) => {
+      {myApplyStatusData.map((data) => {
         const statusTagMapping =
           data.studyJoinStatus === "PENDING" ? "검토중" : data.studyJoinStatus;
         // 동적으로 Tag 컴포넌트 선택

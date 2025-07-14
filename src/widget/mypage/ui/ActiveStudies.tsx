@@ -3,8 +3,8 @@
 import Card from "@/shared/components/atoms/Card";
 import Tab from "@/shared/components/atoms/Tab";
 import useDecodeToken from "@/shared/hooks/useDecodeToken";
-import StudyList from "@/features/study/active-studies/ui/StudyList";
-import ApplyList from "@/features/study/apply-studies/ui/ApplyList";
+import StudyList from "@/features/study/active-studies/ui/ActiveStudiesList";
+import ApplyList from "@/features/study/apply-studies/ui/ApplyStudiesList";
 import { useState } from "react";
 
 const ActiveStudies = () => {
