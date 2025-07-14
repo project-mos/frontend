@@ -20,10 +20,12 @@ import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
 import ActionConfirmModal from "@/shared/components/molecules/ActionConfirmModal";
 import useMultiModal from "@/shared/hooks/useMultiModal";
+import { useSearchChat } from "@/features/search-chat/model/useSearchChat";
+import { SearchChatIcon, SearchChatInput } from "@/features/search-chat/ui";
 import cn from "@/shared/utils/cn";
 
 import clsx from "clsx";
-import React, { MouseEvent, useState } from "react";
+import React, { MouseEvent, useState, useRef, useEffect } from "react";
 
 const CHAT_DELETE_CONFIRM_MODAL_KEY = "chat_delete_confirm";
 const CHAT_STATIC_SORT_CONFIRM_MODAL_KEY = "chat_static_sort_confirm";
@@ -38,6 +40,26 @@ const Chat = () => {
   const [selectItem, setSelectItem] = useState<ChatRoomPreview>(); // 선택한 채팅방 정보
   const [notifications, setNotifications] =
     useState<Notification[]>(notificationMockData); // 알림 목록 상태
+
+  // 채팅방 검색 기능
+  const {
+    isSearchMode,
+    searchQuery,
+    filteredRooms,
+    toggleSearchMode,
+    handleSearchChange,
+    clearSearch,
+  } = useSearchChat(chatRoomMockData);
+
+  // 검색 입력창 ref
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  // 검색 모드 활성화 시 자동 포커스
+  useEffect(() => {
+    if (isSearchMode && searchInputRef.current) {
+      searchInputRef.current.focus();
+    }
+  }, [isSearchMode]);
 
   // 헤더 타이틀 설정
   const title =
@@ -149,12 +171,20 @@ const Chat = () => {
               />
             )}
             <Typography.SubTitle1>{title}</Typography.SubTitle1>
-            {/* 닫기 버튼 */}
-            <i
-              className="bi bi-x text-[28px]"
-              role="button"
-              onClick={onButtonClick}
-            />
+            <div className="flex items-center gap-2">
+              {/* 검색 아이콘 (채팅 탭에서만 표시) */}
+              <SearchChatIcon
+                onClick={toggleSearchMode}
+                isVisible={!isChatRoom && activeTab === "chat"}
+                isActive={isSearchMode}
+              />
+              {/* 닫기 버튼 */}
+              <i
+                className="bi bi-x text-[28px]"
+                role="button"
+                onClick={onButtonClick}
+              />
+            </div>
           </Card.Header>
 
           {/* 컨텐츠 영역 */}
@@ -165,17 +195,34 @@ const Chat = () => {
               <div className="flex flex-col gap-3 p-2">
                 {/* 채팅방 리스트 */}
                 {activeTab === "chat" && (
-                  <div className="flex flex-col gap-3 p-2">
-                    {chatRoomMockData.map((item, index) => (
-                      <ChatItem
-                        item={item}
-                        key={`${item.roomId}_${index}`}
-                        onClick={() => onChatListClick(item)}
-                        onDotClick={(event) => {
-                          onDotClick(event, item);
-                        }}
-                      />
-                    ))}
+                  <div className="flex flex-col gap-3">
+                    {/* 검색 입력창 */}
+                    {isSearchMode && (
+                      <div className="px-2">
+                        <SearchChatInput
+                          ref={searchInputRef}
+                          value={searchQuery}
+                          onChange={handleSearchChange}
+                          onClear={clearSearch}
+                          className="w-full"
+                        />
+                      </div>
+                    )}
+                    {/* 채팅방 목록 */}
+                    <div className="flex flex-col gap-3 p-2">
+                      {(isSearchMode ? filteredRooms : chatRoomMockData).map(
+                        (item, index) => (
+                          <ChatItem
+                            item={item}
+                            key={`${item.roomId}_${index}`}
+                            onClick={() => onChatListClick(item)}
+                            onDotClick={(event) => {
+                              onDotClick(event, item);
+                            }}
+                          />
+                        )
+                      )}
+                    </div>
                   </div>
                 )}
 
