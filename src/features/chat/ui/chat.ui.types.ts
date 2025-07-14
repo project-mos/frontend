@@ -8,7 +8,7 @@ export interface ChatTabProps {
   onChange: (active: ChatTabProps["active"]) => void;
 }
 // 탭 타입 정의
-export type ChatActiveTab = "chat" | "user";
+export type ChatActiveTab = "chat" | "notification";
 
 // 예시 데이터
 export interface Chat {
