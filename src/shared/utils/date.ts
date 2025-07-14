@@ -86,3 +86,26 @@ export function formatNowDate(format: string = "YYYY-MM-DDTHH:mm"): string {
   // 포맷 문자열 내 키워드 치환
   return format.replace(/YYYY|MM|DD|HH|mm|ss/g, (match) => String(map[match]));
 }
+
+/**
+ * 주어진 시간과 현재 시간의 차이를 상대적으로 표시합니다.
+ * @param timestamp ISO 문자열 또는 Date 객체
+ * @returns 상대적 시간 표시 (예: "5분 전", "2시간 전", "3일 전")
+ */
+export function formatRelativeTime(timestamp: string | Date): string {
+  const date = new Date(timestamp);
+  const now = nowDate();
+  const diff = now.getTime() - date.getTime();
+
+  const minutes = Math.floor(diff / (1000 * 60));
+  const hours = Math.floor(diff / (1000 * 60 * 60));
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+  if (minutes < 1) return "방금 전";
+  if (minutes < 60) return `${minutes}분 전`;
+  if (hours < 24) return `${hours}시간 전`;
+  if (days < 7) return `${days}일 전`;
+
+  // 일주일 이상 지난 경우 날짜 표시
+  return formatDate("MM-DD", date);
+}
