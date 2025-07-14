@@ -75,19 +75,24 @@ const NotificationList = ({
           )}
           onClick={() => handleNotificationClick(notification)}
         >
-          {/* 삭제 버튼 */}
-          {onDelete && (
-            <button
-              onClick={(e) => handleDeleteClick(e, notification.id)}
-              className="absolute right-0 top-0 flex size-6 items-center justify-center rounded-full text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600"
-              aria-label="알림 삭제"
-            >
-              <i className="bi-x text-[20px]" />
-            </button>
-          )}
+          {/* 날짜와 삭제 버튼 (카드 오른쪽 상단) */}
+          <div className="absolute right-1 top-2 flex h-4 items-center">
+            <Typography.P3 className="text-[11px] leading-none text-gray-500">
+              {formatRelativeTime(notification.timestamp)}
+            </Typography.P3>
+            {onDelete && (
+              <button
+                onClick={(e) => handleDeleteClick(e, notification.id)}
+                className="flex size-5 items-center justify-center rounded-full text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600"
+                aria-label="알림 삭제"
+              >
+                <i className="bi-x text-[16px]" />
+              </button>
+            )}
+          </div>
 
-          {/* 헤더: 아이콘 + 제목 + 읽지 않음 표시 + 시간 */}
-          <Card.Header className="mb-2 items-center justify-between">
+          {/* 헤더: 아이콘 + 제목 + 읽지 않음 표시 */}
+          <Card.Header className="mb-2 items-center">
             <div className="flex items-center gap-2">
               <div
                 className={cn(
@@ -109,9 +114,6 @@ const NotificationList = ({
                 {!notification.isRead && <UnreadIndicator />}
               </div>
             </div>
-            <Typography.P3 className="text-[11px] text-gray-500">
-              {formatRelativeTime(notification.timestamp)}
-            </Typography.P3>
           </Card.Header>
 
           {/* 내용 */}
