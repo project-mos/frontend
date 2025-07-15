@@ -24,9 +24,8 @@ const nextConfig: NextConfig = {
   },
   // 외부 이미지 호스트 허용 설정
   images: {
-    domains: ["mos-data-bucket.s3.amazonaws.com"],
+    domains: ["mos-data-bucket.s3.amazonaws.com", "ui-avatars.com"],
   },
-  
 };
 
 export default nextConfig;

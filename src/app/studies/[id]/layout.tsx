@@ -1,3 +1,4 @@
+import AuthInitializerProvider from "@/entities/auth/model/AuthInitializerProvider";
 import { getStudy } from "@/entities/study/studies/api/studies.api";
 import { staticMetadata } from "@/shared/constants/metadata";
 
