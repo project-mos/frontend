@@ -4,6 +4,7 @@ export interface ChatBubbleProps extends HTMLAttributes<HTMLDivElement> {
   isMe: boolean;
   profileImage?: string;
   nickname?: string;
+  timestamp?: string;
 }
 export interface ChatTabProps {
   active: ChatActiveTab;
@@ -18,6 +19,7 @@ export interface Chat {
   content: string;
   profileImage?: string;
   nickname?: string;
+  timestamp?: string;
 }
 
 export interface ChatRoomProps {

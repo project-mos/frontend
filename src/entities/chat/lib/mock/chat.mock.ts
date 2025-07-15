@@ -144,10 +144,12 @@ export const personalChatMockData = [
     profileImage:
       "https://ui-avatars.com/api/?name=김민수&background=28a745&color=fff&size=32",
     nickname: "김민수",
+    timestamp: "2025-04-18T09:30:00Z",
   },
   {
     isMe: true,
     content: "네, 안녕하세요! 무엇을 도와드릴까요?",
+    timestamp: "2025-04-18T09:31:00Z",
   },
   {
     isMe: false,
@@ -155,10 +157,12 @@ export const personalChatMockData = [
     profileImage:
       "https://ui-avatars.com/api/?name=김민수&background=28a745&color=fff&size=32",
     nickname: "김민수",
+    timestamp: "2025-04-18T09:32:00Z",
   },
   {
     isMe: true,
     content: "매주 화요일 오후 7시에 진행됩니다.",
+    timestamp: "2025-04-18T09:33:00Z",
   },
   {
     isMe: false,
@@ -166,14 +170,17 @@ export const personalChatMockData = [
     profileImage:
       "https://ui-avatars.com/api/?name=김민수&background=28a745&color=fff&size=32",
     nickname: "김민수",
+    timestamp: "2025-04-18T09:34:00Z",
   },
   {
     isMe: true,
     content: "네, 잠시만요. 파일을 보내드릴게요.",
+    timestamp: "2025-04-18T09:35:00Z",
   },
   {
     isMe: true,
     content: "React 기초 학습자료.pdf",
+    timestamp: "2025-04-18T09:36:00Z",
   },
   {
     isMe: false,
@@ -181,6 +188,7 @@ export const personalChatMockData = [
     profileImage:
       "https://ui-avatars.com/api/?name=김민수&background=28a745&color=fff&size=32",
     nickname: "김민수",
+    timestamp: "2025-04-18T15:30:00Z",
   },
 ];
 
@@ -192,6 +200,7 @@ export const groupChatMockData = [
     profileImage:
       "https://ui-avatars.com/api/?name=김민수&background=28a745&color=fff&size=32",
     nickname: "김민수",
+    timestamp: "2025-04-18T10:00:00Z",
   },
   {
     isMe: false,
@@ -199,10 +208,12 @@ export const groupChatMockData = [
     profileImage:
       "https://ui-avatars.com/api/?name=박지영&background=dc3545&color=fff&size=32",
     nickname: "박지영",
+    timestamp: "2025-04-18T10:01:00Z",
   },
   {
     isMe: true,
     content: "환영합니다! 모두 열심히 해봅시다.",
+    timestamp: "2025-04-18T10:02:00Z",
   },
   {
     isMe: false,
@@ -210,6 +221,7 @@ export const groupChatMockData = [
     profileImage:
       "https://ui-avatars.com/api/?name=박지영&background=dc3545&color=fff&size=32",
     nickname: "박지영",
+    timestamp: "2025-04-18T10:03:00Z",
   },
   {
     isMe: false,
@@ -217,14 +229,17 @@ export const groupChatMockData = [
     profileImage:
       "https://ui-avatars.com/api/?name=이준호&background=6f42c1&color=fff&size=32",
     nickname: "이준호",
+    timestamp: "2025-04-18T10:04:00Z",
   },
   {
     isMe: true,
     content: "좋습니다! 다음 주는 Context API를 다뤄보겠습니다.",
+    timestamp: "2025-04-18T10:05:00Z",
   },
   {
     isMe: true,
     content: "참고 자료 이미지를 올려드릴게요.",
+    timestamp: "2025-04-18T10:06:00Z",
   },
   {
     isMe: false,
@@ -232,6 +247,7 @@ export const groupChatMockData = [
     profileImage:
       "https://ui-avatars.com/api/?name=김민수&background=28a745&color=fff&size=32",
     nickname: "김민수",
+    timestamp: "2025-04-18T14:20:00Z",
   },
 ];
 
@@ -240,6 +256,7 @@ export const inquiryChatMockData = [
   {
     isMe: true,
     content: "안녕하세요! 스터디 등록 관련해서 문의드립니다.",
+    timestamp: "2025-04-18T09:00:00Z",
   },
   {
     isMe: false,
@@ -247,10 +264,12 @@ export const inquiryChatMockData = [
     profileImage:
       "https://ui-avatars.com/api/?name=운영진&background=007bff&color=fff&size=32",
     nickname: "운영진",
+    timestamp: "2025-04-18T09:01:00Z",
   },
   {
     isMe: true,
     content: "스터디 신청 절차가 어떻게 되나요?",
+    timestamp: "2025-04-18T09:02:00Z",
   },
   {
     isMe: false,
@@ -258,6 +277,7 @@ export const inquiryChatMockData = [
     profileImage:
       "https://ui-avatars.com/api/?name=운영진&background=007bff&color=fff&size=32",
     nickname: "운영진",
+    timestamp: "2025-04-18T09:03:00Z",
   },
   {
     isMe: false,
@@ -265,10 +285,12 @@ export const inquiryChatMockData = [
     profileImage:
       "https://ui-avatars.com/api/?name=운영진&background=007bff&color=fff&size=32",
     nickname: "운영진",
+    timestamp: "2025-04-18T09:04:00Z",
   },
   {
     isMe: true,
     content: "빠른 답변 감사합니다!",
+    timestamp: "2025-04-18T09:05:00Z",
   },
   {
     isMe: false,
@@ -276,6 +298,7 @@ export const inquiryChatMockData = [
     profileImage:
       "https://ui-avatars.com/api/?name=운영진&background=007bff&color=fff&size=32",
     nickname: "운영진",
+    timestamp: "2025-04-18T09:45:00Z",
   },
 ];
 
