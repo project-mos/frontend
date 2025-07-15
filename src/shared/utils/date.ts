@@ -109,3 +109,13 @@ export function formatRelativeTime(timestamp: string | Date): string {
   // 일주일 이상 지난 경우 날짜 표시
   return formatDate("MM-DD", date);
 }
+
+/**
+ * 주어진 날짜/시간을 시간만 표시합니다 (HH:MM 형식)
+ * @param timestamp ISO 문자열 또는 Date 객체
+ * @returns 시간 문자열 (예: "15:30", "09:45")
+ */
+export function formatTime(timestamp?: string | Date): string {
+  if (!timestamp) return "";
+  return formatDate("HH:mm", timestamp);
+}
