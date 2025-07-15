@@ -4,6 +4,9 @@ import {
   chatMockData,
   chatRoomMockData,
   ChatRoomPreview,
+  personalChatMockData,
+  groupChatMockData,
+  inquiryChatMockData,
 } from "@/entities/chat/lib/mock/chat.mock";
 import {
   notificationMockData,
@@ -139,6 +142,22 @@ const Chat = () => {
     setNotifications((prev) => prev.filter((n) => n.id !== notificationId));
   };
 
+  // 채팅방 타입에 따른 mock data 선택
+  const getCurrentChatData = () => {
+    if (!selectItem) return chatMockData;
+
+    switch (selectItem.roomType) {
+      case "personal":
+        return personalChatMockData;
+      case "group":
+        return groupChatMockData;
+      case "inquiry":
+        return inquiryChatMockData;
+      default:
+        return chatMockData;
+    }
+  };
+
   const onDotClick = (
     event: MouseEvent<HTMLButtonElement>,
     item: ChatRoomPreview
@@ -190,7 +209,7 @@ const Chat = () => {
           {/* 컨텐츠 영역 */}
           <Card.Content className="h-full max-h-[480px] overflow-y-auto">
             {isChatRoom ? (
-              <ChatRoom data={chatMockData} />
+              <ChatRoom data={getCurrentChatData()} />
             ) : (
               <div className="flex flex-col gap-3 p-2">
                 {/* 채팅방 리스트 */}

@@ -5,7 +5,7 @@ import React from "react";
 
 const ChatRoom = ({ data }: ChatRoomProps) => {
   return (
-    <div className="flex h-full flex-col gap-2 px-2 pt-3">
+    <div className="flex h-full flex-col gap-3 px-2 pt-3">
       {data.map((item, index) => {
         // 챗 글자가 19자 이하이면 rounded 스타일로
         const isRoundedStyle = item.content.length < 20;
@@ -13,6 +13,8 @@ const ChatRoom = ({ data }: ChatRoomProps) => {
           <ChatBubble
             key={`${item.content}_${index}`}
             isMe={item.isMe}
+            profileImage={item.profileImage}
+            nickname={item.nickname}
             className={isRoundedStyle ? "rounded-full" : "rounded-xl"}
           >
             {item.content}
