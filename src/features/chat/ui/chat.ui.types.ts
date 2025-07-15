@@ -2,6 +2,8 @@ import { HTMLAttributes } from "react";
 
 export interface ChatBubbleProps extends HTMLAttributes<HTMLDivElement> {
   isMe: boolean;
+  profileImage?: string;
+  nickname?: string;
 }
 export interface ChatTabProps {
   active: ChatActiveTab;
@@ -14,6 +16,8 @@ export type ChatActiveTab = "chat" | "notification";
 export interface Chat {
   isMe: boolean;
   content: string;
+  profileImage?: string;
+  nickname?: string;
 }
 
 export interface ChatRoomProps {
