@@ -28,6 +28,12 @@ const ChatItem = ({ item, onDotClick, ...props }: ChatItemProps) => {
             <i className="bi bi-headset text-[10px]" />
           </Badge>
         );
+      case "study-inquiry":
+        return (
+          <Badge color="Gray" className="text-[10px] px-1.5">
+            <i className="bi bi-book text-[10px]" />
+          </Badge>
+        );
       case "personal":
       default:
         return null; // 개인채팅방은 뱃지 표시 안함
@@ -71,8 +77,18 @@ const ChatItem = ({ item, onDotClick, ...props }: ChatItemProps) => {
         </div>
       </div>
 
-      {/* 옵션 버튼 (3 dots) */}
-      <div className="mr-2">
+      {/* 안 읽은 메시지 개수 + 옵션 버튼 */}
+      <div className="flex items-center gap-2">
+        {/* 안 읽은 메시지 개수 */}
+        {item.unreadCount > 0 && (
+          <div className="flex h-5 min-w-[20px] items-center justify-center rounded-full bg-red-500 px-1.5">
+            <Typography.P3 className="text-[10px] font-bold text-white leading-none">
+              {item.unreadCount > 99 ? "99+" : item.unreadCount}
+            </Typography.P3>
+          </div>
+        )}
+
+        {/* 옵션 버튼 (3 dots) */}
         <Button.Icon
           color="Gray"
           className="border-none"
