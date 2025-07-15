@@ -1,5 +1,5 @@
 export type MessageType = "text" | "image" | "file";
-export type ChatRoomType = "personal" | "group" | "inquiry";
+export type ChatRoomType = "personal" | "group" | "inquiry" | "study-inquiry";
 
 // 채팅방 미리보기 타입
 export interface ChatRoomPreview {
@@ -80,6 +80,24 @@ export const chatRoomMockData: ChatRoomPreview[] = [
       timestamp: "2025-04-18T09:45:00Z",
     },
     unreadCount: 0,
+  },
+
+  // 스터디 문의채팅방
+  {
+    roomId: "study-inquiry-nextjs",
+    roomType: "study-inquiry",
+    user: {
+      id: "study-nextjs",
+      name: "Next.js 스터디 문의",
+      avatarUrl:
+        "https://ui-avatars.com/api/?name=Next.js&background=000000&color=fff&size=40",
+    },
+    lastMessage: {
+      content: "이재현: 과제 제출 방법이 궁금해요",
+      type: "text",
+      timestamp: "2025-04-18T16:30:00Z",
+    },
+    unreadCount: 3,
   },
 ];
 
@@ -301,6 +319,109 @@ export const inquiryChatMockData = [
     timestamp: "2025-04-18T09:45:00Z",
   },
 ];
+
+// ✅ 스터디 문의 채팅방 대화 mock data (이재현과의 대화)
+export const studyInquiryChatMockData = [
+  {
+    isMe: false,
+    content: "안녕하세요! Next.js 스터디 관련해서 문의드립니다.",
+    profileImage:
+      "https://ui-avatars.com/api/?name=이재현&background=fd7e14&color=fff&size=32",
+    nickname: "이재현",
+    timestamp: "2025-04-18T16:00:00Z",
+  },
+  {
+    isMe: true,
+    content: "안녕하세요! 무엇을 도와드릴까요?",
+    timestamp: "2025-04-18T16:01:00Z",
+  },
+  {
+    isMe: false,
+    content: "과제 제출 방법이 궁금해요",
+    profileImage:
+      "https://ui-avatars.com/api/?name=이재현&background=fd7e14&color=fff&size=32",
+    nickname: "이재현",
+    timestamp: "2025-04-18T16:30:00Z",
+  },
+  {
+    isMe: true,
+    content: "GitHub 저장소에 push 후 PR 생성해주시면 됩니다.",
+    timestamp: "2025-04-18T16:31:00Z",
+  },
+  {
+    isMe: false,
+    content: "PR 생성 방법을 잘 모르겠어요.",
+    profileImage:
+      "https://ui-avatars.com/api/?name=이재현&background=fd7e14&color=fff&size=32",
+    nickname: "이재현",
+    timestamp: "2025-04-18T16:32:00Z",
+  },
+  {
+    isMe: true,
+    content: "가이드 문서를 보내드릴게요.",
+    timestamp: "2025-04-18T16:33:00Z",
+  },
+  {
+    isMe: true,
+    content: "PR 생성 가이드.pdf",
+    timestamp: "2025-04-18T16:34:00Z",
+  },
+];
+
+// ✅ 스터디 문의 상세 mock data
+export const studyInquiryMockData = {
+  studyId: "study-nextjs",
+  studyName: "Next.js 스터디",
+  inquiries: [
+    {
+      userId: "user-jaehyun",
+      userName: "이재현",
+      userAvatar:
+        "https://ui-avatars.com/api/?name=이재현&background=fd7e14&color=fff&size=40",
+      roomId: "chat-study-nextjs-jaehyun",
+      lastMessage: {
+        content: "과제 제출 방법이 궁금해요",
+        type: "text" as const,
+        timestamp: "2025-04-18T16:30:00Z",
+      },
+      unreadCount: 2,
+      inquiryDate: "2025-04-15T09:00:00Z",
+      inquiryStatus: "active" as const,
+    },
+    {
+      userId: "user-minji",
+      userName: "박민지",
+      userAvatar:
+        "https://ui-avatars.com/api/?name=박민지&background=dc3545&color=fff&size=40",
+      roomId: "chat-study-nextjs-minji",
+      lastMessage: {
+        content: "감사합니다!",
+        type: "text" as const,
+        timestamp: "2025-04-18T12:00:00Z",
+      },
+      unreadCount: 0,
+      inquiryDate: "2025-04-16T14:00:00Z",
+      inquiryStatus: "resolved" as const,
+    },
+    {
+      userId: "user-sunghoon",
+      userName: "최성훈",
+      userAvatar:
+        "https://ui-avatars.com/api/?name=최성훈&background=28a745&color=fff&size=40",
+      roomId: "chat-study-nextjs-sunghoon",
+      lastMessage: {
+        content: "스터디 시간 변경 가능한가요?",
+        type: "text" as const,
+        timestamp: "2025-04-18T11:00:00Z",
+      },
+      unreadCount: 1,
+      inquiryDate: "2025-04-17T10:00:00Z",
+      inquiryStatus: "pending" as const,
+    },
+  ],
+  createdAt: "2025-04-01T09:00:00Z",
+  updatedAt: "2025-04-18T16:30:00Z",
+};
 
 // ✅ 기본 chat mock data (호환성 유지)
 export const chatMockData = personalChatMockData;
