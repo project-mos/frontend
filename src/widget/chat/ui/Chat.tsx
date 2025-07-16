@@ -32,6 +32,7 @@ import cn from "@/shared/utils/cn";
 
 import clsx from "clsx";
 import React, { useState, useRef, useEffect } from "react";
+import { useChatUIStore } from "@/shared/store/useChatUIStore";
 
 const CHAT_DELETE_CONFIRM_MODAL_KEY = "chat_delete_confirm";
 const CHAT_STATIC_SORT_CONFIRM_MODAL_KEY = "chat_static_sort_confirm";
@@ -48,7 +49,12 @@ const Chat = () => {
     resetNavigation,
   } = useChatNavigation();
 
-  const [isOpenState, setIsOpenState] = useState<boolean>(false); // 채팅창 열림 여부
+  const {
+    isOpen: isOpenState,
+    closeChat,
+    openChat,
+    targetChatRoom,
+  } = useChatUIStore();
   const [isChatOptionOpen, setIsChatOptionOpen] = useState<boolean>(false); // 채팅 옵션 열림 여부
   const [activeTab, setActiveTab] = useState<ChatActiveTab>("chat"); // 현재 탭 상태
   const [notifications, setNotifications] =
@@ -74,11 +80,20 @@ const Chat = () => {
     }
   }, [isSearchMode]);
 
+  // targetChatRoom이 세팅되면 바로 chatroom으로 이동
+  useEffect(() => {
+    if (isOpenState && targetChatRoom) {
+      navigateToChatRoom(targetChatRoom);
+    }
+  }, [isOpenState, targetChatRoom]);
+
   // FAB 버튼 클릭 시 채팅창 토글
   const onButtonClick = () => {
-    setIsOpenState(!isOpenState);
     if (!isOpenState) {
-      resetNavigation(); // 채팅창 열 때 네비게이션 리셋
+      openChat(undefined); // 채팅창만 열고, 채팅방 진입은 안함
+      resetNavigation();
+    } else {
+      closeChat();
     }
   };
 
@@ -211,6 +226,15 @@ const Chat = () => {
     openModal(CHAT_STATIC_SORT_CONFIRM_MODAL_KEY);
   };
 
+  const handleBack = () => {
+    // targetChatRoom(즉, MessageToLeaderButton 진입)으로 들어온 경우엔 무조건 초기화
+    if (targetChatRoom && navigationState.currentView === "chatroom") {
+      resetNavigation();
+    } else {
+      navigateBack();
+    }
+  };
+
   const renderCurrentView = () => {
     switch (navigationState.currentView) {
       case "list":
@@ -284,7 +308,7 @@ const Chat = () => {
               <i
                 className="bi bi-arrow-left cursor-pointer"
                 role="button"
-                onClick={navigateBack}
+                onClick={handleBack}
               />
             )}
             <Typography.SubTitle1>{getCurrentTitle()}</Typography.SubTitle1>
@@ -301,7 +325,7 @@ const Chat = () => {
               <i
                 className="bi bi-x text-[28px] cursor-pointer"
                 role="button"
-                onClick={onButtonClick}
+                onClick={closeChat}
               />
             </div>
           </Card.Header>

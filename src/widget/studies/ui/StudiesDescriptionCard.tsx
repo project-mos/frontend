@@ -15,6 +15,8 @@ import ShareButton from "@/features/share/ui/ShareButton";
 import Profile from "@/shared/components/atoms/Profile";
 import CustomMdxRemote from "@/shared/components/system/CustomMdxRemote";
 import { StudiesDescriptionCardProps } from "@/widget/studies/ui/studies.ui.types";
+import MessageToLeaderButton from "@/features/private-message/ui/MessageToLeaderButton";
+import { ChatRoomPreview } from "@/entities/chat/lib/mock/chat.mock";
 
 const StudiesDescriptionCard = ({
   studyDetailData,
@@ -26,6 +28,19 @@ const StudiesDescriptionCard = ({
   const findLeader = membersData.find(
     (item) => item.studyMemberRoleType === "스터디장"
   );
+
+  // 스터디장 문의용 chatRoomPreview 생성(임시)
+  const chatRoomPreview: ChatRoomPreview = {
+    roomId: `study-inquiry-${String(studyDetailData.id)}`,
+    roomType: "study-inquiry",
+    user: {
+      id: String(findLeader?.userId || "leader"),
+      name: `${studyDetailData.title} 문의`,
+      avatarUrl: "",
+    },
+    lastMessage: { content: "", type: "text", timestamp: "" },
+    unreadCount: 0,
+  };
 
   return (
     <Card className="flex w-[85%] flex-col gap-5 border-none pb-10 shadow-none outline-none sm-mobile:w-full">
@@ -42,6 +57,7 @@ const StudiesDescriptionCard = ({
           <div className="flex items-center gap-2">
             <ShareButton type="copy" />
             <ShareButton type="share" />
+            <MessageToLeaderButton chatRoomPreview={chatRoomPreview} />
           </div>
         </div>
         <div className="flex justify-between">
