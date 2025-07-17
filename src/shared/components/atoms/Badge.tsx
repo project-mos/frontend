@@ -6,6 +6,7 @@ const BadgeColors = {
   Green: "bg-mos-green-500 text-white ",
   Gray: "bg-mos-gray-500 text-white ",
   Pink: "bg-mos-pink-500 text-white ",
+  Black: "bg-black text-white ",
 };
 
 interface BadgeProps extends HTMLAttributes<HTMLDivElement> {

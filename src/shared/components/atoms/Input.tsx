@@ -1,13 +1,17 @@
 import cn from "@/shared/utils/cn";
-import { InputHTMLAttributes } from "react";
+import { DetailedHTMLProps, InputHTMLAttributes } from "react";
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface InputProps
+  extends DetailedHTMLProps<
+    InputHTMLAttributes<HTMLInputElement>,
+    HTMLInputElement
+  > {
   className?: string;
   name?: string;
   icon?: React.ReactNode;
 }
 
-const Input = ({ className, icon, ...props }: InputProps) => {
+const Input = ({ className, icon, ref, ...props }: InputProps) => {
   return (
     <div className="relative w-full">
       {icon && (
@@ -16,6 +20,7 @@ const Input = ({ className, icon, ...props }: InputProps) => {
         </span>
       )}
       <input
+        ref={ref}
         className={cn(
           "focus:ring-mos-main-300 min-w-[200px] rounded-md border border-gray-200 bg-white p-3 text-[14px] text-mos-gray-700 placeholder:text-mos-gray-300 focus:border-mos-main-500 focus:outline-none",
           "disabled:border-none disabled:bg-[#FAFAFA]",

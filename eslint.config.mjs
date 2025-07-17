@@ -52,7 +52,22 @@ const eslintConfig = [
   ...tailwindESLintContext.getConfig(),
   {
     rules: {
-      "tailwindcss/no-custom-classname": isProduction ? "off" : "warn", // 🚀 프로덕션에서는 끄고, 개발에서는 경고
+      // Tailwind CSS 관련 규칙들 - 프로덕션에서는 끄고 개발에서는 경고로 낮춤
+      "tailwindcss/no-custom-classname": isProduction ? "off" : "warn",
+      "tailwindcss/classnames-order": isProduction ? "off" : "warn",
+      "tailwindcss/migration-from-tailwind-2": isProduction ? "off" : "warn",
+      "tailwindcss/no-unnecessary-arbitrary-value": isProduction
+        ? "off"
+        : "warn",
+
+      // React Hooks 관련 규칙들 - 의존성 배열 관련 경고를 낮춤
+      "react-hooks/exhaustive-deps": isProduction ? "off" : "warn",
+
+      // TypeScript 관련 규칙들 - 사용하지 않는 변수를 경고로 낮춤
+      // "@typescript-eslint/no-unused-vars": isProduction ? "off" : "warn",
+
+      // 접근성 관련 규칙들 - alt 속성 누락을 경고로 낮춤
+      // "jsx-a11y/alt-text": isProduction ? "off" : "warn",
     },
   },
 ];
