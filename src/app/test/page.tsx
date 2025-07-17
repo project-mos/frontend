@@ -36,6 +36,7 @@ import useModal from "@/shared/hooks/useModal";
 // } from "@/shared/mock/api/studies";
 import LabelInputDateLocal from "@/shared/components/molecules/LabelDateTimeLocal";
 import { useToast } from "@/shared/hooks/useToast";
+import Editor from "@/shared/components/atoms/Editor";
 
 interface FormData {
   test: string; // 'test' 필드 타입을 string으로 설정
