@@ -8,8 +8,8 @@ import Typography from "@/shared/components/atoms/Typography";
 import useModal from "@/shared/hooks/useModal";
 import { useGetSchedules } from "@/entities/study/schedule/model/schedule.query";
 import { GetSchedulesResponse } from "@/entities/study/schedule/api/schedule.api.types";
-import { useCalendarNavigation } from "@/features/study/schedule/calendar-navigation/model/useCalendarNavigation";
-import { useCalendarCells } from "@/features/study/schedule/calendar-cells/model/useCalendarCells";
+import { useCalendarNavigation } from "@/features/calendar/calendar-navigation/model/useCalendarNavigation";
+import { useCalendarCells } from "@/features/calendar/calendar-cells/model/useCalendarCells";
 
 function Calendar() {
   const [currentDateState, setCurrentDateState] = useState(new Date());

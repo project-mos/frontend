@@ -15,7 +15,7 @@ import LabelInputDateLocal from "@/shared/components/molecules/LabelDateTimeLoca
 import { StudyScheduleInterface } from "@/shared/types/api/studies/detail";
 import { formatNowDate } from "@/shared/utils/date";
 import { GetSchedulesResponse } from "@/entities/study/schedule/api/schedule.api.types";
-import useCalendarScheduleForm from "@/features/study/schedule/calendar-schedule-form/model/useCalendarScheduleForm";
+import useCalendarScheduleForm from "@/features/calendar/calendar-schedule-form/model/useCalendarScheduleForm";
 
 interface NoticeModalProps extends ModalProps {
   onClose: ModalOnClose;

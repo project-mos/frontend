@@ -7,11 +7,10 @@ import MDEditor, {
   TextState,
 } from "@uiw/react-md-editor";
 import rehypeSanitize from "rehype-sanitize";
-import { uploadImage } from "@/entities/study/studies/api/studies.api";
 
 interface EditorProps {
   name: string;
-  uploadImage: (file: File) => Promise<{ url: string }>;
+  uploadImage?: (file: File) => Promise<{ url: string }>;
 }
 
 const Editor = ({ name, uploadImage }: EditorProps) => {
@@ -22,7 +21,7 @@ const Editor = ({ name, uploadImage }: EditorProps) => {
   // 이미지 업로드 후 마크다운 삽입
   const uploadImageAndInsert = async (file: File) => {
     try {
-      const url = await uploadImage(file);
+      const url = await uploadImage!(file);
       const insert = `![image](${url})`;
       const newValue = (value ?? "") + "\n" + insert;
       setValue(name, newValue);
@@ -48,7 +47,7 @@ const Editor = ({ name, uploadImage }: EditorProps) => {
       if (!file) return;
 
       try {
-        const url = await uploadImage(file);
+        const url = await uploadImage!(file);
         const insert = `![image](${url})`;
 
         api.replaceSelection(insert);

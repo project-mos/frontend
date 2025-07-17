@@ -5,7 +5,6 @@ import { FormProvider, useForm } from "react-hook-form";
 import Badge from "@/shared/components/atoms/Badge";
 import Button from "@/shared/components/atoms/Button";
 import Card from "@/shared/components/atoms/Card";
-import Editor from "@/entities/study/studies/ui/Editor";
 import CustomImage from "@/shared/components/atoms/Image";
 import Input from "@/shared/components/atoms/Input";
 import RadioButton from "@/shared/components/atoms/RadioButton";
@@ -36,6 +35,7 @@ import useModal from "@/shared/hooks/useModal";
 // } from "@/shared/mock/api/studies";
 import LabelInputDateLocal from "@/shared/components/molecules/LabelDateTimeLocal";
 import { useToast } from "@/shared/hooks/useToast";
+import Editor from "@/shared/components/atoms/Editor";
 
 interface FormData {
   test: string; // 'test' 필드 타입을 string으로 설정
