@@ -8,6 +8,7 @@ import Link from "next/link";
 import URL from "@/shared/constants/URL";
 import { StudyLandingCardProps } from "@/features/study/landing/ui/landing.ui.types";
 import RecruitmentStatusTag from "@/features/recruitment-status/ui/RecruitmentStatusTag";
+import MetaLike from "./MetaLike";
 
 const StudyLandingCard = ({
   data,
@@ -21,11 +22,9 @@ const StudyLandingCard = ({
       return <Tag.Detail key={index}>#{trimmed}</Tag.Detail>;
     });
   };
+
   return (
-    <Link
-      href={`${URL.STUDY.DETAIL(data.id)}`}
-      className="flex justify-center "
-    >
+    <Link href={`${URL.STUDY.DETAIL(data.id)}`} className="flex justify-center">
       <Card
         className={`flex h-[300px] w-full cursor-pointer flex-col justify-between ${
           className ?? ""
@@ -60,8 +59,9 @@ const StudyLandingCard = ({
               {data.currentStudyMembers}/{data.maxStudyMembers}명
             </Meta>
           </div>
-          <div className="flex gap-1 text-mos-gray-300">
+          <div className="flex gap-2 text-mos-gray-300">
             <Meta icon="eye">{data.viewCount}</Meta>
+            <MetaLike />
           </div>
         </Card.Footer>
       </Card>
