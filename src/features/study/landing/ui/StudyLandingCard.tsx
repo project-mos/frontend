@@ -61,7 +61,7 @@ const StudyLandingCard = ({
           </div>
           <div className="flex gap-2 text-mos-gray-300">
             <Meta icon="eye">{data.viewCount}</Meta>
-            <MetaLike />
+            <MetaLike studyId={data.id} />
           </div>
         </Card.Footer>
       </Card>
