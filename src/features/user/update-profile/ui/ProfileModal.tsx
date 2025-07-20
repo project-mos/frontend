@@ -81,6 +81,7 @@ const ProfileModal = ({
                     <>
                       {previewState ? (
                         <img
+                          alt="profile-img"
                           src={previewState}
                           className="size-40 rounded-full bg-cover bg-center shadow-md"
                           onClick={handleImageClick}
