@@ -41,7 +41,6 @@ export const study = {
     url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/hots`,
     method: Method.GET,
   }),
-
   uploadImage: () => ({
     url: `${process.env.NEXT_PUBLIC_BASE_URL}/recruitment-images`,
     method: Method.POST,
@@ -52,4 +51,12 @@ export const study = {
       method: Method.DELETE,
     };
   },
+  likeStudy: (studyId: number) => ({
+    url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/likes`,
+    method: Method.POST,
+  }),
+  unlikeStudy: (studyId: number) => ({
+    url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/likes`,
+    method: Method.DELETE,
+  }),
 };

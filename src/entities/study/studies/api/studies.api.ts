@@ -14,7 +14,7 @@ import {
   parseRequirements,
   sanitizeCodeLikeLinesWithEscape,
 } from "@/entities/study/studies/lib";
-import { API_ENDPOINT, fetchAPI } from "@/shared/api/lib";
+import { API_ENDPOINT, createJsonRequestInit, fetchAPI } from "@/shared/api/lib";
 
 export async function getStudies({
   page,
@@ -143,4 +143,17 @@ export async function uploadImage({ file }: UploadImageRequest) {
   }
 
   return res;
+}
+
+// 좋아요
+export async function likeStudy(studyId:number) {
+  const {url, method} = API_ENDPOINT.study.likeStudy(studyId)
+  
+  return await fetchAPI(url, createJsonRequestInit(method))
+}
+// 좋아요 취소
+export async function unLikeStudy(studyId:number) {
+  const {url, method} = API_ENDPOINT.study.unlikeStudy(studyId)
+  
+  return await fetchAPI(url, createJsonRequestInit(method))
 }
