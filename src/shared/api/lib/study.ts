@@ -51,6 +51,10 @@ export const study = {
       method: Method.DELETE,
     };
   },
+  getLikeStudy: (studyIds: number[]) => ({
+    url: `${process.env.NEXT_PUBLIC_BASE_URL}/likes?studyIds=${studyIds}`,
+    method: Method.GET,
+  }),
   likeStudy: (studyId: number) => ({
     url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/likes`,
     method: Method.POST,

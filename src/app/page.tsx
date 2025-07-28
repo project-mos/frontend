@@ -28,6 +28,7 @@ export default async function Home({ searchParams }: HomeProps) {
       <LandingContentCards
         studiesData={studiesData}
         hotStudiesData={hotStudiesData}
+        studiesRequest={studiesRequest}
       />
       <div className="flex justify-center">
         <Pagination

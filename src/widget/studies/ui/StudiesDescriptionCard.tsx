@@ -28,7 +28,7 @@ const StudiesDescriptionCard = ({
   const findLeader = membersData.find(
     (item) => item.studyMemberRoleType === "스터디장"
   );
-
+  console.log("studyDetailData", studyDetailData);
   return (
     <Card className="flex w-[85%] flex-col gap-5 border-none pb-10 shadow-none outline-none sm-mobile:w-full">
       <Card.Header className="flex-col gap-3">
@@ -57,7 +57,10 @@ const StudiesDescriptionCard = ({
           <div className="flex gap-2 text-mos-gray-700">
             {/* 조회수 {studyDetailData.viewCount}회 */}
             <Meta icon="eye">{studyDetailData.viewCount}</Meta>
-            <MetaLike studyId={studyDetailData.id} />
+            <MetaLike
+              studyId={studyDetailData.id}
+              studyIds={[studyDetailData.id]}
+            />
           </div>
         </div>
 

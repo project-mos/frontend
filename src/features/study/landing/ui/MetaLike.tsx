@@ -1,21 +1,53 @@
 "use client";
 import { useAuthStore } from "@/entities/auth/model/auth.store";
+import { GetStudiesRequest } from "@/entities/study/studies/api/studies.api.type";
 import {
-  likeStudy,
-  unLikeStudy,
-} from "@/entities/study/studies/api/studies.api";
+  useGetLikeStudy,
+  useLikeStudy,
+  useUnLikeStudy,
+} from "@/entities/study/studies/model/studies.queries";
 import LoginModal from "@/features/login/ui/LoginModal";
 import Meta from "@/shared/components/molecules/Meta";
 import useModal from "@/shared/hooks/useModal";
-import { useState } from "react";
 
-const MetaLike = ({ studyId }: { studyId: number }) => {
+interface Props {
+  studyId: number;
+  studyIds: number[];
+  studiesRequest?: GetStudiesRequest;
+}
+
+export interface GetLikeStudyResponse {
+  studyId: number;
+  likedCount: number;
+  isLiked: boolean;
+}
+const MetaLike = ({ studyId, studyIds, studiesRequest }: Props) => {
   const { isLoggedIn } = useAuthStore();
   const { isModalOpenState, openModal, closeModal } = useModal();
-  const [likedCount, setLikedCount] = useState<number>(0);
-  const [liked, setLiked] = useState<boolean>(false);
 
-  const handleClick = async (event: React.MouseEvent) => {
+  // 좋아요 get 요청
+  const { data: likeStudyData } = useGetLikeStudy(studyId, studyIds);
+
+  // 좋아요 리스트 데이터에서 스터디별 좋아요 상태를 찾음
+  const findeLikeStudy = likeStudyData?.find(
+    (item) => item.studyId === studyId
+  );
+
+  // 좋아요 post 요청
+  const { mutate: likeStudy } = useLikeStudy({
+    studyIds,
+    studyId,
+    studiesRequest,
+  });
+
+  // 좋아요 delete 요청
+  const { mutate: unLikeStudy } = useUnLikeStudy({
+    studyIds,
+    studyId,
+    studiesRequest,
+  });
+
+  const handleClick = (event: React.MouseEvent) => {
     event.preventDefault();
 
     // 로그인 여부 확인
@@ -25,21 +57,21 @@ const MetaLike = ({ studyId }: { studyId: number }) => {
     }
 
     try {
-      if (!liked) {
-        await likeStudy(studyId);
-        setLiked(true);
-        setLikedCount((prev) => prev + 1);
-      } else {
-        await unLikeStudy(studyId);
-        setLiked(false);
-        setLikedCount((prev) => Math.max(prev - 1, 0));
+      if (!findeLikeStudy?.isLiked) {
+        likeStudy();
+      }
+
+      if (findeLikeStudy?.isLiked) {
+        unLikeStudy();
       }
     } catch (error) {
       console.error("좋아요 처리 중 오류 발생", error);
     }
   };
 
-  const iconClass = liked ? "heart-fill text-red-500" : "heart";
+  const iconClass = findeLikeStudy?.isLiked
+    ? "heart-fill text-red-500"
+    : "heart";
 
   return (
     <>
@@ -49,7 +81,7 @@ const MetaLike = ({ studyId }: { studyId: number }) => {
         className="min-w-3"
         onClick={handleClick}
       >
-        {likedCount}
+        {findeLikeStudy?.likedCount ?? 0}
       </Meta>
     </>
   );

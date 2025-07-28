@@ -13,6 +13,8 @@ import MetaLike from "./MetaLike";
 const StudyLandingCard = ({
   data,
   className,
+  studiesRequest,
+  studyIds,
   ...props
 }: StudyLandingCardProps) => {
   // 최대 6개까지만 보여주고, 각 태그 문자열은 최대 5글자까지만 잘라서 출력
@@ -61,7 +63,11 @@ const StudyLandingCard = ({
           </div>
           <div className="flex gap-2 text-mos-gray-300">
             <Meta icon="eye">{data.viewCount}</Meta>
-            <MetaLike studyId={data.id} />
+            <MetaLike
+              studyId={data.id}
+              studyIds={studyIds}
+              studiesRequest={studiesRequest}
+            />
           </div>
         </Card.Footer>
       </Card>
