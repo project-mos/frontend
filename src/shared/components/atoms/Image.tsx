@@ -7,13 +7,14 @@ interface ImageProps extends React.ComponentPropsWithoutRef<typeof Image> {
 }
 
 const CustomImage = forwardRef<HTMLImageElement, ImageProps>(
-  ({ className, ...props }, ref) => {
+  ({ className, alt = "", ...props }, ref) => {
     return (
       <div className="relative h-64 w-full">
         <Image
           ref={ref}
           className={cn("object-cover", className)}
           fill
+          alt={alt}
           {...props}
         />
       </div>
