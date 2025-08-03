@@ -2,7 +2,6 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   getHotStudies,
   getLikeStudy,
-  getStudies,
   likeStudy,
   unLikeStudy,
 } from "@/entities/study/studies/api/studies.api";
@@ -10,14 +9,13 @@ import { useRouter } from "next/navigation";
 import { GetStudiesRequest } from "../api/studies.api.type";
 
 // queryKey
-export const likeStudyQueryKeys = {
-  key: (studyIds: number[]) => ["studyLike", studyIds] as const,
-};
+export const likeStudyQueryKeys = (studyIds: number[]) =>
+  ["studyLike", studyIds] as const;
 
 // 좋아요 누른 스터디 전체 조회
 export const useGetLikeStudy = (studyId: number, studyIds: number[]) =>
   useQuery({
-    queryKey: ["studyLike", studyIds],
+    queryKey: likeStudyQueryKeys(studyIds),
     queryFn: () => getLikeStudy(studyIds),
     enabled: !!studyId,
   });
@@ -26,7 +24,6 @@ export const useGetLikeStudy = (studyId: number, studyIds: number[]) =>
 export const useLikeStudy = ({
   studyId,
   studyIds,
-  studiesRequest,
 }: {
   studyId: number;
   studyIds: number[];
@@ -39,12 +36,11 @@ export const useLikeStudy = ({
     mutationFn: () => likeStudy(studyId),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: likeStudyQueryKeys.key(studyIds),
+        queryKey: likeStudyQueryKeys(studyIds),
       });
 
       // 스터디/핫 스터디 데이터 업데이트
       getHotStudies();
-      if (studiesRequest) getStudies(studiesRequest);
       router.refresh();
     },
     onError: (error) => {
@@ -57,10 +53,10 @@ export const useLikeStudy = ({
 export const useUnLikeStudy = ({
   studyId,
   studyIds,
-  studiesRequest,
 }: {
   studyId: number;
   studyIds: number[];
+
   studiesRequest?: GetStudiesRequest;
 }) => {
   const queryClient = useQueryClient();
@@ -70,12 +66,11 @@ export const useUnLikeStudy = ({
     mutationFn: () => unLikeStudy(studyId),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: likeStudyQueryKeys.key(studyIds),
+        queryKey: likeStudyQueryKeys(studyIds),
       });
 
       // 스터디/핫 스터디 데이터 업데이트
       getHotStudies();
-      if (studiesRequest) getStudies(studiesRequest);
       router.refresh();
     },
     onError: (error) => {

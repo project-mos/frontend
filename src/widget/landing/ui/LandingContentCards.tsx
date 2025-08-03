@@ -9,13 +9,11 @@ import { LandingContentCardsProps } from "@/widget/landing/ui/landing.ui.types";
 const LandingContentCards = ({
   studiesData,
   hotStudiesData,
-  studiesRequest,
 }: LandingContentCardsProps) => {
   const hasHotStudyData = hotStudiesData && hotStudiesData.length > 0;
   const hasStudiesData = studiesData && studiesData.studies.length > 0;
 
   const studyIds = studiesData.studies.map((item) => item.id);
-  const hotStudyIds = hotStudiesData.map((item) => item.id);
 
   return (
     <div className="flex flex-col gap-8">
@@ -32,8 +30,7 @@ const LandingContentCards = ({
                 <StudyLandingCard
                   key={`${item.id}_${index}`}
                   data={item}
-                  studyIds={hotStudyIds}
-                  studiesRequest={studiesRequest}
+                  studyIds={studyIds}
                 />
               );
             })
@@ -56,7 +53,6 @@ const LandingContentCards = ({
                   key={`${item.id}_${index}`}
                   data={item}
                   studyIds={studyIds}
-                  studiesRequest={studiesRequest}
                 />
               );
             })

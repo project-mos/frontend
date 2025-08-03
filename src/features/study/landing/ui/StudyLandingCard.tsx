@@ -13,7 +13,6 @@ import MetaLike from "./MetaLike";
 const StudyLandingCard = ({
   data,
   className,
-  studiesRequest,
   studyIds,
   ...props
 }: StudyLandingCardProps) => {
@@ -63,11 +62,7 @@ const StudyLandingCard = ({
           </div>
           <div className="flex gap-2 text-mos-gray-300">
             <Meta icon="eye">{data.viewCount}</Meta>
-            <MetaLike
-              studyId={data.id}
-              studyIds={studyIds}
-              studiesRequest={studiesRequest}
-            />
+            <MetaLike studyId={data.id} studyIds={studyIds} />
           </div>
         </Card.Footer>
       </Card>
