@@ -1,6 +1,5 @@
 "use client";
 import { useAuthStore } from "@/entities/auth/model/auth.store";
-import { GetStudiesRequest } from "@/entities/study/studies/api/studies.api.type";
 import {
   useGetLikeStudy,
   useLikeStudy,
@@ -9,19 +8,10 @@ import {
 import LoginModal from "@/features/login/ui/LoginModal";
 import Meta from "@/shared/components/molecules/Meta";
 import useModal from "@/shared/hooks/useModal";
+import { useMemo } from "react";
+import { MetaLikeProps } from "./landing.ui.types";
 
-interface Props {
-  studyId: number;
-  studyIds: number[];
-  studiesRequest?: GetStudiesRequest;
-}
-
-export interface GetLikeStudyResponse {
-  studyId: number;
-  likedCount: number;
-  isLiked: boolean;
-}
-const MetaLike = ({ studyId, studyIds, studiesRequest }: Props) => {
+const MetaLike = ({ studyId, studyIds }: MetaLikeProps) => {
   const { isLoggedIn } = useAuthStore();
   const { isModalOpenState, openModal, closeModal } = useModal();
 
@@ -29,22 +19,20 @@ const MetaLike = ({ studyId, studyIds, studiesRequest }: Props) => {
   const { data: likeStudyData } = useGetLikeStudy(studyId, studyIds);
 
   // 좋아요 리스트 데이터에서 스터디별 좋아요 상태를 찾음
-  const findeLikeStudy = likeStudyData?.find(
-    (item) => item.studyId === studyId
-  );
+  const findeLikeStudy = useMemo(() => {
+    return likeStudyData?.find((item) => item.studyId === studyId);
+  }, [likeStudyData, studyId]);
 
   // 좋아요 post 요청
   const { mutate: likeStudy } = useLikeStudy({
     studyIds,
     studyId,
-    studiesRequest,
   });
 
   // 좋아요 delete 요청
   const { mutate: unLikeStudy } = useUnLikeStudy({
     studyIds,
     studyId,
-    studiesRequest,
   });
 
   const handleClick = (event: React.MouseEvent) => {
