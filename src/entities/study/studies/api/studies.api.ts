@@ -14,7 +14,7 @@ import {
   parseRequirements,
   sanitizeCodeLikeLinesWithEscape,
 } from "@/entities/study/studies/lib";
-import { GetLikeStudyResponse } from "@/features/study/landing/ui/MetaLike";
+import { GetLikeStudyResponse } from "@/features/study/landing/ui/landing.ui.types";
 import {
   API_ENDPOINT,
   createJsonRequestInit,
@@ -51,6 +51,7 @@ export async function getHotStudies() {
   );
   return response;
 }
+
 export async function getStudy(id: string) {
   const response = await fetchAPI<GetStudyResponse>(
     API_ENDPOINT.study.getStudy(id).url
