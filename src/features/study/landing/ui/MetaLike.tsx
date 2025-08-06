@@ -8,30 +8,59 @@ import {
 import LoginModal from "@/features/login/ui/LoginModal";
 import Meta from "@/shared/components/molecules/Meta";
 import useModal from "@/shared/hooks/useModal";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { MetaLikeProps } from "./landing.ui.types";
 
 const MetaLike = ({ studyId, studyIds }: MetaLikeProps) => {
   const { isLoggedIn } = useAuthStore();
   const { isModalOpenState, openModal, closeModal } = useModal();
+  const [accumulatedStudyIds, setAccumulatedStudyIds] = useState<number[]>(
+    studyIds || []
+  );
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const saved = JSON.parse(localStorage.getItem("likedStudyIds") || "[]");
+        setAccumulatedStudyIds(saved);
+      } catch (e) {
+        console.error("로컬스토리지 파싱 오류", e);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (!accumulatedStudyIds || accumulatedStudyIds.length === 0) return;
+
+    try {
+      const existing = JSON.parse(
+        localStorage.getItem("likedStudyIds") || "[]"
+      );
+      const merged = Array.from(new Set([...existing, ...accumulatedStudyIds]));
+      localStorage.setItem("likedStudyIds", JSON.stringify(merged));
+    } catch (err) {
+      console.error("로컬스토리지 저장 중 오류", err);
+    }
+  }, [accumulatedStudyIds]);
 
   // 좋아요 get 요청
-  const { data: likeStudyData } = useGetLikeStudy(studyId, studyIds);
+  const { data: likeStudyData } = useGetLikeStudy(studyId, accumulatedStudyIds);
 
   // 좋아요 리스트 데이터에서 스터디별 좋아요 상태를 찾음
-  const findeLikeStudy = useMemo(() => {
+  const findLikeStudy = useMemo(() => {
     return likeStudyData?.find((item) => item.studyId === studyId);
   }, [likeStudyData, studyId]);
 
   // 좋아요 post 요청
   const { mutate: likeStudy } = useLikeStudy({
-    studyIds,
+    accumulatedStudyIds,
     studyId,
   });
 
   // 좋아요 delete 요청
   const { mutate: unLikeStudy } = useUnLikeStudy({
-    studyIds,
+    accumulatedStudyIds,
     studyId,
   });
 
@@ -45,11 +74,11 @@ const MetaLike = ({ studyId, studyIds }: MetaLikeProps) => {
     }
 
     try {
-      if (!findeLikeStudy?.isLiked) {
+      if (!findLikeStudy?.isLiked) {
         likeStudy();
       }
 
-      if (findeLikeStudy?.isLiked) {
+      if (findLikeStudy?.isLiked) {
         unLikeStudy();
       }
     } catch (error) {
@@ -57,7 +86,7 @@ const MetaLike = ({ studyId, studyIds }: MetaLikeProps) => {
     }
   };
 
-  const iconClass = findeLikeStudy?.isLiked
+  const iconClass = findLikeStudy?.isLiked
     ? "heart-fill text-red-500"
     : "heart";
 
@@ -69,7 +98,7 @@ const MetaLike = ({ studyId, studyIds }: MetaLikeProps) => {
         className="min-w-3"
         onClick={handleClick}
       >
-        {findeLikeStudy?.likedCount ?? 0}
+        {findLikeStudy?.likedCount ?? 0}
       </Meta>
     </>
   );

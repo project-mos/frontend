@@ -23,10 +23,10 @@ export const useGetLikeStudy = (studyId: number, studyIds: number[]) =>
 // 좋아요 post 요청
 export const useLikeStudy = ({
   studyId,
-  studyIds,
+  accumulatedStudyIds,
 }: {
   studyId: number;
-  studyIds: number[];
+  accumulatedStudyIds: number[];
   studiesRequest?: GetStudiesRequest;
 }) => {
   const queryClient = useQueryClient();
@@ -36,7 +36,7 @@ export const useLikeStudy = ({
     mutationFn: () => likeStudy(studyId),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: likeStudyQueryKeys(studyIds),
+        queryKey: likeStudyQueryKeys(accumulatedStudyIds),
       });
 
       // 스터디/핫 스터디 데이터 업데이트
@@ -52,10 +52,10 @@ export const useLikeStudy = ({
 // 좋아요 Delete 요청
 export const useUnLikeStudy = ({
   studyId,
-  studyIds,
+  accumulatedStudyIds,
 }: {
   studyId: number;
-  studyIds: number[];
+  accumulatedStudyIds: number[];
 
   studiesRequest?: GetStudiesRequest;
 }) => {
@@ -66,7 +66,7 @@ export const useUnLikeStudy = ({
     mutationFn: () => unLikeStudy(studyId),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: likeStudyQueryKeys(studyIds),
+        queryKey: likeStudyQueryKeys(accumulatedStudyIds),
       });
 
       // 스터디/핫 스터디 데이터 업데이트
