@@ -28,7 +28,7 @@ const StudiesDescriptionCard = ({
   const findLeader = membersData.find(
     (item) => item.studyMemberRoleType === "스터디장"
   );
-  console.log("studyDetailData", studyDetailData);
+
   return (
     <Card className="flex w-[85%] flex-col gap-5 border-none pb-10 shadow-none outline-none sm-mobile:w-full">
       <Card.Header className="flex-col gap-3">
