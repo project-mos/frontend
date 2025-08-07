@@ -13,6 +13,8 @@ const LandingContentCards = ({
   const hasHotStudyData = hotStudiesData && hotStudiesData.length > 0;
   const hasStudiesData = studiesData && studiesData.studies.length > 0;
 
+  const studyIds = studiesData.studies.map((item) => item.id);
+
   return (
     <div className="flex flex-col gap-8">
       <div>
@@ -25,7 +27,11 @@ const LandingContentCards = ({
           {hasHotStudyData ? (
             hotStudiesData.map((item: Study, index: number) => {
               return (
-                <StudyLandingCard key={`${item.id}_${index}`} data={item} />
+                <StudyLandingCard
+                  key={`${item.id}_${index}`}
+                  data={item}
+                  studyIds={studyIds}
+                />
               );
             })
           ) : (
@@ -43,7 +49,11 @@ const LandingContentCards = ({
           {hasStudiesData ? (
             studiesData.studies.map((item: Study, index) => {
               return (
-                <StudyLandingCard key={`${item.id}_${index}`} data={item} />
+                <StudyLandingCard
+                  key={`${item.id}_${index}`}
+                  data={item}
+                  studyIds={studyIds}
+                />
               );
             })
           ) : (

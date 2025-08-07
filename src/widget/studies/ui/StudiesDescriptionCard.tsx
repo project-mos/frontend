@@ -57,7 +57,10 @@ const StudiesDescriptionCard = ({
           <div className="flex gap-2 text-mos-gray-700">
             {/* 조회수 {studyDetailData.viewCount}회 */}
             <Meta icon="eye">{studyDetailData.viewCount}</Meta>
-            <MetaLike />
+            <MetaLike
+              studyId={studyDetailData.id}
+              studyIds={[studyDetailData.id]}
+            />
           </div>
         </div>
 
