@@ -27,3 +27,17 @@ export const chat = {
     method: Method.DELETE,
   }),
 };
+
+// 모집
+export const recruitmentChat = {
+  // 모집글 채팅방 생성
+  postRecruitmentChatRoom: (studyId: number) => ({
+    url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/recruitment-chat-rooms`,
+    method: Method.POST,
+  }),
+  // 모집글 채팅 조회
+  getRecruitmentChatRoom: (recruitmentChatRoomId: number) => ({
+    url: `${process.env.NEXT_PUBLIC_BASE_URL}/recruitment-chat-rooms/${recruitmentChatRoomId}/messages`,
+    method: Method.GET,
+  }),
+};
