@@ -33,6 +33,8 @@ export interface BaseStudy {
   progressStatus: string;
   meetingType: string;
   tags: string[];
+  likedCount: number
+  isLiked: boolean
 }
 
 export interface Study extends BaseStudy {

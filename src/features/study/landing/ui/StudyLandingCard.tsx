@@ -8,10 +8,12 @@ import Link from "next/link";
 import URL from "@/shared/constants/URL";
 import { StudyLandingCardProps } from "@/features/study/landing/ui/landing.ui.types";
 import RecruitmentStatusTag from "@/features/recruitment-status/ui/RecruitmentStatusTag";
+import MetaLike from "./MetaLike";
 
 const StudyLandingCard = ({
   data,
   className,
+  studyIds,
   ...props
 }: StudyLandingCardProps) => {
   // 최대 6개까지만 보여주고, 각 태그 문자열은 최대 5글자까지만 잘라서 출력
@@ -21,11 +23,9 @@ const StudyLandingCard = ({
       return <Tag.Detail key={index}>#{trimmed}</Tag.Detail>;
     });
   };
+
   return (
-    <Link
-      href={`${URL.STUDY.DETAIL(data.id)}`}
-      className="flex justify-center "
-    >
+    <Link href={`${URL.STUDY.DETAIL(data.id)}`} className="flex justify-center">
       <Card
         className={`flex h-[300px] w-full cursor-pointer flex-col justify-between ${
           className ?? ""
@@ -60,8 +60,9 @@ const StudyLandingCard = ({
               {data.currentStudyMembers}/{data.maxStudyMembers}명
             </Meta>
           </div>
-          <div className="flex gap-1 text-mos-gray-300">
+          <div className="flex gap-2 text-mos-gray-300">
             <Meta icon="eye">{data.viewCount}</Meta>
+            <MetaLike studyId={data.id} studyIds={studyIds} />
           </div>
         </Card.Footer>
       </Card>

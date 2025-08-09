@@ -1,6 +1,7 @@
 import { GetStudyCategoriesResponse } from "@/entities/study/category/api/category.api.type";
 import {
   GetHotStudiesResponse,
+  GetStudiesRequest,
   GetStudiesResponse,
 } from "@/entities/study/studies/api/studies.api.type";
 
@@ -11,6 +12,7 @@ export interface LandingContentHeaderProps {
 export interface LandingContentCardsProps {
   studiesData: GetStudiesResponse;
   hotStudiesData: GetHotStudiesResponse;
+  studiesRequest: GetStudiesRequest
 }
 
 export interface LandingEmptyContentsProps {

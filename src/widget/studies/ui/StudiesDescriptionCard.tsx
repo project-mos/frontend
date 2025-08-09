@@ -17,6 +17,8 @@ import CustomMdxRemote from "@/shared/components/system/CustomMdxRemote";
 import { StudiesDescriptionCardProps } from "@/widget/studies/ui/studies.ui.types";
 import MessageToLeaderButton from "@/features/private-message/ui/MessageToLeaderButton";
 import { ChatRoomPreview } from "@/entities/chat/lib/mock/chat.mock";
+import Meta from "@/shared/components/molecules/Meta";
+import MetaLike from "@/features/study/landing/ui/MetaLike";
 
 const StudiesDescriptionCard = ({
   studyDetailData,
@@ -68,9 +70,14 @@ const StudiesDescriptionCard = ({
             <Profile width={35} height={35} src={profileImg} />
             <Typography.P1>{findLeader?.nickname}</Typography.P1>
           </div>
-          <Typography.P1 className="text-mos-gray-700">
-            조회수 {studyDetailData.viewCount}회
-          </Typography.P1>
+          <div className="flex gap-2 text-mos-gray-700">
+            {/* 조회수 {studyDetailData.viewCount}회 */}
+            <Meta icon="eye">{studyDetailData.viewCount}</Meta>
+            <MetaLike
+              studyId={studyDetailData.id}
+              studyIds={[studyDetailData.id]}
+            />
+          </div>
         </div>
 
         <MetaList title="모집일자">
