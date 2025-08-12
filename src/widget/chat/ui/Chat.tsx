@@ -33,12 +33,17 @@ import cn from "@/shared/utils/cn";
 import clsx from "clsx";
 import React, { useState, useRef, useEffect } from "react";
 import { useChatUIStore } from "@/shared/store/useChatUIStore";
+import { useGetPrivateChatRoom, useGetPrivateChatRoomMessages } from "@/entities/chat/model/chat.queries";
+import { useWebSocket } from "@/shared/hooks/useWebSocket";
+import { useAuthStore } from "@/entities/auth/model/auth.store";
 
 const CHAT_DELETE_CONFIRM_MODAL_KEY = "chat_delete_confirm";
 const CHAT_STATIC_SORT_CONFIRM_MODAL_KEY = "chat_static_sort_confirm";
 
 const Chat = () => {
   const { modal, openModal, closeModal } = useMultiModal();
+  const { isLoggedIn } = useAuthStore(); // 로그인 상태 확인
+  
   const {
     navigationState,
     navigateToStudyInquiry,
@@ -59,7 +64,41 @@ const Chat = () => {
   const [activeTab, setActiveTab] = useState<ChatActiveTab>("chat"); // 현재 탭 상태
   const [notifications, setNotifications] =
     useState<Notification[]>(notificationMockData); // 알림 목록 상태
-
+  
+  // 개인 채팅방 목록 조회
+  const { data: privateChatRooms, error: privateChatError } = useGetPrivateChatRoom({ 
+    enabled: isOpenState 
+  });
+  
+  // 개인 채팅방 메시지 조회 (임시로 첫 번째 채팅방의 메시지를 조회)
+  const { data: privateChatMessages, error: messagesError } = useGetPrivateChatRoomMessages(
+    privateChatRooms?.[0]?.privateChatRoomId?.toString() || "",
+    {
+      enabled: isOpenState && !!privateChatRooms?.[0]?.privateChatRoomId,
+    }
+  );
+  
+  console.log('개인 채팅방 목록:', privateChatRooms, privateChatError);
+  console.log('개인 채팅방 메시지:', privateChatMessages, messagesError);
+  
+  // WebSocket 연결 (채팅창이 열려있을 때만)
+  const { isConnected } = useWebSocket({
+    url: `ws://localhost:8080/ws-stomp`,
+    enabled: isOpenState, // 채팅창이 열려있을 때만 연결
+    onConnect: () => {
+      console.log("채팅 WebSocket 연결됨");
+    },
+    onDisconnect: () => {
+      console.log("채팅 WebSocket 연결 해제됨");
+    },
+    onError: (error) => {
+      console.error("채팅 WebSocket 에러:", error);
+    },
+  });
+  
+  // WebSocket 연결 상태 로그
+  console.log('WebSocket 연결 상태:', isConnected);
+  
   // 채팅방 검색 기능
   const {
     isSearchMode,
@@ -296,6 +335,11 @@ const Chat = () => {
     }
   };
 
+  // 로그인하지 않은 경우 채팅창을 렌더링하지 않음
+  if (!isLoggedIn) {
+    return null;
+  }
+
   return (
     <>
       {/* 채팅창 카드 */}
@@ -323,7 +367,7 @@ const Chat = () => {
               />
               {/* 닫기 버튼 */}
               <i
-                className="bi bi-x text-[28px] cursor-pointer"
+                className="bi bi-x cursor-pointer text-[28px]"
                 role="button"
                 onClick={closeChat}
               />
@@ -404,7 +448,7 @@ const Chat = () => {
           />
           {/* 미읽은 메시지/알림 표시 dot */}
           {getTotalUnreadCount() > 0 && !isOpenState && (
-            <div className="absolute -top-1 -right-1 size-3 rounded-full bg-red-500 border-2 border-white" />
+            <div className="absolute -right-1 -top-1 size-3 rounded-full border-2 border-white bg-red-500" />
           )}
         </div>
       </div>
