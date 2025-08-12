@@ -59,7 +59,7 @@ const StudiesDescriptionCard = ({
           <div className="flex items-center gap-2">
             <ShareButton type="copy" />
             <ShareButton type="share" />
-            <MessageToLeaderButton chatRoomPreview={chatRoomPreview} />
+            <MessageToLeaderButton userId={`${findLeader?.userId}`} chatRoomPreview={chatRoomPreview} />
           </div>
         </div>
         <div className="flex justify-between">
