@@ -28,8 +28,8 @@ export default async function RootLayout({
             <div className="layout">{children}</div>
           </div>
           <Footer />
+          <Chat />
         </QueryClientProvider>
-        <Chat />
         <div id="portal"></div>
       </body>
     </html>
