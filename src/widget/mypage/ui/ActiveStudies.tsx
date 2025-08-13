@@ -12,8 +12,6 @@ import {
   useGetMyApplyStatus,
   useGetMyJoinedStudies,
 } from "@/entities/study/join/model/join.query";
-import { getStudies } from "@/entities/study/studies/api/studies.api";
-import { Study } from "@/entities/study/studies/api/studies.api.type";
 import ApplyList from "@/features/study/apply-studies/ui/ApplyStudiesList";
 import StudyList from "@/features/study/active-studies/ui/ActiveStudiesList";
 import LikeStudyList from "@/features/study/like-studies/LikeStudyList";
@@ -21,7 +19,6 @@ import LikeStudyList from "@/features/study/like-studies/LikeStudyList";
 const ActiveStudies = () => {
   const decoded = useDecodeToken();
   const userId = decoded?.id;
-  const [likedStudiesData, setLikedStudiesData] = useState<Study[]>([]);
 
   const [selectedTabState, setSelectedTabState] =
     useState<string>("좋아요 누른 스터디");
@@ -50,30 +47,6 @@ const ActiveStudies = () => {
     }
   }, [myJoinedStudiesData, setMyJoinedStudiesData]);
 
-  useEffect(() => {
-    if (selectedTabState === "좋아요 누른 스터디") {
-      const fetchAllStudies = async () => {
-        try {
-          // 1. 첫 번째 호출로 totalStudies 가져오기
-          const initialResponse = await getStudies({ page: "1" });
-
-          // 2. totalStudies 수만큼 내가 좋아요 누른 모든 스터디 가져오기
-          const allResponse = await getStudies({
-            page: "1",
-            size: String(initialResponse.totalStudies),
-            liked: true,
-          });
-
-          // 3. 결과를 상태에 저장
-          setLikedStudiesData(allResponse.studies);
-        } catch (error) {
-          console.error(error);
-        }
-      };
-      fetchAllStudies();
-    }
-  }, [selectedTabState]);
-
   return (
     <Card className="col-span-12">
       <Card.Header className="mb-[20px]">
@@ -84,9 +57,7 @@ const ActiveStudies = () => {
         />
       </Card.Header>
       <Card.Content>
-        {selectedTabState === "좋아요 누른 스터디" && (
-          <LikeStudyList data={likedStudiesData ?? []} />
-        )}
+        {selectedTabState === "좋아요 누른 스터디" && <LikeStudyList />}
         {selectedTabState === "참여 중인 스터디" && (
           <StudyList userId={userId!} />
         )}
