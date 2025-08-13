@@ -20,6 +20,9 @@ import {
   useGetMyApplyStatus,
   useGetMyJoinedStudies,
 } from "@/entities/study/join/model/join.query";
+import { getStudies } from "@/entities/study/studies/api/studies.api";
+import { Study } from "@/entities/study/studies/api/studies.api.type";
+import MetaLike from "@/features/study/landing/ui/MetaLike";
 
 const tagColors: Record<string, keyof typeof Tag> = {
   스터디장: "Green",
@@ -30,6 +33,59 @@ const tagColors: Record<string, keyof typeof Tag> = {
   승낙: "Blue",
   탈락: "Gray",
   취소: "Pink",
+};
+
+const LikeStudyList = ({ data }: { data: Study[] }) => {
+  const router = useRouter();
+
+  if (data.length === 0) {
+    return (
+      <div className="flex h-[200px] items-center justify-center">
+        <Typography.P3>좋아요한 스터디가 없습니다.</Typography.P3>
+      </div>
+    );
+  }
+  return (
+    <>
+      {data.map((data) => (
+        <div
+          key={data.id}
+          className="mb-[20px] flex cursor-pointer flex-col gap-[10px] rounded-[10px] border border-mos-gray-100 p-[20px] transition-colors duration-200 hover:border-mos-main-500 active:bg-gray-50"
+          onClick={() => router.push(URL.STUDY.DETAIL(data.id))}
+        >
+          <div className="flex justify-between">
+            <div className="flex gap-2">
+              <Tag.Blue>{data.category}</Tag.Blue>
+            </div>
+            <div className="flex gap-2">
+              {data.tags.map((item) => (
+                <Tag.Green key={item}>#{item}</Tag.Green>
+              ))}
+            </div>
+          </div>
+          <Typography.Head3 className="text-[20px]">
+            {data.title}
+          </Typography.Head3>
+          <Typography.P1 className="line-clamp-2 text-[20px]">
+            {data.content}
+          </Typography.P1>
+
+          <div className="flex items-end justify-between">
+            <div className="flex items-center gap-[10px]">
+              <MetaLike
+                studyId={data.id}
+                studyIds={[data.id]}
+                disabled={true}
+              />
+            </div>
+            <div className="flex items-center">
+              <i className="bi bi-chevron-right text-xl text-mos-gray-500"></i>
+            </div>
+          </div>
+        </div>
+      ))}
+    </>
+  );
 };
 
 const StudyList = ({ data }: { data: GetMyJoinedStudiesResult[] }) => {
@@ -151,9 +207,10 @@ const ApplyList = ({ data }: { data: GetMyApplyStatusResult[] }) => {
 const ActiveStudies = () => {
   const decoded = useDecodeToken();
   const userId = decoded?.id;
+  const [likedStudiesData, setLikedStudiesData] = useState<Study[]>([]);
 
   const [selectedTabState, setSelectedTabState] =
-    useState<string>("참여 중인 스터디");
+    useState<string>("좋아요 누른 스터디");
   const setAllApplyStatus = useApplyStatusStore(
     (state) => state.setAllApplyStatus
   );
@@ -179,16 +236,43 @@ const ActiveStudies = () => {
     }
   }, [myJoinedStudiesData, setMyJoinedStudiesData]);
 
+  useEffect(() => {
+    if (selectedTabState === "좋아요 누른 스터디") {
+      const fetchAllStudies = async () => {
+        try {
+          // 1. 첫 번째 호출로 totalStudies 가져오기
+          const initialResponse = await getStudies({ page: "1" });
+
+          // 2. totalStudies 수만큼 내가 좋아요 누른 모든 스터디 가져오기
+          const allResponse = await getStudies({
+            page: "1",
+            size: String(initialResponse.totalStudies),
+            liked: true,
+          });
+
+          // 3. 결과를 상태에 저장
+          setLikedStudiesData(allResponse.studies);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      fetchAllStudies();
+    }
+  }, [selectedTabState]);
+
   return (
     <Card className="col-span-12">
       <Card.Header className="mb-[20px]">
         <Tab
-          tabList={["참여 중인 스터디", "지원 현황"]}
+          tabList={["좋아요 누른 스터디", "참여 중인 스터디", "지원 현황"]}
           selectedTab={selectedTabState}
           setSelectedTab={setSelectedTabState}
         />
       </Card.Header>
       <Card.Content>
+        {selectedTabState === "좋아요 누른 스터디" && (
+          <LikeStudyList data={likedStudiesData ?? []} />
+        )}
         {selectedTabState === "참여 중인 스터디" && (
           <StudyList data={myJoinedStudiesData ?? []} />
         )}
