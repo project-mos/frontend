@@ -17,4 +17,5 @@ export interface GetLikeStudyResponse {
 export interface MetaLikeProps {
   studyId: number;
   studyIds: number[];
+  disabled?:boolean
 }
