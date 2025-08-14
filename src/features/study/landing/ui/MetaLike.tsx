@@ -11,7 +11,7 @@ import useModal from "@/shared/hooks/useModal";
 import { useEffect, useMemo, useState } from "react";
 import { MetaLikeProps } from "./landing.ui.types";
 
-const MetaLike = ({ studyId, studyIds }: MetaLikeProps) => {
+const MetaLike = ({ studyId, studyIds, disabled = false }: MetaLikeProps) => {
   const { isLoggedIn } = useAuthStore();
   const { isModalOpenState, openModal, closeModal } = useModal();
   const [accumulatedStudyIds, setAccumulatedStudyIds] = useState<number[]>(
@@ -96,7 +96,7 @@ const MetaLike = ({ studyId, studyIds }: MetaLikeProps) => {
       <Meta
         icon={`${iconClass} text-[14px] mt-[3px] cursor-pointer`}
         className="min-w-3"
-        onClick={handleClick}
+        onClick={disabled ? () => {} : handleClick}
       >
         {findLikeStudy?.likedCount ?? 0}
       </Meta>
