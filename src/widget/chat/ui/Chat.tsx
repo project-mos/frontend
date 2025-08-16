@@ -17,10 +17,7 @@ import {
 } from "@/entities/notification/lib/mock/notification.mock";
 import { ChatActiveTab } from "@/features/chat/ui/chat.ui.types";
 import NotificationList from "@/features/notification/ui/NotificationList";
-import ChatInput from "@/features/chat/ui/ChatInput";
-import ChatItem from "@/features/chat/ui/ChatItem";
-import ChatRoom from "@/features/chat/ui/ChatRoom";
-import ChatTab from "@/features/chat/ui/ChatTab";
+import { ChatInput, ChatItem, ChatRoom, ChatTab, ChatErrorState } from "@/features/chat/ui";
 
 import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
@@ -33,7 +30,7 @@ import cn from "@/shared/utils/cn";
 import clsx from "clsx";
 import React, { useState, useRef, useEffect } from "react";
 import { useChatUIStore } from "@/shared/store/useChatUIStore";
-import { useGetPrivateChatRoom, useGetPrivateChatRoomMessages } from "@/entities/chat/model/chat.queries";
+import { useGetPrivateChatRoom } from "@/entities/chat/model/chat.queries";
 import { useWebSocket } from "@/shared/hooks/useWebSocket";
 import { useAuthStore } from "@/entities/auth/model/auth.store";
 
@@ -66,38 +63,59 @@ const Chat = () => {
     useState<Notification[]>(notificationMockData); // 알림 목록 상태
   
   // 개인 채팅방 목록 조회
-  const { data: privateChatRooms, error: privateChatError } = useGetPrivateChatRoom({ 
+  const { data: privateChatRooms, error: privateChatError, refetch: refetchPrivateChat } = useGetPrivateChatRoom({ 
     enabled: isOpenState 
   });
   
   // 개인 채팅방 메시지 조회 (임시로 첫 번째 채팅방의 메시지를 조회)
-  const { data: privateChatMessages, error: messagesError } = useGetPrivateChatRoomMessages(
-    privateChatRooms?.[0]?.privateChatRoomId?.toString() || "",
-    {
-      enabled: isOpenState && !!privateChatRooms?.[0]?.privateChatRoomId,
-    }
-  );
+  // const { data: privateChatMessages, error: messagesError } = useGetPrivateChatRoomMessages(
+  //   privateChatRooms?.[0]?.privateChatRoomId?.toString() || "",
+  //   {
+  //     enabled: isOpenState && !!privateChatRooms?.[0]?.privateChatRoomId,
+  //   }
+  // );
   
-  console.log('개인 채팅방 목록:', privateChatRooms, privateChatError);
-  console.log('개인 채팅방 메시지:', privateChatMessages, messagesError);
+  console.log('개인 채팅방 목록:', privateChatRooms, privateChatError?.message);
+  // console.log('개인 채팅방 메시지:', privateChatMessages, messagesError);
   
-  // WebSocket 연결 (채팅창이 열려있을 때만)
-  const { isConnected } = useWebSocket({
-    url: `ws://localhost:8080/ws-stomp`,
+  const webSocketUrl = "/ws-stomp";
+
+  const { isConnected, subscribe } = useWebSocket({
+    url: webSocketUrl,
     enabled: isOpenState, // 채팅창이 열려있을 때만 연결
     onConnect: () => {
-      console.log("채팅 WebSocket 연결됨");
+      console.log("채팅 WebSocket 연결됨 - URL:", webSocketUrl);
     },
     onDisconnect: () => {
-      console.log("채팅 WebSocket 연결 해제됨");
+      console.log("채팅 WebSocket 연결 해제됨 - URL:", webSocketUrl);
     },
     onError: (error) => {
       console.error("채팅 WebSocket 에러:", error);
+      console.error("에러 발생 URL:", webSocketUrl);
     },
   });
   
   // WebSocket 연결 상태 로그
   console.log('WebSocket 연결 상태:', isConnected);
+  
+  // 사용자 메시지 구독
+  useEffect(() => {
+    if (isConnected && subscribe) {
+      // /user/sub/users 경로로 메시지 구독
+      const subscription = subscribe('/user/sub/users', (message) => {
+        console.log('받은 사용자 메시지: ', message);
+        // TODO: 받은 메시지를 채팅 상태에 추가하는 로직 구현
+        // 예: setChatMessages(prev => [...prev, message]);
+      });
+      
+      // 컴포넌트 언마운트 시 구독 해제
+      return () => {
+        if (subscription) {
+          subscription.unsubscribe();
+        }
+      };
+    }
+  }, [isConnected, subscribe]);
   
   // 채팅방 검색 기능
   const {
@@ -335,6 +353,13 @@ const Chat = () => {
     }
   };
 
+  // 재시도 함수
+  const handleRetry = () => {
+    refetchPrivateChat();
+  };
+
+
+
   // 로그인하지 않은 경우 채팅창을 렌더링하지 않음
   if (!isLoggedIn) {
     return null;
@@ -376,7 +401,14 @@ const Chat = () => {
 
           {/* 컨텐츠 영역 */}
           <Card.Content className="h-full max-h-[480px] overflow-y-auto">
-            {renderCurrentView()}
+            {privateChatError ? (
+              <ChatErrorState 
+                errorMessage={privateChatError.message} 
+                onRetry={handleRetry} 
+              />
+            ) : (
+              renderCurrentView()
+            )}
           </Card.Content>
 
           {/* 푸터 영역: 채팅 입력창 또는 탭 전환 */}
