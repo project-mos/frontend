@@ -27,3 +27,9 @@ export interface Chat {
 export interface ChatRoomProps {
   data: Chat[];
 }
+
+// 채팅 에러 상태 타입
+export interface ChatErrorStateProps {
+  errorMessage: string;
+  onRetry: () => void;
+}
