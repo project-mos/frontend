@@ -312,18 +312,27 @@ const Chat = () => {
 
             {/* 채팅방 목록 */}
             {activeTab === "chat" && (
-              <div className="flex flex-col gap-3 p-2">
-                {(isSearchMode ? filteredRooms : chatRoomMockData).map(
-                  (item, index) => (
-                    <ChatItem
-                      item={item}
-                      key={`${item.roomId}_${index}`}
-                      onClick={() => handleChatItemClick(item)}
-                      onDotClick={onDotClick}
-                    />
-                  )
+              <>
+                {privateChatError ? (
+                  <ChatErrorState 
+                    errorMessage={privateChatError.message} 
+                    onRetry={handleRetry} 
+                  />
+                ) : (
+                  <div className="flex flex-col gap-3 p-2">
+                    {(isSearchMode ? filteredRooms : chatRoomMockData).map(
+                      (item, index) => (
+                        <ChatItem
+                          item={item}
+                          key={`${item.roomId}_${index}`}
+                          onClick={() => handleChatItemClick(item)}
+                          onDotClick={onDotClick}
+                        />
+                      )
+                    )}
+                  </div>
                 )}
-              </div>
+              </>
             )}
 
             {/* 알림 리스트 */}
@@ -401,14 +410,7 @@ const Chat = () => {
 
           {/* 컨텐츠 영역 */}
           <Card.Content className="h-full max-h-[480px] overflow-y-auto">
-            {privateChatError ? (
-              <ChatErrorState 
-                errorMessage={privateChatError.message} 
-                onRetry={handleRetry} 
-              />
-            ) : (
-              renderCurrentView()
-            )}
+            {renderCurrentView()}
           </Card.Content>
 
           {/* 푸터 영역: 채팅 입력창 또는 탭 전환 */}
