@@ -30,8 +30,8 @@ const MessageToLeaderButton = ({
   // 성공/실패 핸들러를 별도로 관리
   const handleSuccess = (response: GetPrivateChatRoomByUserResponse) => {
     console.log('개인 채팅방 조회/생성 성공:', response);
-    // 채팅방 생성 후 채팅창 열기
-    openChat(chatRoomPreview);
+    // 채팅방 생성 후 채팅창 열기 (실제 채팅방 데이터도 함께 전달)
+    openChat(chatRoomPreview, response);
     setIsLoading(false);
   };
 
