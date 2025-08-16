@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
 
+
 const isProduction = process.env.NODE_ENV === "production";
 export const isStrictMode = true;
 
@@ -25,6 +26,18 @@ const nextConfig: NextConfig = {
   // 외부 이미지 호스트 허용 설정
   images: {
     domains: ["mos-data-bucket.s3.amazonaws.com", "ui-avatars.com"],
+  },
+  // 개발 환경에서 WebSocket 프록시 설정(http, https 요청)
+  async rewrites() {
+    if (process.env.NODE_ENV === "development") {
+      return [
+        {
+          source: "/ws-stomp/:path*",
+          destination: "http://localhost:8080/ws-stomp/:path*",
+        },
+      ];
+    }
+    return [];
   },
 };
 
