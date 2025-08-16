@@ -1,20 +1,13 @@
 "use client";
 
-import {
-  chatMockData,
-  chatRoomMockData,
-  ChatRoomPreview,
-  personalChatMockData,
-  groupChatMockData,
-  inquiryChatMockData,
-  studyInquiryMockData,
-} from "@/entities/chat/lib/mock/chat.mock";
+
 import { useChatNavigation } from "@/features/chat-navigation/model/useChatNavigation";
 import StudyInquiryList from "@/features/study-inquiry/ui/StudyInquiryList";
 import {
   notificationMockData,
   Notification,
 } from "@/entities/notification/lib/mock/notification.mock";
+import { PrivateChatRoom } from "@/entities/chat/api/chat.api.types";
 import { ChatActiveTab } from "@/features/chat/ui/chat.ui.types";
 import NotificationList from "@/features/notification/ui/NotificationList";
 import { ChatInput, ChatItem, ChatRoom, ChatTab, ChatErrorState } from "@/features/chat/ui";
@@ -43,7 +36,7 @@ const Chat = () => {
   
   const {
     navigationState,
-    navigateToStudyInquiry,
+    // navigateToStudyInquiry,
     navigateToChatRoom,
     navigateBack,
     getCurrentTitle,
@@ -56,6 +49,7 @@ const Chat = () => {
     closeChat,
     openChat,
     targetChatRoom,
+    privateChatRoomData,
   } = useChatUIStore();
   const [isChatOptionOpen, setIsChatOptionOpen] = useState<boolean>(false); // 채팅 옵션 열림 여부
   const [activeTab, setActiveTab] = useState<ChatActiveTab>("chat"); // 현재 탭 상태
@@ -102,8 +96,8 @@ const Chat = () => {
   useEffect(() => {
     if (isConnected && subscribe) {
       // /user/sub/users 경로로 메시지 구독
-      const subscription = subscribe('/user/sub/users', (message) => {
-        console.log('받은 사용자 메시지: ', message);
+      const subscription = subscribe("/user/sub/chat-rooms", (message) => {
+        console.log("받은 사용자 메시지: ", message);
         // TODO: 받은 메시지를 채팅 상태에 추가하는 로직 구현
         // 예: setChatMessages(prev => [...prev, message]);
       });
@@ -116,16 +110,39 @@ const Chat = () => {
       };
     }
   }, [isConnected, subscribe]);
+
+  // 특정 채팅방 구독 (MessageToLeaderButton에서 진입한 경우)
+  useEffect(() => {
+    if (isConnected && 
+        navigationState.currentView === "chatroom" && 
+        privateChatRoomData?.privateChatRoomId) {
+      
+             const subscription = subscribe(
+         `/sub/private-chat-rooms/${privateChatRoomData.privateChatRoomId}`,
+         (message) => {
+           console.log('채팅방 메시지 수신:', message);
+           // TODO: 받은 메시지를 채팅 상태에 추가하는 로직 구현
+           // 예: setChatMessages(prev => [...prev, message]);
+         }
+       );
+      
+      return () => {
+        if (subscription) {
+          subscription.unsubscribe();
+        }
+      };
+    }
+  }, [isConnected, navigationState.currentView, privateChatRoomData, subscribe]);
   
   // 채팅방 검색 기능
   const {
     isSearchMode,
     searchQuery,
-    filteredRooms,
+    // filteredRooms,
     toggleSearchMode,
     handleSearchChange,
     clearSearch,
-  } = useSearchChat(chatRoomMockData);
+  } = useSearchChat([]);
 
   // 검색 입력창 ref
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -160,34 +177,15 @@ const Chat = () => {
   };
 
   // 채팅방 클릭 시 해당 채팅방으로 진입
-  const handleChatItemClick = (item: ChatRoomPreview) => {
-    if (item.roomType === "study-inquiry") {
-      navigateToStudyInquiry(studyInquiryMockData);
-    } else {
-      navigateToChatRoom(item);
-    }
+  const handleChatItemClick = (item: PrivateChatRoom) => {
+    // TODO: 실제 채팅방 진입 로직 구현
+    console.log('채팅방 클릭:', item);
   };
 
   // 스터디 문의 사용자 클릭 시 채팅방으로 진입
   const handleInquiryClick = (roomId: string) => {
-    // roomId를 기반으로 채팅방 데이터 생성(임시)
-    const chatData: ChatRoomPreview = {
-      roomId,
-      roomType: "personal",
-      user: {
-        id: "user-jaehyun",
-        name: "이재현",
-        avatarUrl:
-          "https://ui-avatars.com/api/?name=이재현&background=fd7e14&color=fff&size=40",
-      },
-      lastMessage: {
-        content: "과제 제출 방법이 궁금해요",
-        type: "text",
-        timestamp: "2025-04-18T16:30:00Z",
-      },
-      unreadCount: 2,
-    };
-    navigateToChatRoom(chatData);
+    // TODO: 실제 API로 스터디 문의 채팅방 데이터 조회
+    console.log('스터디 문의 채팅방 진입:', roomId);
   };
 
   // 알림을 읽음 상태로 변경
@@ -239,10 +237,7 @@ const Chat = () => {
 
   // 미읽은 메시지 및 알림 개수 계산 (추후 api 구현)
   const getUnreadCounts = () => {
-    const unreadChatCount = chatRoomMockData.reduce(
-      (total, room) => total + room.unreadCount,
-      0
-    );
+    const unreadChatCount = 0; // TODO: 실제 API로 미읽은 메시지 개수 조회
     const unreadNotificationCount = notifications.filter(
       (notification) => !notification.isRead
     ).length;
@@ -255,20 +250,10 @@ const Chat = () => {
     return unreadChatCount + unreadNotificationCount;
   };
 
-  // 채팅방 타입에 따른 mock data 선택
+  // 채팅방 타입에 따른 데이터 선택 (추후 API 구현)
   const getCurrentChatData = () => {
-    if (!navigationState.selectedChatRoom) return chatMockData;
-
-    switch (navigationState.selectedChatRoom.roomType) {
-      case "personal":
-        return personalChatMockData;
-      case "group":
-        return groupChatMockData;
-      case "inquiry":
-        return inquiryChatMockData;
-      default:
-        return chatMockData;
-    }
+    // TODO: 실제 API로 채팅방 메시지 조회
+    return [];
   };
 
   const onDotClick = () => {
@@ -320,16 +305,11 @@ const Chat = () => {
                   />
                 ) : (
                   <div className="flex flex-col gap-3 p-2">
-                    {(isSearchMode ? filteredRooms : chatRoomMockData).map(
-                      (item, index) => (
-                        <ChatItem
-                          item={item}
-                          key={`${item.roomId}_${index}`}
-                          onClick={() => handleChatItemClick(item)}
-                          onDotClick={onDotClick}
-                        />
-                      )
-                    )}
+                    <ChatItem
+                      privateChatRooms={privateChatRooms}
+                      onItemClick={handleChatItemClick}
+                      onDotClick={onDotClick}
+                    />
                   </div>
                 )}
               </>
