@@ -1,10 +1,11 @@
 export type GetPrivateChatRoomResponse = PrivateChatRoom[];
 
 export interface PrivateChatRoom {
-  counterpartId: number;
-  privateChatRoomId: number;
+  privateChatRoomId: number; // 또는 studyChatRoomId
+  chatName: string;
   lastMessage: string;
-  lastMessageAt: string;
+  createdAt: string; // yyyy-MM-dd'T'HH:mm:ss
+  unreadCnt: number;
 }
 
 // 개인 채팅방 생성 및 유무 조회 응답 타입
