@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { Client, IFrame, StompSubscription } from '@stomp/stompjs';
-import SockJS from "sockjs-client";
 
 interface UseWebSocketOptions {
   url: string;
@@ -26,14 +25,23 @@ export const useWebSocket = (options: UseWebSocketOptions): UseWebSocketReturn =
 
   // STOMP 클라이언트 초기화
   const initializeClient = useCallback(() => {
-    // 현재 페이지의 프로토콜 확인
-    
+    // WebSocket URL을 ws:// 또는 wss:// 프로토콜로 변환
+    const getWebSocketUrl = (url: string) => {
+      if (url.startsWith('/')) {
+        // 상대 경로인 경우 현재 페이지 프로토콜 사용
+        const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        return `${protocol}//${window.location.host}${url}`;
+      }
+      // 절대 경로인 경우 http/https를 ws/wss로 변환
+      return url.replace(/^http/, 'ws');
+    };
+
+    const wsUrl = getWebSocketUrl(url);
+    console.log('WebSocket 연결 URL:', wsUrl);
     
     const client = new Client({
       webSocketFactory: () => {
-        return new SockJS(url, null, {
-          transports: ['websocket', 'xhr-streaming', 'xhr-polling']
-        });
+        return new WebSocket(wsUrl);
       },
       debug: (str) => {
         console.log("STOMP Debug:", str);
@@ -65,7 +73,7 @@ export const useWebSocket = (options: UseWebSocketOptions): UseWebSocketReturn =
 
     clientRef.current = client;
     return client;
-  }, [url, onConnect, onDisconnect, onError]);
+  }, [url]);
 
   // 구독 함수
   const subscribe = useCallback((destination: string, callback: (message: string) => void) => {
@@ -77,6 +85,7 @@ export const useWebSocket = (options: UseWebSocketOptions): UseWebSocketReturn =
     try {
       return clientRef.current.subscribe(destination, (message) => {
         try {
+          console.log(message)
           const body = JSON.parse(message.body);
           callback(body);
         } catch (error) {
