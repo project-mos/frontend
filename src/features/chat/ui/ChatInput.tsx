@@ -2,12 +2,16 @@ import Button from "@/shared/components/atoms/Button";
 import Textarea from "@/shared/components/atoms/Textarea";
 import React, { useState } from "react";
 
+interface ChatInputProps {
+  onSendMessage?: (message: string) => void; // 메시지 전송 콜백 추가
+}
+
 const MIN_TEXTAREA_HEIGHT = 40; // 텍스트 영역의 최소 높이 (px)
 const HEIGHT_PER_LINE = 24; // 한 줄당 높이 증가량 (px)
 const MAX_LINES = 5; // 텍스트 영역의 최대 라인 수 (MIN_TEXTAREA_HEIGHT 포함)
 const CHARS_PER_LINE = 32; // 한 줄에 들어가는 최대 문자 수 (줄바꿈 계산 기준)
 
-const ChatInput = () => {
+const ChatInput = ({ onSendMessage }: ChatInputProps) => {
   // 현재 텍스트 영역의 라인 수를 추적합니다. (최소 높이 이후 추가되는 라인 수)
   const [extraLines, setExtraLines] = useState<number>(0);
 
@@ -37,7 +41,10 @@ const ChatInput = () => {
     if (message.trim()) {
       // 빈 메시지 전송 방지
       console.log("메시지 전송:", message);
-      // TODO: 여기에 메시지 전송 로직 추가
+      
+      // 부모 컴포넌트로 메시지 전달
+      onSendMessage?.(message.trim());
+      
       setMessage(""); // 메시지 전송 후 입력 필드 초기화
       setExtraLines(0); // 텍스트 영역 높이 초기화
     }
@@ -63,7 +70,7 @@ const ChatInput = () => {
       />
       <Button.Default
         type="submit"
-        className="rounded-full bg-mos-main px-3 py-2.5 text-sm text-white"
+        className="rounded-full bg-mos-main px-3 py-2.5 text-sm text-white disabled:bg-mos-gray-100"
         disabled={!message.trim()} // 메시지가 비어있으면 버튼 비활성화
       >
         <i className="bi bi-send" />
