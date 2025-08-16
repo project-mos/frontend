@@ -49,7 +49,7 @@ const Chat = () => {
     closeChat,
     openChat,
     targetChatRoom,
-    privateChatRoomData,
+    privateChatRoomData: { privateChatRoomId } = {},
   } = useChatUIStore();
   const [isChatOptionOpen, setIsChatOptionOpen] = useState<boolean>(false); // 채팅 옵션 열림 여부
   const [activeTab, setActiveTab] = useState<ChatActiveTab>("chat"); // 현재 탭 상태
@@ -74,7 +74,7 @@ const Chat = () => {
   
   const webSocketUrl = "/ws-stomp";
 
-  const { isConnected, subscribe } = useWebSocket({
+  const { isConnected, subscribe, publish } = useWebSocket({
     url: webSocketUrl,
     enabled: isOpenState, // 채팅창이 열려있을 때만 연결
     onConnect: () => {
@@ -96,16 +96,26 @@ const Chat = () => {
   useEffect(() => {
     if (isConnected && subscribe) {
       // /user/sub/users 경로로 메시지 구독
-      const subscription = subscribe("/user/sub/chat-rooms", (message) => {
+      const chatRoomSubscription = subscribe(
+        "/user/sub/chat-rooms",
+        (message) => {
+          console.log("받은 사용자 메시지: ", message);
+          // TODO: 받은 메시지를 채팅 상태에 추가하는 로직 구현
+          // 예: setChatMessages(prev => [...prev, message]);
+        }
+      );
+      // /user/sub/errors로 에러메세지 구독
+      const errorSubscription = subscribe("/user/sub/errors", (message) => {
         console.log("받은 사용자 메시지: ", message);
         // TODO: 받은 메시지를 채팅 상태에 추가하는 로직 구현
         // 예: setChatMessages(prev => [...prev, message]);
       });
-      
+
       // 컴포넌트 언마운트 시 구독 해제
       return () => {
-        if (subscription) {
-          subscription.unsubscribe();
+        if (chatRoomSubscription) {
+          chatRoomSubscription.unsubscribe();
+          errorSubscription?.unsubscribe();
         }
       };
     }
@@ -115,10 +125,10 @@ const Chat = () => {
   useEffect(() => {
     if (isConnected && 
         navigationState.currentView === "chatroom" && 
-        privateChatRoomData?.privateChatRoomId) {
+        privateChatRoomId) {
       
              const subscription = subscribe(
-         `/sub/private-chat-rooms/${privateChatRoomData.privateChatRoomId}`,
+         `/sub/private-chat-rooms/${privateChatRoomId}`,
          (message) => {
            console.log('채팅방 메시지 수신:', message);
            // TODO: 받은 메시지를 채팅 상태에 추가하는 로직 구현
@@ -132,7 +142,7 @@ const Chat = () => {
         }
       };
     }
-  }, [isConnected, navigationState.currentView, privateChatRoomData, subscribe]);
+  }, [isConnected, navigationState.currentView, privateChatRoomId, subscribe]);
   
   // 채팅방 검색 기능
   const {
@@ -342,6 +352,34 @@ const Chat = () => {
     }
   };
 
+  // 메시지 전송 핸들러
+  const handleSendMessage = (message: string) => {
+    if (!isConnected || !publish) {
+      console.warn('WebSocket이 연결되지 않았습니다.');
+      return;
+    }
+
+    // 현재 채팅방에 따라 적절한 destination 설정
+    let destination = '';
+    
+    if (navigationState.currentView === "chatroom" && privateChatRoomId) {
+      // 개인 채팅방 메시지 전송
+      destination = `/pub/private-chat-rooms/${privateChatRoomId}/messages`;
+    } else {
+      
+    }
+
+    // 메시지 객체 생성
+    const messageData = {
+      message: message,
+    };
+
+    console.log('메시지 발행:', destination, messageData);
+    
+    // WebSocket을 통해 메시지 발행
+    publish(destination, JSON.stringify(messageData));
+  };
+
   // 재시도 함수
   const handleRetry = () => {
     refetchPrivateChat();
@@ -396,7 +434,7 @@ const Chat = () => {
           {/* 푸터 영역: 채팅 입력창 또는 탭 전환 */}
           <Card.Footer className="rounded-b-3xl">
             {navigationState.currentView === "chatroom" ? (
-              <ChatInput />
+              <ChatInput onSendMessage={handleSendMessage} />
             ) : (
               navigationState.currentView === "list" && (
                 <ChatTab
