@@ -7,6 +7,10 @@ import { useGetPrivateChatRoomByUser } from "@/entities/chat/model/chat.queries"
 import { GetPrivateChatRoomByUserResponse } from "@/entities/chat/api/chat.api.types";
 import { useState } from "react";
 import ActionConfirmModal from "@/shared/components/molecules/ActionConfirmModal";
+import { FetchAPIError } from "@/shared/api/lib";
+import { useAuthStore } from "@/entities/auth/model/auth.store";
+import LoginModal from "@/features/login/ui/LoginModal";
+import useModal from "@/shared/hooks/useModal";
 
 interface MessageToLeaderButtonProps {
   chatRoomPreview: ChatRoomPreview;
@@ -18,9 +22,15 @@ const MessageToLeaderButton = ({
   userId,
 }: MessageToLeaderButtonProps) => {
   const openChat = useChatUIStore((s) => s.openChat);
+  const redirectUrl =
+    typeof window !== "undefined" ? window.location.pathname : "/";
   const [isLoading, setIsLoading] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+
+  // 로그인 상태 확인
+  const { isLoggedIn } = useAuthStore();
+  const { isModalOpenState, openModal, closeModal } = useModal();
   
   // 개인 채팅방 조회/생성 쿼리
   const { refetch: getPrivateChatRoom } = useGetPrivateChatRoomByUser(userId, {
@@ -30,6 +40,7 @@ const MessageToLeaderButton = ({
   // 성공/실패 핸들러를 별도로 관리
   const handleSuccess = (response: GetPrivateChatRoomByUserResponse) => {
     console.log('개인 채팅방 조회/생성 성공:', response);
+    console.log(chatRoomPreview, response);
     // 채팅방 생성 후 채팅창 열기 (실제 채팅방 데이터도 함께 전달)
     openChat(chatRoomPreview, response);
     setIsLoading(false);
@@ -37,13 +48,19 @@ const MessageToLeaderButton = ({
 
   const handleError = (error: unknown) => {
     console.error('개인 채팅방 조회/생성 실패:', error);
-    setErrorMessage('채팅방 생성에 실패했습니다. 다시 시도해주세요.');
+    setErrorMessage(`${error}` ||'채팅방 생성에 실패했습니다. 다시 시도해주세요.');
     setShowErrorModal(true);
     setIsLoading(false);
   };
 
   // 버튼 클릭 핸들러
   const handleButtonClick = async () => {
+    // 로그인하지 않은 경우 로그인 모달 표시
+    if (!isLoggedIn) {
+      openModal();
+      return;
+    }
+
     if (isLoading) return; // 중복 클릭 방지
     
     setIsLoading(true);
@@ -51,6 +68,17 @@ const MessageToLeaderButton = ({
     try {
       // 개인 채팅방 조회/생성
       const result = await getPrivateChatRoom();
+      // 쿼리 결과 상태 확인
+      if (result.status === "error") {
+        // 쿼리 에러 처리
+         if (result.error instanceof FetchAPIError) {
+          handleError(`${result.error}`);
+         } else {
+          handleError(new Error("채팅방 조회/생성 중 오류가 발생했습니다.")) 
+         }
+        return;
+      }
+      
       if (result.data) {
         handleSuccess(result.data);
       }
@@ -67,6 +95,13 @@ const MessageToLeaderButton = ({
   
   return (
     <>
+      {/* 로그인 모달 */}
+      <LoginModal
+        isOpen={isModalOpenState}
+        onClose={closeModal}
+        redirectUrl={redirectUrl}
+      />
+
       <Tooltip
         content="문의하기"
         className="rounded-md bg-mos-main-500 px-3 py-1.5 text-[14px] text-white shadow-md"
@@ -78,7 +113,11 @@ const MessageToLeaderButton = ({
           onClick={handleButtonClick}
           disabled={isLoading}
         >
-          <i className={`bi ${isLoading ? 'bi-hourglass-split' : 'bi-chat-dots'} text-[14px]`} />
+          <i
+            className={`bi ${
+              isLoading ? "bi-hourglass-split" : "bi-chat-dots"
+            } text-[14px]`}
+          />
         </Button.Icon>
       </Tooltip>
 
