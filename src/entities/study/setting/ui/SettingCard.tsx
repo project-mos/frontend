@@ -9,11 +9,20 @@ import useMultiModal from "@/shared/hooks/useMultiModal";
 import { useToast } from "@/shared/hooks/useToast";
 import { useRouter } from "next/navigation";
 import { deleteStudy, leaveStudy } from "../api/setting.api";
+import ToggleSwitch from "@/shared/components/molecules/ToggleSwitch";
+import useUserNoticeSetting from "@/features/study/notice/setting-notice/model/useUserNoticeSetting";
+import { useGetStudySettings } from "../model/setting.queries";
 
 const SettingCard = ({ studyId }: { studyId: string }) => {
   const router = useRouter();
   const toast = useToast();
   const { modal, openModal, closeModal } = useMultiModal();
+  // 유저 스터디 설정 조회
+  const { data: userStudySetting, isLoading } = useGetStudySettings(
+    Number(studyId)
+  );
+  // 중요 공지 노출 여부 설정
+  const { userNoticeSetting } = useUserNoticeSetting(Number(studyId));
 
   const handleLeaveButton = async () => {
     try {
@@ -46,6 +55,15 @@ const SettingCard = ({ studyId }: { studyId: string }) => {
     closeModal("edit");
   };
 
+  const handleToggleChange = (checked: boolean, type: string) => {
+    const sendData = {
+      noticePined:
+        type === "notice" ? checked : userStudySetting?.noticePined ?? false,
+      notificationEnabled: type === "alert" ? checked : false,
+    };
+    userNoticeSetting(sendData);
+  };
+
   return (
     <>
       <Card className="col-span-12 h-fit gap-4 tablet:col-span-9 laptop:col-span-10">
@@ -53,7 +71,7 @@ const SettingCard = ({ studyId }: { studyId: string }) => {
           <Typography.SubTitle1>설정</Typography.SubTitle1>
         </Card.Header>
         <Card.Content>
-          <div className="flex flex-col gap-2">
+          <div className="flex w-full flex-col gap-2">
             <div className="flex items-center justify-between rounded-md border border-mos-gray-100 p-5">
               <div>
                 <Typography.P1 className="font-bold">알림 설정</Typography.P1>
@@ -61,7 +79,28 @@ const SettingCard = ({ studyId }: { studyId: string }) => {
                   해당 스터디의 알림을 설정합니다.
                 </Typography.P3>
               </div>
+              <ToggleSwitch
+                initialChecked={false}
+                onChange={(checked) => handleToggleChange(checked, "alert")}
+              />
             </div>
+            {!isLoading && (
+              <div className="flex items-center justify-between rounded-md border border-mos-gray-100 p-5">
+                <div>
+                  <Typography.P1 className="font-bold">
+                    중요 공지 설정
+                  </Typography.P1>
+                  <Typography.P3 className="text-[14px] text-mos-gray-700">
+                    해당 스터디의 중요 공지 노출 여부를 설정합니다.
+                  </Typography.P3>
+                </div>
+                <ToggleSwitch
+                  initialChecked={userStudySetting?.noticePined}
+                  onChange={(checked) => handleToggleChange(checked, "notice")}
+                />
+              </div>
+            )}
+
             <Typography.P1 className="mt-3 font-bold text-mos-gray-700">
               관리자 설정
             </Typography.P1>
