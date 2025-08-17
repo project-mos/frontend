@@ -2,17 +2,26 @@
 
 import Typography from "@/shared/components/atoms/Typography";
 import useFetchNotice from "@/features/study/notice/fetch-notice/model/useFetchNotice";
+import { useGetStudySettings } from "@/entities/study/setting/model/setting.queries";
+import useHideImportantNotice from "@/features/study/notice/delete-notice/model/useHideImportantNotice";
 
 const ImportantNoticeBar = ({ studyId }: { studyId: number }) => {
   const { noticesData } = useFetchNotice(studyId);
 
   const importantNotice = noticesData?.find((item) => item.important);
 
-  const onDeleteBarClick = () => {
-    // 추후 구현 예정
+  // 유저 스터디 설정 조회
+  const { data: userStudySetting } = useGetStudySettings(studyId);
+  // 중요 공지 닫기
+  const { hideImportantNotices } = useHideImportantNotice(studyId);
+
+  const onDeleteBarClick = async () => {
+    hideImportantNotices();
   };
 
-  if (!importantNotice) return null;
+  if (!userStudySetting?.noticePined || !importantNotice) {
+    return null;
+  }
 
   return (
     <>
