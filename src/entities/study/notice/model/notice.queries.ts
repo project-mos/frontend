@@ -9,6 +9,7 @@ import {
 } from "@/entities/study/notice/api/notice.api";
 import { NoticeRequest } from "@/entities/study/notice/api/notice.api.types";
 import { usePachNoticeProps, UsePostNoticeProps, usePutImportantNoticeProps } from "./notice.queries.types";
+import { settingsKey } from "@/entities/study/setting/model/setting.queries";
 
 // queryKey
 export const noticeKeys = {
@@ -64,6 +65,7 @@ export const usePatchNotice = ({
     mutationFn: (data: NoticeRequest) => patchNotice(studyId, noticeId, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: noticeKeys.all(studyId) });
+      // queryClient.invalidateQueries({ queryKey: settingsKey(studyId) });
       onSuccess?.();
     },
     onError: (error) => {
@@ -102,7 +104,7 @@ export const usePutImportantNotice = ({
   return useMutation({
     mutationFn: () => putImportantNotice(studyId),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: noticeKeys.all(studyId) });
+      queryClient.invalidateQueries({ queryKey: settingsKey(studyId) });
     },
     onError: (error) => {
       onError?.(error);
