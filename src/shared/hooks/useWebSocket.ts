@@ -9,16 +9,15 @@ interface UseWebSocketOptions {
   onError?: (error: Error | IFrame) => void;
 }
 
-interface UseWebSocketReturn {
+interface UseWebSocketReturn<T = string> {
   client: Client | null;
   isConnected: boolean;
-  subscribe: (destination: string, callback: (message: string) => void) => StompSubscription | null;
+  subscribe: (destination: string, callback: (message: T) => void) => StompSubscription | null;
   publish: (destination: string, message: string) => void;
   disconnect: () => void;
-  
 }
 
-export const useWebSocket = (options: UseWebSocketOptions): UseWebSocketReturn => {
+export const useWebSocket = <T = string>(options: UseWebSocketOptions): UseWebSocketReturn<T> => {
   const { url, enabled = true, onConnect, onDisconnect, onError } = options;
   const [isConnected, setIsConnected] = useState(false);
   const clientRef = useRef<Client | null>(null);
@@ -76,7 +75,7 @@ export const useWebSocket = (options: UseWebSocketOptions): UseWebSocketReturn =
   }, [url]);
 
   // 구독 함수
-  const subscribe = useCallback((destination: string, callback: (message: string) => void) => {
+  const subscribe = useCallback((destination: string, callback: (message: T) => void) => {
     if (!clientRef.current || !isConnected) {
       console.warn('WebSocket이 연결되지 않았습니다.');
       return null;
@@ -90,7 +89,7 @@ export const useWebSocket = (options: UseWebSocketOptions): UseWebSocketReturn =
           callback(body);
         } catch (error) {
           console.error('메시지 파싱 에러:', error);
-          callback(message.body);
+          callback(message.body as T);
         }
       });
     } catch (error) {
