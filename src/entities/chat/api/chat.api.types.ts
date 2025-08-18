@@ -27,3 +27,12 @@ export interface PrivateChatMessage {
   userId: number;
   nickname: string;
 }
+
+// WebSocket으로 받는 실시간 메시지 타입
+export interface PrivateChatRealtimeMessage {
+  userId: number;
+  nickname: string;
+  privateChatRoomId: number;
+  message: string;
+  sendTime: string; // yyyy-MM-dd'T'HH:mm:ss
+}
