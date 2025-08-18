@@ -1,10 +1,10 @@
 export type GetPrivateChatRoomResponse = PrivateChatRoom[];
 
 export interface PrivateChatRoom {
-  privateChatRoomId: number; // 또는 studyChatRoomId
+  privateChatRoomId: number;
   chatName: string;
   lastMessage: string;
-  createdAt: string; // yyyy-MM-dd'T'HH:mm:ss
+  lastMessageAt: string; // yyyy-MM-dd'T'HH:mm:ss
   unreadCnt: number;
 }
 
