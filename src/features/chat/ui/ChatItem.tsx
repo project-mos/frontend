@@ -1,8 +1,8 @@
 import { PrivateChatRoom } from "@/entities/chat/api/chat.api.types";
 import Button from "@/shared/components/atoms/Button";
 import Typography from "@/shared/components/atoms/Typography";
-import Profile from "@/shared/components/atoms/Profile";
-import { formatDate } from "@/shared/utils/date";
+// import Profile from "@/shared/components/atoms/Profile";
+import { formatDate, formatTime } from "@/shared/utils/date";
 import React, { HTMLAttributes, MouseEvent } from "react";
 
 interface ChatItemProps extends HTMLAttributes<HTMLDivElement> {
@@ -13,6 +13,8 @@ interface ChatItemProps extends HTMLAttributes<HTMLDivElement> {
 
 // 채팅방 목록 컴포넌트
 const ChatItem = ({ privateChatRooms, onItemClick, onDotClick }: ChatItemProps) => {
+
+  
   // 빈 데이터 처리
   if (!privateChatRooms || privateChatRooms.length === 0) {
     return (
@@ -32,17 +34,17 @@ const ChatItem = ({ privateChatRooms, onItemClick, onDotClick }: ChatItemProps) 
       {privateChatRooms.map((item, index) => (
         <div
           key={`${item.privateChatRoomId}_${index}`}
-          className="group flex cursor-pointer items-center justify-between gap-3 rounded-md p-2 text-black transition hover:bg-gray-100 active:bg-gray-200"
+          className="group flex cursor-pointer items-center justify-between gap-3 rounded-md border p-3 text-black shadow-sm transition hover:bg-gray-100 active:bg-gray-200"
           onClick={() => onItemClick(item)}
         >
           <div className="flex items-center gap-2">
             {/* 프로필 이미지 */}
-            <Profile
+            {/* <Profile
               src=""
               width={48}
               height={48}
               className="shrink-0"
-            />
+            /> */}
             <div className="flex flex-col">
               {/* 채팅방 이름 + 뱃지 + 시간 */}
               <div className="flex items-center gap-2">
@@ -51,12 +53,24 @@ const ChatItem = ({ privateChatRooms, onItemClick, onDotClick }: ChatItemProps) 
                 </Typography.P1>
                 {renderRoomTypeBadge()}
                 <Typography.P1 className="text-[12px] font-light text-gray-400">
-                  {formatDate("MM:DD", item.createdAt)}
+                  {formatDate("YYYY-MM-DD", item.lastMessageAt) ===
+                  formatDate("YYYY-MM-DD")
+                    ? formatTime(item.lastMessageAt) // 오늘이면 시간만 표시
+                    : formatDate("MM.DD", item.lastMessageAt) /* 오늘이 아니면 날짜 표시 */}
                 </Typography.P1>
               </div>
               {/* 최근 메시지 내용 */}
               <Typography.P1 className="max-w-[200px] truncate whitespace-nowrap text-[12px]">
-                {item.lastMessage}
+                {(() => {
+                  try {
+                    // JSON 형태의 lastMessage를 파싱하여 message 내용만 표시
+                    const parsedMessage = JSON.parse(item.lastMessage);
+                    return parsedMessage.message || item.lastMessage;
+                  } catch {
+                    // JSON 파싱 실패 시 원본 메시지 표시
+                    return item.lastMessage;
+                  }
+                })()}
               </Typography.P1>
             </div>
           </div>
