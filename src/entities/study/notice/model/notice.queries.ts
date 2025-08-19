@@ -65,7 +65,7 @@ export const usePatchNotice = ({
     mutationFn: (data: NoticeRequest) => patchNotice(studyId, noticeId, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: noticeKeys.all(studyId) });
-      // queryClient.invalidateQueries({ queryKey: settingsKey(studyId) });
+      queryClient.invalidateQueries({ queryKey: settingsKey(studyId) });
       onSuccess?.();
     },
     onError: (error) => {
