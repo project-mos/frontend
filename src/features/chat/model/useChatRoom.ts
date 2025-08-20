@@ -1,9 +1,9 @@
 import { useState, useRef, useEffect } from "react";
-import { Chat } from "@/features/chat/ui/chat.ui.types";
+import { PrivateChatMessage } from "@/entities/chat/api/chat.api.types";
 import { formatDate } from "@/shared/utils/date";
 
 interface UseChatRoomProps {
-  data: Chat[];
+  data: PrivateChatMessage[];
 }
 
 export const useChatRoom = ({ data }: UseChatRoomProps) => {
@@ -19,8 +19,8 @@ export const useChatRoom = ({ data }: UseChatRoomProps) => {
 
       // 현재 날짜 설정 (첫 번째 메시지 기준)
       const firstMessage = data[0];
-      if (firstMessage.timestamp) {
-        setCurrentDate(formatDate("YYYY-MM-DD", firstMessage.timestamp));
+      if (firstMessage.messageCreatedAt) {
+        setCurrentDate(formatDate("YYYY-MM-DD", firstMessage.messageCreatedAt));
         setShowDateBadge(true);
 
         // 기존 타이머 클리어

@@ -1,4 +1,4 @@
-import { ChatRoomPreview } from "@/entities/chat/lib/mock/chat.mock";
+import { PrivateChatRoom } from "@/entities/chat/api/chat.api.types";
 
 /**
  * 채팅방 목록을 검색어로 필터링하는 순수 함수
@@ -7,9 +7,9 @@ import { ChatRoomPreview } from "@/entities/chat/lib/mock/chat.mock";
  * @returns 필터링된 채팅방 목록
  */
 export const filterChatRooms = (
-  chatRooms: ChatRoomPreview[],
+  chatRooms: PrivateChatRoom[],
   searchQuery: string
-): ChatRoomPreview[] => {
+): PrivateChatRoom[] => {
   if (!searchQuery.trim()) {
     return chatRooms;
   }
@@ -17,15 +17,15 @@ export const filterChatRooms = (
   const query = searchQuery.toLowerCase();
 
   return chatRooms.filter((room) => {
-    // 사용자 이름으로 검색
-    const matchesUserName = room.user.name.toLowerCase().includes(query);
+    // 채팅방 이름으로 검색
+    const matchesChatRoomName = room.chatName.toLowerCase().includes(query);
 
     // 마지막 메시지 내용으로 검색
-    const matchesLastMessage = room.lastMessage.content
+    const matchesLastMessage = room.lastMessage
       .toLowerCase()
       .includes(query);
 
-    return matchesUserName || matchesLastMessage;
+    return matchesChatRoomName || matchesLastMessage;
   });
 };
 

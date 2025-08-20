@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { ChatRoomPreview } from "@/entities/chat/lib/mock/chat.mock";
+import { PrivateChatRoom } from "@/entities/chat/api/chat.api.types";
 import {
   NavigationState,
   NavigationStackItem,
@@ -42,10 +42,10 @@ export const useChatNavigation = () => {
     }));
   }, []);
 
-  const navigateToChatRoom = useCallback((chatData: ChatRoomPreview) => {
+  const navigateToChatRoom = useCallback((chatData: PrivateChatRoom) => {
     const newNavItem: NavigationStackItem = {
       view: "chatroom",
-      title: chatData.user.name,
+      title: chatData.chatName, // 채팅방 이름 사용
       data: chatData,
     };
 
@@ -77,7 +77,7 @@ export const useChatNavigation = () => {
             : undefined,
         selectedChatRoom:
           previousItem.view === "chatroom"
-            ? (previousItem.data as ChatRoomPreview)
+            ? (previousItem.data as PrivateChatRoom)
             : undefined,
       };
     });

@@ -1,4 +1,4 @@
-import { ChatRoomPreview } from "@/entities/chat/lib/mock/chat.mock";
+import { PrivateChatRoom } from "@/entities/chat/api/chat.api.types";
 
 export type ChatNavigationView = "list" | "study-inquiry" | "chatroom";
 
@@ -6,13 +6,13 @@ export interface NavigationState {
   currentView: ChatNavigationView;
   stack: NavigationStackItem[];
   selectedStudy?: StudyInquiryRoom;
-  selectedChatRoom?: ChatRoomPreview;
+  selectedChatRoom?: PrivateChatRoom;
 }
 
 export interface NavigationStackItem {
   view: ChatNavigationView;
   title: string;
-  data?: StudyInquiryRoom | ChatRoomPreview;
+  data?: StudyInquiryRoom | PrivateChatRoom;
 }
 
 export interface StudyInquiryRoom {
