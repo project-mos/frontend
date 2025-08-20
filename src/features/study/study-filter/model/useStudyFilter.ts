@@ -29,26 +29,26 @@ const useStudyFilter = () => {
    * URL의 'liked' 쿼리 파라미터를 'true' 또는 'false'로 설정하거나 제거합니다.
    * 항상 'page' 파라미터를 '1'로 초기화하여 새로운 필터 적용 시 첫 페이지로 이동시킵니다.
    */
-  const onClickLiked = () => {
-    // 현재 URLSearchParams를 복사하여 새로운 인스턴스 생성
-    const params = new URLSearchParams(searchParams.toString());
-    // 'liked' 쿼리 파라미터의 현재 값 가져오기
-    const liked = searchParams.get("liked");
-    // 'liked' 값이 "true"인지 여부 확인
-    const boolValue = liked === "true";
+  // const onClickLiked = () => {
+  //   // 현재 URLSearchParams를 복사하여 새로운 인스턴스 생성
+  //   const params = new URLSearchParams(searchParams.toString());
+  //   // 'liked' 쿼리 파라미터의 현재 값 가져오기
+  //   const liked = searchParams.get("liked");
+  //   // 'liked' 값이 "true"인지 여부 확인
+  //   const boolValue = liked === "true";
 
-    // 'liked' 파라미터가 없으면 'true'로 설정
-    if (liked === null) {
-      params.set("liked", `${true}`);
-    } else {
-      // 'liked' 파라미터가 있으면 현재 값의 반대로 설정 (true <-> false)
-      params.set("liked", `${!boolValue}`);
-    }
-    // 필터 변경 시 항상 페이지를 1로 초기화
-    params.set("page", "1");
-    // URL 업데이트 및 페이지 이동
-    router.push(`${pathname}?${params.toString()}`);
-  };
+  //   // 'liked' 파라미터가 없으면 'true'로 설정
+  //   if (liked === null) {
+  //     params.set("liked", `${true}`);
+  //   } else {
+  //     // 'liked' 파라미터가 있으면 현재 값의 반대로 설정 (true <-> false)
+  //     params.set("liked", `${!boolValue}`);
+  //   }
+  //   // 필터 변경 시 항상 페이지를 1로 초기화
+  //   params.set("page", "1");
+  //   // URL 업데이트 및 페이지 이동
+  //   router.push(`${pathname}?${params.toString()}`);
+  // };
 
   /**
    * @function onClickSelected
@@ -114,7 +114,7 @@ const useStudyFilter = () => {
 
   // 필터링 관련 함수 및 Next.js 라우터/검색 파라미터 반환
   return {
-    onClickLiked,
+    // onClickLiked,
     onClickSelected,
     onClickCategory,
     searchParams, // 현재 URL의 쿼리 파라미터 객체
