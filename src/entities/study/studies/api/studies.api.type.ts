@@ -168,13 +168,15 @@ export type GetStudyQuestionResponse = {
 export type GetStudyQuestionsResponse = GetStudyQuestionResponse[];
 
 // 스터디 멤버 조회
-export type GetStudyMembersResponse = {
+export type GetStudyMembersResponse = StudyMember[];
+
+export type StudyMember = {
   userId: number;
   nickname: string;
   studyMemberRoleType: "스터디장" | "스터디원";
   lastAttendanceDate: string;
   participationRate: number;
-}[];
+};
 
 export type GetStudyJoinsRequest = "대기" | "탈락" | "승낙" | "취소" | "";
 
