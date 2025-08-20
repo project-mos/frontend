@@ -1,6 +1,4 @@
 "use client";
-import { useChatUIStore } from "@/shared/store/useChatUIStore";
-import { ChatRoomPreview } from "@/entities/chat/lib/mock/chat.mock";
 import Button from "@/shared/components/atoms/Button";
 import { Tooltip } from "@heroui/tooltip";
 import { useGetPrivateChatRoomByUser } from "@/entities/chat/model/chat.queries";
@@ -11,17 +9,15 @@ import { FetchAPIError } from "@/shared/api/lib";
 import { useAuthStore } from "@/entities/auth/model/auth.store";
 import LoginModal from "@/features/login/ui/LoginModal";
 import useModal from "@/shared/hooks/useModal";
+import { StudyMember } from "@/entities/study/studies/api/studies.api.type";
+import { useUserInfo } from "@/entities/user/model/user.queries";
+import { useChatUIStore } from "@/shared/store/useChatUIStore";
 
 interface MessageToLeaderButtonProps {
-  chatRoomPreview: ChatRoomPreview;
-  userId: string; // 사용자 ID 추가
+  user: StudyMember; // 사용자 ID 추가
 }
 
-const MessageToLeaderButton = ({
-  chatRoomPreview,
-  userId,
-}: MessageToLeaderButtonProps) => {
-  const openChat = useChatUIStore((s) => s.openChat);
+const MessageToLeaderButton = ({ user }: MessageToLeaderButtonProps) => {
   const redirectUrl =
     typeof window !== "undefined" ? window.location.pathname : "/";
   const [isLoading, setIsLoading] = useState(false);
@@ -31,24 +27,34 @@ const MessageToLeaderButton = ({
   // 로그인 상태 확인
   const { isLoggedIn } = useAuthStore();
   const { isModalOpenState, openModal, closeModal } = useModal();
-  
+
+  // 내 사용자 정보 조회 (닉네임 가져오기 위함)
+  const { data: userInfo } = useUserInfo(isLoggedIn);
+
   // 개인 채팅방 조회/생성 쿼리
-  const { refetch: getPrivateChatRoom } = useGetPrivateChatRoomByUser(userId, {
+  const { refetch: getPrivateChatRoom } = useGetPrivateChatRoomByUser(`${user.userId}`, {
     enabled: false, // 수동으로 호출하기 위해 비활성화
   });
 
+  const openChat = useChatUIStore((s) => s.openChat);
+
   // 성공/실패 핸들러를 별도로 관리
   const handleSuccess = (response: GetPrivateChatRoomByUserResponse) => {
-    console.log('개인 채팅방 조회/생성 성공:', response);
-    console.log(chatRoomPreview, response);
-    // 채팅방 생성 후 채팅창 열기 (실제 채팅방 데이터도 함께 전달)
-    openChat(chatRoomPreview, response);
+    console.log("개인 채팅방 조회/생성 성공:", response);
+    // 채팅방 생성 후 채팅창 열기 (내 닉네임과 상대방 닉네임으로 채팅방 이름 생성)
+    const tempChatRoomName = `${userInfo?.nickname || '나'},${user.nickname}`;
+    console.log("채팅방 이름:", tempChatRoomName);
+    
+    // 수정된 파라미터로 채팅창 열기
+    openChat(response, tempChatRoomName);
     setIsLoading(false);
   };
 
   const handleError = (error: unknown) => {
-    console.error('개인 채팅방 조회/생성 실패:', error);
-    setErrorMessage(`${error}` ||'채팅방 생성에 실패했습니다. 다시 시도해주세요.');
+    console.error("개인 채팅방 조회/생성 실패:", error);
+    setErrorMessage(
+      `${error}` || "채팅방 생성에 실패했습니다. 다시 시도해주세요."
+    );
     setShowErrorModal(true);
     setIsLoading(false);
   };
@@ -62,23 +68,23 @@ const MessageToLeaderButton = ({
     }
 
     if (isLoading) return; // 중복 클릭 방지
-    
+
     setIsLoading(true);
-    
+
     try {
       // 개인 채팅방 조회/생성
       const result = await getPrivateChatRoom();
       // 쿼리 결과 상태 확인
       if (result.status === "error") {
         // 쿼리 에러 처리
-         if (result.error instanceof FetchAPIError) {
+        if (result.error instanceof FetchAPIError) {
           handleError(`${result.error}`);
-         } else {
-          handleError(new Error("채팅방 조회/생성 중 오류가 발생했습니다.")) 
-         }
+        } else {
+          handleError(new Error("채팅방 조회/생성 중 오류가 발생했습니다."));
+        }
         return;
       }
-      
+
       if (result.data) {
         handleSuccess(result.data);
       }
@@ -92,7 +98,7 @@ const MessageToLeaderButton = ({
     setShowErrorModal(false);
     setErrorMessage("");
   };
-  
+
   return (
     <>
       {/* 로그인 모달 */}
