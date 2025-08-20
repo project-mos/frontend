@@ -1,27 +1,32 @@
 import { create } from "zustand";
-import { ChatRoomPreview } from "@/entities/chat/lib/mock/chat.mock";
 import { GetPrivateChatRoomByUserResponse } from "@/entities/chat/api/chat.api.types";
 
 interface ChatUIStore {
   isOpen: boolean;
-  targetChatRoom?: ChatRoomPreview;
-  privateChatRoomData?: GetPrivateChatRoomByUserResponse; // 실제 채팅방 데이터 추가
-  openChat: (room?: ChatRoomPreview, privateChatRoomData?: GetPrivateChatRoomByUserResponse) => void;
+  privateChatRoomData?: GetPrivateChatRoomByUserResponse;
+  tempChatRoomName?: string; // 임시 채팅방 이름 (처음 생성 시에만 사용)
+  openChat: (response: GetPrivateChatRoomByUserResponse, tempChatRoomName?: string) => void;
+  openChatList: () => void; // 채팅 목록만 열기
   closeChat: () => void;
 }
 
 export const useChatUIStore = create<ChatUIStore>((set) => ({
   isOpen: false,
-  targetChatRoom: undefined,
   privateChatRoomData: undefined,
-  openChat: (room, privateChatRoomData) => set({ 
+  tempChatRoomName: undefined,
+  openChat: (response, tempChatRoomName) => set({ 
     isOpen: true, 
-    targetChatRoom: room, 
-    privateChatRoomData 
+    privateChatRoomData: response, 
+    tempChatRoomName 
+  }),
+  openChatList: () => set({ 
+    isOpen: true, 
+    privateChatRoomData: undefined, 
+    tempChatRoomName: undefined 
   }),
   closeChat: () => set({ 
     isOpen: false, 
-    targetChatRoom: undefined, 
-    privateChatRoomData: undefined 
+    privateChatRoomData: undefined, 
+    tempChatRoomName: undefined 
   }),
 }));
