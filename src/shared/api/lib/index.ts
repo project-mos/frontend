@@ -13,7 +13,7 @@ import { study } from "@/shared/api/lib/study";
 import { user } from "@/shared/api/lib/user";
 import { category } from "@/shared/api/lib/category";
 import { notice } from "@/shared/api/lib/notice";
-import { chat, recruitmentChat } from "@/shared/api/lib/chat";
+import { chat, recruitmentChat, studyChat } from "@/shared/api/lib/chat";
 
 // fetcher를 기본 내보내기로 가져옵니다.
 import {
@@ -36,6 +36,7 @@ export const API_ENDPOINT = {
   benefits,
   chat,
   recruitmentChat, // 새로 추가
+  studyChat,
   curriculums,
   members,
   questions,

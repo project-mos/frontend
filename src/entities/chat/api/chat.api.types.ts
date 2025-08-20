@@ -27,3 +27,28 @@ export interface PrivateChatMessage {
   userId: number;
   nickname: string;
 }
+
+// 스터디 채팅 타입
+export type GetStudyChatRoomResponse = StudyChatRoom[];
+
+export interface StudyChatRoom {
+  studyChatRoomId: number; // privateChatRoomId → studyChatRoomId
+  chatName: string;
+  lastMessage: string;
+  lastMessageAt: string; // yyyy-MM-dd'T'HH:mm:ss
+  unreadCnt: number;
+}
+
+export interface GetStudyChatRoomMessagesResponse {
+  content: StudyChatMessage[];
+  lastElementId: number;
+  hasNext: boolean;
+}
+
+export interface StudyChatMessage {
+  studyChatMessageId: number; // privateChatMessageId → studyChatMessageId
+  message: string;
+  messageCreatedAt: string;
+  userId: number;
+  nickname: string;
+}
