@@ -1,4 +1,5 @@
 import { HTMLAttributes } from "react";
+import { PrivateChatMessage } from "@/entities/chat/api/chat.api.types";
 
 export interface ChatBubbleProps extends HTMLAttributes<HTMLDivElement> {
   isMe: boolean;
@@ -25,7 +26,7 @@ export interface Chat {
 }
 
 export interface ChatRoomProps {
-  data: Chat[];
+  data: PrivateChatMessage[];
 }
 
 // 채팅 에러 상태 타입
