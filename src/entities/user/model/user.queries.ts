@@ -1,15 +1,12 @@
-import { GetUserInfoResult, UpdateProfileImgResult, UpdateUserInfoResult } from "@/shared/types/api/mypage";
-import { useMutation, UseMutationOptions, UseQueryOptions } from "@tanstack/react-query";
+import { UpdateProfileImgResult, UpdateUserInfoResult } from "@/shared/types/api/mypage";
+import { useMutation, UseMutationOptions, useQuery } from "@tanstack/react-query";
 import { getUserInfo, updateProfileImg, updateUserInfo } from "@/entities/user/api/user.api";
 
-export function userInfoQueryOption(
-  options?: UseQueryOptions<GetUserInfoResult, Error>
-) {
-  return {
+export function useUserInfoQueryOption() {
+  return useQuery({
     queryKey: ["userInfo"],
     queryFn: () => getUserInfo(),
-    ...options,
-  };
+  });
 }
 
 export function useUpdateUserInfo(

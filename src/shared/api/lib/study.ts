@@ -63,4 +63,12 @@ export const study = {
     url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/likes`,
     method: Method.DELETE,
   }),
+  getUserStudySettings: (studyId: number) =>  ({
+    url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/settings`,
+    method: Method.GET,
+  }),
+  putUserStudyNoticeSettings: (studyId: number) =>  ({
+    url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/settings`,
+    method: Method.PUT,
+  }),
 };
