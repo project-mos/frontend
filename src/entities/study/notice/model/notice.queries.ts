@@ -5,9 +5,11 @@ import {
   postNotice,
   patchNotice,
   deleteNotice,
+  putImportantNotice,
 } from "@/entities/study/notice/api/notice.api";
 import { NoticeRequest } from "@/entities/study/notice/api/notice.api.types";
-import { usePachNoticeProps, UsePostNoticeProps } from "./notice.queries.types";
+import { usePachNoticeProps, UsePostNoticeProps, usePutImportantNoticeProps } from "./notice.queries.types";
+import { settingsKey } from "@/entities/study/setting/model/setting.queries";
 
 // queryKey
 export const noticeKeys = {
@@ -36,7 +38,7 @@ export const useGetNotice = (studyId: number, noticeId: number) =>
 export const usePostNotice = ({
   onSuccess,
   onError,
-  studyId
+  studyId,
 }: UsePostNoticeProps) => {
   const queryClient = useQueryClient();
   return useMutation({
@@ -52,11 +54,36 @@ export const usePostNotice = ({
 };
 
 // 공지사항 수정
-export const usePatchNotice = ({onSuccess,
-  onError, studyId, noticeId}: usePachNoticeProps) => {
+export const usePatchNotice = ({
+  onSuccess,
+  onError,
+  studyId,
+  noticeId,
+}: usePachNoticeProps) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (data: NoticeRequest) => patchNotice(studyId, noticeId, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: noticeKeys.all(studyId) });
+      queryClient.invalidateQueries({ queryKey: settingsKey(studyId) });
+      onSuccess?.();
+    },
+    onError: (error) => {
+      onError?.(error);
+    },
+  });
+};
+
+// 공지사항 삭제
+export const useDeleteNotice = ({
+  onSuccess,
+  onError,
+  studyId,
+  noticeId,
+}: usePachNoticeProps) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: () => deleteNotice(studyId, noticeId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: noticeKeys.all(studyId) });
       onSuccess?.();
@@ -67,15 +94,17 @@ export const usePatchNotice = ({onSuccess,
   });
 };
 
-// 공지사항 삭제
-export const useDeleteNotice = ({onSuccess,
-  onError, studyId, noticeId}: usePachNoticeProps) => {
+// 중요 공지사항 닫기
+export const usePutImportantNotice = ({
+  onError,
+  studyId,
+}: usePutImportantNoticeProps) => {
   const queryClient = useQueryClient();
+
   return useMutation({
-    mutationFn: () => deleteNotice(studyId, noticeId),
+    mutationFn: () => putImportantNotice(studyId),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: noticeKeys.all(studyId) });
-      onSuccess?.();
+      queryClient.invalidateQueries({ queryKey: settingsKey(studyId) });
     },
     onError: (error) => {
       onError?.(error);

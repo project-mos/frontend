@@ -21,3 +21,12 @@ export interface NoticeRequest {
   pinned: boolean;
   important: boolean;
 }
+
+// 중요 공지사항 닫기 API 응답 데이터 타입
+export interface HideImportantNoticeResponse {
+  noticePined: boolean;
+  notificationEnabled: boolean;
+  studyId: number;
+  studyMemberId: number;
+  userId: number;
+}

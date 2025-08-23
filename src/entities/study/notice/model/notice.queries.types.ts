@@ -7,3 +7,8 @@ export interface UsePostNoticeProps {
 export interface usePachNoticeProps extends UsePostNoticeProps {
   noticeId: number;
 }
+
+export interface usePutImportantNoticeProps {
+  onError?: (error: unknown) => void;
+  studyId: number
+}

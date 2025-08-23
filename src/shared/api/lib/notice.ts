@@ -36,4 +36,11 @@ export const notice = {
       method: Method.DELETE,
     };
   },
+  // 중요 공지사항 닫기
+  putImportNotice: (studyId: number) => {
+    return {
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/settings/hide-notice`,
+      method: Method.PUT,
+    };
+  },
 };

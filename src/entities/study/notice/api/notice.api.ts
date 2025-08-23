@@ -1,4 +1,5 @@
 import {
+  HideImportantNoticeResponse,
   NoticeRequest,
   NoticeResponse,
 } from "@/entities/study/notice/api/notice.api.types";
@@ -52,4 +53,10 @@ export async function patchNotice(
     url,
     createJsonRequestInit(method, data)
   );
+}
+// 중요 공지사항 닫기
+export async function putImportantNotice(studyId: number) {
+  const { url, method } = API_ENDPOINT.notice.putImportNotice(studyId);
+
+  return await fetchAPI<HideImportantNoticeResponse>(url, createJsonRequestInit(method));
 }
