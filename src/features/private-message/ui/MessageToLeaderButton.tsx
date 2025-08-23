@@ -10,8 +10,9 @@ import { useAuthStore } from "@/entities/auth/model/auth.store";
 import LoginModal from "@/features/login/ui/LoginModal";
 import useModal from "@/shared/hooks/useModal";
 import { StudyMember } from "@/entities/study/studies/api/studies.api.type";
-import { useUserInfo } from "@/entities/user/model/user.queries";
+
 import { useChatUIStore } from "@/shared/store/useChatUIStore";
+import { useUserInfo } from "@/entities/user/model/user.queries";
 
 interface MessageToLeaderButtonProps {
   user: StudyMember; // 사용자 ID 추가
@@ -29,12 +30,17 @@ const MessageToLeaderButton = ({ user }: MessageToLeaderButtonProps) => {
   const { isModalOpenState, openModal, closeModal } = useModal();
 
   // 내 사용자 정보 조회 (닉네임 가져오기 위함)
-  const { data: userInfo } = useUserInfo(isLoggedIn);
+  const { data: userInfo } = useUserInfo({
+    enabled: isLoggedIn,
+  });
 
   // 개인 채팅방 조회/생성 쿼리
-  const { refetch: getPrivateChatRoom } = useGetPrivateChatRoomByUser(`${user.userId}`, {
-    enabled: false, // 수동으로 호출하기 위해 비활성화
-  });
+  const { refetch: getPrivateChatRoom } = useGetPrivateChatRoomByUser(
+    `${user.userId}`,
+    {
+      enabled: false, // 수동으로 호출하기 위해 비활성화
+    }
+  );
 
   const openChat = useChatUIStore((s) => s.openChat);
 
@@ -42,9 +48,9 @@ const MessageToLeaderButton = ({ user }: MessageToLeaderButtonProps) => {
   const handleSuccess = (response: GetPrivateChatRoomByUserResponse) => {
     console.log("개인 채팅방 조회/생성 성공:", response);
     // 채팅방 생성 후 채팅창 열기 (내 닉네임과 상대방 닉네임으로 채팅방 이름 생성)
-    const tempChatRoomName = `${userInfo?.nickname || '나'},${user.nickname}`;
+    const tempChatRoomName = `${userInfo?.nickname || "나"},${user.nickname}`;
     console.log("채팅방 이름:", tempChatRoomName);
-    
+
     // 수정된 파라미터로 채팅창 열기
     openChat(response, tempChatRoomName);
     setIsLoading(false);
