@@ -19,10 +19,10 @@ const ChatTypeSwitch: React.FC<ChatTypeSwitchProps> = ({
   ];
 
   return (
-    <div className="relative flex items-center gap-0.5 rounded-full bg-gray-50 shadow-sm">
+    <div className="relative flex items-center rounded-full bg-gray-50 shadow-sm">
       {/* 슬라이딩 배경 */}
       <div
-        className={`absolute top-[5px] h-5 w-8 rounded-full bg-white shadow-sm ring-1 transition-all duration-300 ease-out ${
+        className={`absolute h-6 w-8 rounded-full bg-white shadow-sm ring-1 transition-all duration-300 ease-out ${
           chatType === "private"
             ? "left-.5 ring-blue-100"
             : "left-[calc(100%-2rem)] ring-green-100"
