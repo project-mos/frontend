@@ -1,11 +1,14 @@
 import { useState, useMemo, useCallback } from "react";
-import { PrivateChatRoom } from "@/entities/chat/api/chat.api.types";
+import {
+  PrivateChatRoom,
+  StudyChatRoom,
+} from "@/entities/chat/api/chat.api.types";
 import { filterChatRooms, isValidSearchQuery } from "../lib/filterChatRooms";
 
 interface UseSearchChatReturn {
   isSearchMode: boolean;
   searchQuery: string;
-  filteredRooms: PrivateChatRoom[];
+  filteredRooms: (PrivateChatRoom | StudyChatRoom)[];
   hasSearchResults: boolean;
   toggleSearchMode: () => void;
   handleSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -14,11 +17,11 @@ interface UseSearchChatReturn {
 
 /**
  * 채팅방 검색 기능을 위한 커스텀 훅
- * @param chatRooms 원본 채팅방 목록
+ * @param chatRooms 원본 채팅방 목록 (개인/스터디 혼용)
  * @returns 검색 상태와 제어 함수들
  */
 export const useSearchChat = (
-  chatRooms: PrivateChatRoom[]
+  chatRooms: (PrivateChatRoom | StudyChatRoom)[]
 ): UseSearchChatReturn => {
   const [isSearchMode, setIsSearchMode] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
