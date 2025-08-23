@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
-import { Client, IFrame, StompSubscription } from '@stomp/stompjs';
+import { useEffect, useRef, useState, useCallback } from "react";
+import { Client, IFrame, StompSubscription } from "@stomp/stompjs";
 
 interface UseWebSocketOptions {
   url: string;
@@ -9,15 +9,20 @@ interface UseWebSocketOptions {
   onError?: (error: Error | IFrame) => void;
 }
 
-interface UseWebSocketReturn<T = string> {
+interface UseWebSocketReturn {
   client: Client | null;
   isConnected: boolean;
-  subscribe: (destination: string, callback: (message: T) => void) => StompSubscription | null;
+  subscribe: <T>(
+    destination: string,
+    callback: (message: T) => void
+  ) => StompSubscription | null;
   publish: (destination: string, message: string) => void;
   disconnect: () => void;
 }
 
-export const useWebSocket = <T = string>(options: UseWebSocketOptions): UseWebSocketReturn<T> => {
+export const useWebSocket = (
+  options: UseWebSocketOptions
+): UseWebSocketReturn => {
   const { url, enabled = true, onConnect, onDisconnect, onError } = options;
   const [isConnected, setIsConnected] = useState(false);
   const clientRef = useRef<Client | null>(null);
@@ -26,18 +31,18 @@ export const useWebSocket = <T = string>(options: UseWebSocketOptions): UseWebSo
   const initializeClient = useCallback(() => {
     // WebSocket URL을 ws:// 또는 wss:// 프로토콜로 변환
     const getWebSocketUrl = (url: string) => {
-      if (url.startsWith('/')) {
+      if (url.startsWith("/")) {
         // 상대 경로인 경우 현재 페이지 프로토콜 사용
-        const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
         return `${protocol}//${window.location.host}${url}`;
       }
       // 절대 경로인 경우 http/https를 ws/wss로 변환
-      return url.replace(/^http/, 'ws');
+      return url.replace(/^http/, "ws");
     };
 
     const wsUrl = getWebSocketUrl(url);
-    console.log('WebSocket 연결 URL:', wsUrl);
-    
+    console.log("WebSocket 연결 URL:", wsUrl);
+
     const client = new Client({
       webSocketFactory: () => {
         return new WebSocket(wsUrl);
@@ -75,45 +80,51 @@ export const useWebSocket = <T = string>(options: UseWebSocketOptions): UseWebSo
   }, [url]);
 
   // 구독 함수
-  const subscribe = useCallback((destination: string, callback: (message: T) => void) => {
-    if (!clientRef.current || !isConnected) {
-      console.warn('WebSocket이 연결되지 않았습니다.');
-      return null;
-    }
+  const subscribe = useCallback(
+    <T>(destination: string, callback: (message: T) => void) => {
+      if (!clientRef.current || !isConnected) {
+        console.warn("WebSocket이 연결되지 않았습니다.");
+        return null;
+      }
 
-    try {
-      return clientRef.current.subscribe(destination, (message) => {
-        try {
-          console.log(message)
-          const body = JSON.parse(message.body);
-          callback(body);
-        } catch (error) {
-          console.error('메시지 파싱 에러:', error);
-          callback(message.body as T);
-        }
-      });
-    } catch (error) {
-      console.error('구독 에러:', error);
-      return null;
-    }
-  }, [isConnected]);
+      try {
+        return clientRef.current.subscribe(destination, (message) => {
+          try {
+            console.log(message);
+            const body = JSON.parse(message.body);
+            callback(body);
+          } catch (error) {
+            console.error("메시지 파싱 에러:", error);
+            callback(message.body as T);
+          }
+        });
+      } catch (error) {
+        console.error("구독 에러:", error);
+        return null;
+      }
+    },
+    [isConnected]
+  );
 
   // 메시지 발행 함수
-  const publish = useCallback((destination: string, message: string) => {
-    if (!clientRef.current || !isConnected) {
-      console.warn('WebSocket이 연결되지 않았습니다.');
-      return;
-    }
+  const publish = useCallback(
+    (destination: string, message: string) => {
+      if (!clientRef.current || !isConnected) {
+        console.warn("WebSocket이 연결되지 않았습니다.");
+        return;
+      }
 
-    try {
-      clientRef.current.publish({
-        destination,
-        body: JSON.stringify(message),
-      });
-    } catch (error) {
-      console.error('메시지 발행 에러:', error);
-    }
-  }, [isConnected]);
+      try {
+        clientRef.current.publish({
+          destination,
+          body: JSON.stringify(message),
+        });
+      } catch (error) {
+        console.error("메시지 발행 에러:", error);
+      }
+    },
+    [isConnected]
+  );
 
   // 연결 해제 함수
   const disconnect = useCallback(() => {
