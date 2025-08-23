@@ -1,5 +1,4 @@
-import { ChatItemProps, ChatRoom } from "@/features/chat/ui/chat.ui.types";
-import { PrivateChatRoom, StudyChatRoom } from "@/entities/chat/api/chat.api.types";
+import { ChatItemProps, ChatRoomType } from "@/features/chat/ui/chat.ui.types";
 import Button from "@/shared/components/atoms/Button";
 import Typography from "@/shared/components/atoms/Typography";
 // import Profile from "@/shared/components/atoms/Profile";
@@ -7,12 +6,22 @@ import { formatDate, formatTime } from "@/shared/utils/date";
 import React from "react";
 
 // 채팅방 목록 컴포넌트
-const ChatItem = ({ privateChatRooms, studyChatRooms, onItemClick, onDotClick }: ChatItemProps) => {
-  
+const ChatItem = ({
+  privateChatRooms,
+  studyChatRooms,
+  onItemClick,
+  onDotClick,
+}: ChatItemProps) => {
   // 모든 채팅방을 하나의 배열로 통합
-  const allChatRooms: ChatRoom[] = [
-    ...(privateChatRooms?.map(room => ({ type: 'private' as const, data: room })) || []),
-    ...(studyChatRooms?.map(room => ({ type: 'study' as const, data: room })) || [])
+  const allChatRooms: ChatRoomType[] = [
+    ...(privateChatRooms?.map((room) => ({
+      type: "private" as const,
+      data: room,
+    })) || []),
+    ...(studyChatRooms?.map((room) => ({
+      type: "study" as const,
+      data: room,
+    })) || []),
   ];
 
   // 빈 데이터 처리
@@ -25,8 +34,8 @@ const ChatItem = ({ privateChatRooms, studyChatRooms, onItemClick, onDotClick }:
   }
 
   // 채팅방 타입별 뱃지 렌더링
-  const renderRoomTypeBadge = (type: 'private' | 'study') => {
-    if (type === 'private') {
+  const renderRoomTypeBadge = (type: "private" | "study") => {
+    if (type === "private") {
       return (
         <div className="rounded-full bg-blue-100 px-2 py-0.5">
           <Typography.P3 className="text-[10px] font-medium text-blue-600">
@@ -49,7 +58,7 @@ const ChatItem = ({ privateChatRooms, studyChatRooms, onItemClick, onDotClick }:
     <div className="flex flex-col gap-3">
       {allChatRooms.map((chatRoom, index) => (
         <div
-          key={`${chatRoom.type}_${chatRoom.type === 'private' ? (chatRoom.data as PrivateChatRoom).privateChatRoomId : (chatRoom.data as StudyChatRoom).studyChatRoomId}_${index}`}
+          key={`${chatRoom.type}_${chatRoom.data.chatName}_${index}`}
           className="group flex cursor-pointer items-center justify-between gap-3 rounded-md border p-3 text-black shadow-sm transition hover:bg-gray-100 active:bg-gray-200"
           onClick={() => onItemClick(chatRoom)}
         >
@@ -69,10 +78,15 @@ const ChatItem = ({ privateChatRooms, studyChatRooms, onItemClick, onDotClick }:
                 </Typography.P1>
                 {renderRoomTypeBadge(chatRoom.type)}
                 <Typography.P1 className="text-[12px] font-light text-gray-400">
-                  {formatDate("YYYY-MM-DD", chatRoom.data.lastMessageAt) ===
-                  formatDate("YYYY-MM-DD")
-                    ? formatTime(chatRoom.data.lastMessageAt) // 오늘이면 시간만 표시
-                    : formatDate("MM.DD", chatRoom.data.lastMessageAt) /* 오늘이 아니면 날짜 표시 */}
+                  {
+                    formatDate("YYYY-MM-DD", chatRoom.data.lastMessageAt) ===
+                    formatDate("YYYY-MM-DD")
+                      ? formatTime(chatRoom.data.lastMessageAt) // 오늘이면 시간만 표시
+                      : formatDate(
+                          "MM.DD",
+                          chatRoom.data.lastMessageAt
+                        ) /* 오늘이 아니면 날짜 표시 */
+                  }
                 </Typography.P1>
               </div>
               {/* 최근 메시지 내용 */}
@@ -97,22 +111,26 @@ const ChatItem = ({ privateChatRooms, studyChatRooms, onItemClick, onDotClick }:
             {chatRoom.data.unreadCnt > 0 && (
               <div className="flex h-5 min-w-[20px] items-center justify-center rounded-full bg-red-500 px-1.5">
                 <Typography.P3 className="text-[10px] font-bold leading-none text-white">
-                  {chatRoom.data.unreadCnt > 99 ? "99+" : chatRoom.data.unreadCnt}
+                  {chatRoom.data.unreadCnt > 99
+                    ? "99+"
+                    : chatRoom.data.unreadCnt}
                 </Typography.P3>
               </div>
             )}
 
-            {/* 옵션 버튼 (3 dots) */}
-            <Button.Icon
-              color="Gray"
-              className="border-none"
-              onClick={(event) => {
-                event.stopPropagation();
-                onDotClick(event);
-              }}
-            >
-              <i className="bi bi-three-dots" />
-            </Button.Icon>
+            {/* 옵션 버튼 (3 dots) 개인 채팅방에만 표시 */}
+            {chatRoom.type === "private" && (
+              <Button.Icon
+                color="Gray"
+                className="border-none"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  onDotClick(chatRoom);
+                }}
+              >
+                <i className="bi bi-three-dots" />
+              </Button.Icon>
+            )}
           </div>
         </div>
       ))}

@@ -23,7 +23,7 @@ export const chat = {
   }),
   // 개인 채팅방 퇴장
   deletePrivateChatRoom: (privateChatRoomId: string) => ({
-    url: `${process.env.NEXT_PUBLIC_BASE_URL}/private-chat-rooms/${privateChatRoomId}`,
+    url: `${process.env.NEXT_PUBLIC_BASE_URL}/private-chat-rooms/${privateChatRoomId}/members`,
     method: Method.DELETE,
   }),
 };

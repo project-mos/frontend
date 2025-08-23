@@ -1,11 +1,15 @@
-import { HTMLAttributes, MouseEvent } from "react";
-import { PrivateChatMessage, PrivateChatRoom, StudyChatRoom } from "@/entities/chat/api/chat.api.types";
+import { HTMLAttributes } from "react";
+import {
+  PrivateChatMessage,
+  PrivateChatRoom,
+  StudyChatRoom,
+} from "@/entities/chat/api/chat.api.types";
 import { ChatUser } from "@/entities/chat/lib/mock/chat.mock";
 
 // 통합된 채팅방 타입 정의
-export type ChatRoom = 
-  | { type: 'private'; data: PrivateChatRoom }
-  | { type: 'study'; data: StudyChatRoom };
+export type ChatRoomType =
+  | { type: "private"; data: PrivateChatRoom }
+  | { type: "study"; data: StudyChatRoom };
 
 // ChatBubble 컴포넌트 props
 export interface ChatBubbleProps extends HTMLAttributes<HTMLDivElement> {
@@ -27,8 +31,8 @@ export interface ChatTabProps {
 export interface ChatItemProps extends HTMLAttributes<HTMLDivElement> {
   privateChatRooms?: PrivateChatRoom[];
   studyChatRooms?: StudyChatRoom[];
-  onItemClick: (item: ChatRoom) => void;
-  onDotClick: (event: MouseEvent<HTMLButtonElement>) => void;
+  onItemClick: (item: ChatRoomType) => void;
+  onDotClick: (item: ChatRoomType) => void;
 }
 
 // ChatInput 컴포넌트 props
