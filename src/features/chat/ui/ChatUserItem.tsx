@@ -1,12 +1,7 @@
-import { ChatUser } from "@/entities/chat/lib/mock/chat.mock";
+import { ChatUserItemProps } from "@/features/chat/ui/chat.ui.types";
 import Button from "@/shared/components/atoms/Button";
 import Typography from "@/shared/components/atoms/Typography";
-import React, { HTMLAttributes } from "react";
-
-interface ChatUserItemProps extends HTMLAttributes<HTMLDivElement> {
-  user: ChatUser;
-  onChatStart: (user: ChatUser) => void; // 채팅 시작 버튼 클릭 핸들러
-}
+import React from "react";
 
 // 채팅 유저 아이템
 const ChatUserItem = ({ user, onChatStart, ...props }: ChatUserItemProps) => {

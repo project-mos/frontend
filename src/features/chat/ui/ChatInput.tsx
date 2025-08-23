@@ -1,10 +1,7 @@
+import { ChatInputProps } from "@/features/chat/ui/chat.ui.types";
 import Button from "@/shared/components/atoms/Button";
 import Textarea from "@/shared/components/atoms/Textarea";
 import React, { useState } from "react";
-
-interface ChatInputProps {
-  onSendMessage?: (message: string) => void; // 메시지 전송 콜백 추가
-}
 
 const MIN_TEXTAREA_HEIGHT = 40; // 텍스트 영역의 최소 높이 (px)
 const HEIGHT_PER_LINE = 24; // 한 줄당 높이 증가량 (px)

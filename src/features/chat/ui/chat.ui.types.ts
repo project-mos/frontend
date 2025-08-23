@@ -1,18 +1,58 @@
-import { HTMLAttributes } from "react";
-import { PrivateChatMessage } from "@/entities/chat/api/chat.api.types";
+import { HTMLAttributes, MouseEvent } from "react";
+import { PrivateChatMessage, PrivateChatRoom, StudyChatRoom } from "@/entities/chat/api/chat.api.types";
+import { ChatUser } from "@/entities/chat/lib/mock/chat.mock";
 
+// 통합된 채팅방 타입 정의
+export type ChatRoom = 
+  | { type: 'private'; data: PrivateChatRoom }
+  | { type: 'study'; data: StudyChatRoom };
+
+// ChatBubble 컴포넌트 props
 export interface ChatBubbleProps extends HTMLAttributes<HTMLDivElement> {
   isMe: boolean;
   profileImage?: string;
   nickname?: string;
   timestamp?: string;
 }
+
+// ChatTab 컴포넌트 props
 export interface ChatTabProps {
   active: ChatActiveTab;
   onChange: (active: ChatTabProps["active"]) => void;
   unreadChatCount?: number;
   unreadNotificationCount?: number;
 }
+
+// ChatItem 컴포넌트 props
+export interface ChatItemProps extends HTMLAttributes<HTMLDivElement> {
+  privateChatRooms?: PrivateChatRoom[];
+  studyChatRooms?: StudyChatRoom[];
+  onItemClick: (item: ChatRoom) => void;
+  onDotClick: (event: MouseEvent<HTMLButtonElement>) => void;
+}
+
+// ChatInput 컴포넌트 props
+export interface ChatInputProps {
+  onSendMessage?: (message: string) => void;
+}
+
+// ChatUserItem 컴포넌트 props
+export interface ChatUserItemProps extends HTMLAttributes<HTMLDivElement> {
+  user: ChatUser;
+  onChatStart: (user: ChatUser) => void;
+}
+
+// ChatRoom 컴포넌트 props
+export interface ChatRoomProps {
+  data: PrivateChatMessage[];
+}
+
+// ChatErrorState 컴포넌트 props
+export interface ChatErrorStateProps {
+  errorMessage: string;
+  onRetry: () => void;
+}
+
 // 탭 타입 정의
 export type ChatActiveTab = "chat" | "notification";
 
@@ -23,14 +63,4 @@ export interface Chat {
   profileImage?: string;
   nickname?: string;
   timestamp?: string;
-}
-
-export interface ChatRoomProps {
-  data: PrivateChatMessage[];
-}
-
-// 채팅 에러 상태 타입
-export interface ChatErrorStateProps {
-  errorMessage: string;
-  onRetry: () => void;
 }
