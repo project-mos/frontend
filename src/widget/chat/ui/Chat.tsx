@@ -10,7 +10,11 @@ import {
   PrivateChatRoom,
   StudyChatRoom,
 } from "@/entities/chat/api/chat.api.types";
-import { ChatActiveTab, ChatRoomType } from "@/features/chat/ui/chat.ui.types";
+import {
+  ChatActiveTab,
+  ChatType,
+  ChatRoomType,
+} from "@/features/chat/ui/chat.ui.types";
 import NotificationList from "@/features/notification/ui/NotificationList";
 import {
   ChatInput,
@@ -18,6 +22,7 @@ import {
   ChatRoom,
   ChatTab,
   ChatErrorState,
+  ChatTypeSwitch,
 } from "@/features/chat/ui";
 
 import Card from "@/shared/components/atoms/Card";
@@ -38,6 +43,7 @@ import {
 } from "@/entities/chat/model/chat.queries";
 import { useWebSocket } from "@/shared/hooks/useWebSocket";
 import { useAuthStore } from "@/entities/auth/model/auth.store";
+import { useGetStudyChatRoom } from "@/entities/chat/model/study-chat.queries";
 
 // ============================================================================
 // 상수
@@ -65,13 +71,7 @@ const Chat = () => {
     privateChatRoomData,
     tempChatRoomName,
   } = useChatUIStore();
-  const {
-    data: privateChatRooms,
-    error: privateChatError,
-    refetch: refetchPrivateChat,
-  } = useGetPrivateChatRoom({
-    enabled: isOpenState,
-  });
+
   const { isConnected, subscribe, publish } = useWebSocket({
     url: "/ws-stomp",
     enabled: isOpenState,
@@ -105,6 +105,7 @@ const Chat = () => {
   const [selectedChatRoom, setSelectedChatRoom] = useState<ChatRoomType | null>(
     null
   );
+  const [chatType, setChatType] = useState<ChatType>("private");
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   // ============================================================================
@@ -149,7 +150,17 @@ const Chat = () => {
         !!currentChatRoomId,
     }
   );
-
+  const {
+    data: privateChatRooms,
+    error: privateChatError,
+    refetch: refetchPrivateChat,
+  } = useGetPrivateChatRoom({
+    enabled: isOpenState,
+  });
+  const { data: studyChatRooms } = useGetStudyChatRoom({
+    enabled: isOpenState,
+  });
+  console.log(JSON.stringify(studyChatRooms));
   // ============================================================================
   // 공통 함수
   // ============================================================================
@@ -184,7 +195,10 @@ const Chat = () => {
     if (privateChatRooms) {
       setChatRoomsState(privateChatRooms);
     }
-  }, [privateChatRooms]);
+    if (studyChatRooms) {
+      setChatRoomsState((prevRooms) => [...prevRooms, ...studyChatRooms]);
+    }
+  }, [privateChatRooms, studyChatRooms]);
 
   // WebSocket 연결 상태 로그
   useEffect(() => {
@@ -273,9 +287,6 @@ const Chat = () => {
   // privateChatRoomData가 세팅되면 바로 chatroom으로 이동
   useEffect(() => {
     if (isOpenState && privateChatRoomData) {
-      console.log("privateChatRoomData:", privateChatRoomData);
-      console.log("tempChatRoomName:", tempChatRoomName);
-
       const privateChatRoom: PrivateChatRoom = {
         privateChatRoomId: privateChatRoomData.privateChatRoomId,
         chatName:
@@ -303,6 +314,10 @@ const Chat = () => {
 
   const onTabChange = (tab: ChatActiveTab) => {
     setActiveTab(tab);
+  };
+
+  const handleChatTypeChange = (type: ChatType) => {
+    setChatType(type);
   };
 
   const handleChatItemClick = (item: ChatRoomType) => {
@@ -492,14 +507,18 @@ const Chat = () => {
                   <div className="flex flex-col gap-3 p-2">
                     <ChatItem
                       privateChatRooms={
-                        isSearchMode && searchQuery
-                          ? filteredRooms.filter(isPrivateChatRoom)
-                          : chatRoomsState.filter(isPrivateChatRoom)
+                        chatType === "private"
+                          ? isSearchMode && searchQuery
+                            ? filteredRooms.filter(isPrivateChatRoom)
+                            : chatRoomsState.filter(isPrivateChatRoom)
+                          : []
                       }
                       studyChatRooms={
-                        isSearchMode && searchQuery
-                          ? filteredRooms.filter(isStudyChatRoom)
-                          : chatRoomsState.filter(isStudyChatRoom)
+                        chatType === "study"
+                          ? isSearchMode && searchQuery
+                            ? filteredRooms.filter(isStudyChatRoom)
+                            : chatRoomsState.filter(isStudyChatRoom)
+                          : []
                       }
                       onItemClick={handleChatItemClick}
                       onDotClick={onDotClick}
@@ -549,7 +568,16 @@ const Chat = () => {
                 onClick={handleBack}
               />
             )}
-            <Typography.SubTitle1>{getCurrentTitle()}</Typography.SubTitle1>
+            <div className="flex items-center gap-3">
+              <Typography.SubTitle1>{getCurrentTitle()}</Typography.SubTitle1>
+              {navigationState.currentView === "list" &&
+                activeTab === "chat" && (
+                  <ChatTypeSwitch
+                    chatType={chatType}
+                    onChatTypeChange={handleChatTypeChange}
+                  />
+                )}
+            </div>
             <div className="flex items-center gap-2">
               <SearchChatIcon
                 onClick={toggleSearchMode}
