@@ -11,6 +11,15 @@ export type ChatRoomType =
   | { type: "private"; data: PrivateChatRoom }
   | { type: "study"; data: StudyChatRoom };
 
+// 채팅 타입 정의
+export type ChatType = "private" | "study";
+
+// ChatTypeSwitch 컴포넌트 props
+export interface ChatTypeSwitchProps {
+  chatType: ChatType;
+  onChatTypeChange: (type: ChatType) => void;
+}
+
 // ChatBubble 컴포넌트 props
 export interface ChatBubbleProps extends HTMLAttributes<HTMLDivElement> {
   isMe: boolean;
