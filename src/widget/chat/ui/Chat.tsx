@@ -1,16 +1,24 @@
 "use client";
 
-
 import { useChatNavigation } from "@/features/chat-navigation/model/useChatNavigation";
-import StudyInquiryList from "@/features/study-inquiry/ui/StudyInquiryList";
 import {
   notificationMockData,
   Notification,
 } from "@/entities/notification/lib/mock/notification.mock";
-import { PrivateChatMessage, PrivateChatRoom } from "@/entities/chat/api/chat.api.types";
+import {
+  PrivateChatMessage,
+  PrivateChatRoom,
+  StudyChatRoom,
+} from "@/entities/chat/api/chat.api.types";
 import { ChatActiveTab } from "@/features/chat/ui/chat.ui.types";
 import NotificationList from "@/features/notification/ui/NotificationList";
-import { ChatInput, ChatItem, ChatRoom, ChatTab, ChatErrorState } from "@/features/chat/ui";
+import {
+  ChatInput,
+  ChatItem,
+  ChatRoom,
+  ChatTab,
+  ChatErrorState,
+} from "@/features/chat/ui";
 
 import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
@@ -23,9 +31,13 @@ import cn from "@/shared/utils/cn";
 import clsx from "clsx";
 import React, { useState, useRef, useEffect } from "react";
 import { useChatUIStore } from "@/shared/store/useChatUIStore";
-import { useGetPrivateChatRoom, useGetPrivateChatRoomMessages } from "@/entities/chat/model/chat.queries";
+import {
+  useGetPrivateChatRoom,
+  useGetPrivateChatRoomMessages,
+} from "@/entities/chat/model/chat.queries";
 import { useWebSocket } from "@/shared/hooks/useWebSocket";
 import { useAuthStore } from "@/entities/auth/model/auth.store";
+import { useGetStudyChatRoom } from "@/entities/chat/model/study-chat.queries";
 
 const CHAT_DELETE_CONFIRM_MODAL_KEY = "chat_delete_confirm";
 const CHAT_STATIC_SORT_CONFIRM_MODAL_KEY = "chat_static_sort_confirm";
@@ -33,10 +45,9 @@ const CHAT_STATIC_SORT_CONFIRM_MODAL_KEY = "chat_static_sort_confirm";
 const Chat = () => {
   const { modal, openModal, closeModal } = useMultiModal();
   const { isLoggedIn } = useAuthStore(); // 로그인 상태 확인
-  
+
   const {
     navigationState,
-    // navigateToStudyInquiry,
     navigateToChatRoom,
     navigateBack,
     getCurrentTitle,
@@ -51,55 +62,75 @@ const Chat = () => {
     privateChatRoomData,
     tempChatRoomName,
   } = useChatUIStore();
-  
+
   const privateChatRoomId = privateChatRoomData?.privateChatRoomId;
   const [isChatOptionOpen, setIsChatOptionOpen] = useState<boolean>(false); // 채팅 옵션 열림 여부
   const [activeTab, setActiveTab] = useState<ChatActiveTab>("chat"); // 현재 탭 상태
   const [notifications, setNotifications] =
     useState<Notification[]>(notificationMockData); // 알림 목록 상태
-  
+
   // 채팅방별 메시지 상태 (채팅방 ID를 키로 하는 맵)
   const [chatMessages, setChatMessages] = useState<
     Record<number, PrivateChatMessage[]>
   >({});
-  
-  // 개인 채팅방 목록 상태 (실시간 업데이트용)
-  const [privateChatRoomsState, setPrivateChatRoomsState] = useState<PrivateChatRoom[]>([]);
-  
+
+  // 채팅방 목록 상태 (개인/스터디 혼용, 실시간 업데이트용)
+  const [chatRoomsState, setChatRoomsState] = useState<
+    (PrivateChatRoom | StudyChatRoom)[]
+  >([]);
+  const { data: studyChatRooms } = useGetStudyChatRoom({
+    enabled: isOpenState,
+  });
+  console.log("스터디 채팅방 목록:", studyChatRooms);
+
+  // 타입 가드 함수 정의
+  const isPrivateChatRoom = (
+    room: PrivateChatRoom | StudyChatRoom | undefined
+  ): room is PrivateChatRoom => !!room && "privateChatRoomId" in room;
+  const isStudyChatRoom = (
+    room: PrivateChatRoom | StudyChatRoom | undefined
+  ): room is StudyChatRoom => !!room && "studyChatRoomId" in room;
+
   // 현재 선택된 채팅방 정보 (네비게이션에서 가져오기)
   const currentChatRoom = navigationState.selectedChatRoom;
-  const currentChatRoomId = currentChatRoom?.privateChatRoomId || privateChatRoomId;
-  
+  // 타입 가드로 개인 채팅방인지 확인하여 ID 추출
+  const currentChatRoomId = isPrivateChatRoom(currentChatRoom)
+    ? currentChatRoom.privateChatRoomId
+    : privateChatRoomId;
+
   // 개인 채팅방 목록 조회
-  const { data: privateChatRooms, error: privateChatError, refetch: refetchPrivateChat } = useGetPrivateChatRoom({ 
-    enabled: isOpenState 
+  const {
+    data: privateChatRooms,
+    error: privateChatError,
+    refetch: refetchPrivateChat,
+  } = useGetPrivateChatRoom({
+    enabled: isOpenState,
   });
-  console.log('채팅방 목록:', privateChatRooms);
-  
-  // API에서 받은 초기 채팅방 목록을 상태에 설정
+  console.log("채팅방 목록:", privateChatRooms);
+
+  // API에서 받은 초기 개인 채팅방 목록을 상태에 설정
   useEffect(() => {
     if (privateChatRooms) {
-      setPrivateChatRoomsState(privateChatRooms);
+      setChatRoomsState(privateChatRooms);
     }
   }, [privateChatRooms]);
-  
+
   // 개인 채팅방 메시지 조회 (현재 채팅방의 메시지를 조회)
-  const { data: privateChatMessages, error: messagesError } = useGetPrivateChatRoomMessages(
-    currentChatRoomId?.toString() || "",
-    {
-      enabled: isOpenState && 
-               navigationState.currentView === "chatroom" && 
-               !!currentChatRoomId,
-    }
-  );
-  
-  console.log('개인 채팅방 목록:', privateChatRooms, privateChatError?.message);
-  console.log('현재 채팅방 메시지:', privateChatMessages);
-  console.log('메시지 에러:', messagesError);
-  
+  const { data: privateChatMessages, error: messagesError } =
+    useGetPrivateChatRoomMessages(currentChatRoomId?.toString() || "", {
+      enabled:
+        isOpenState &&
+        navigationState.currentView === "chatroom" &&
+        !!currentChatRoomId,
+    });
+
+  console.log("개인 채팅방 목록:", privateChatRooms, privateChatError?.message);
+  console.log("현재 채팅방 메시지:", privateChatMessages);
+  console.log("메시지 에러:", messagesError);
+
   const webSocketUrl = "/ws-stomp";
 
-  const { isConnected, subscribe, publish } = useWebSocket<PrivateChatMessage | PrivateChatRoom>({
+  const { isConnected, subscribe, publish } = useWebSocket({
     url: webSocketUrl,
     enabled: isOpenState, // 채팅창이 열려있을 때만 연결
     onConnect: () => {
@@ -113,40 +144,56 @@ const Chat = () => {
       console.error("에러 발생 URL:", webSocketUrl);
     },
   });
-  
+
   // WebSocket 연결 상태 로그
-  console.log('WebSocket 연결 상태:', isConnected);
-  
+  console.log("WebSocket 연결 상태:", isConnected);
+
+  // 채팅방 업데이트 공통 함수
+  const updateChatRoom = <T extends PrivateChatRoom | StudyChatRoom>(
+    prevRooms: (PrivateChatRoom | StudyChatRoom)[],
+    updatedRoom: T,
+    idKey: keyof T
+  ) => {
+    const existingRoomIndex = prevRooms.findIndex((room) => {
+      return (
+        idKey in room && room[idKey as keyof typeof room] === updatedRoom[idKey]
+      );
+    });
+
+    if (existingRoomIndex >= 0) {
+      // 기존 채팅방 업데이트 (최신 메시지, 시간 등)
+      const updatedRooms = [...prevRooms];
+      updatedRooms[existingRoomIndex] = {
+        ...(updatedRooms[existingRoomIndex] as T),
+        ...updatedRoom,
+      } as T;
+      return updatedRooms;
+    } else {
+      // 새로운 채팅방 추가
+      return [updatedRoom, ...prevRooms];
+    }
+  };
+
   // 사용자 메시지 구독
   useEffect(() => {
     if (isConnected && subscribe) {
       // /user/sub/users 경로로 메시지 구독
-      const chatRoomSubscription = subscribe(
+      const chatRoomSubscription = subscribe<PrivateChatRoom | StudyChatRoom>(
         "/user/sub/chat-rooms",
         (message) => {
-          console.log("받은 채팅방 업데이트: ", message as PrivateChatRoom);
-          
-          const chatRoomUpdate = message as PrivateChatRoom;
-          
-          // 채팅방 목록 상태 업데이트
-          setPrivateChatRoomsState((prevRooms) => {
-            const existingRoomIndex = prevRooms.findIndex(
-              room => room.privateChatRoomId === chatRoomUpdate.privateChatRoomId
+          console.log("받은 채팅방 업데이트: ", message);
+          // 타입 가드로 메시지 타입 구분하여 공통 함수 호출
+          if ("privateChatRoomId" in message) {
+            // PrivateChatRoom 업데이트 처리
+            setChatRoomsState((prevRooms) =>
+              updateChatRoom(prevRooms, message, "privateChatRoomId")
             );
-            
-            if (existingRoomIndex >= 0) {
-              // 기존 채팅방 업데이트 (최신 메시지, 시간 등)
-              const updatedRooms = [...prevRooms];
-              updatedRooms[existingRoomIndex] = {
-                ...updatedRooms[existingRoomIndex],
-                ...chatRoomUpdate
-              };
-              return updatedRooms;
-            } else {
-              // 새로운 채팅방 추가
-              return [chatRoomUpdate, ...prevRooms];
-            }
-          });
+          } else {
+            // StudyChatRoom 업데이트 처리
+            setChatRoomsState((prevRooms) =>
+              updateChatRoom(prevRooms, message, "studyChatRoomId")
+            );
+          }
         }
       );
       // /user/sub/errors로 에러메세지 구독
@@ -168,43 +215,48 @@ const Chat = () => {
 
   // 특정 채팅방 구독 (현재 채팅방 또는 MessageToLeaderButton에서 진입한 경우)
   useEffect(() => {
-    if (isConnected && 
-        navigationState.currentView === "chatroom" && 
-        currentChatRoomId) {
-      
-      const subscription =
-        subscribe(
-          `/sub/private-chat-rooms/${currentChatRoomId}`,
-          (message) => {
-            console.log("채팅방 메시지 수신:", message);
+    if (
+      isConnected &&
+      navigationState.currentView === "chatroom" &&
+      currentChatRoomId
+    ) {
+      const subscription = subscribe<PrivateChatMessage>(
+        `/sub/private-chat-rooms/${currentChatRoomId}`,
+        (message) => {
+          console.log("채팅방 메시지 수신:", message);
 
-            try {
-              const parsedMessage = message as PrivateChatMessage;
-
-              // // 받은 메시지를 해당 채팅방의 메시지 목록에 추가
-              setChatMessages((prev) => ({
-                ...prev,
-                [currentChatRoomId]: [
-                  ...(prev[currentChatRoomId] || []),
-                  parsedMessage,
-                ],
-              }));
-              console.log(chatMessages);
-            } catch (error) {
-              console.error("메시지 파싱 오류:", error);
-            }
+          try {
+            // // 받은 메시지를 해당 채팅방의 메시지 목록에 추가
+            setChatMessages((prev) => ({
+              ...prev,
+              [currentChatRoomId]: [
+                ...(prev[currentChatRoomId] || []),
+                message,
+              ],
+            }));
+            console.log(chatMessages);
+          } catch (error) {
+            console.error("메시지 파싱 오류:", error);
           }
-        );
-      
+        }
+      );
+
       return () => {
         if (subscription) {
           subscription.unsubscribe();
         }
       };
     }
-  }, [isConnected, navigationState.currentView, currentChatRoomId, subscribe, chatMessages]);
-  
+  }, [
+    isConnected,
+    navigationState.currentView,
+    currentChatRoomId,
+    subscribe,
+    chatMessages,
+  ]);
+
   // 채팅방 검색 기능
+  // 전체 채팅방 목록(개인+스터디)으로 검색
   const {
     isSearchMode,
     searchQuery,
@@ -212,7 +264,7 @@ const Chat = () => {
     toggleSearchMode,
     handleSearchChange,
     clearSearch,
-  } = useSearchChat(privateChatRoomsState);
+  } = useSearchChat(chatRoomsState);
 
   // 검색 입력창 ref
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -228,18 +280,19 @@ const Chat = () => {
   useEffect(() => {
     if (isOpenState && privateChatRoomData) {
       // privateChatRoomData가 있으면 해당 채팅방으로 직접 이동
-      console.log('privateChatRoomData:', privateChatRoomData);
-      console.log('tempChatRoomName:', tempChatRoomName);
-      
+      console.log("privateChatRoomData:", privateChatRoomData);
+      console.log("tempChatRoomName:", tempChatRoomName);
+
       // PrivateChatRoom 형태로 변환하여 채팅방으로 이동
       const privateChatRoom: PrivateChatRoom = {
         privateChatRoomId: privateChatRoomData.privateChatRoomId,
-        chatName: tempChatRoomName || `채팅방 ${privateChatRoomData.privateChatRoomId}`,
+        chatName:
+          tempChatRoomName || `채팅방 ${privateChatRoomData.privateChatRoomId}`,
         lastMessage: "",
         lastMessageAt: new Date().toISOString(),
         unreadCnt: 0,
       };
-      
+
       navigateToChatRoom(privateChatRoom);
     }
   }, [isOpenState, privateChatRoomData, tempChatRoomName, navigateToChatRoom]);
@@ -259,18 +312,15 @@ const Chat = () => {
     setActiveTab(tab);
   };
 
-  // 채팅방 클릭 시 해당 채팅방으로 진입
-  const handleChatItemClick = (item: PrivateChatRoom) => {
-    console.log('채팅방 클릭:', item);
-    
-    // 선택된 채팅방으로 이동하여 채팅창 열기
-    navigateToChatRoom(item);
-  };
+  // 채팅방 클릭 시 해당 채팅방으로 진입 (ChatRoom 타입 처리)
+  const handleChatItemClick = (item: {
+    type: "private" | "study";
+    data: PrivateChatRoom | StudyChatRoom;
+  }) => {
+    console.log("채팅방 클릭:", item);
 
-  // 스터디 문의 사용자 클릭 시 채팅방으로 진입
-  const handleInquiryClick = (roomId: string) => {
-    // TODO: 실제 API로 스터디 문의 채팅방 데이터 조회
-    console.log('스터디 문의 채팅방 진입:', roomId);
+    // 선택된 채팅방으로 이동하여 채팅창 열기
+    navigateToChatRoom(item.data);
   };
 
   // 알림을 읽음 상태로 변경
@@ -338,23 +388,26 @@ const Chat = () => {
   // 채팅방 타입에 따른 데이터 선택
   const getCurrentChatData = () => {
     if (!currentChatRoomId) return [];
-    
+
     // API에서 받은 메시지 데이터가 있으면 사용, 없으면 실시간 메시지 사용
     const apiMessages = privateChatMessages?.content || [];
     const realtimeMessages = chatMessages[currentChatRoomId] || [];
-    
+
     // API 메시지와 실시간 메시지를 합쳐서 반환 (PrivateChatMessage 형태로 통일)
     const allMessages = [
       ...apiMessages, // 이미 PrivateChatMessage 형태
       ...realtimeMessages.map((msg, index) => ({
         privateChatMessageId: Date.now() + index, // 임시 ID
-        message: typeof msg === 'string' ? msg : msg.message || '',
-        messageCreatedAt: typeof msg === 'string' ? new Date().toISOString() : msg.messageCreatedAt || new Date().toISOString(),
-        userId: typeof msg === 'string' ? 0 : msg.userId || 0,
-        nickname: typeof msg === 'string' ? '' : msg.nickname || '',
-      }))
+        message: typeof msg === "string" ? msg : msg.message || "",
+        messageCreatedAt:
+          typeof msg === "string"
+            ? new Date().toISOString()
+            : msg.messageCreatedAt || new Date().toISOString(),
+        userId: typeof msg === "string" ? 0 : msg.userId || 0,
+        nickname: typeof msg === "string" ? "" : msg.nickname || "",
+      })),
     ];
-    
+
     return allMessages;
   };
 
@@ -401,14 +454,23 @@ const Chat = () => {
             {activeTab === "chat" && (
               <>
                 {privateChatError ? (
-                  <ChatErrorState 
-                    errorMessage={privateChatError.message} 
-                    onRetry={handleRetry} 
+                  <ChatErrorState
+                    errorMessage={privateChatError.message}
+                    onRetry={handleRetry}
                   />
                 ) : (
                   <div className="flex flex-col gap-3 p-2">
                     <ChatItem
-                      privateChatRooms={isSearchMode && searchQuery ? filteredRooms : privateChatRoomsState}
+                      privateChatRooms={
+                        isSearchMode && searchQuery
+                          ? filteredRooms.filter(isPrivateChatRoom)
+                          : chatRoomsState.filter(isPrivateChatRoom)
+                      }
+                      studyChatRooms={
+                        isSearchMode && searchQuery
+                          ? filteredRooms.filter(isStudyChatRoom)
+                          : chatRoomsState.filter(isStudyChatRoom)
+                      }
                       onItemClick={handleChatItemClick}
                       onDotClick={onDotClick}
                     />
@@ -428,14 +490,6 @@ const Chat = () => {
           </div>
         );
 
-      case "study-inquiry":
-        return (
-          <StudyInquiryList
-            inquiries={navigationState.selectedStudy!.inquiries}
-            onInquiryClick={handleInquiryClick}
-          />
-        );
-
       case "chatroom":
         return <ChatRoom data={getCurrentChatData()} />;
 
@@ -447,12 +501,12 @@ const Chat = () => {
   // 메시지 전송 핸들러
   const handleSendMessage = (message: string) => {
     if (!isConnected || !publish) {
-      console.warn('WebSocket이 연결되지 않았습니다.');
+      console.warn("WebSocket이 연결되지 않았습니다.");
       return;
     }
 
     if (!currentChatRoomId) {
-      console.warn('채팅방 ID가 없습니다.');
+      console.warn("채팅방 ID가 없습니다.");
       return;
     }
 
@@ -464,8 +518,8 @@ const Chat = () => {
       message: message,
     };
 
-    console.log('메시지 발행:', destination, messageData);
-    
+    console.log("메시지 발행:", destination, messageData);
+
     // WebSocket을 통해 메시지 발행
     publish(destination, JSON.stringify(messageData));
   };
@@ -474,8 +528,6 @@ const Chat = () => {
   const handleRetry = () => {
     refetchPrivateChat();
   };
-
-
 
   // 로그인하지 않은 경우 채팅창을 렌더링하지 않음
   if (!isLoggedIn) {
