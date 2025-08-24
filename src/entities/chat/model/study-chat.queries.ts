@@ -1,7 +1,4 @@
-import {
-  useQuery,
-  UseQueryOptions,
-} from "@tanstack/react-query";
+import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import {
   getStudyChatRoom,
   getStudyChatRoomMessages,
@@ -14,13 +11,16 @@ import {
 // Query Key 생성
 export const StudyChatRoomQueryKey = {
   base: ["chat", "studyRoom"] as const,
-  messages: (studyId: string, studyChatRoomId: string) =>
-    ["chat", "studyRoom", studyId, studyChatRoomId, "messages"] as const,
+  messages: (studyChatRoomId: string) =>
+    ["chat", "studyRoom", studyChatRoomId, "messages"] as const,
 };
 
 // 스터디 채팅방 목록 조회
 export const useGetStudyChatRoom = (
-  options?: Omit<UseQueryOptions<GetStudyChatRoomResponse>, "queryKey" | "queryFn">
+  options?: Omit<
+    UseQueryOptions<GetStudyChatRoomResponse>,
+    "queryKey" | "queryFn"
+  >
 ) => {
   return useQuery({
     queryKey: StudyChatRoomQueryKey.base,
@@ -32,7 +32,6 @@ export const useGetStudyChatRoom = (
 
 // 스터디 채팅방 메시지 조회
 export const useGetStudyChatRoomMessages = (
-  studyId: string,
   studyChatRoomId: string,
   options?: Omit<
     UseQueryOptions<GetStudyChatRoomMessagesResponse>,
@@ -40,12 +39,10 @@ export const useGetStudyChatRoomMessages = (
   >
 ) => {
   return useQuery({
-    queryKey: StudyChatRoomQueryKey.messages(studyId, studyChatRoomId),
-    queryFn: () => getStudyChatRoomMessages(studyId, studyChatRoomId),
+    queryKey: StudyChatRoomQueryKey.messages(studyChatRoomId),
+    queryFn: () => getStudyChatRoomMessages(studyChatRoomId),
     retry: false,
-    enabled: Boolean(studyId && studyChatRoomId),
+    enabled: Boolean(studyChatRoomId),
     ...options,
   });
 };
-
-

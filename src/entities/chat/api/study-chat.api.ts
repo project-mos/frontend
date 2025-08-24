@@ -15,24 +15,17 @@ export async function getStudyChatRoom() {
 }
 
 // 스터디 채팅방 메시지 조회
-export async function getStudyChatRoomMessages(
-  studyId: string,
-  studyChatRoomId: string
-) {
+export async function getStudyChatRoomMessages(studyChatRoomId: string) {
   // 방어 코드: 잘못된 인자 방지
-  if (!studyId || !studyChatRoomId) {
+  if (!studyChatRoomId) {
     throw new Error("유효하지 않은 스터디/채팅방 ID");
   }
 
-  const { url, method } = API_ENDPOINT.studyChat.getStudyChatRoomMessages(
-    studyId,
-    studyChatRoomId
-  );
+  const { url, method } =
+    API_ENDPOINT.studyChat.getStudyChatRoomMessages(studyChatRoomId);
 
   return await fetchAPI<GetStudyChatRoomMessagesResponse>(url, {
     credentials: "include",
     method,
   });
 }
-
-

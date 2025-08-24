@@ -50,8 +50,8 @@ export const studyChat = {
     method: Method.GET,
   }),
   // 스터디 채팅방 메시지 조회
-  getStudyChatRoomMessages: (studyId: string, studyChatRoomId: string) => ({
-    url: `${process.env.NEXT_PUBLIC_BASE_URL}/study/${studyId}/chat-rooms/${studyChatRoomId}/messages`,
+  getStudyChatRoomMessages: (studyChatRoomId: string) => ({
+    url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/chat-rooms/${studyChatRoomId}/messages`,
     method: Method.GET,
   }),
 };
