@@ -59,6 +59,9 @@ export interface ChatUserItemProps extends HTMLAttributes<HTMLDivElement> {
 // ChatRoom 컴포넌트 props
 export interface ChatRoomProps {
   data: (PrivateChatMessage | StudyChatMessage)[];
+  hasNextPage?: boolean;
+  onLoadMore?: () => void;
+  isLoadingMore?: boolean;
 }
 
 // ChatErrorState 컴포넌트 props

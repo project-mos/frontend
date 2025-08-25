@@ -1,6 +1,7 @@
 import { ChatRoomProps } from "@/features/chat/ui/chat.ui.types";
 import ChatBubble from "@/features/chat/ui/ChatBubble";
 import Badge from "@/shared/components/atoms/Badge";
+import Button from "@/shared/components/atoms/Button";
 import { useChatRoom } from "@/features/chat/model/useChatRoom";
 import useDecodeToken from "@/shared/hooks/useDecodeToken";
 import {
@@ -10,11 +11,17 @@ import {
 
 import React from "react";
 
-const ChatRoom = ({ data }: ChatRoomProps) => {
+const ChatRoom = ({
+  data,
+  hasNextPage = false,
+  onLoadMore,
+  isLoadingMore = false,
+}: ChatRoomProps) => {
   const { showDateBadge, currentDate, scrollContainerRef } = useChatRoom({
     data,
   });
 
+  console.log(data, 111);
   // 메시지 ID 추출 함수
   const getMessageId = (
     item: PrivateChatMessage | StudyChatMessage
@@ -33,10 +40,9 @@ const ChatRoom = ({ data }: ChatRoomProps) => {
 
   return (
     <div className="relative h-full">
-      {/* 날짜 뱃지 */}
-
+      {/* 날짜 뱃지 - position으로 띄움 */}
       <div
-        className="absolute left-1/2 top-2 z-10 -translate-x-1/2 opacity-0 transition-all duration-1000  data-[show=true]:opacity-100"
+        className="absolute left-1/2 top-2 z-10 -translate-x-1/2 opacity-0 transition-all duration-1000 data-[show=true]:opacity-100"
         data-show={showDateBadge}
       >
         <Badge color="Black" className="px-3 py-1 text-[12px]">
@@ -49,6 +55,20 @@ const ChatRoom = ({ data }: ChatRoomProps) => {
         ref={scrollContainerRef}
         className="flex h-full flex-col gap-3 overflow-y-auto px-2 pt-3"
       >
+        {/* 더보기 버튼 - 채팅창 맨 위에 배치 */}
+        {hasNextPage && (
+          <div className="flex translate-x-1.5 justify-center">
+            <Button.Solid
+              onClick={onLoadMore}
+              disabled={isLoadingMore}
+              className="rounded-full bg-gray-100 px-3 py-1 text-[12px] text-gray-700 hover:bg-gray-200 disabled:cursor-not-allowed disabled:opacity-50"
+              size="sm"
+              color="Gray"
+            >
+              {isLoadingMore ? "로딩 중..." : "더보기"}
+            </Button.Solid>
+          </div>
+        )}
         {sortingData // ID 기준 오름차순 정렬
           .map((item, index) => {
             // JSON 형태의 message를 파싱하여 실제 메시지 내용 추출
