@@ -90,7 +90,6 @@ export const useWebSocket = (
       try {
         return clientRef.current.subscribe(destination, (message) => {
           try {
-            console.log(message);
             const body = JSON.parse(message.body);
             callback(body);
           } catch (error) {

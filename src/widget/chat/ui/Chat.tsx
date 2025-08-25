@@ -9,6 +9,7 @@ import {
   PrivateChatMessage,
   PrivateChatRoom,
   StudyChatRoom,
+  StudyChatMessage,
 } from "@/entities/chat/api/chat.api.types";
 import {
   ChatActiveTab,
@@ -43,7 +44,10 @@ import {
 } from "@/entities/chat/model/chat.queries";
 import { useWebSocket } from "@/shared/hooks/useWebSocket";
 import { useAuthStore } from "@/entities/auth/model/auth.store";
-import { useGetStudyChatRoom } from "@/entities/chat/model/study-chat.queries";
+import {
+  useGetStudyChatRoom,
+  useGetStudyChatRoomMessages,
+} from "@/entities/chat/model/study-chat.queries";
 
 // ============================================================================
 // 상수
@@ -96,8 +100,13 @@ const Chat = () => {
   const [activeTab, setActiveTab] = useState<ChatActiveTab>("chat");
   const [notifications, setNotifications] =
     useState<Notification[]>(notificationMockData);
-  const [chatMessages, setChatMessages] = useState<
+  const [privateChatMessages, setPrivateChatMessages] = useState<
     Record<number, PrivateChatMessage[]>
+  >({});
+  // TODO: 스터디 채팅 메시지 상태 (향후 스터디 채팅 기능 구현 시 사용)
+
+  const [studyChatMessages, setStudyChatMessages] = useState<
+    Record<number, StudyChatMessage[]>
   >({});
   const [chatRoomsState, setChatRoomsState] = useState<
     (PrivateChatRoom | StudyChatRoom)[]
@@ -124,6 +133,8 @@ const Chat = () => {
   const currentChatRoom = navigationState.selectedChatRoom;
   const currentChatRoomId = isPrivateChatRoom(currentChatRoom)
     ? currentChatRoom.privateChatRoomId
+    : isStudyChatRoom(currentChatRoom)
+    ? currentChatRoom.studyChatRoomId
     : privateChatRoomId;
 
   // ============================================================================
@@ -132,24 +143,37 @@ const Chat = () => {
   const {
     isSearchMode,
     searchQuery,
-    filteredRooms,
+    filteredPrivateRooms,
+    filteredStudyRooms,
     toggleSearchMode,
     handleSearchChange,
     clearSearch,
-  } = useSearchChat(chatRoomsState);
+  } = useSearchChat(chatRoomsState, chatType);
 
   // ============================================================================
   // 쿼리 (계산된 값 이후에 선언)
   // ============================================================================
-  const { data: privateChatMessages } = useGetPrivateChatRoomMessages(
+  const { data: privateChatMessagesData } = useGetPrivateChatRoomMessages(
     currentChatRoomId?.toString() || "",
     {
       enabled:
         isOpenState &&
         navigationState.currentView === "chatroom" &&
+        chatType === "private" &&
         !!currentChatRoomId,
     }
   );
+
+  const { data: studyChatMessagesData } = useGetStudyChatRoomMessages(
+    currentChatRoomId?.toString() || "",
+    {
+      enabled:
+        isOpenState &&
+        navigationState.currentView === "chatroom" &&
+        chatType === "study",
+    }
+  );
+
   const {
     data: privateChatRooms,
     error: privateChatError,
@@ -160,7 +184,7 @@ const Chat = () => {
   const { data: studyChatRooms } = useGetStudyChatRoom({
     enabled: isOpenState,
   });
-  console.log(JSON.stringify(studyChatRooms));
+
   // ============================================================================
   // 공통 함수
   // ============================================================================
@@ -200,18 +224,13 @@ const Chat = () => {
     }
   }, [privateChatRooms, studyChatRooms]);
 
-  // WebSocket 연결 상태 로그
-  useEffect(() => {
-    console.log("WebSocket 연결 상태:", isConnected);
-  }, [isConnected]);
-
   // 사용자 메시지 구독
   useEffect(() => {
     if (isConnected && subscribe) {
       const chatRoomSubscription = subscribe<PrivateChatRoom | StudyChatRoom>(
         "/user/sub/chat-rooms",
         (message) => {
-          console.log("받은 채팅방 업데이트: ", message);
+          console.log("받은 채팅방 메시지: ", message);
           if ("privateChatRoomId" in message) {
             setChatRoomsState((prevRooms) =>
               updateChatRoom(prevRooms, message, "privateChatRoomId")
@@ -224,7 +243,7 @@ const Chat = () => {
         }
       );
       const errorSubscription = subscribe("/user/sub/errors", (message) => {
-        console.log("받은 사용자 메시지: ", message);
+        console.log("받은 사용자 에러 메시지: ", message);
       });
 
       return () => {
@@ -243,26 +262,41 @@ const Chat = () => {
       navigationState.currentView === "chatroom" &&
       currentChatRoomId
     ) {
-      const subscription = subscribe<PrivateChatMessage>(
-        `/sub/private-chat-rooms/${currentChatRoomId}`,
+      console.log(
+        chatType === "private"
+          ? `/sub/private-chat-rooms/${currentChatRoomId}`
+          : `/sub/studies/chat-rooms/${currentChatRoomId}`
+      );
+      const subscription = subscribe<PrivateChatMessage | StudyChatMessage>(
+        chatType === "private"
+          ? `/sub/private-chat-rooms/${currentChatRoomId}`
+          : `/sub/study-chat-rooms/${currentChatRoomId}`,
         (message) => {
-          console.log("채팅방 메시지 수신:", message);
-
           try {
-            setChatMessages((prev) => ({
-              ...prev,
-              [currentChatRoomId]: [
-                ...(prev[currentChatRoomId] || []),
-                message,
-              ],
-            }));
-            console.log(chatMessages);
+            if (chatType === "private") {
+              setPrivateChatMessages((prev) => ({
+                ...prev,
+                [currentChatRoomId]: [
+                  ...(prev[currentChatRoomId] || []),
+                  message as PrivateChatMessage,
+                ],
+              }));
+            } else if (chatType === "study") {
+              setStudyChatMessages((prev) => ({
+                ...prev,
+                [currentChatRoomId]: [
+                  ...(prev[currentChatRoomId] || []),
+                  message as StudyChatMessage,
+                ],
+              }));
+            }
           } catch (error) {
             console.error("메시지 파싱 오류:", error);
           }
         }
       );
 
+      // Chat.tsx가 언마운트시 구독해제
       return () => {
         if (subscription) {
           subscription.unsubscribe();
@@ -274,7 +308,9 @@ const Chat = () => {
     navigationState.currentView,
     currentChatRoomId,
     subscribe,
-    chatMessages,
+    privateChatMessages,
+    studyChatMessages,
+    chatType,
   ]);
 
   // 검색 모드 활성화 시 자동 포커스
@@ -346,15 +382,6 @@ const Chat = () => {
       deletePrivateChatRoomMutation.mutate(`${id}`, {
         onSuccess: () => {
           console.log("채팅방 나가기 성공");
-          setChatRoomsState((prevRooms) =>
-            prevRooms.filter((room) => {
-              if (isPrivateChatRoom(room)) {
-                return room.privateChatRoomId !== id;
-              }
-              return true;
-            })
-          );
-
           resetNavigation();
         },
         onError: (error) => {
@@ -386,8 +413,11 @@ const Chat = () => {
       console.warn("채팅방 ID가 없습니다.");
       return;
     }
+    const destination =
+      chatType === "private"
+        ? `/pub/private-chat-rooms/${currentChatRoomId}/messages`
+        : `/pub/studies/chat-rooms/${currentChatRoomId}/messages`;
 
-    const destination = `/pub/private-chat-rooms/${currentChatRoomId}/messages`;
     const messageData = {
       message: message,
     };
@@ -456,22 +486,16 @@ const Chat = () => {
   const getCurrentChatData = () => {
     if (!currentChatRoomId) return [];
 
-    const apiMessages = privateChatMessages?.content || [];
-    const realtimeMessages = chatMessages[currentChatRoomId] || [];
+    const apiMessages =
+      chatType === "private"
+        ? privateChatMessagesData?.content || []
+        : studyChatMessagesData?.content || [];
+    const realtimeMessages =
+      chatType === "private"
+        ? privateChatMessages[currentChatRoomId] || []
+        : studyChatMessages[currentChatRoomId] || [];
 
-    const allMessages = [
-      ...apiMessages,
-      ...realtimeMessages.map((msg, index) => ({
-        privateChatMessageId: Date.now() + index,
-        message: typeof msg === "string" ? msg : msg.message || "",
-        messageCreatedAt:
-          typeof msg === "string"
-            ? new Date().toISOString()
-            : msg.messageCreatedAt || new Date().toISOString(),
-        userId: typeof msg === "string" ? 0 : msg.userId || 0,
-        nickname: typeof msg === "string" ? "" : msg.nickname || "",
-      })),
-    ];
+    const allMessages = [...apiMessages, ...realtimeMessages];
 
     return allMessages;
   };
@@ -509,14 +533,14 @@ const Chat = () => {
                       privateChatRooms={
                         chatType === "private"
                           ? isSearchMode && searchQuery
-                            ? filteredRooms.filter(isPrivateChatRoom)
+                            ? filteredPrivateRooms
                             : chatRoomsState.filter(isPrivateChatRoom)
                           : []
                       }
                       studyChatRooms={
                         chatType === "study"
                           ? isSearchMode && searchQuery
-                            ? filteredRooms.filter(isStudyChatRoom)
+                            ? filteredStudyRooms
                             : chatRoomsState.filter(isStudyChatRoom)
                           : []
                       }
