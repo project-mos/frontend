@@ -40,17 +40,13 @@ import { useDeletePrivateChatRoom } from "@/entities/chat/model/chat.queries";
 import { useAuthStore } from "@/entities/auth/model/auth.store";
 import useChatWebSocket from "@/features/chat/model/useChatWebSocket";
 
-// ============================================================================
-// 상수
-// ============================================================================
 const CHAT_DELETE_CONFIRM_MODAL_KEY = "chat_delete_confirm";
 
 const Chat = () => {
-  // ============================================================================
-  // 커스텀 훅
-  // ============================================================================
   const { modal, openModal, closeModal } = useMultiModal();
+
   const { isLoggedIn } = useAuthStore();
+
   const {
     navigationState,
     navigateToChatRoom,
@@ -59,6 +55,7 @@ const Chat = () => {
     canGoBack,
     resetNavigation,
   } = useChatNavigation();
+
   const {
     isOpen: isOpenState,
     closeChat,
@@ -113,6 +110,8 @@ const Chat = () => {
     refetchPrivateChat,
     privateChatMessagesData,
     studyChatMessagesData,
+    fetchPrivateChatMessageNextPage,
+    hasNextPagePrivateChatMessage,
   } = useChatWebSocket({
     isOpenState,
     currentView: navigationState.currentView,
@@ -317,6 +316,8 @@ const Chat = () => {
         ? privateChatMessages[currentChatRoomId] || []
         : studyChatMessages[currentChatRoomId] || [];
 
+    console.log(apiMessages, realtimeMessages, 1112);
+
     const allMessages = [...apiMessages, ...realtimeMessages];
 
     return allMessages;
@@ -385,7 +386,14 @@ const Chat = () => {
         );
 
       case "chatroom":
-        return <ChatRoom data={getCurrentChatData()} />;
+        return (
+          <ChatRoom
+            data={getCurrentChatData()}
+            onLoadMore={fetchPrivateChatMessageNextPage}
+            hasNextPage={hasNextPagePrivateChatMessage}
+            isLoadingMore={false}
+          />
+        );
 
       default:
         return null;
@@ -393,18 +401,11 @@ const Chat = () => {
   };
 
   // ============================================================================
-  // 로그인 체크
-  // ============================================================================
-  if (!isLoggedIn) {
-    return null;
-  }
-
-  // ============================================================================
   // 메인 렌더링
   // ============================================================================
   return (
     <>
-      {isOpenState && (
+      {isOpenState && isLoggedIn && (
         <Card className="chat fixed bottom-24 right-5 flex h-[600px] w-96 overflow-hidden rounded-3xl bg-white/90 p-0 text-white shadow-lg backdrop-blur">
           <Card.Header className="flex items-center justify-between rounded-t-3xl p-4 text-xl font-semibold text-black">
             {canGoBack() && (
@@ -518,7 +519,6 @@ const Chat = () => {
         onClose={() => closeModal(CHAT_DELETE_CONFIRM_MODAL_KEY)}
         onClick={() => {
           setIsChatOptionOpen(false);
-
           handleChatRoomDelete(selectedChatRoom);
           closeModal(CHAT_DELETE_CONFIRM_MODAL_KEY);
         }}
