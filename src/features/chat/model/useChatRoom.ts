@@ -1,9 +1,12 @@
-import { useState, useRef, useEffect } from "react";
-import { PrivateChatMessage } from "@/entities/chat/api/chat.api.types";
+import { useRef, useState, useEffect } from "react";
+import {
+  PrivateChatMessage,
+  StudyChatMessage,
+} from "@/entities/chat/api/chat.api.types";
 import { formatDate } from "@/shared/utils/date";
 
 interface UseChatRoomProps {
-  data: PrivateChatMessage[];
+  data: (PrivateChatMessage | StudyChatMessage)[];
 }
 
 export const useChatRoom = ({ data }: UseChatRoomProps) => {

@@ -3,6 +3,10 @@ import ChatBubble from "@/features/chat/ui/ChatBubble";
 import Badge from "@/shared/components/atoms/Badge";
 import { useChatRoom } from "@/features/chat/model/useChatRoom";
 import useDecodeToken from "@/shared/hooks/useDecodeToken";
+import {
+  PrivateChatMessage,
+  StudyChatMessage,
+} from "@/entities/chat/api/chat.api.types";
 
 import React from "react";
 
@@ -10,9 +14,19 @@ const ChatRoom = ({ data }: ChatRoomProps) => {
   const { showDateBadge, currentDate, scrollContainerRef } = useChatRoom({
     data,
   });
-  const sortingData = data.sort(
-    (a, b) => a.privateChatMessageId - b.privateChatMessageId
-  ); // ID 기준 오름차순 정렬
+
+  // 메시지 ID 추출 함수
+  const getMessageId = (
+    item: PrivateChatMessage | StudyChatMessage
+  ): number => {
+    if ("privateChatMessageId" in item) {
+      return item.privateChatMessageId;
+    } else {
+      return item.studyChatMessageId;
+    }
+  };
+
+  const sortingData = data.sort((a, b) => getMessageId(a) - getMessageId(b)); // ID 기준 오름차순 정렬
 
   // 현재 사용자 정보 가져오기
   const currentUser = useDecodeToken();
@@ -55,7 +69,7 @@ const ChatRoom = ({ data }: ChatRoomProps) => {
 
             return (
               <ChatBubble
-                key={`${item.privateChatMessageId}_${index}`}
+                key={`${getMessageId(item)}_${index}`}
                 isMe={isMe}
                 profileImage="" // TODO: 필요에 따라 프로필 이미지 추가
                 nickname={item.nickname}

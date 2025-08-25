@@ -2,6 +2,7 @@ import { HTMLAttributes } from "react";
 import {
   PrivateChatMessage,
   PrivateChatRoom,
+  StudyChatMessage,
   StudyChatRoom,
 } from "@/entities/chat/api/chat.api.types";
 import { ChatUser } from "@/entities/chat/lib/mock/chat.mock";
@@ -57,7 +58,7 @@ export interface ChatUserItemProps extends HTMLAttributes<HTMLDivElement> {
 
 // ChatRoom 컴포넌트 props
 export interface ChatRoomProps {
-  data: PrivateChatMessage[];
+  data: (PrivateChatMessage | StudyChatMessage)[];
 }
 
 // ChatErrorState 컴포넌트 props
