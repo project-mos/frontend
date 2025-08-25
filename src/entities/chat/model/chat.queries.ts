@@ -59,24 +59,8 @@ export const useGetPrivateChatRoomByUser = (
   });
 };
 
-// 개인 채팅방 메시지 조회
+// 개인 채팅방 메시지 조회 (무한 스크롤)
 export const useGetPrivateChatRoomMessages = (
-  privateChatRoomId: string,
-  options?: Omit<
-    UseQueryOptions<GetPrivateChatRoomMessagesResponse>,
-    "queryKey" | "queryFn"
-  >
-) => {
-  return useQuery({
-    queryKey: [...PrivateChatRoomQueryKey.base, "messages", privateChatRoomId],
-    queryFn: () => getPrivateChatRoomMessages(privateChatRoomId),
-    retry: false,
-    ...options,
-  });
-};
-
-// 개인 채팅방 메시지 조회 (무한 스크롤용)
-export const useGetInfinitePrivateChatRoomMessages = (
   privateChatRoomId: string,
   options?: Omit<
     UseInfiniteQueryOptions<GetPrivateChatRoomMessagesResponse>,
@@ -97,8 +81,10 @@ export const useGetInfinitePrivateChatRoomMessages = (
     ],
     initialPageParam: undefined as number | undefined,
     getNextPageParam: (lastPage) => {
-      // content가 존재하고 비어있지 않으면 lastElementId를 다음 페이지 파라미터로 사용
-      return lastPage?.content?.length > 0 ? lastPage.lastElementId : undefined;
+      // hasNext가 true이고 content가 존재하면 lastElementId를 다음 페이지 파라미터로 사용
+      return lastPage.hasNext && lastPage.content.length > 0
+        ? lastPage.lastElementId
+        : undefined;
     },
   });
 };
