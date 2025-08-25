@@ -5,7 +5,6 @@ import {
   StudyChatRoom,
 } from "@/entities/chat/api/chat.api.types";
 import {
-  useGetInfinitePrivateChatRoomMessages,
   useGetPrivateChatRoom,
   useGetPrivateChatRoomMessages,
 } from "@/entities/chat/model/chat.queries";
@@ -23,6 +22,7 @@ interface UseChatWebSocketProps {
   currentView: ChatNavigationView; // 현재 채팅 네비게이션 뷰
   currentChatRoomId?: number; // 현재 선택된 채팅방 ID
   chatType: ChatType; // 채팅 타입 (private | study)
+  isLoggedIn: boolean;
 }
 
 /**
@@ -36,6 +36,7 @@ const useChatWebSocket = ({
   currentView,
   currentChatRoomId,
   chatType,
+  isLoggedIn,
 }: UseChatWebSocketProps) => {
   // 개인 채팅 메시지 상태 관리 (채팅방 ID별로 메시지 저장)
   const [privateChatMessages, setPrivateChatMessages] = useState<
@@ -52,34 +53,23 @@ const useChatWebSocket = ({
     (PrivateChatRoom | StudyChatRoom)[]
   >([]);
 
-  // 개인 채팅 메시지 조회 (채팅방 내부에서 사용)
-  const { data: privateChatMessagesData } = useGetPrivateChatRoomMessages(
+  const getPrivateChatRoomMessages = useGetPrivateChatRoomMessages(
     `${currentChatRoomId}` || "",
     {
       enabled:
+        isLoggedIn &&
         isOpenState &&
         currentView === "chatroom" &&
         chatType === "private" &&
         !!currentChatRoomId,
     }
   );
-  const {
-    data: privateChatMessagesDataInfinite,
-    fetchNextPage: fetchPrivateChatMessageNextPage,
-    hasNextPage: hasNextPagePrivateChatMessage,
-  } = useGetInfinitePrivateChatRoomMessages(`${currentChatRoomId}` || "", {
-    enabled:
-      isOpenState &&
-      currentView === "chatroom" &&
-      chatType === "private" &&
-      !!currentChatRoomId,
-  });
 
-  // 스터디 채팅 메시지 조회 (채팅방 내부에서 사용)
-  const { data: studyChatMessagesData } = useGetStudyChatRoomMessages(
+  const getStudyChatRoomMessages = useGetStudyChatRoomMessages(
     `${currentChatRoomId}` || "",
     {
       enabled:
+        isLoggedIn &&
         isOpenState &&
         currentView === "chatroom" &&
         chatType === "study" &&
@@ -93,19 +83,20 @@ const useChatWebSocket = ({
     error: privateChatError,
     refetch: refetchPrivateChat,
   } = useGetPrivateChatRoom({
-    enabled: isOpenState,
+    enabled: isOpenState && isLoggedIn,
   });
 
   // 스터디 채팅방 목록 조회
+
   const { data: studyChatRooms, refetch: refetchStudyChat } =
     useGetStudyChatRoom({
-      enabled: isOpenState,
+      enabled: isOpenState && isLoggedIn,
     });
 
   // WebSocket 연결 설정
   const { isConnected, subscribe, publish } = useWebSocket({
     url: "/ws-stomp",
-    enabled: isOpenState,
+    enabled: isOpenState && isLoggedIn,
     onConnect: () => {
       console.log("채팅 WebSocket 연결됨 - URL:", "/ws-stomp");
     },
@@ -246,24 +237,32 @@ const useChatWebSocket = ({
   }, [isConnected, subscribe]);
 
   useEffect(() => {
-    if (currentView === "list") {
+    // 리스트 화면일 때만, 그리고 채팅이 열려있고 로그인된 경우에만 수동 리패치
+    if (currentView === "list" && isOpenState && isLoggedIn) {
       refetchPrivateChat();
       refetchStudyChat();
     }
-  }, [currentView]);
-  console.log(privateChatMessages, 1112);
+  }, [
+    currentView,
+    isOpenState,
+    isLoggedIn,
+    refetchPrivateChat,
+    refetchStudyChat,
+  ]);
+
   return {
+    isConnected,
+
     privateChatMessages,
     studyChatMessages,
     chatRoomsState,
-    isConnected,
+
+    getStudyChatRoomMessages,
+    getPrivateChatRoomMessages,
+
     privateChatError,
-    studyChatMessagesData,
-    privateChatMessagesData,
-    hasNextPagePrivateChatMessage,
-    privateChatMessagesDataInfinite,
     refetchPrivateChat,
-    fetchPrivateChatMessageNextPage,
+
     subscribe,
     publish,
   };

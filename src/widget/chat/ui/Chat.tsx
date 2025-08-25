@@ -6,7 +6,11 @@ import {
   Notification,
 } from "@/entities/notification/lib/mock/notification.mock";
 import {
+  GetPrivateChatRoomMessagesResponse,
+  GetStudyChatRoomMessagesResponse,
+  PrivateChatMessage,
   PrivateChatRoom,
+  StudyChatMessage,
   StudyChatRoom,
 } from "@/entities/chat/api/chat.api.types";
 import {
@@ -39,6 +43,7 @@ import { useDeletePrivateChatRoom } from "@/entities/chat/model/chat.queries";
 
 import { useAuthStore } from "@/entities/auth/model/auth.store";
 import useChatWebSocket from "@/features/chat/model/useChatWebSocket";
+import { InfiniteData } from "@tanstack/react-query";
 
 const CHAT_DELETE_CONFIRM_MODAL_KEY = "chat_delete_confirm";
 
@@ -108,16 +113,16 @@ const Chat = () => {
     privateChatError,
     publish,
     refetchPrivateChat,
-    privateChatMessagesData,
-    studyChatMessagesData,
-    fetchPrivateChatMessageNextPage,
-    hasNextPagePrivateChatMessage,
+    getPrivateChatRoomMessages,
+    getStudyChatRoomMessages,
   } = useChatWebSocket({
     isOpenState,
     currentView: navigationState.currentView,
     currentChatRoomId,
     chatType: chatType,
+    isLoggedIn,
   });
+
   // ============================================================================
   // 검색 관련
   // ============================================================================
@@ -306,20 +311,23 @@ const Chat = () => {
 
   const getCurrentChatData = () => {
     if (!currentChatRoomId) return [];
-
-    const apiMessages =
+    const apiData =
       chatType === "private"
-        ? privateChatMessagesData?.content || []
-        : studyChatMessagesData?.content || [];
+        ? (getPrivateChatRoomMessages.data as
+            | InfiniteData<GetPrivateChatRoomMessagesResponse>
+            | undefined)
+        : (getStudyChatRoomMessages.data as
+            | InfiniteData<GetStudyChatRoomMessagesResponse>
+            | undefined);
+    const apiMessages =
+      apiData?.pages.flatMap(
+        (page) => page.content as (PrivateChatMessage | StudyChatMessage)[]
+      ) || [];
     const realtimeMessages =
       chatType === "private"
         ? privateChatMessages[currentChatRoomId] || []
         : studyChatMessages[currentChatRoomId] || [];
-
-    console.log(apiMessages, realtimeMessages, 1112);
-
     const allMessages = [...apiMessages, ...realtimeMessages];
-
     return allMessages;
   };
 
@@ -389,9 +397,21 @@ const Chat = () => {
         return (
           <ChatRoom
             data={getCurrentChatData()}
-            onLoadMore={fetchPrivateChatMessageNextPage}
-            hasNextPage={hasNextPagePrivateChatMessage}
-            isLoadingMore={false}
+            onLoadMore={
+              chatType === "private"
+                ? getPrivateChatRoomMessages.fetchNextPage
+                : getStudyChatRoomMessages.fetchNextPage
+            }
+            hasNextPage={
+              chatType === "private"
+                ? getPrivateChatRoomMessages.hasNextPage
+                : getStudyChatRoomMessages.hasNextPage
+            }
+            isLoadingMore={
+              chatType === "private"
+                ? getPrivateChatRoomMessages.isLoading
+                : getStudyChatRoomMessages.isLoading
+            }
           />
         );
 
