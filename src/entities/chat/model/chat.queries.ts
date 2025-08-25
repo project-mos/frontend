@@ -8,6 +8,7 @@ import {
   UseMutationOptions,
   useInfiniteQuery,
   UseInfiniteQueryOptions,
+  QueryKey,
 } from "@tanstack/react-query";
 import {
   getPrivateChatRoom,
@@ -59,46 +60,43 @@ export const useGetPrivateChatRoomByUser = (
   });
 };
 
-// 개인 채팅방 메시지 조회
+// 개인 채팅방 메시지 조회 (무한 스크롤용)
 export const useGetPrivateChatRoomMessages = (
   privateChatRoomId: string,
   options?: Omit<
-    UseQueryOptions<GetPrivateChatRoomMessagesResponse>,
-    "queryKey" | "queryFn"
-  >
-) => {
-  return useQuery({
-    queryKey: [...PrivateChatRoomQueryKey.base, "messages", privateChatRoomId],
-    queryFn: () => getPrivateChatRoomMessages(privateChatRoomId),
-    retry: false,
-    ...options,
-  });
-};
-
-// 개인 채팅방 메시지 조회 (무한 스크롤용)
-export const useGetInfinitePrivateChatRoomMessages = (
-  privateChatRoomId: string,
-  options?: Omit<
-    UseInfiniteQueryOptions<GetPrivateChatRoomMessagesResponse>,
+    UseInfiniteQueryOptions<
+      GetPrivateChatRoomMessagesResponse, // TQueryFnData
+      Error, // TError
+      GetPrivateChatRoomMessagesResponse, // TData
+      QueryKey, // TQueryKey
+      number | undefined // TPageParam
+    >,
     "queryKey" | "queryFn" | "initialPageParam" | "getNextPageParam"
   >
 ) => {
-  return useInfiniteQuery({
+  return useInfiniteQuery<
+    GetPrivateChatRoomMessagesResponse,
+    Error,
+    GetPrivateChatRoomMessagesResponse,
+    QueryKey,
+    number | undefined
+  >({
     ...options,
     queryFn: ({ pageParam }) =>
-      getPrivateChatRoomMessages(
-        privateChatRoomId,
-        pageParam as number | undefined
-      ),
+      getPrivateChatRoomMessages(privateChatRoomId, pageParam),
     queryKey: [
       ...PrivateChatRoomQueryKey.base,
       "messages-infinite",
       privateChatRoomId,
     ],
-    initialPageParam: undefined as number | undefined,
+    initialPageParam: undefined,
     getNextPageParam: (lastPage) => {
-      // content가 존재하고 비어있지 않으면 lastElementId를 다음 페이지 파라미터로 사용
-      return lastPage?.content?.length > 0 ? lastPage.lastElementId : undefined;
+      // 서버 응답 스키마(GetPrivateChatRoomMessagesResponse)에 맞춰 next page param 결정
+      // hasNext가 true이고 content가 존재하면 lastElementId를 넘겨 커서 기반 페이지네이션 진행
+      const hasNextPage = Boolean(lastPage?.hasNext);
+      const hasContent =
+        Array.isArray(lastPage?.content) && lastPage.content.length > 0;
+      return hasNextPage && hasContent ? lastPage.lastElementId : undefined;
     },
   });
 };

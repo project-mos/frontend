@@ -21,7 +21,6 @@ const ChatRoom = ({
     data,
   });
 
-  console.log(data, 111);
   // 메시지 ID 추출 함수
   const getMessageId = (
     item: PrivateChatMessage | StudyChatMessage
@@ -34,7 +33,7 @@ const ChatRoom = ({
   };
 
   const sortingData = data.sort((a, b) => getMessageId(a) - getMessageId(b)); // ID 기준 오름차순 정렬
-
+  console.log(hasNextPage, data, 11);
   // 현재 사용자 정보 가져오기
   const currentUser = useDecodeToken();
 

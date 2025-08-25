@@ -117,7 +117,9 @@ const Chat = () => {
     currentView: navigationState.currentView,
     currentChatRoomId,
     chatType: chatType,
+    isLoggedIn,
   });
+
   // ============================================================================
   // 검색 관련
   // ============================================================================
@@ -309,17 +311,15 @@ const Chat = () => {
 
     const apiMessages =
       chatType === "private"
-        ? privateChatMessagesData?.content || []
+        ? privateChatMessagesData?.pages[0]?.content || []
         : studyChatMessagesData?.content || [];
     const realtimeMessages =
       chatType === "private"
         ? privateChatMessages[currentChatRoomId] || []
         : studyChatMessages[currentChatRoomId] || [];
-
-    console.log(apiMessages, realtimeMessages, 1112);
-
+    console.log(JSON.stringify(privateChatMessagesData?.pages[0]?.content));
     const allMessages = [...apiMessages, ...realtimeMessages];
-
+    console.log(allMessages, "allMessages");
     return allMessages;
   };
 
