@@ -85,18 +85,20 @@ export const useGetInfinitePrivateChatRoomMessages = (
 ) => {
   return useInfiniteQuery({
     ...options,
-    queryFn: () => getPrivateChatRoomMessages(privateChatRoomId),
+    queryFn: ({ pageParam }) =>
+      getPrivateChatRoomMessages(
+        privateChatRoomId,
+        pageParam as number | undefined
+      ),
     queryKey: [
       ...PrivateChatRoomQueryKey.base,
       "messages-infinite",
       privateChatRoomId,
     ],
-    initialPageParam: 0,
+    initialPageParam: undefined as number | undefined,
     getNextPageParam: (lastPage) => {
-      console.log(lastPage);
-      return lastPage.hasNext
-        ? lastPage.lastElementId === lastPage.content[0].privateChatMessageId
-        : undefined;
+      // content가 존재하고 비어있지 않으면 lastElementId를 다음 페이지 파라미터로 사용
+      return lastPage?.content?.length > 0 ? lastPage.lastElementId : undefined;
     },
   });
 };

@@ -12,8 +12,16 @@ export const chat = {
     method: Method.GET,
   }),
   // 개인 채팅방 메시지 조회
-  getPrivateChatRoomMessages: (privateChatRoomId: string) => ({
-    url: `${process.env.NEXT_PUBLIC_BASE_URL}/private-chat-rooms/${privateChatRoomId}/messages`,
+  getPrivateChatRoomMessages: (
+    privateChatRoomId: string,
+    lastElementId?: number,
+    size: number = 10 // 기본 10개
+  ) => ({
+    url: `${
+      process.env.NEXT_PUBLIC_BASE_URL
+    }/private-chat-rooms/${privateChatRoomId}/messages${
+      lastElementId ? `?lastElementId=${lastElementId}` : ""
+    }${lastElementId ? "&" : "?"}size=${size}`,
     method: Method.GET,
   }),
   // 개인 채팅방 입장

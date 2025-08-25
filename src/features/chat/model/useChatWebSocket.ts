@@ -5,6 +5,7 @@ import {
   StudyChatRoom,
 } from "@/entities/chat/api/chat.api.types";
 import {
+  useGetInfinitePrivateChatRoomMessages,
   useGetPrivateChatRoom,
   useGetPrivateChatRoomMessages,
 } from "@/entities/chat/model/chat.queries";
@@ -62,17 +63,17 @@ const useChatWebSocket = ({
         !!currentChatRoomId,
     }
   );
-  //   const { data: privateChatMessagesData2 } = useGetPrivateChatRoomMessages2(
-  //     `${currentChatRoomId}` || "",
-  //     {
-  //       enabled:
-  //         isOpenState &&
-  //         currentView === "chatroom" &&
-  //         chatType === "private" &&
-  //         !!currentChatRoomId,
-  //     }
-  //   );
-  //   console.log(privateChatMessagesData2, 111);
+  const {
+    data: privateChatMessagesDataInfinite,
+    fetchNextPage: fetchPrivateChatMessageNextPage,
+    hasNextPage: hasNextPagePrivateChatMessage,
+  } = useGetInfinitePrivateChatRoomMessages(`${currentChatRoomId}` || "", {
+    enabled:
+      isOpenState &&
+      currentView === "chatroom" &&
+      chatType === "private" &&
+      !!currentChatRoomId,
+  });
 
   // 스터디 채팅 메시지 조회 (채팅방 내부에서 사용)
   const { data: studyChatMessagesData } = useGetStudyChatRoomMessages(
@@ -250,7 +251,7 @@ const useChatWebSocket = ({
       refetchStudyChat();
     }
   }, [currentView]);
-
+  console.log(privateChatMessages, 1112);
   return {
     privateChatMessages,
     studyChatMessages,
@@ -259,7 +260,10 @@ const useChatWebSocket = ({
     privateChatError,
     studyChatMessagesData,
     privateChatMessagesData,
+    hasNextPagePrivateChatMessage,
+    privateChatMessagesDataInfinite,
     refetchPrivateChat,
+    fetchPrivateChatMessageNextPage,
     subscribe,
     publish,
   };

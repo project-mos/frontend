@@ -26,8 +26,14 @@ export async function getPrivateChatRoomByUser(userId: string) {
 }
 
 // 개인 채팅방 메시지 조회
-export async function getPrivateChatRoomMessages(privateChatRoomId: string) {
-  const { url, method } = API_ENDPOINT.chat.getPrivateChatRoomMessages(privateChatRoomId);
+export async function getPrivateChatRoomMessages(
+  privateChatRoomId: string,
+  lastElementId?: number
+) {
+  const { url, method } = API_ENDPOINT.chat.getPrivateChatRoomMessages(
+    privateChatRoomId,
+    lastElementId
+  );
 
   return await fetchAPI<GetPrivateChatRoomMessagesResponse>(url, {
     credentials: "include",
