@@ -6,6 +6,8 @@ import {
   useQueryClient,
   UseQueryOptions,
   UseMutationOptions,
+  useInfiniteQuery,
+  UseInfiniteQueryOptions,
 } from "@tanstack/react-query";
 import {
   getPrivateChatRoom,
@@ -70,6 +72,32 @@ export const useGetPrivateChatRoomMessages = (
     queryFn: () => getPrivateChatRoomMessages(privateChatRoomId),
     retry: false,
     ...options,
+  });
+};
+
+// 개인 채팅방 메시지 조회 (무한 스크롤용)
+export const useGetInfinitePrivateChatRoomMessages = (
+  privateChatRoomId: string,
+  options?: Omit<
+    UseInfiniteQueryOptions<GetPrivateChatRoomMessagesResponse>,
+    "queryKey" | "queryFn" | "initialPageParam" | "getNextPageParam"
+  >
+) => {
+  return useInfiniteQuery({
+    ...options,
+    queryFn: () => getPrivateChatRoomMessages(privateChatRoomId),
+    queryKey: [
+      ...PrivateChatRoomQueryKey.base,
+      "messages-infinite",
+      privateChatRoomId,
+    ],
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => {
+      console.log(lastPage);
+      return lastPage.hasNext
+        ? lastPage.lastElementId === lastPage.content[0].privateChatMessageId
+        : undefined;
+    },
   });
 };
 
