@@ -6,12 +6,13 @@ importScripts(
 );
 
 firebase.initializeApp({
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  projectId: "YOUR_PID",
-  storageBucket: "YOUR_BUCKET",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID",
+  apiKey: "AIzaSyDmSFBCGiFPV8xtqFbVCYJCFw96Wnyq1aY",
+  authDomain: "mos-project-ebc9a.firebaseapp.com",
+  projectId: "mos-project-ebc9a",
+  storageBucket: "mos-project-ebc9a.firebasestorage.app",
+  messagingSenderId: "516973429629",
+  appId: "1:516973429629:web:110d0af926954021cfc214",
+  measurementId: "G-7EEDZFDC0E",
 });
 
 messaging.onBackgroundMessage((payload) => {
