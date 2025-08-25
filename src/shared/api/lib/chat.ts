@@ -57,9 +57,17 @@ export const studyChat = {
     url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/chat-rooms`,
     method: Method.GET,
   }),
-  // 스터디 채팅방 메시지 조회
-  getStudyChatRoomMessages: (studyChatRoomId: string) => ({
-    url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/chat-rooms/${studyChatRoomId}/messages`,
+  // 스터디 채팅방 메시지 조회 (무한 스크롤)
+  getStudyChatRoomMessages: (
+    studyChatRoomId: string,
+    lastElementId?: number,
+    size: number = 10
+  ) => ({
+    url: `${
+      process.env.NEXT_PUBLIC_BASE_URL
+    }/studies/chat-rooms/${studyChatRoomId}/messages${
+      lastElementId ? `?lastElementId=${lastElementId}` : ""
+    }${lastElementId ? "&" : "?"}size=${size}`,
     method: Method.GET,
   }),
 };
