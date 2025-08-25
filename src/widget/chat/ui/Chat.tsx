@@ -6,10 +6,8 @@ import {
   Notification,
 } from "@/entities/notification/lib/mock/notification.mock";
 import {
-  PrivateChatMessage,
   PrivateChatRoom,
   StudyChatRoom,
-  StudyChatMessage,
 } from "@/entities/chat/api/chat.api.types";
 import {
   ChatActiveTab,
@@ -37,17 +35,10 @@ import cn from "@/shared/utils/cn";
 import clsx from "clsx";
 import React, { useState, useRef, useEffect } from "react";
 import { useChatUIStore } from "@/shared/store/useChatUIStore";
-import {
-  useGetPrivateChatRoom,
-  useGetPrivateChatRoomMessages,
-  useDeletePrivateChatRoom,
-} from "@/entities/chat/model/chat.queries";
-import { useWebSocket } from "@/shared/hooks/useWebSocket";
+import { useDeletePrivateChatRoom } from "@/entities/chat/model/chat.queries";
+
 import { useAuthStore } from "@/entities/auth/model/auth.store";
-import {
-  useGetStudyChatRoom,
-  useGetStudyChatRoomMessages,
-} from "@/entities/chat/model/study-chat.queries";
+import useChatWebSocket from "@/features/chat/model/useChatWebSocket";
 
 // ============================================================================
 // 상수
@@ -76,20 +67,6 @@ const Chat = () => {
     tempChatRoomName,
   } = useChatUIStore();
 
-  const { isConnected, subscribe, publish } = useWebSocket({
-    url: "/ws-stomp",
-    enabled: isOpenState,
-    onConnect: () => {
-      console.log("채팅 WebSocket 연결됨 - URL:", "/ws-stomp");
-    },
-    onDisconnect: () => {
-      console.log("채팅 WebSocket 연결 해제됨 - URL:", "/ws-stomp");
-    },
-    onError: (error) => {
-      console.error("채팅 WebSocket 에러:", error);
-      console.error("에러 발생 URL:", "/ws-stomp");
-    },
-  });
   const deletePrivateChatRoomMutation = useDeletePrivateChatRoom();
 
   // ============================================================================
@@ -100,17 +77,6 @@ const Chat = () => {
   const [activeTab, setActiveTab] = useState<ChatActiveTab>("chat");
   const [notifications, setNotifications] =
     useState<Notification[]>(notificationMockData);
-  const [privateChatMessages, setPrivateChatMessages] = useState<
-    Record<number, PrivateChatMessage[]>
-  >({});
-  // TODO: 스터디 채팅 메시지 상태 (향후 스터디 채팅 기능 구현 시 사용)
-
-  const [studyChatMessages, setStudyChatMessages] = useState<
-    Record<number, StudyChatMessage[]>
-  >({});
-  const [chatRoomsState, setChatRoomsState] = useState<
-    (PrivateChatRoom | StudyChatRoom)[]
-  >([]);
   const [selectedChatRoom, setSelectedChatRoom] = useState<ChatRoomType | null>(
     null
   );
@@ -137,6 +103,22 @@ const Chat = () => {
     ? currentChatRoom.studyChatRoomId
     : privateChatRoomId;
 
+  const {
+    chatRoomsState,
+    privateChatMessages,
+    studyChatMessages,
+    isConnected,
+    privateChatError,
+    publish,
+    refetchPrivateChat,
+    privateChatMessagesData,
+    studyChatMessagesData,
+  } = useChatWebSocket({
+    isOpenState,
+    currentView: navigationState.currentView,
+    currentChatRoomId,
+    chatType: chatType,
+  });
   // ============================================================================
   // 검색 관련
   // ============================================================================
@@ -151,168 +133,8 @@ const Chat = () => {
   } = useSearchChat(chatRoomsState, chatType);
 
   // ============================================================================
-  // 쿼리 (계산된 값 이후에 선언)
-  // ============================================================================
-  const { data: privateChatMessagesData } = useGetPrivateChatRoomMessages(
-    currentChatRoomId?.toString() || "",
-    {
-      enabled:
-        isOpenState &&
-        navigationState.currentView === "chatroom" &&
-        chatType === "private" &&
-        !!currentChatRoomId,
-    }
-  );
-
-  const { data: studyChatMessagesData } = useGetStudyChatRoomMessages(
-    currentChatRoomId?.toString() || "",
-    {
-      enabled:
-        isOpenState &&
-        navigationState.currentView === "chatroom" &&
-        chatType === "study",
-    }
-  );
-
-  const {
-    data: privateChatRooms,
-    error: privateChatError,
-    refetch: refetchPrivateChat,
-  } = useGetPrivateChatRoom({
-    enabled: isOpenState,
-  });
-  const { data: studyChatRooms } = useGetStudyChatRoom({
-    enabled: isOpenState,
-  });
-
-  // ============================================================================
-  // 공통 함수
-  // ============================================================================
-  const updateChatRoom = <T extends PrivateChatRoom | StudyChatRoom>(
-    prevRooms: (PrivateChatRoom | StudyChatRoom)[],
-    updatedRoom: T,
-    idKey: keyof T
-  ) => {
-    const existingRoomIndex = prevRooms.findIndex((room) => {
-      return (
-        idKey in room && room[idKey as keyof typeof room] === updatedRoom[idKey]
-      );
-    });
-
-    if (existingRoomIndex >= 0) {
-      const updatedRooms = [...prevRooms];
-      updatedRooms[existingRoomIndex] = {
-        ...(updatedRooms[existingRoomIndex] as T),
-        ...updatedRoom,
-      } as T;
-      return updatedRooms;
-    } else {
-      return [updatedRoom, ...prevRooms];
-    }
-  };
-
-  // ============================================================================
   // 이펙트
   // ============================================================================
-  // API에서 받은 초기 개인 채팅방 목록을 상태에 설정
-  useEffect(() => {
-    if (privateChatRooms) {
-      setChatRoomsState(privateChatRooms);
-    }
-    if (studyChatRooms) {
-      setChatRoomsState((prevRooms) => [...prevRooms, ...studyChatRooms]);
-    }
-  }, [privateChatRooms, studyChatRooms]);
-
-  // 사용자 메시지 구독
-  useEffect(() => {
-    if (isConnected && subscribe) {
-      const chatRoomSubscription = subscribe<PrivateChatRoom | StudyChatRoom>(
-        "/user/sub/chat-rooms",
-        (message) => {
-          console.log("받은 채팅방 메시지: ", message);
-          if ("privateChatRoomId" in message) {
-            setChatRoomsState((prevRooms) =>
-              updateChatRoom(prevRooms, message, "privateChatRoomId")
-            );
-          } else {
-            setChatRoomsState((prevRooms) =>
-              updateChatRoom(prevRooms, message, "studyChatRoomId")
-            );
-          }
-        }
-      );
-      const errorSubscription = subscribe("/user/sub/errors", (message) => {
-        console.log("받은 사용자 에러 메시지: ", message);
-      });
-
-      return () => {
-        if (chatRoomSubscription) {
-          chatRoomSubscription.unsubscribe();
-          errorSubscription?.unsubscribe();
-        }
-      };
-    }
-  }, [isConnected, subscribe]);
-
-  // 특정 채팅방 구독
-  useEffect(() => {
-    if (
-      isConnected &&
-      navigationState.currentView === "chatroom" &&
-      currentChatRoomId
-    ) {
-      console.log(
-        chatType === "private"
-          ? `/sub/private-chat-rooms/${currentChatRoomId}`
-          : `/sub/studies/chat-rooms/${currentChatRoomId}`
-      );
-      const subscription = subscribe<PrivateChatMessage | StudyChatMessage>(
-        chatType === "private"
-          ? `/sub/private-chat-rooms/${currentChatRoomId}`
-          : `/sub/study-chat-rooms/${currentChatRoomId}`,
-        (message) => {
-          try {
-            if (chatType === "private") {
-              setPrivateChatMessages((prev) => ({
-                ...prev,
-                [currentChatRoomId]: [
-                  ...(prev[currentChatRoomId] || []),
-                  message as PrivateChatMessage,
-                ],
-              }));
-            } else if (chatType === "study") {
-              setStudyChatMessages((prev) => ({
-                ...prev,
-                [currentChatRoomId]: [
-                  ...(prev[currentChatRoomId] || []),
-                  message as StudyChatMessage,
-                ],
-              }));
-            }
-          } catch (error) {
-            console.error("메시지 파싱 오류:", error);
-          }
-        }
-      );
-
-      // Chat.tsx가 언마운트시 구독해제
-      return () => {
-        if (subscription) {
-          subscription.unsubscribe();
-        }
-      };
-    }
-  }, [
-    isConnected,
-    navigationState.currentView,
-    currentChatRoomId,
-    subscribe,
-    privateChatMessages,
-    studyChatMessages,
-    chatType,
-  ]);
-
   // 검색 모드 활성화 시 자동 포커스
   useEffect(() => {
     if (isSearchMode && searchInputRef.current) {
