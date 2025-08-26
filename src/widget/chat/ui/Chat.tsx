@@ -423,9 +423,10 @@ const Chat = () => {
   // ============================================================================
   // 메인 렌더링
   // ============================================================================
+  if (!isLoggedIn) return null;
   return (
     <>
-      {isOpenState && isLoggedIn && (
+      {isOpenState && (
         <Card className="chat fixed bottom-24 right-5 flex h-[600px] w-96 overflow-hidden rounded-3xl bg-white/90 p-0 text-white shadow-lg backdrop-blur">
           <Card.Header className="flex items-center justify-between rounded-t-3xl p-4 text-xl font-semibold text-black">
             {canGoBack() && (
