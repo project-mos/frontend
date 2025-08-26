@@ -21,7 +21,6 @@ const ChatRoom = ({
     data,
   });
 
-  console.log(data, 111);
   // 메시지 ID 추출 함수
   const getMessageId = (
     item: PrivateChatMessage | StudyChatMessage
