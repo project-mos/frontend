@@ -17,17 +17,19 @@ const ChatInput = ({ onSendMessage }: ChatInputProps) => {
 
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const inputValue = event.target.value;
-    setMessage(inputValue); // 메시지 상태 업데이트
+    setMessage(inputValue);
 
-    // 입력된 텍스트 길이를 기준으로 추가 라인 수를 계산합니다.
-    // 최소 한 줄은 기본 높이로 처리되므로, 0보다 큰 경우에만 추가 라인으로 계산합니다.
-    const calculatedExtraLines = Math.max(
-      0,
-      Math.ceil(inputValue.length / CHARS_PER_LINE) - 1
-    );
+    // 입력된 글자 수 기준으로 예상 라인 수 계산 (한 줄에 CHARS_PER_LINE 글자)
+    const lineCountFromLength = Math.ceil(inputValue.length / CHARS_PER_LINE);
+    // 줄바꿈(Enter) 기준으로 라인 수 계산
+    const lineCountFromBreaks = inputValue.split("\n").length;
 
-    // 최대 라인 수를 초과하지 않도록 제한합니다.
-    // MAX_LINES는 전체 라인 수이므로, extraLines는 MAX_LINES - 1을 넘을 수 없습니다.
+    // 두 기준 중 더 큰 값을 실제 라인 수로 사용
+    const totalLines = Math.max(lineCountFromLength, lineCountFromBreaks);
+
+    // 기본 1줄은 제외하고, 추가 라인 수만 계산
+    const calculatedExtraLines = Math.max(0, totalLines - 1);
+    // 최대 라인 수 제한 (MAX_LINES - 1까지만 허용)
     const newExtraLines = Math.min(calculatedExtraLines, MAX_LINES - 1);
 
     setExtraLines(newExtraLines);
@@ -38,10 +40,10 @@ const ChatInput = ({ onSendMessage }: ChatInputProps) => {
     if (message.trim()) {
       // 빈 메시지 전송 방지
       console.log("메시지 전송:", message);
-      
+
       // 부모 컴포넌트로 메시지 전달
       onSendMessage?.(message.trim());
-      
+
       setMessage(""); // 메시지 전송 후 입력 필드 초기화
       setExtraLines(0); // 텍스트 영역 높이 초기화
     }
@@ -63,6 +65,7 @@ const ChatInput = ({ onSendMessage }: ChatInputProps) => {
         value={message} // controlled component로 만들기
         style={{
           height: `${textareaDynamicHeight}px`,
+          scrollbarWidth: "none",
         }}
       />
       <Button.Default
