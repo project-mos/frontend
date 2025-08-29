@@ -6,17 +6,20 @@ import {
   useQueryClient,
   UseQueryOptions,
   UseMutationOptions,
+  useInfiniteQuery,
+  UseInfiniteQueryOptions,
 } from "@tanstack/react-query";
 import {
   getPrivateChatRoom,
-  getSearchPrivateChatRoom,
-  postPrivateChatRoom,
+  getPrivateChatRoomByUser,
+  getPrivateChatRoomMessages,
   postEnterPrivateChatRoom,
   deletePrivateChatRoom,
 } from "@/entities/chat/api/chat.api";
 import {
   GetPrivateChatRoomResponse,
-  postPrivateChatRoomResponse,
+  GetPrivateChatRoomByUserResponse,
+  GetPrivateChatRoomMessagesResponse,
 } from "@/entities/chat/api/chat.api.types";
 
 // Query Key 생성
@@ -40,36 +43,49 @@ export const useGetPrivateChatRoom = (
   });
 };
 
-// 개인 채팅방 유무 조회(검색)
-export const useGetSearchPrivateChatRoom = (
-  options?: Omit<UseQueryOptions<number>, "queryKey" | "queryFn">
+// 개인 채팅방 생성 및 유무 조회 (통합)
+export const useGetPrivateChatRoomByUser = (
+  userId: string,
+  options?: Omit<
+    UseQueryOptions<GetPrivateChatRoomByUserResponse>,
+    "queryKey" | "queryFn"
+  >
 ) => {
   return useQuery({
-    queryKey: [...PrivateChatRoomQueryKey.base, "search"],
-    queryFn: () => getSearchPrivateChatRoom(),
+    queryKey: [...PrivateChatRoomQueryKey.base, "user", userId],
+    queryFn: () => getPrivateChatRoomByUser(userId),
     retry: false,
     ...options,
   });
 };
 
-// 개인 채팅방 생성
-export const usePostPrivateChatRoom = (
+// 개인 채팅방 메시지 조회 (무한 스크롤)
+export const useGetPrivateChatRoomMessages = (
+  privateChatRoomId: string,
   options?: Omit<
-    UseMutationOptions<postPrivateChatRoomResponse, unknown, void>,
-    "mutationFn"
+    UseInfiniteQueryOptions<GetPrivateChatRoomMessagesResponse>,
+    "queryKey" | "queryFn" | "initialPageParam" | "getNextPageParam"
   >
 ) => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: () => postPrivateChatRoom(),
-    onSuccess: (...args) => {
-      queryClient.invalidateQueries({
-        queryKey: PrivateChatRoomQueryKey.base,
-      });
-      options?.onSuccess?.(...args);
-    },
+  return useInfiniteQuery({
     ...options,
+    queryFn: ({ pageParam }) =>
+      getPrivateChatRoomMessages(
+        privateChatRoomId,
+        pageParam as number | undefined
+      ),
+    queryKey: [
+      ...PrivateChatRoomQueryKey.base,
+      "messages-infinite",
+      privateChatRoomId,
+    ],
+    initialPageParam: undefined as number | undefined,
+    getNextPageParam: (lastPage) => {
+      // hasNext가 true이고 content가 존재하면 lastElementId를 다음 페이지 파라미터로 사용
+      return lastPage.hasNext && lastPage.content.length > 0
+        ? lastPage.lastElementId
+        : undefined;
+    },
   });
 };
 

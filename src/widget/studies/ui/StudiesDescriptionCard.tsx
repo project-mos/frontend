@@ -15,6 +15,7 @@ import ShareButton from "@/features/share/ui/ShareButton";
 import Profile from "@/shared/components/atoms/Profile";
 import CustomMdxRemote from "@/shared/components/system/CustomMdxRemote";
 import { StudiesDescriptionCardProps } from "@/widget/studies/ui/studies.ui.types";
+import MessageToLeaderButton from "@/features/private-message/ui/MessageToLeaderButton";
 import Meta from "@/shared/components/molecules/Meta";
 import MetaLike from "@/features/study/landing/ui/MetaLike";
 
@@ -44,6 +45,8 @@ const StudiesDescriptionCard = ({
           <div className="flex items-center gap-2">
             <ShareButton type="copy" />
             <ShareButton type="share" />
+
+            {findLeader && <MessageToLeaderButton user={findLeader} />}
           </div>
         </div>
         <div className="flex justify-between">

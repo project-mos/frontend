@@ -1,8 +1,23 @@
 import React from "react";
-import { StudyInquiryUser } from "@/features/chat-navigation/lib/navigation.types";
 import Typography from "@/shared/components/atoms/Typography";
 import Profile from "@/shared/components/atoms/Profile";
 import { formatDate } from "@/shared/utils/date";
+
+// StudyInquiryUser 타입 정의
+interface StudyInquiryUser {
+  userId: string;
+  userName: string;
+  userAvatar: string;
+  roomId: string; // 실제 채팅방 ID
+  lastMessage: {
+    content: string;
+    type: "text" | "image" | "file";
+    timestamp: string;
+  };
+  unreadCount: number;
+  inquiryDate: string;
+  inquiryStatus: "active" | "resolved" | "pending";
+}
 
 interface StudyInquiryListProps {
   inquiries: StudyInquiryUser[];

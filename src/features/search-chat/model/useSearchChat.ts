@@ -1,11 +1,16 @@
 import { useState, useMemo, useCallback } from "react";
-import { ChatRoomPreview } from "@/entities/chat/lib/mock/chat.mock";
+import {
+  PrivateChatRoom,
+  StudyChatRoom,
+} from "@/entities/chat/api/chat.api.types";
+import { ChatType } from "@/features/chat/ui/chat.ui.types";
 import { filterChatRooms, isValidSearchQuery } from "../lib/filterChatRooms";
 
 interface UseSearchChatReturn {
   isSearchMode: boolean;
   searchQuery: string;
-  filteredRooms: ChatRoomPreview[];
+  filteredPrivateRooms: PrivateChatRoom[];
+  filteredStudyRooms: StudyChatRoom[];
   hasSearchResults: boolean;
   toggleSearchMode: () => void;
   handleSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -14,27 +19,60 @@ interface UseSearchChatReturn {
 
 /**
  * 채팅방 검색 기능을 위한 커스텀 훅
- * @param chatRooms 원본 채팅방 목록
+ * @param chatRooms 원본 채팅방 목록 (개인/스터디 혼용)
+ * @param chatType 현재 선택된 채팅 타입
  * @returns 검색 상태와 제어 함수들
  */
 export const useSearchChat = (
-  chatRooms: ChatRoomPreview[]
+  chatRooms: (PrivateChatRoom | StudyChatRoom)[],
+  chatType: ChatType
 ): UseSearchChatReturn => {
   const [isSearchMode, setIsSearchMode] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
 
-  // 검색 결과 필터링 (메모이제이션)
-  const filteredRooms = useMemo(() => {
-    if (!isSearchMode || !isValidSearchQuery(searchQuery)) {
-      return chatRooms;
-    }
-    return filterChatRooms(chatRooms, searchQuery);
-  }, [chatRooms, searchQuery, isSearchMode]);
+  // 타입별 채팅방 분리
+  const { privateChatRooms, studyChatRooms } = useMemo(() => {
+    const privateRooms = chatRooms.filter(
+      (room): room is PrivateChatRoom => "privateChatRoomId" in room
+    );
+    const studyRooms = chatRooms.filter(
+      (room): room is StudyChatRoom => "studyChatRoomId" in room
+    );
+    return { privateChatRooms: privateRooms, studyChatRooms: studyRooms };
+  }, [chatRooms]);
 
-  // 검색 결과 존재 여부
+  // 검색 결과 필터링 (메모이제이션)
+  const { filteredPrivateRooms, filteredStudyRooms } = useMemo(() => {
+    if (!isSearchMode || !isValidSearchQuery(searchQuery)) {
+      return {
+        filteredPrivateRooms: privateChatRooms,
+        filteredStudyRooms: studyChatRooms,
+      };
+    }
+
+    const filteredPrivate = filterChatRooms(
+      privateChatRooms,
+      searchQuery
+    ) as PrivateChatRoom[];
+    const filteredStudy = filterChatRooms(
+      studyChatRooms,
+      searchQuery
+    ) as StudyChatRoom[];
+
+    return {
+      filteredPrivateRooms: filteredPrivate,
+      filteredStudyRooms: filteredStudy,
+    };
+  }, [privateChatRooms, studyChatRooms, searchQuery, isSearchMode]);
+
+  // 검색 결과 존재 여부 (현재 선택된 타입 기준)
   const hasSearchResults = useMemo(() => {
-    return filteredRooms.length > 0;
-  }, [filteredRooms]);
+    if (chatType === "private") {
+      return filteredPrivateRooms.length > 0;
+    } else {
+      return filteredStudyRooms.length > 0;
+    }
+  }, [filteredPrivateRooms, filteredStudyRooms, chatType]);
 
   // 검색 모드 토글
   const toggleSearchMode = useCallback(() => {
@@ -61,7 +99,8 @@ export const useSearchChat = (
   return {
     isSearchMode,
     searchQuery,
-    filteredRooms,
+    filteredPrivateRooms,
+    filteredStudyRooms,
     hasSearchResults,
     toggleSearchMode,
     handleSearchChange,

@@ -1,10 +1,11 @@
 import {
   GetPrivateChatRoomResponse,
-  postPrivateChatRoomResponse,
+  GetPrivateChatRoomByUserResponse,
+  GetPrivateChatRoomMessagesResponse,
 } from "@/entities/chat/api/chat.api.types";
 import { API_ENDPOINT, fetchAPI } from "@/shared/api/lib";
 
-// 개인 채팅방 조회
+// 나의 개인 채팅방 조회
 export async function getPrivateChatRoom() {
   const { url, method } = API_ENDPOINT.chat.getPrivateChatRoom();
 
@@ -14,21 +15,27 @@ export async function getPrivateChatRoom() {
   });
 }
 
-// 개인 채팅방 유무 조회(검색)
-export async function getSearchPrivateChatRoom() {
-  const { url, method } = API_ENDPOINT.chat.getSearchPrivateChatRoom();
+// 개인 채팅방 생성 및 유무 조회 (통합)
+export async function getPrivateChatRoomByUser(userId: string) {
+  const { url, method } = API_ENDPOINT.chat.getPrivateChatRoomByUser(userId);
 
-  return await fetchAPI<number>(url, {
+  return await fetchAPI<GetPrivateChatRoomByUserResponse>(url, {
     credentials: "include",
     method: method,
   });
 }
 
-// 개인 채팅방 생성하기
-export async function postPrivateChatRoom() {
-  const { url, method } = API_ENDPOINT.chat.postPrivateChatRoom();
+// 개인 채팅방 메시지 조회
+export async function getPrivateChatRoomMessages(
+  privateChatRoomId: string,
+  lastElementId?: number
+) {
+  const { url, method } = API_ENDPOINT.chat.getPrivateChatRoomMessages(
+    privateChatRoomId,
+    lastElementId
+  );
 
-  return await fetchAPI<postPrivateChatRoomResponse>(url, {
+  return await fetchAPI<GetPrivateChatRoomMessagesResponse>(url, {
     credentials: "include",
     method: method,
   });

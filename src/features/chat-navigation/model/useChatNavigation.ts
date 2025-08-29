@@ -1,10 +1,6 @@
 import { useState, useCallback } from "react";
-import { ChatRoomPreview } from "@/entities/chat/lib/mock/chat.mock";
-import {
-  NavigationState,
-  NavigationStackItem,
-  StudyInquiryRoom,
-} from "../lib/navigation.types";
+import { PrivateChatRoom, StudyChatRoom } from "@/entities/chat/api/chat.api.types";
+import { NavigationState, NavigationStackItem } from "../lib/navigation.types";
 
 export const useChatNavigation = () => {
   const [navigationState, setNavigationState] = useState<NavigationState>({
@@ -27,25 +23,10 @@ export const useChatNavigation = () => {
   const getCurrentTitle = () => getCurrentNavItem()?.title || "채팅방";
   const canGoBack = () => navigationState.stack.length > 1;
 
-  const navigateToStudyInquiry = useCallback((studyData: StudyInquiryRoom) => {
-    const newNavItem: NavigationStackItem = {
-      view: "study-inquiry",
-      title: `${studyData.studyName} 문의`,
-      data: studyData,
-    };
-
-    setNavigationState((prev) => ({
-      ...prev,
-      currentView: "study-inquiry",
-      selectedStudy: studyData,
-      stack: [...prev.stack, newNavItem],
-    }));
-  }, []);
-
-  const navigateToChatRoom = useCallback((chatData: ChatRoomPreview) => {
+  const navigateToChatRoom = useCallback((chatData: PrivateChatRoom | StudyChatRoom) => {
     const newNavItem: NavigationStackItem = {
       view: "chatroom",
-      title: chatData.user.name,
+      title: chatData.chatName, // 채팅방 이름 사용
       data: chatData,
     };
 
@@ -71,13 +52,9 @@ export const useChatNavigation = () => {
         ...prev,
         currentView: previousItem.view,
         stack: newStack,
-        selectedStudy:
-          previousItem.view === "study-inquiry"
-            ? (previousItem.data as StudyInquiryRoom)
-            : undefined,
         selectedChatRoom:
           previousItem.view === "chatroom"
-            ? (previousItem.data as ChatRoomPreview)
+            ? (previousItem.data as PrivateChatRoom | StudyChatRoom)
             : undefined,
       };
     });
@@ -102,7 +79,6 @@ export const useChatNavigation = () => {
     isAtRoot,
 
     // 네비게이션 액션들
-    navigateToStudyInquiry,
     navigateToChatRoom,
     navigateBack,
     resetNavigation,

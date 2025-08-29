@@ -1,26 +1,32 @@
 "use client";
 
-import {
-  chatMockData,
-  chatRoomMockData,
-  ChatRoomPreview,
-  personalChatMockData,
-  groupChatMockData,
-  inquiryChatMockData,
-  studyInquiryMockData,
-} from "@/entities/chat/lib/mock/chat.mock";
 import { useChatNavigation } from "@/features/chat-navigation/model/useChatNavigation";
-import StudyInquiryList from "@/features/study-inquiry/ui/StudyInquiryList";
 import {
   notificationMockData,
   Notification,
 } from "@/entities/notification/lib/mock/notification.mock";
-import { ChatActiveTab } from "@/features/chat/ui/chat.ui.types";
+import {
+  GetPrivateChatRoomMessagesResponse,
+  GetStudyChatRoomMessagesResponse,
+  PrivateChatMessage,
+  PrivateChatRoom,
+  StudyChatMessage,
+  StudyChatRoom,
+} from "@/entities/chat/api/chat.api.types";
+import {
+  ChatActiveTab,
+  ChatType,
+  ChatRoomType,
+} from "@/features/chat/ui/chat.ui.types";
 import NotificationList from "@/features/notification/ui/NotificationList";
-import ChatInput from "@/features/chat/ui/ChatInput";
-import ChatItem from "@/features/chat/ui/ChatItem";
-import ChatRoom from "@/features/chat/ui/ChatRoom";
-import ChatTab from "@/features/chat/ui/ChatTab";
+import {
+  ChatInput,
+  ChatItem,
+  ChatRoom,
+  ChatTab,
+  ChatErrorState,
+  ChatTypeSwitch,
+} from "@/features/chat/ui";
 
 import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
@@ -32,15 +38,22 @@ import cn from "@/shared/utils/cn";
 
 import clsx from "clsx";
 import React, { useState, useRef, useEffect } from "react";
+import { useChatUIStore } from "@/shared/store/useChatUIStore";
+import { useDeletePrivateChatRoom } from "@/entities/chat/model/chat.queries";
+
+import { useAuthStore } from "@/entities/auth/model/auth.store";
+import useChatWebSocket from "@/features/chat/model/useChatWebSocket";
+import { InfiniteData } from "@tanstack/react-query";
 
 const CHAT_DELETE_CONFIRM_MODAL_KEY = "chat_delete_confirm";
-const CHAT_STATIC_SORT_CONFIRM_MODAL_KEY = "chat_static_sort_confirm";
 
 const Chat = () => {
   const { modal, openModal, closeModal } = useMultiModal();
+
+  const { isLoggedIn } = useAuthStore();
+
   const {
     navigationState,
-    navigateToStudyInquiry,
     navigateToChatRoom,
     navigateBack,
     getCurrentTitle,
@@ -48,25 +61,84 @@ const Chat = () => {
     resetNavigation,
   } = useChatNavigation();
 
-  const [isOpenState, setIsOpenState] = useState<boolean>(false); // 채팅창 열림 여부
-  const [isChatOptionOpen, setIsChatOptionOpen] = useState<boolean>(false); // 채팅 옵션 열림 여부
-  const [activeTab, setActiveTab] = useState<ChatActiveTab>("chat"); // 현재 탭 상태
-  const [notifications, setNotifications] =
-    useState<Notification[]>(notificationMockData); // 알림 목록 상태
+  const {
+    isOpen: isOpenState,
+    closeChat,
+    openChatList,
+    privateChatRoomData,
+    tempChatRoomName,
+  } = useChatUIStore();
 
-  // 채팅방 검색 기능
+  const deletePrivateChatRoomMutation = useDeletePrivateChatRoom();
+
+  // ============================================================================
+  // 상태
+  // ============================================================================
+  const privateChatRoomId = privateChatRoomData?.privateChatRoomId;
+  const [isChatOptionOpen, setIsChatOptionOpen] = useState<boolean>(false);
+  const [activeTab, setActiveTab] = useState<ChatActiveTab>("chat");
+  const [notifications, setNotifications] =
+    useState<Notification[]>(notificationMockData);
+  const [selectedChatRoom, setSelectedChatRoom] = useState<ChatRoomType | null>(
+    null
+  );
+  const [chatType, setChatType] = useState<ChatType>("private");
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  // ============================================================================
+  // 타입 가드 함수
+  // ============================================================================
+  const isPrivateChatRoom = (
+    room: PrivateChatRoom | StudyChatRoom | undefined
+  ): room is PrivateChatRoom => !!room && "privateChatRoomId" in room;
+  const isStudyChatRoom = (
+    room: PrivateChatRoom | StudyChatRoom | undefined
+  ): room is StudyChatRoom => !!room && "studyChatRoomId" in room;
+
+  // ============================================================================
+  // 계산된 값
+  // ============================================================================
+  const currentChatRoom = navigationState.selectedChatRoom;
+  const currentChatRoomId = isPrivateChatRoom(currentChatRoom)
+    ? currentChatRoom.privateChatRoomId
+    : isStudyChatRoom(currentChatRoom)
+    ? currentChatRoom.studyChatRoomId
+    : privateChatRoomId;
+
+  const {
+    chatRoomsState,
+    privateChatMessages,
+    studyChatMessages,
+    isConnected,
+    privateChatError,
+    publish,
+    refetchPrivateChat,
+    getPrivateChatRoomMessages,
+    getStudyChatRoomMessages,
+  } = useChatWebSocket({
+    isOpenState,
+    currentView: navigationState.currentView,
+    currentChatRoomId,
+    chatType: chatType,
+    isLoggedIn,
+  });
+
+  // ============================================================================
+  // 검색 관련
+  // ============================================================================
   const {
     isSearchMode,
     searchQuery,
-    filteredRooms,
+    filteredPrivateRooms,
+    filteredStudyRooms,
     toggleSearchMode,
     handleSearchChange,
     clearSearch,
-  } = useSearchChat(chatRoomMockData);
+  } = useSearchChat(chatRoomsState, chatType);
 
-  // 검색 입력창 ref
-  const searchInputRef = useRef<HTMLInputElement>(null);
-
+  // ============================================================================
+  // 이펙트
+  // ============================================================================
   // 검색 모드 활성화 시 자동 포커스
   useEffect(() => {
     if (isSearchMode && searchInputRef.current) {
@@ -74,51 +146,115 @@ const Chat = () => {
     }
   }, [isSearchMode]);
 
-  // FAB 버튼 클릭 시 채팅창 토글
+  // privateChatRoomData가 세팅되면 바로 chatroom으로 이동
+  useEffect(() => {
+    if (isOpenState && privateChatRoomData) {
+      const privateChatRoom: PrivateChatRoom = {
+        privateChatRoomId: privateChatRoomData.privateChatRoomId,
+        chatName:
+          tempChatRoomName || `채팅방 ${privateChatRoomData.privateChatRoomId}`,
+        lastMessage: "",
+        lastMessageAt: new Date().toISOString(),
+        unreadCnt: 0,
+      };
+
+      navigateToChatRoom(privateChatRoom);
+    }
+  }, [isOpenState, privateChatRoomData, tempChatRoomName, navigateToChatRoom]);
+
+  // ============================================================================
+  // 이벤트 핸들러
+  // ============================================================================
   const onButtonClick = () => {
-    setIsOpenState(!isOpenState);
     if (!isOpenState) {
-      resetNavigation(); // 채팅창 열 때 네비게이션 리셋
+      openChatList();
+      resetNavigation();
+    } else {
+      closeChat();
     }
   };
 
-  // 탭 변경
   const onTabChange = (tab: ChatActiveTab) => {
     setActiveTab(tab);
   };
 
-  // 채팅방 클릭 시 해당 채팅방으로 진입
-  const handleChatItemClick = (item: ChatRoomPreview) => {
-    if (item.roomType === "study-inquiry") {
-      navigateToStudyInquiry(studyInquiryMockData);
-    } else {
-      navigateToChatRoom(item);
+  const handleChatTypeChange = (type: ChatType) => {
+    setChatType(type);
+  };
+
+  const handleChatItemClick = (item: ChatRoomType) => {
+    console.log("채팅방 클릭:", item);
+    navigateToChatRoom(item.data);
+  };
+
+  const onDotClick = (item: ChatRoomType) => {
+    console.log("채팅방 옵션 클릭:", item);
+    setIsChatOptionOpen(true);
+    setSelectedChatRoom(item);
+  };
+
+  const onChatOutClick = () => {
+    openModal(CHAT_DELETE_CONFIRM_MODAL_KEY);
+  };
+
+  const handleChatRoomDelete = (item: ChatRoomType | null) => {
+    if (!item) {
+      console.warn("채팅방 ID가 없습니다.");
+      return;
+    }
+
+    if (isPrivateChatRoom(item.data)) {
+      const id = item.data.privateChatRoomId;
+      deletePrivateChatRoomMutation.mutate(`${id}`, {
+        onSuccess: () => {
+          console.log("채팅방 나가기 성공");
+          resetNavigation();
+        },
+        onError: (error) => {
+          console.error("채팅방 나가기 실패:", error);
+        },
+      });
     }
   };
 
-  // 스터디 문의 사용자 클릭 시 채팅방으로 진입
-  const handleInquiryClick = (roomId: string) => {
-    // roomId를 기반으로 채팅방 데이터 생성(임시)
-    const chatData: ChatRoomPreview = {
-      roomId,
-      roomType: "personal",
-      user: {
-        id: "user-jaehyun",
-        name: "이재현",
-        avatarUrl:
-          "https://ui-avatars.com/api/?name=이재현&background=fd7e14&color=fff&size=40",
-      },
-      lastMessage: {
-        content: "과제 제출 방법이 궁금해요",
-        type: "text",
-        timestamp: "2025-04-18T16:30:00Z",
-      },
-      unreadCount: 2,
-    };
-    navigateToChatRoom(chatData);
+  const handleBack = () => {
+    if (privateChatRoomData && navigationState.currentView === "chatroom") {
+      resetNavigation();
+    } else {
+      navigateBack();
+    }
   };
 
-  // 알림을 읽음 상태로 변경
+  const handleRetry = () => {
+    refetchPrivateChat();
+  };
+
+  const handleSendMessage = (message: string) => {
+    if (!isConnected || !publish) {
+      console.warn("WebSocket이 연결되지 않았습니다.");
+      return;
+    }
+
+    if (!currentChatRoomId) {
+      console.warn("채팅방 ID가 없습니다.");
+      return;
+    }
+    const destination =
+      chatType === "private"
+        ? `/pub/private-chat-rooms/${currentChatRoomId}/messages`
+        : `/pub/studies/chat-rooms/${currentChatRoomId}/messages`;
+
+    const messageData = {
+      message: message,
+    };
+
+    console.log("메시지 발행:", destination, messageData);
+    publish(destination, JSON.stringify(messageData));
+  };
+
+  // ============================================================================
+  // 알림 관련 함수
+  // ============================================================================
   const markNotificationAsRead = (notificationId: string) => {
     setNotifications((prev) =>
       prev.map((notification) =>
@@ -129,48 +265,38 @@ const Chat = () => {
     );
   };
 
-  // 알림 타입별 액션 처리
   const handleNotificationAction = (notification: Notification) => {
     switch (notification.type) {
       case "study":
         console.log("스터디 관련 페이지로 이동:", notification.title);
-        // TODO: 스터디 상세 페이지로 라우팅
         break;
       case "chat":
         console.log("채팅방으로 이동:", notification.title);
-        // TODO: 해당 채팅방으로 이동
         break;
       case "system":
         console.log("시스템 설정 페이지로 이동:", notification.title);
-        // TODO: 시스템 설정 페이지로 라우팅
         break;
       default:
         console.log("알림 확인:", notification.title);
     }
   };
 
-  // 알림 클릭 핸들러
   const handleNotificationClick = (notification: Notification) => {
-    // 읽지 않은 알림인 경우에만 읽음 처리
     if (!notification.isRead) {
       markNotificationAsRead(notification.id);
     }
-
-    // 알림 타입별 액션 실행
     handleNotificationAction(notification);
   };
 
-  // 알림 삭제 핸들러
   const handleDeleteNotification = (notificationId: string) => {
     setNotifications((prev) => prev.filter((n) => n.id !== notificationId));
   };
 
-  // 미읽은 메시지 및 알림 개수 계산 (추후 api 구현)
+  // ============================================================================
+  // 유틸리티 함수
+  // ============================================================================
   const getUnreadCounts = () => {
-    const unreadChatCount = chatRoomMockData.reduce(
-      (total, room) => total + room.unreadCount,
-      0
-    );
+    const unreadChatCount = 0;
     const unreadNotificationCount = notifications.filter(
       (notification) => !notification.isRead
     ).length;
@@ -183,40 +309,36 @@ const Chat = () => {
     return unreadChatCount + unreadNotificationCount;
   };
 
-  // 채팅방 타입에 따른 mock data 선택
   const getCurrentChatData = () => {
-    if (!navigationState.selectedChatRoom) return chatMockData;
-
-    switch (navigationState.selectedChatRoom.roomType) {
-      case "personal":
-        return personalChatMockData;
-      case "group":
-        return groupChatMockData;
-      case "inquiry":
-        return inquiryChatMockData;
-      default:
-        return chatMockData;
-    }
+    if (!currentChatRoomId) return [];
+    const apiData =
+      chatType === "private"
+        ? (getPrivateChatRoomMessages.data as
+            | InfiniteData<GetPrivateChatRoomMessagesResponse>
+            | undefined)
+        : (getStudyChatRoomMessages.data as
+            | InfiniteData<GetStudyChatRoomMessagesResponse>
+            | undefined);
+    const apiMessages =
+      apiData?.pages.flatMap(
+        (page) => page.content as (PrivateChatMessage | StudyChatMessage)[]
+      ) || [];
+    const realtimeMessages =
+      chatType === "private"
+        ? privateChatMessages[currentChatRoomId] || []
+        : studyChatMessages[currentChatRoomId] || [];
+    const allMessages = [...apiMessages, ...realtimeMessages];
+    return allMessages;
   };
 
-  const onDotClick = () => {
-    setIsChatOptionOpen(true);
-  };
-
-  const onChatOutClick = () => {
-    openModal(CHAT_DELETE_CONFIRM_MODAL_KEY);
-  };
-
-  const onChatPinClick = () => {
-    openModal(CHAT_STATIC_SORT_CONFIRM_MODAL_KEY);
-  };
-
+  // ============================================================================
+  // 렌더링 함수
+  // ============================================================================
   const renderCurrentView = () => {
     switch (navigationState.currentView) {
       case "list":
         return (
           <div className="flex flex-col gap-3 p-2">
-            {/* 채팅방 검색 */}
             {isSearchMode && (
               <div className="px-2">
                 <SearchChatInput
@@ -229,23 +351,38 @@ const Chat = () => {
               </div>
             )}
 
-            {/* 채팅방 목록 */}
             {activeTab === "chat" && (
-              <div className="flex flex-col gap-3 p-2">
-                {(isSearchMode ? filteredRooms : chatRoomMockData).map(
-                  (item, index) => (
+              <>
+                {privateChatError ? (
+                  <ChatErrorState
+                    errorMessage={privateChatError.message}
+                    onRetry={handleRetry}
+                  />
+                ) : (
+                  <div className="flex flex-col gap-3 p-2">
                     <ChatItem
-                      item={item}
-                      key={`${item.roomId}_${index}`}
-                      onClick={() => handleChatItemClick(item)}
+                      privateChatRooms={
+                        chatType === "private"
+                          ? isSearchMode && searchQuery
+                            ? filteredPrivateRooms
+                            : chatRoomsState.filter(isPrivateChatRoom)
+                          : []
+                      }
+                      studyChatRooms={
+                        chatType === "study"
+                          ? isSearchMode && searchQuery
+                            ? filteredStudyRooms
+                            : chatRoomsState.filter(isStudyChatRoom)
+                          : []
+                      }
+                      onItemClick={handleChatItemClick}
                       onDotClick={onDotClick}
                     />
-                  )
+                  </div>
                 )}
-              </div>
+              </>
             )}
 
-            {/* 알림 리스트 */}
             {activeTab === "notification" && (
               <NotificationList
                 notifications={notifications}
@@ -256,40 +393,60 @@ const Chat = () => {
           </div>
         );
 
-      case "study-inquiry":
+      case "chatroom":
         return (
-          <StudyInquiryList
-            inquiries={navigationState.selectedStudy!.inquiries}
-            onInquiryClick={handleInquiryClick}
+          <ChatRoom
+            data={getCurrentChatData()}
+            onLoadMore={
+              chatType === "private"
+                ? getPrivateChatRoomMessages.fetchNextPage
+                : getStudyChatRoomMessages.fetchNextPage
+            }
+            hasNextPage={
+              chatType === "private"
+                ? getPrivateChatRoomMessages.hasNextPage
+                : getStudyChatRoomMessages.hasNextPage
+            }
+            isLoadingMore={
+              chatType === "private"
+                ? getPrivateChatRoomMessages.isLoading
+                : getStudyChatRoomMessages.isLoading
+            }
           />
         );
-
-      case "chatroom":
-        return <ChatRoom data={getCurrentChatData()} />;
 
       default:
         return null;
     }
   };
 
+  // ============================================================================
+  // 메인 렌더링
+  // ============================================================================
+  if (!isLoggedIn) return null;
   return (
     <>
-      {/* 채팅창 카드 */}
       {isOpenState && (
         <Card className="chat fixed bottom-24 right-5 flex h-[600px] w-96 overflow-hidden rounded-3xl bg-white/90 p-0 text-white shadow-lg backdrop-blur">
-          {/* 헤더 영역 */}
           <Card.Header className="flex items-center justify-between rounded-t-3xl p-4 text-xl font-semibold text-black">
-            {/* 뒤로가기 버튼 */}
             {canGoBack() && (
               <i
                 className="bi bi-arrow-left cursor-pointer"
                 role="button"
-                onClick={navigateBack}
+                onClick={handleBack}
               />
             )}
-            <Typography.SubTitle1>{getCurrentTitle()}</Typography.SubTitle1>
+            <div className="flex items-center gap-3">
+              <Typography.SubTitle1>{getCurrentTitle()}</Typography.SubTitle1>
+              {navigationState.currentView === "list" &&
+                activeTab === "chat" && (
+                  <ChatTypeSwitch
+                    chatType={chatType}
+                    onChatTypeChange={handleChatTypeChange}
+                  />
+                )}
+            </div>
             <div className="flex items-center gap-2">
-              {/* 검색 아이콘 (리스트 화면에서만 표시) */}
               <SearchChatIcon
                 onClick={toggleSearchMode}
                 isVisible={
@@ -297,24 +454,21 @@ const Chat = () => {
                 }
                 isActive={isSearchMode}
               />
-              {/* 닫기 버튼 */}
               <i
-                className="bi bi-x text-[28px] cursor-pointer"
+                className="bi bi-x cursor-pointer text-[28px]"
                 role="button"
-                onClick={onButtonClick}
+                onClick={closeChat}
               />
             </div>
           </Card.Header>
 
-          {/* 컨텐츠 영역 */}
           <Card.Content className="h-full max-h-[480px] overflow-y-auto">
             {renderCurrentView()}
           </Card.Content>
 
-          {/* 푸터 영역: 채팅 입력창 또는 탭 전환 */}
           <Card.Footer className="rounded-b-3xl">
             {navigationState.currentView === "chatroom" ? (
-              <ChatInput />
+              <ChatInput onSendMessage={handleSendMessage} />
             ) : (
               navigationState.currentView === "list" && (
                 <ChatTab
@@ -343,12 +497,6 @@ const Chat = () => {
                   )}
                 >
                   <li
-                    className=" cursor-pointer text-mos-gray-500"
-                    onClick={onChatPinClick}
-                  >
-                    <Typography.P3>고정</Typography.P3>
-                  </li>
-                  <li
                     className="cursor-pointer text-red-500  transition-all"
                     onClick={onChatOutClick}
                   >
@@ -361,7 +509,6 @@ const Chat = () => {
         </Card>
       )}
 
-      {/* 채팅창 열기 버튼 (FAB) */}
       <div
         className={cn(
           "chat fixed bottom-5 right-5 flex text-white transition-opacity hover:opacity-100",
@@ -378,12 +525,12 @@ const Chat = () => {
               isOpenState ? "bi-x" : "bi-chat-square-dots-fill"
             )}
           />
-          {/* 미읽은 메시지/알림 표시 dot */}
           {getTotalUnreadCount() > 0 && !isOpenState && (
-            <div className="absolute -top-1 -right-1 size-3 rounded-full bg-red-500 border-2 border-white" />
+            <div className="absolute -right-1 -top-1 size-3 rounded-full border-2 border-white bg-red-500" />
           )}
         </div>
       </div>
+
       <ActionConfirmModal
         type="danger"
         title="채팅방 나가기"
@@ -393,19 +540,8 @@ const Chat = () => {
         onClose={() => closeModal(CHAT_DELETE_CONFIRM_MODAL_KEY)}
         onClick={() => {
           setIsChatOptionOpen(false);
-          console.log("opne");
-        }}
-      />
-      <ActionConfirmModal
-        type="action"
-        title="채팅방 고정"
-        content="채팅방을 고정하시겠습니까?"
-        buttonLabel="고정하기"
-        isOpen={modal.get(CHAT_STATIC_SORT_CONFIRM_MODAL_KEY)!}
-        onClose={() => closeModal(CHAT_STATIC_SORT_CONFIRM_MODAL_KEY)}
-        onClick={() => {
-          setIsChatOptionOpen(false);
-          console.log("opne");
+          handleChatRoomDelete(selectedChatRoom);
+          closeModal(CHAT_DELETE_CONFIRM_MODAL_KEY);
         }}
       />
     </>

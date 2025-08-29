@@ -1,106 +1,138 @@
-import { ChatRoomPreview } from "@/entities/chat/lib/mock/chat.mock";
+import { ChatItemProps } from "@/features/chat/ui/chat.ui.types";
 import Button from "@/shared/components/atoms/Button";
 import Typography from "@/shared/components/atoms/Typography";
-import Badge from "@/shared/components/atoms/Badge";
-import Profile from "@/shared/components/atoms/Profile";
-import { formatDate } from "@/shared/utils/date";
-import React, { HTMLAttributes, MouseEvent } from "react";
+import { formatDate, formatTime } from "@/shared/utils/date";
+import React from "react";
 
-interface ChatItemProps extends HTMLAttributes<HTMLDivElement> {
-  item: ChatRoomPreview;
-  onDotClick: (event: MouseEvent<HTMLButtonElement>) => void;
-}
-
-// 채팅방 미리보기 아이템
-const ChatItem = ({ item, onDotClick, ...props }: ChatItemProps) => {
-  // 채팅방 타입에 따른 뱃지 렌더링
-  const renderRoomTypeBadge = () => {
-    switch (item.roomType) {
-      case "group":
-        return (
-          <Badge color="Blue" className="text-[10px] px-1.5">
-            <i className="bi bi-people text-[10px]" />
-          </Badge>
-        );
-      case "inquiry":
-        return (
-          <Badge color="Pink" className="text-[10px] px-1.5">
-            <i className="bi bi-headset text-[10px]" />
-          </Badge>
-        );
-      case "study-inquiry":
-        return (
-          <Badge color="Gray" className="text-[10px] px-1.5">
-            <i className="bi bi-book text-[10px]" />
-          </Badge>
-        );
-      case "personal":
-      default:
-        return null; // 개인채팅방은 뱃지 표시 안함
-    }
-  };
+// 채팅방 목록 컴포넌트
+const ChatItem = ({
+  privateChatRooms,
+  studyChatRooms,
+  onItemClick,
+  onDotClick,
+}: ChatItemProps) => {
+  // 빈 데이터 처리
+  if (
+    (!privateChatRooms || privateChatRooms.length === 0) &&
+    (!studyChatRooms || studyChatRooms.length === 0)
+  ) {
+    return (
+      <div className="flex items-center justify-center p-4 text-gray-500">
+        채팅방이 없습니다.
+      </div>
+    );
+  }
 
   return (
-    <div
-      className="group flex cursor-pointer items-center justify-between gap-3 rounded-md p-2 text-black transition hover:bg-gray-100 active:bg-gray-200"
-      {...props}
-      onClick={(event) => {
-        event.preventDefault();
-        if (props.onClick) {
-          props.onClick(event);
-        }
-      }}
-    >
-      <div className="flex items-center gap-2">
-        {/* 프로필 이미지 */}
-        <Profile
-          src={item.user.avatarUrl}
-          width={48}
-          height={48}
-          className="flex-shrink-0"
-        />
-        <div className="flex flex-col">
-          {/* 사용자 이름 + 뱃지 + 시간 */}
-          <div className="flex items-center gap-2">
-            <Typography.P1 className="font-bold max-w-[120px] truncate">
-              {item.user.name}
-            </Typography.P1>
-            {renderRoomTypeBadge()}
-            <Typography.P1 className="text-[12px] font-light text-gray-400">
-              {formatDate("MM:DD", item.lastMessage.timestamp)}
-            </Typography.P1>
-          </div>
-          {/* 최근 메시지 내용 */}
-          <Typography.P1 className="text-[12px] max-w-[200px] truncate whitespace-nowrap">
-            {item.lastMessage.content}
-          </Typography.P1>
-        </div>
-      </div>
-
-      {/* 안 읽은 메시지 개수 + 옵션 버튼 */}
-      <div className="flex items-center gap-2">
-        {/* 안 읽은 메시지 개수 */}
-        {item.unreadCount > 0 && (
-          <div className="flex h-5 min-w-[20px] items-center justify-center rounded-full bg-red-500 px-1.5">
-            <Typography.P3 className="text-[10px] font-bold text-white leading-none">
-              {item.unreadCount > 99 ? "99+" : item.unreadCount}
-            </Typography.P3>
-          </div>
-        )}
-
-        {/* 옵션 버튼 (3 dots) */}
-        <Button.Icon
-          color="Gray"
-          className="border-none"
-          onClick={(event) => {
-            event.stopPropagation();
-            onDotClick(event);
-          }}
+    <div className="flex flex-col gap-3">
+      {/* 개인 채팅방 목록 */}
+      {privateChatRooms?.map((room, index) => (
+        <div
+          key={`private_${room.privateChatRoomId}_${index}`}
+          className="group flex cursor-pointer items-center justify-between gap-3 rounded-md border p-3 text-black shadow-sm transition hover:bg-gray-100 active:bg-gray-200"
+          onClick={() => onItemClick({ type: "private", data: room })}
         >
-          <i className="bi bi-three-dots" />
-        </Button.Icon>
-      </div>
+          <div className="flex items-center gap-2">
+            <div className="flex flex-col">
+              {/* 채팅방 이름 + 시간 */}
+              <div className="flex items-center gap-2">
+                <Typography.P1 className="max-w-[200px] truncate font-bold">
+                  {room.chatName}
+                </Typography.P1>
+                <Typography.P1 className="text-[12px] font-light text-gray-400">
+                  {formatDate("YYYY-MM-DD", room.lastMessageAt) ===
+                  formatDate("YYYY-MM-DD")
+                    ? formatTime(room.lastMessageAt)
+                    : formatDate("MM.DD", room.lastMessageAt)}
+                </Typography.P1>
+              </div>
+              {/* 최근 메시지 내용 */}
+              <Typography.P1 className="max-w-[200px] truncate whitespace-nowrap text-[12px]">
+                {(() => {
+                  try {
+                    const parsedMessage = JSON.parse(room.lastMessage);
+                    return parsedMessage.message || room.lastMessage;
+                  } catch {
+                    return room.lastMessage;
+                  }
+                })()}
+              </Typography.P1>
+            </div>
+          </div>
+
+          {/* 안 읽은 메시지 개수 + 옵션 버튼 */}
+          <div className="flex items-center gap-2">
+            {room.unreadCnt > 0 && (
+              <div className="flex h-5 min-w-[20px] items-center justify-center rounded-full bg-red-500 px-1.5">
+                <Typography.P3 className="text-[10px] font-bold leading-none text-white">
+                  {room.unreadCnt > 99 ? "99+" : room.unreadCnt}
+                </Typography.P3>
+              </div>
+            )}
+
+            <Button.Icon
+              color="Gray"
+              className="border-none"
+              onClick={(event) => {
+                event.stopPropagation();
+                onDotClick({ type: "private", data: room });
+              }}
+            >
+              <i className="bi bi-three-dots" />
+            </Button.Icon>
+          </div>
+        </div>
+      ))}
+
+      {/* 스터디 채팅방 목록 */}
+      {studyChatRooms?.map((room, index) => (
+        <div
+          key={`study_${room.studyChatRoomId}_${index}`}
+          className="group flex cursor-pointer items-center justify-between gap-3 rounded-md border p-3 text-black shadow-sm transition hover:bg-gray-100 active:bg-gray-200"
+          onClick={() => onItemClick({ type: "study", data: room })}
+        >
+          <div className="flex items-center gap-2">
+            <div className="flex flex-col">
+              {/* 채팅방 이름 + 시간 */}
+              <div className="flex items-center gap-2">
+                <Typography.P1 className="max-w-[200px] truncate font-bold">
+                  {room.chatName}
+                </Typography.P1>
+                <Typography.P1 className="text-[12px] font-light text-gray-400">
+                  {formatDate("YYYY-MM-DD", room.lastMessageAt) ===
+                  formatDate("YYYY-MM-DD")
+                    ? formatTime(room.lastMessageAt)
+                    : formatDate("MM.DD", room.lastMessageAt)}
+                </Typography.P1>
+              </div>
+              {/* 최근 메시지 내용 */}
+              <Typography.P1 className="max-w-[200px] truncate whitespace-nowrap text-[12px]">
+                {(() => {
+                  try {
+                    const parsedMessage = JSON.parse(room.lastMessage);
+                    return parsedMessage.message || room.lastMessage;
+                  } catch {
+                    return room.lastMessage;
+                  }
+                })()}
+              </Typography.P1>
+            </div>
+          </div>
+
+          {/* 안 읽은 메시지 개수 */}
+          <div className="flex items-center gap-2">
+            {room.unreadCnt > 0 && (
+              <div className="flex h-5 min-w-[20px] items-center justify-center rounded-full bg-red-500 px-1.5">
+                <Typography.P3 className="text-[10px] font-bold leading-none text-white">
+                  {room.unreadCnt > 99 ? "99+" : room.unreadCnt}
+                </Typography.P3>
+              </div>
+            )}
+          </div>
+        </div>
+      ))}
     </div>
   );
 };
+
 export default ChatItem;
