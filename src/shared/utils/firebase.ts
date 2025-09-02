@@ -66,8 +66,7 @@ export async function initFCM() {
       serviceWorkerRegistration: reg,
     });
     if (token) {
-      localStorage.setItem("fcmToken", token);
-      console.log("FCM Token:", token);
+      return token;
     } else {
       console.warn("FCM 토큰 발급 실패: 알림 권한 허용 필요");
     }
@@ -79,7 +78,15 @@ export async function initFCM() {
 export async function requestNotificationPermission() {
   if (typeof window === "undefined" || !("Notification" in window)) return;
   const permission = await Notification.requestPermission();
-  if (permission === "granted") await initFCM();
+  if (permission !== "granted") {
+    console.warn("알림 권한 거부됨");
+    return;
+  }
+  const token = await initFCM();
+
+  if (token) {
+    localStorage.setItem("fcmToken", token);
+  }
 }
 
 export const getToken = _getToken;

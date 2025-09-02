@@ -1,3 +1,3 @@
 export interface PostFcmToken {
-  token: string;
+  fcmToken: string;
 }

@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { createJSONStorage, persist, devtools } from "zustand/middleware";
+import { createJSONStorage, devtools, persist } from "zustand/middleware";
 
 type AuthState = {
   isLoggedIn: boolean; // 지금 로그인 상태인지 저장하는 변수

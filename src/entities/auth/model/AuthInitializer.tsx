@@ -2,6 +2,7 @@
 
 import { getAccessToken, getRefreshAuth } from "@/entities/auth/api/auth.api";
 import { useAuthStore, useTokenStore } from "@/entities/auth/model/auth.store";
+import { postFcmToken } from "@/entities/notification/api/notification.api";
 
 import { useCallback, useEffect } from "react";
 
@@ -24,7 +25,7 @@ const AuthInitializer = ({
   const refreshAuth = useCallback(async () => {
     await getRefreshAuth();
     setLoggedIn(true);
-    //
+
     const { accessToken: accessTokenResponse } = await getAccessToken();
     setAccessToken(accessTokenResponse || "");
   }, []);
@@ -45,6 +46,24 @@ const AuthInitializer = ({
       refreshAuth();
     }
   }, [isRefresh, refreshAuth]);
+
+  useEffect(() => {
+    const fcmToken = localStorage.getItem("fcmToken");
+    if (!fcmToken) return;
+    if (!isLoggedIn || !accessToken) return;
+    if (typeof window === "undefined") return;
+
+    (async () => {
+      try {
+        await postFcmToken(fcmToken);
+        console.log("서버에 FCM 토큰 등록 완료");
+      } catch (e) {
+        console.error("FCM 토큰 전송 실패:", e);
+      }
+      localStorage.removeItem("fcmToken");
+    })();
+  }, [isLoggedIn, accessToken]);
+
   return null;
 };
 
