@@ -1,8 +1,7 @@
-import { initializeApp } from "firebase/app";
+import { getApp, getApps, initializeApp } from "firebase/app";
 import {
   getToken as _getToken,
   onMessage as _onMessage,
-  getMessaging,
 } from "firebase/messaging";
 
 const firebaseConfig = {
@@ -15,14 +14,40 @@ const firebaseConfig = {
   measurementId: process.env.NEXT_PUBLIC_MEASUREMENT_ID,
 };
 
-const app = initializeApp(firebaseConfig);
-const messaging = getMessaging(app);
+export const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+
+export async function getMessagingSafe() {
+  if (typeof window === "undefined") return null;
+  const { isSupported, getMessaging } = await import("firebase/messaging");
+  if (!(await isSupported())) return null;
+  return getMessaging(app);
+}
 
 export async function initFCM() {
-  // 1) 포그라운드 수신
-  _onMessage(messaging, (payload) => {
-    const { title, body } = payload.notification || {};
+  if (typeof window === "undefined") return;
 
+  if ("serviceWorker" in navigator) {
+    await navigator.serviceWorker.register("/firebase-messaging-sw.js", {
+      scope: "/",
+    });
+  } else {
+    console.warn("Service Worker 미지원 환경");
+    return;
+  }
+
+  const messaging = await getMessagingSafe();
+  if (!messaging) {
+    console.warn(
+      "이 브라우저는 FCM을 지원하지 않거나(사파리 등) HTTPS가 아닙니다."
+    );
+    return;
+  }
+
+  const { getToken, onMessage } = await import("firebase/messaging");
+
+  // 포그라운드 메시지
+  onMessage(messaging, (payload) => {
+    const { title, body } = payload.notification || {};
     if (
       "Notification" in window &&
       Notification.permission === "granted" &&
@@ -33,38 +58,29 @@ export async function initFCM() {
     }
   });
 
-  // 2) 토큰 발급
+  // 토큰 발급
   try {
-    if (!("serviceWorker" in navigator)) return;
     const reg = await navigator.serviceWorker.ready;
-    const token = await _getToken(messaging, {
-      vapidKey: "",
+    const token = await getToken(messaging, {
+      vapidKey: process.env.NEXT_PUBLIC_VAPID_KEY!,
       serviceWorkerRegistration: reg,
     });
     if (token) {
       localStorage.setItem("fcmToken", token);
-      console.log("FCM Token", token);
+      console.log("FCM Token:", token);
     } else {
-      console.warn("FCM 토큰을 받아올 수 없음. 알림 권한을 허용해주세요.");
+      console.warn("FCM 토큰 발급 실패: 알림 권한 허용 필요");
     }
-  } catch (err) {
-    console.error("FCM 토큰 발급 실패:", err);
+  } catch (e) {
+    console.error("FCM 토큰 발급 에러:", e);
   }
 }
 
 export async function requestNotificationPermission() {
-  if (!("Notification" in window)) {
-    console.info("이 환경은 Notification API를 지원하지 않아요.");
-    return;
-  }
+  if (typeof window === "undefined" || !("Notification" in window)) return;
   const permission = await Notification.requestPermission();
-  if (permission !== "granted") {
-    console.warn("알림 권한 거부됨");
-    return;
-  }
-  await initFCM();
+  if (permission === "granted") await initFCM();
 }
 
 export const getToken = _getToken;
 export const onMessage = _onMessage;
-export { messaging };

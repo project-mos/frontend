@@ -1,3 +1,6 @@
+self.addEventListener("install", () => self.skipWaiting());
+self.addEventListener("activate", () => self.clients.claim());
+
 importScripts(
   "https://www.gstatic.com/firebasejs/10.12.3/firebase-app-compat.js"
 );
@@ -14,6 +17,8 @@ firebase.initializeApp({
   appId: "1:516973429629:web:110d0af926954021cfc214",
   measurementId: "G-7EEDZFDC0E",
 });
+
+const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage((payload) => {
   const d = payload?.data || {};

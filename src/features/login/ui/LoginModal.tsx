@@ -9,6 +9,7 @@ import Modal, {
 } from "@/shared/components/atoms/Modal";
 import Typography from "@/shared/components/atoms/Typography";
 import URL from "@/shared/constants/URL";
+import { requestNotificationPermission } from "@/shared/utils/firebase";
 
 interface ScheduleModalProps extends ModalProps {
   onClose: ModalOnClose;
@@ -27,14 +28,17 @@ const LoginModal = ({ onClose, redirectUrl, ...props }: ScheduleModalProps) => {
   const callbackUrl = redirectUrl ? `,${encodeURIComponent(redirectUrl)}` : "";
 
   const onClickKakaoLoginButton = async () => {
+    await requestNotificationPermission();
     window.location.href = `${URL.LOGIN.KAKAO}?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URI}&state=KAKAO${callbackUrl}`;
   };
 
   const onClickGoogleLoginButton = async () => {
+    await requestNotificationPermission();
     window.location.href = `${URL.LOGIN.GOOGLE}?client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URI}&response_type=code&scope=email%20profile&state=GOOGLE`;
   };
 
   const onClickNaverLoginButton = async () => {
+    await requestNotificationPermission();
     window.location.href = `${URL.LOGIN.NAVER}?response_type=code&client_id=${process.env.NEXT_PUBLIC_NAVER_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URI}&state=NAVER`;
   };
 
