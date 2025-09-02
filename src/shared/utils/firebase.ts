@@ -47,6 +47,8 @@ export async function initFCM() {
 
   // 포그라운드 메시지
   onMessage(messaging, (payload) => {
+    console.log("[onMessage] foreground:", payload);
+
     const { title, body } = payload.notification || {};
     if (
       "Notification" in window &&

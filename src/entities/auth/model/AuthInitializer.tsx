@@ -49,6 +49,7 @@ const AuthInitializer = ({
 
   useEffect(() => {
     const fcmToken = localStorage.getItem("fcmToken");
+    console.log(fcmToken);
     if (!fcmToken) return;
     if (!isLoggedIn || !accessToken) return;
     if (typeof window === "undefined") return;

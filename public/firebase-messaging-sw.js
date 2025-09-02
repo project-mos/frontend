@@ -21,10 +21,14 @@ firebase.initializeApp({
 const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage((payload) => {
-  const d = payload?.data || {};
-  const title = d.title || "알림";
-  const body = d.body || "";
-  const icon = d.icon || "/icons/icon-192x192.png";
+  console.log("백그라운드 메시지 수신:", payload);
+
+  const notification = payload.notification || {};
+  const d = payload.data || {};
+
+  const title = notification.title || d.title || "알림";
+  const body = notification.body || d.body || "";
+  const icon = notification.icon || d.icon || "/icons/icon-192x192.png";
   const url = d.url || "/";
 
   self.registration.showNotification(title, {
@@ -33,7 +37,6 @@ messaging.onBackgroundMessage((payload) => {
     data: { url, ...d },
   });
 });
-
 self.addEventListener("notificationclick", (e) => {
   e.notification.close();
   const url = e.notification?.data?.url || self.location.origin + "/";
