@@ -71,4 +71,8 @@ export const study = {
     url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/settings`,
     method: Method.PUT,
   }),
+  getBanners: () => ({
+    url: `${process.env.NEXT_PUBLIC_BASE_URL}/banners`,
+    method: Method.GET,
+  }),
 };

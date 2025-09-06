@@ -19,12 +19,3 @@ export interface MetaLikeProps {
   studyIds: number[];
   disabled?:boolean
 }
-
-export interface GetBannersResponse {
-  id: number;
-  title: string;
-  content: string;
-  imageUrl: string;
-  linkUrl: string;
-  sortOrder: number;
-}
