@@ -3,12 +3,12 @@ import QueryClientProvider from "@/app/queryClientProvider";
 import "@/shared/styles/global.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
-import Footer from "@/shared/components/molecules/Footer";
-import Header from "@/widget/header/Header";
 import AuthInitializerProvider from "@/entities/auth/model/AuthInitializerProvider";
+import Footer from "@/shared/components/molecules/Footer";
 import ToastRenderer from "@/shared/components/system/ToastRenderer";
-import Chat from "@/widget/chat/ui/Chat";
 import { staticMetadata } from "@/shared/constants/metadata";
+import Chat from "@/widget/chat/ui/Chat";
+import Header from "@/widget/header/Header";
 
 export const metadata = staticMetadata;
 
