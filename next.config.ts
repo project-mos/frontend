@@ -26,6 +26,14 @@ const nextConfig: NextConfig = {
   // 외부 이미지 호스트 허용 설정
   images: {
     domains: ["mos-data-bucket.s3.amazonaws.com", "ui-avatars.com"],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'via.placeholder.com',
+        port: '',
+        pathname: '/**',
+      },
+    ],
   },
   // 개발 환경에서 WebSocket 프록시 설정(http, https 요청)
   async rewrites() {
