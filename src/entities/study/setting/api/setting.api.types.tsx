@@ -24,8 +24,8 @@ export interface UsePatchLateTimeSettingProps {
 }
 
 export interface LateTimeSettingRequest {
-  noticeLateTime: number;
-  advanceTime: number;
+  lateThresholdMinutes: number;
+  absenceThresholdMinutes: number;
 }
 
 export interface LateTimeSettingResponse {
