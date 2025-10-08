@@ -16,3 +16,21 @@ export interface UsePutUserNoticeSettingProps {
   onError?: (error: unknown) => void;
   studyId: number;
 }
+
+export interface UsePatchLateTimeSettingProps {
+  onSuccess?: () => void;
+  onError?: (error: unknown) => void;
+  studyId: number;
+}
+
+export interface LateTimeSettingRequest {
+  noticeLateTime: number;
+  advanceTime: number;
+}
+
+export interface LateTimeSettingResponse {
+  studySettingId: number;
+  studyId: number;
+  lateThresholdMinutes: number;
+  absenceThresholdMinutes: number;
+}

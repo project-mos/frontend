@@ -71,6 +71,15 @@ export const study = {
     url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/settings`,
     method: Method.PUT,
   }),
+  getUserStudyLateTimeSettings: (studyId: number) =>  ({
+    url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/study-settings`,
+    method: Method.GET,
+  }),
+  // 스터디별 지각 기준, 결석 기준 시간 설정
+  patchUserStudyLateTimeSettings: (studyId: number) =>  ({
+    url: `${process.env.NEXT_PUBLIC_BASE_URL}/studies/${studyId}/study-settings`,
+    method: Method.PATCH,
+  }),
   getBanners: () => ({
     url: `${process.env.NEXT_PUBLIC_BASE_URL}/banners`,
     method: Method.GET,
