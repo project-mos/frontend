@@ -1,9 +1,11 @@
-import React from "react";
-import { Notification } from "@/entities/notification/lib/mock/notification.mock";
-import Typography from "@/shared/components/atoms/Typography";
+"use client";
+// import { Notification } from "@/entities/notification/lib/mock/notification.mock";
+import { INotification } from "@/entities/notification/api/notification.api.type";
 import Card from "@/shared/components/atoms/Card";
-import { formatRelativeTime } from "@/shared/utils/date";
+import Typography from "@/shared/components/atoms/Typography";
 import cn from "@/shared/utils/cn";
+import { formatRelativeTime } from "@/shared/utils/date";
+import React from "react";
 import { NotificationListProps } from "./notification.ui.types";
 
 // 읽지 않은 알림 표시 컴포넌트 (타이틀 우측 상단)
@@ -22,7 +24,7 @@ const NotificationList = ({
   onDelete,
 }: NotificationListProps) => {
   // 알림 아이콘 설정
-  const getNotificationIcon = (type: Notification["type"]) => {
+  const getNotificationIcon = (type: INotification["type"]) => {
     switch (type) {
       case "study":
         return "bi-book";
@@ -36,7 +38,7 @@ const NotificationList = ({
   };
 
   // 알림 타입별 색상 설정 (mos 색상 사용)
-  const getNotificationColor = (type: Notification["type"]) => {
+  const getNotificationColor = (type: INotification["type"]) => {
     switch (type) {
       case "study":
         return "bg-mos-green-100 text-mos-green-500";
@@ -50,7 +52,7 @@ const NotificationList = ({
   };
 
   // 알림 클릭 핸들러
-  const handleNotificationClick = (notification: Notification) => {
+  const handleNotificationClick = (notification: INotification) => {
     if (onItemClick) {
       onItemClick(notification);
     }
@@ -68,7 +70,7 @@ const NotificationList = ({
     <div className="flex flex-col gap-3 p-2">
       {notifications.map((notification, index) => (
         <Card
-          key={`${notification.id}_${index}`}
+          key={`${notification.notificationId}_${index}`}
           className={cn(
             "relative cursor-pointer shadow-[0px_0px_4px_rgba(222,226,230,0.6)] transition-all duration-200 hover:shadow-md",
             !notification.isRead && "border-blue-200 bg-blue-50/30"
@@ -78,11 +80,13 @@ const NotificationList = ({
           {/* 날짜와 삭제 버튼 (카드 오른쪽 상단) */}
           <div className="absolute right-1 top-2 flex h-4 items-center">
             <Typography.P3 className="text-[11px] leading-none text-gray-500">
-              {formatRelativeTime(notification.timestamp)}
+              {formatRelativeTime(notification.createdAt)}
             </Typography.P3>
             {onDelete && (
               <button
-                onClick={(e) => handleDeleteClick(e, notification.id)}
+                onClick={(e) =>
+                  handleDeleteClick(e, notification.notificationId.toString())
+                }
                 className="flex size-5 items-center justify-center rounded-full text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600"
                 aria-label="알림 삭제"
               >

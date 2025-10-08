@@ -1,10 +1,5 @@
 "use client";
 
-import { useChatNavigation } from "@/features/chat-navigation/model/useChatNavigation";
-import {
-  notificationMockData,
-  Notification,
-} from "@/entities/notification/lib/mock/notification.mock";
 import {
   GetPrivateChatRoomMessagesResponse,
   GetStudyChatRoomMessagesResponse,
@@ -13,35 +8,38 @@ import {
   StudyChatMessage,
   StudyChatRoom,
 } from "@/entities/chat/api/chat.api.types";
+import { useChatNavigation } from "@/features/chat-navigation/model/useChatNavigation";
 import {
-  ChatActiveTab,
-  ChatType,
-  ChatRoomType,
-} from "@/features/chat/ui/chat.ui.types";
-import NotificationList from "@/features/notification/ui/NotificationList";
-import {
+  ChatErrorState,
   ChatInput,
   ChatItem,
   ChatRoom,
   ChatTab,
-  ChatErrorState,
   ChatTypeSwitch,
 } from "@/features/chat/ui";
+import {
+  ChatActiveTab,
+  ChatRoomType,
+  ChatType,
+} from "@/features/chat/ui/chat.ui.types";
+import NotificationList from "@/features/notification/ui/NotificationList";
 
+import { useSearchChat } from "@/features/search-chat/model/useSearchChat";
+import { SearchChatIcon, SearchChatInput } from "@/features/search-chat/ui";
 import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
 import ActionConfirmModal from "@/shared/components/molecules/ActionConfirmModal";
 import useMultiModal from "@/shared/hooks/useMultiModal";
-import { useSearchChat } from "@/features/search-chat/model/useSearchChat";
-import { SearchChatIcon, SearchChatInput } from "@/features/search-chat/ui";
 import cn from "@/shared/utils/cn";
 
-import clsx from "clsx";
-import React, { useState, useRef, useEffect } from "react";
-import { useChatUIStore } from "@/shared/store/useChatUIStore";
 import { useDeletePrivateChatRoom } from "@/entities/chat/model/chat.queries";
+import { useChatUIStore } from "@/shared/store/useChatUIStore";
+import clsx from "clsx";
+import { useEffect, useRef, useState } from "react";
 
 import { useAuthStore } from "@/entities/auth/model/auth.store";
+import { getNotifications } from "@/entities/notification/api/notification.api";
+import { INotification } from "@/entities/notification/api/notification.api.type";
 import useChatWebSocket from "@/features/chat/model/useChatWebSocket";
 import { InfiniteData } from "@tanstack/react-query";
 
@@ -77,8 +75,7 @@ const Chat = () => {
   const privateChatRoomId = privateChatRoomData?.privateChatRoomId;
   const [isChatOptionOpen, setIsChatOptionOpen] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<ChatActiveTab>("chat");
-  const [notifications, setNotifications] =
-    useState<Notification[]>(notificationMockData);
+  const [notifications, setNotifications] = useState<INotification[]>([]);
   const [selectedChatRoom, setSelectedChatRoom] = useState<ChatRoomType | null>(
     null
   );
@@ -255,17 +252,22 @@ const Chat = () => {
   // ============================================================================
   // 알림 관련 함수
   // ============================================================================
-  const markNotificationAsRead = (notificationId: string) => {
+
+  async function getNotificationsFunction() {
+    const result = await getNotifications();
+    console.log(result);
+  }
+  const markNotificationAsRead = (notificationId: number) => {
     setNotifications((prev) =>
       prev.map((notification) =>
-        notification.id === notificationId
+        notification.notificationId === notificationId
           ? { ...notification, isRead: true }
           : notification
       )
     );
   };
 
-  const handleNotificationAction = (notification: Notification) => {
+  const handleNotificationAction = (notification: INotification) => {
     switch (notification.type) {
       case "study":
         console.log("스터디 관련 페이지로 이동:", notification.title);
@@ -281,17 +283,22 @@ const Chat = () => {
     }
   };
 
-  const handleNotificationClick = (notification: Notification) => {
+  const handleNotificationClick = (notification: INotification) => {
     if (!notification.isRead) {
-      markNotificationAsRead(notification.id);
+      markNotificationAsRead(notification.notificationId);
     }
     handleNotificationAction(notification);
   };
 
   const handleDeleteNotification = (notificationId: string) => {
-    setNotifications((prev) => prev.filter((n) => n.id !== notificationId));
+    setNotifications((prev) =>
+      prev.filter((n) => n.notificationId.toString() !== notificationId)
+    );
   };
 
+  useEffect(() => {
+    getNotificationsFunction();
+  }, []);
   // ============================================================================
   // 유틸리티 함수
   // ============================================================================
