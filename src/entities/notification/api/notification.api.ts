@@ -21,22 +21,9 @@ export async function postFcmToken(fcmToken: string) {
 export async function getNotifications() {
   const { url } = API_ENDPOINT.notification.getNotifications();
 
-  // return await fetchAPI<GetNotificationsResponse>(url, {
-  //   method: method,
-  //   credentials: "include",
-  //   headers: {
-  //     Authorization:
-  //       "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImlkIjoxMSwiZXhwIjoxNzU5NzY2ODg2fQ.TMMCD30KXAKn1hz225SLJ1Zd6VGEnOFNY65ZhadSDvLi1SBihDK0xt4Ua0z_rmHmBXwCZ87rZF1Es-KbdQp93A",
-  //   },
-  // });
-
   const result = await fetch(url, {
     method: "GET",
     credentials: "include",
-    headers: {
-      Authorization:
-        "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImlkIjoxMSwiZXhwIjoxNzU5NzY2ODg2fQ.TMMCD30KXAKn1hz225SLJ1Zd6VGEnOFNY65ZhadSDvLi1SBihDK0xt4Ua0z_rmHmBXwCZ87rZF1Es-KbdQp93A",
-    },
   });
 
   console.log(await result.json());
