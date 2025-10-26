@@ -74,7 +74,7 @@ const SolidButton: React.FC<SolidButtonProps> = ({
 };
 
 const GhostButtonClass = {
-  Main: "border border-mos-gray-100 text-mos-gray-500 data-[active=true]:text-mos-main-500 data-[active=true]:border-mos-main-500 data-[active=true]:hover:bg-white hover:text-mos-main-500 hover:border-mos-main-500 hover:hover:bg-white",
+  Main: "border border-mos-gray-100 text-mos-gray-500 data-[active=true]:text-mos-main-500 data-[active=true]:border-mos-main-500 data-[active=true]:hover:bg-white data-[active=true]:hover:text-mos-main-500 data-[active=true]:hover:border-mos-main-500 hover:hover:bg-white",
   Gray: "border border-mos-gray-100 text-mos-gray-500 data-[active=true]:text-black data-[active=true]:border-mos-gray-500 data-[active=true]:hover:bg-white hover:text-black hover:border-mos-gray-500 hover:hover:bg-white",
   Green:
     "border border-mos-gray-100 text-mos-gray-500 data-[active=true]:text-mos-green-500 data-[active=true]:border-mos-green-500 data-[active=true]:hover:bg-white hover:text-mos-green-500 hover:border-mos-green-500 hover:bg-white",

@@ -11,16 +11,41 @@ import { useRouter } from "next/navigation";
 import { deleteStudy, leaveStudy } from "../api/setting.api";
 import ToggleSwitch from "@/shared/components/molecules/ToggleSwitch";
 import useUserNoticeSetting from "@/features/study/notice/setting-notice/model/useUserNoticeSetting";
-import { useGetStudySettings } from "../model/setting.queries";
+import {
+  useGetStudyLateTimeSettings,
+  useGetStudySettings,
+  useUpdateLateTimeSetting,
+} from "../model/setting.queries";
+import Input from "@/shared/components/atoms/Input";
+import { useEffect, useRef, useState } from "react";
 
 const SettingCard = ({ studyId }: { studyId: string }) => {
   const router = useRouter();
   const toast = useToast();
   const { modal, openModal, closeModal } = useMultiModal();
+  const [lateTime, setLateTime] = useState<number>(10);
+  const [absenceTime, setAbsenceTime] = useState<number>(10);
+  const prevLateTimeRef = useRef<number>(lateTime);
+  const prevAbsenceTimeRef = useRef<number>(absenceTime);
+
   // 유저 스터디 설정 조회
   const { data: userStudySetting, isLoading } = useGetStudySettings(
     Number(studyId)
   );
+  // 스터디별 설정 조회
+  const { data: studySetting } = useGetStudyLateTimeSettings(Number(studyId));
+
+  console.log("studySetting??????", studySetting);
+
+  useEffect(() => {
+    if (studySetting) {
+      setLateTime(studySetting.lateThresholdMinutes ?? 10);
+      setAbsenceTime(studySetting.absenceThresholdMinutes ?? 10);
+      prevLateTimeRef.current = studySetting.lateThresholdMinutes ?? 10;
+      prevAbsenceTimeRef.current = studySetting.absenceThresholdMinutes ?? 10;
+    }
+  }, [studySetting]);
+
   // 중요 공지 노출 여부 설정
   const { userNoticeSetting } = useUserNoticeSetting(Number(studyId));
 
@@ -62,6 +87,19 @@ const SettingCard = ({ studyId }: { studyId: string }) => {
       notificationEnabled: type === "alert" ? checked : false,
     };
     userNoticeSetting(sendData);
+  };
+
+  const { mutate: updateLateTimeSetting } = useUpdateLateTimeSetting({
+    studyId: Number(studyId),
+  });
+
+  const onUpdateLateTimeClick = () => {
+    updateLateTimeSetting({
+      lateThresholdMinutes: lateTime,
+      absenceThresholdMinutes: absenceTime,
+    });
+    prevLateTimeRef.current = lateTime;
+    prevAbsenceTimeRef.current = absenceTime;
   };
 
   return (
@@ -136,6 +174,60 @@ const SettingCard = ({ studyId }: { studyId: string }) => {
                 삭제하기
               </Button.Ghost>
             </div>
+            <div className="relative flex rounded-md border border-mos-gray-100 p-5">
+              <div>
+                {/* 버튼 높이만큼 여백 확보 */}
+                <div className="mb-3">
+                  <Typography.P1 className="font-bold">
+                    스터디 지각 설정
+                  </Typography.P1>
+                  <Typography.P3 className="text-[14px] text-mos-gray-700">
+                    해당 스터디의 지각 허용 시간(분 단위)을 설정합니다.
+                  </Typography.P3>
+                  <div className="mt-2 flex items-center">
+                    <Input
+                      type="number"
+                      value={lateTime}
+                      min={0}
+                      max={120}
+                      step={5}
+                      onChange={(e) => setLateTime(Number(e.target.value))}
+                    />
+                  </div>
+                </div>
+                <div>
+                  <Typography.P1 className="font-bold">
+                    스터디 결석 설정
+                  </Typography.P1>
+                  <Typography.P3 className="text-[14px] text-mos-gray-700">
+                    해당 스터디의 결석 기준 시간(분 단위)을 설정합니다.
+                  </Typography.P3>
+                  <div className="mt-2 flex items-center">
+                    <Input
+                      type="number"
+                      value={absenceTime}
+                      min={0}
+                      max={120}
+                      step={5}
+                      onChange={(e) => setAbsenceTime(Number(e.target.value))}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <Button.Ghost
+                onClick={onUpdateLateTimeClick}
+                color="Main"
+                active={
+                  prevLateTimeRef.current !== lateTime ||
+                  prevAbsenceTimeRef.current !== absenceTime
+                }
+                className="absolute bottom-5 right-5"
+              >
+                저장하기
+              </Button.Ghost>
+            </div>
+
             <Typography.P1 className="mt-3 font-bold text-mos-gray-700">
               Danger Zone
             </Typography.P1>
