@@ -21,10 +21,10 @@ export const keywords = [
 export const ogImage = "/asset/thumbnail.png";
 const fallbackBase =
   process.env.NODE_ENV === "development"
-    ? "http://localhost:3000"
+    ? "https://localhost:3000"
     : process.env.SITE_URL && process.env.SITE_URL !== ""
     ? process.env.SITE_URL
-    : "http://localhost:3000";
+    : "https://localhost:3000";
 
 const metadataBase = new URL(fallbackBase);
 
