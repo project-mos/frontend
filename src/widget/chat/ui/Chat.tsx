@@ -255,7 +255,7 @@ const Chat = () => {
 
   async function getNotificationsFunction() {
     const result = await getNotifications();
-    console.log(result);
+    setNotifications(result.notifications);
   }
   const markNotificationAsRead = (notificationId: number) => {
     setNotifications((prev) =>
@@ -297,8 +297,9 @@ const Chat = () => {
   };
 
   useEffect(() => {
-    getNotificationsFunction();
-  }, []);
+    if (isLoggedIn) getNotificationsFunction();
+  }, [isLoggedIn]);
+
   // ============================================================================
   // 유틸리티 함수
   // ============================================================================

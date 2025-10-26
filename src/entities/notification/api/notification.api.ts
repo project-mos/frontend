@@ -4,6 +4,7 @@ import {
   fetchAPI,
 } from "@/shared/api/lib";
 import {
+  GetNotificationsResponse,
   GetUnreadNotificationsNumResponse,
   INotification,
   PostFcmTokenResponse,
@@ -19,14 +20,11 @@ export async function postFcmToken(fcmToken: string) {
 }
 
 export async function getNotifications() {
-  const { url } = API_ENDPOINT.notification.getNotifications();
+  const { url, method } = API_ENDPOINT.notification.getNotifications();
 
-  const result = await fetch(url, {
-    method: "GET",
-    credentials: "include",
+  return await fetchAPI<GetNotificationsResponse>(url, {
+    method: method,
   });
-
-  console.log(await result.json());
 }
 
 export async function getUnreadNotificationsNum() {
