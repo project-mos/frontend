@@ -21,7 +21,7 @@ function ScheduleList({
   const filteredSchedules = scheduleData.filter((item) =>
     type === "upcoming"
       ? new Date(item.startDateTime).getTime() > date
-      : new Date(item.endDateTime).getTime() - 15 * 60 * 1000 < date
+      : new Date(item.endDateTime).getTime() < date
   );
 
   const emptyMessage =
