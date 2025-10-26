@@ -19,10 +19,14 @@ export const keywords = [
 ];
 
 export const ogImage = "/asset/thumbnail.png";
-const metadataBase =
+const fallbackBase =
   process.env.NODE_ENV === "development"
-    ? new URL(`http://localhost:3000`)
-    : new URL(`${process.env.SITE_URL}`);
+    ? "http://localhost:3000"
+    : process.env.SITE_URL && process.env.SITE_URL !== ""
+    ? process.env.SITE_URL
+    : "http://localhost:3000";
+
+const metadataBase = new URL(fallbackBase);
 
 export const staticMetadata: Metadata = {
   metadataBase,
