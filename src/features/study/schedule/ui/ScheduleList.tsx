@@ -1,6 +1,5 @@
 import { ScheduleListProps } from "@/features/study/schedule/ui/schedule.ui.types";
 import ScheduleSessionCard from "@/features/study/schedule/ui/ScheduleSessionCard";
-import React from "react";
 
 function ScheduleList({
   scheduleData,
@@ -22,7 +21,7 @@ function ScheduleList({
   const filteredSchedules = scheduleData.filter((item) =>
     type === "upcoming"
       ? new Date(item.startDateTime).getTime() > date
-      : new Date(item.startDateTime).getTime() - 15 * 60 * 1000 < date
+      : new Date(item.endDateTime).getTime() - 15 * 60 * 1000 < date
   );
 
   const emptyMessage =

@@ -8,8 +8,14 @@ export interface INotification {
   type: string;
   title: string;
   content: string;
-  isRead: boolean;
+  read: boolean;
   createdAt: string;
+  dataPayload: {
+    type?: string;
+    studyId?: number;
+    studyJoinId?: number;
+    status?: string;
+  };
 }
 export interface GetUnreadNotificationsNumResponse {
   unreadCount: number;

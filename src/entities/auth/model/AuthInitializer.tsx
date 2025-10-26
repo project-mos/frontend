@@ -49,7 +49,7 @@ const AuthInitializer = ({
 
   useEffect(() => {
     const fcmToken = localStorage.getItem("fcmToken");
-    console.log(fcmToken);
+
     if (!fcmToken) return;
     if (!isLoggedIn || !accessToken) return;
     if (typeof window === "undefined") return;
@@ -61,7 +61,7 @@ const AuthInitializer = ({
       } catch (e) {
         console.error("FCM 토큰 전송 실패:", e);
       }
-      localStorage.removeItem("fcmToken");
+      // localStorage.removeItem("fcmToken");
     })();
   }, [isLoggedIn, accessToken]);
 

@@ -9,14 +9,14 @@ import React from "react";
 import { NotificationListProps } from "./notification.ui.types";
 
 // 읽지 않은 알림 표시 컴포넌트 (타이틀 우측 상단)
-const UnreadIndicator = () => (
-  <div className="absolute -right-2.5 top-1">
-    {/* 고정된 파란 점 */}
-    <div className="size-1.5 rounded-full bg-mos-blue-500" />
-    {/* ping 애니메이션 효과 */}
-    <div className="absolute left-0 top-0 size-1.5 animate-ping rounded-full bg-mos-blue-500" />
-  </div>
-);
+// const UnreadIndicator = () => (
+//   <div className="absolute -right-0 top-1">
+//     {/* 고정된 파란 점 */}
+//     <div className="size-1.5 rounded-full bg-mos-blue-500" />
+//     {/* ping 애니메이션 효과 */}
+//     <div className="absolute left-0 top-0 size-1.5 animate-ping rounded-full bg-mos-blue-500" />
+//   </div>
+// );
 
 const NotificationList = ({
   notifications,
@@ -26,7 +26,7 @@ const NotificationList = ({
   // 알림 아이콘 설정
   const getNotificationIcon = (type: INotification["type"]) => {
     switch (type) {
-      case "study":
+      case "STUDY_JOIN_REQUESTED":
         return "bi-book";
       case "chat":
         return "bi-chat-dots";
@@ -40,8 +40,14 @@ const NotificationList = ({
   // 알림 타입별 색상 설정 (mos 색상 사용)
   const getNotificationColor = (type: INotification["type"]) => {
     switch (type) {
-      case "study":
+      case "STUDY_JOIN_REQUESTED":
         return "bg-mos-green-100 text-mos-green-500";
+      case "STUDY_JOIN_APPROVED":
+        return "bg-mos-green-100 text-mos-green-500";
+      case "STUDY_MEMBER_CREATED":
+        return "bg-mos-blue-100 text-mos-blue-500";
+      case "FILE_UPLOADED":
+        return "bg-mos-blue-100 text-mos-blue-500";
       case "chat":
         return "bg-mos-blue-100 text-mos-blue-500";
       case "system":
@@ -52,10 +58,8 @@ const NotificationList = ({
   };
 
   // 알림 클릭 핸들러
-  const handleNotificationClick = (notification: INotification) => {
-    if (onItemClick) {
-      onItemClick(notification);
-    }
+  const handleNotificationClick = async (notification: INotification) => {
+    onItemClick(notification);
   };
 
   // 알림 삭제 핸들러
@@ -73,7 +77,7 @@ const NotificationList = ({
           key={`${notification.notificationId}_${index}`}
           className={cn(
             "relative cursor-pointer shadow-[0px_0px_4px_rgba(222,226,230,0.6)] transition-all duration-200 hover:shadow-md",
-            !notification.isRead && "border-blue-200 bg-blue-50/30"
+            !notification.read && "border-blue-200 bg-blue-50/30"
           )}
           onClick={() => handleNotificationClick(notification)}
         >
@@ -97,16 +101,16 @@ const NotificationList = ({
 
           {/* 헤더: 아이콘 + 제목 + 읽지 않음 표시 */}
           <Card.Header className="mb-2 items-center">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 mt-2">
               <div
                 className={cn(
-                  "flex size-5 items-center justify-center rounded-full",
+                  "flex size-10 min-w-10 items-center justify-center rounded-full",
                   getNotificationColor(notification.type)
                 )}
               >
                 <i
                   className={cn(
-                    "text-[10px]",
+                    "text-[15px]",
                     getNotificationIcon(notification.type)
                   )}
                 />
@@ -115,7 +119,7 @@ const NotificationList = ({
                 <Typography.P3 className="font-medium text-gray-900">
                   {notification.title}
                 </Typography.P3>
-                {!notification.isRead && <UnreadIndicator />}
+                {/* {!notification.read && <UnreadIndicator />} */}
               </div>
             </div>
           </Card.Header>

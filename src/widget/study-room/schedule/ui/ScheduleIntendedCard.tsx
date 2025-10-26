@@ -18,6 +18,7 @@ const ScheduleIntendedCard = () => {
   const getIsStudyingTime = (startDateTime: string, endDateTime: string) => {
     const start = new Date(startDateTime).getTime() - 15 * 60 * 1000;
     const end = new Date(endDateTime).getTime();
+
     return now! >= start && now! <= end;
   };
   const filteredSchedules = scheduleData?.filter((item) => {
@@ -42,7 +43,7 @@ const ScheduleIntendedCard = () => {
     <Card className="col-span-12 gap-2 tablet:col-span-4">
       <Card.Header className="flex justify-between">
         <Typography.SubTitle1>진행중인 스터디 일정</Typography.SubTitle1>
-        <Button.Solid color="Green" size="sm">
+        <Button.Solid color="Green" size="sm" active={isActive}>
           <i className="bi bi-person-check text-[18px]"></i>
           출석하기
         </Button.Solid>

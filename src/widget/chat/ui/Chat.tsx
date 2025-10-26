@@ -38,10 +38,14 @@ import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
 
 import { useAuthStore } from "@/entities/auth/model/auth.store";
-import { getNotifications } from "@/entities/notification/api/notification.api";
+import {
+  getNotifications,
+  postReadNotification,
+} from "@/entities/notification/api/notification.api";
 import { INotification } from "@/entities/notification/api/notification.api.type";
 import useChatWebSocket from "@/features/chat/model/useChatWebSocket";
 import { InfiniteData } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 
 const CHAT_DELETE_CONFIRM_MODAL_KEY = "chat_delete_confirm";
 
@@ -257,18 +261,29 @@ const Chat = () => {
     const result = await getNotifications();
     setNotifications(result.notifications);
   }
-  const markNotificationAsRead = (notificationId: number) => {
-    setNotifications((prev) =>
-      prev.map((notification) =>
-        notification.notificationId === notificationId
-          ? { ...notification, isRead: true }
-          : notification
-      )
-    );
-  };
+
+  const router = useRouter();
 
   const handleNotificationAction = (notification: INotification) => {
     switch (notification.type) {
+      case "STUDY_JOIN_REQUESTED":
+        router.push(
+          `/study-room/${notification.dataPayload.studyId!}/manage-applicants`
+        );
+        break;
+      case "STUDY_JOIN_APPROVED":
+        router.push(
+          `/study-room/${notification.dataPayload.studyId!}/overview`
+        );
+        break;
+
+      case "STUDY_MEMBER_CREATED":
+        router.push(`/study-room/${notification.dataPayload.studyId!}/member`);
+        break;
+      case "FILE_UPLOADED":
+        router.push(`/study-room/${notification.dataPayload.studyId!}/archive`);
+        break;
+
       case "study":
         console.log("스터디 관련 페이지로 이동:", notification.title);
         break;
@@ -283,10 +298,11 @@ const Chat = () => {
     }
   };
 
-  const handleNotificationClick = (notification: INotification) => {
-    if (!notification.isRead) {
-      markNotificationAsRead(notification.notificationId);
+  const handleNotificationClick = async (notification: INotification) => {
+    if (!notification.read) {
+      await postReadNotification(String(notification.notificationId));
     }
+    closeChat();
     handleNotificationAction(notification);
   };
 
@@ -306,7 +322,7 @@ const Chat = () => {
   const getUnreadCounts = () => {
     const unreadChatCount = 0;
     const unreadNotificationCount = notifications.filter(
-      (notification) => !notification.isRead
+      (notification) => !notification.read
     ).length;
 
     return { unreadChatCount, unreadNotificationCount };

@@ -23,6 +23,7 @@ export async function getNotifications() {
   const { url, method } = API_ENDPOINT.notification.getNotifications();
 
   return await fetchAPI<GetNotificationsResponse>(url, {
+    credentials: "include",
     method: method,
   });
 }
@@ -31,6 +32,7 @@ export async function getUnreadNotificationsNum() {
   const { url, method } = API_ENDPOINT.notification.getUnreadNotificationsNum();
 
   return await fetchAPI<GetUnreadNotificationsNumResponse>(url, {
+    credentials: "include",
     method: method,
   });
 }
@@ -39,5 +41,8 @@ export async function postReadNotification(notificationId: string) {
   const { url, method } =
     API_ENDPOINT.notification.postReadNotification(notificationId);
 
-  return await fetchAPI<INotification>(url, { method: method });
+  return await fetchAPI<INotification>(url, {
+    credentials: "include",
+    method: method,
+  });
 }
