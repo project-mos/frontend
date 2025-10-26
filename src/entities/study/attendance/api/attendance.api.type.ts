@@ -1,11 +1,12 @@
 /* study attendance */
 export type AttendanceRequest = {
-  studyId: string;
-  studyScheduleId: string;
+  studyId: number;
+  studyScheduleId: number;
+  selectedStatus?: string;
 };
 
 export type GetAttendancesRequest = {
-  studyId: string;
+  studyId: number;
 };
 
 export type GetAttendancesResponse = {

@@ -36,13 +36,14 @@ export async function postAttendance({
 export async function putAttendance({
   studyId,
   studyScheduleId,
+  selectedStatus
 }: AttendanceRequest) {
   const { url, method } = API_ENDPOINT.attendances.putAttendances(
     studyId,
     studyScheduleId
   );
 
-  return await fetchAPI(url, createJsonRequestInit(method, null));
+  return await fetchAPI(url, createJsonRequestInit(method, {"attendanceStatus" : selectedStatus}));
 }
 
 export async function patchAttendances({

@@ -40,7 +40,7 @@ const useUpdateProfile = (
     },
     onError: (err) => {
       error("프로필 정보 수정 실패했습니다. 다시 시도해 주세요.");
-      console.log(err);
+      console.log("err:", err);
     },
   });
 
