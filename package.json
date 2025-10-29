@@ -6,7 +6,7 @@
     "dev": "node server.mjs",
     "dev:https": "NODE_ENV=development node server.mjs",
     "build": "next build",
-    "start": "next start",
+    "start": "NODE_ENV=production node server.mjs",
     "start:https": "NODE_ENV=production node server.mjs",
     "lint": "next lint",
     "lint:fix": "next lint --fix",

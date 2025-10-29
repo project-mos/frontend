@@ -5,13 +5,13 @@ import {
 } from "firebase/messaging";
 
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
-  projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_APP_ID,
-  measurementId: process.env.NEXT_PUBLIC_MEASUREMENT_ID,
+  apiKey: "AIzaSyDmSFBCGiFPV8xtqFbVCYJCFw96Wnyq1aY",
+  authDomain: "mos-project-ebc9a.firebaseapp.com",
+  projectId: "mos-project-ebc9a",
+  storageBucket: "mos-project-ebc9a.firebasestorage.app",
+  messagingSenderId: "516973429629",
+  appId: "1:516973429629:web:110d0af926954021cfc214",
+  measurementId: "G-7EEDZFDC0E",
 };
 
 export const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
@@ -64,7 +64,8 @@ export async function initFCM() {
   try {
     const reg = await navigator.serviceWorker.ready;
     const token = await getToken(messaging, {
-      vapidKey: process.env.NEXT_PUBLIC_VAPID_KEY!,
+      vapidKey:
+        "BFqY22TUfJBA0DfE2wQ_g9g72q_a-IKfqT6cX7SW_hzkcxsR1WhhHFUB6s1qGLAPVnjn75TOBDI9vLoxhHNG1Po",
       serviceWorkerRegistration: reg,
     });
     if (token) {

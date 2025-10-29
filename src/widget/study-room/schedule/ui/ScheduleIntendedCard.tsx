@@ -6,10 +6,10 @@ import Button from "@/shared/components/atoms/Button";
 import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
 
-import { useGetStudySchedule } from "@/entities/study/schedule/model/schedule.query";
-import { useParams } from "next/navigation";
 import { usePostAttendance } from "@/entities/study/attendance/model/attendance.query";
+import { useGetStudySchedule } from "@/entities/study/schedule/model/schedule.query";
 import useModal from "@/shared/hooks/useModal";
+import { useParams } from "next/navigation";
 import AttendanceModal from "./AttendanceModal";
 
 const ScheduleIntendedCard = () => {
@@ -22,6 +22,7 @@ const ScheduleIntendedCard = () => {
   const getIsStudyingTime = (startDateTime: string, endDateTime: string) => {
     const start = new Date(startDateTime).getTime() - 15 * 60 * 1000;
     const end = new Date(endDateTime).getTime();
+
     return now! >= start && now! <= end;
   };
   const filteredSchedules = scheduleData?.filter((item) => {

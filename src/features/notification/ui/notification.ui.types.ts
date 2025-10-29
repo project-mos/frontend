@@ -1,7 +1,7 @@
-import { Notification } from "@/entities/notification/lib/mock/notification.mock";
+import { INotification } from "@/entities/notification/api/notification.api.type";
 
 export interface NotificationListProps {
-  notifications: Notification[];
-  onItemClick?: (notification: Notification) => void;
+  notifications: INotification[];
+  onItemClick: (notification: INotification) => void;
   onDelete?: (notificationId: string) => void;
 }

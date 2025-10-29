@@ -5,23 +5,23 @@ import { useEffect, useState } from "react";
 import Card from "@/shared/components/atoms/Card";
 import Tab from "@/shared/components/atoms/Tab";
 
-import useDecodeToken from "@/shared/hooks/useDecodeToken";
-import { useApplyStatusStore } from "@/shared/store/useApplyStatusStore";
-import { useMyJoinedStudyStore } from "@/shared/store/useMyJoinedStudyStore";
 import {
   useGetMyApplyStatus,
   useGetMyJoinedStudies,
 } from "@/entities/study/join/model/join.query";
-import ApplyList from "@/features/study/apply-studies/ui/ApplyStudiesList";
 import StudyList from "@/features/study/active-studies/ui/ActiveStudiesList";
+import ApplyList from "@/features/study/apply-studies/ui/ApplyStudiesList";
 import LikeStudyList from "@/features/study/like-studies/LikeStudyList";
+import useDecodeToken from "@/shared/hooks/useDecodeToken";
+import { useApplyStatusStore } from "@/shared/store/useApplyStatusStore";
+import { useMyJoinedStudyStore } from "@/shared/store/useMyJoinedStudyStore";
 
 const ActiveStudies = () => {
   const decoded = useDecodeToken();
   const userId = decoded?.id;
 
   const [selectedTabState, setSelectedTabState] =
-    useState<string>("좋아요 누른 스터디");
+    useState<string>("참여 중인 스터디");
   const setAllApplyStatus = useApplyStatusStore(
     (state) => state.setAllApplyStatus
   );

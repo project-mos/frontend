@@ -1,7 +1,7 @@
 import { GetStudyScheduleResponse } from "@/entities/study/schedule/api/schedule.api.types";
 import { GetStudySchedule } from "@/features/study-room/types/study-room.api";
 
-export type ScheduleType = "upcoming" | "past";
+export type ScheduleType = "upcoming" | "past" | "ongoing";
 
 export interface ScheduleListProps {
   scheduleData?: GetStudyScheduleResponse[];
