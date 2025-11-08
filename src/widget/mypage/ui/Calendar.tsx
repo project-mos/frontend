@@ -14,6 +14,11 @@ import { useCalendarCells } from "@/features/calendar/calendar-cells/model/useCa
 function Calendar() {
   const [currentDateState, setCurrentDateState] = useState(new Date());
   const { isModalOpenState, openModal, closeModal } = useModal();
+  const {
+    isModalOpenState: createModalOpenState,
+    openModal: createOpenModal,
+    closeModal: createCloseModal,
+  } = useModal();
   const [dailySchedules, setDailySchedules] = useState<GetSchedulesResponse[]>(
     []
   );
@@ -36,6 +41,28 @@ function Calendar() {
         ) || [];
       setDailySchedules(dailySchedule);
       openModal();
+    },
+
+    onDoubleClickSchedule: (date: string) => {
+      // 생성 모드용 기본 데이터
+      const now = new Date();
+      const defaultSchedule: GetSchedulesResponse = {
+        studyId: 0, // 새 일정이므로 임시값
+        title: "",
+        studyScheduleId: 0,
+        description: "",
+        studyCurriculumResList: [],
+        startDateTime: `${date}T${now
+          .getHours()
+          .toString()
+          .padStart(2, "0")}:${now.getMinutes().toString().padStart(2, "0")}`,
+        endDateTime: `${date}T${(now.getHours() + 1)
+          .toString()
+          .padStart(2, "0")}:${now.getMinutes().toString().padStart(2, "0")}`,
+      };
+      console.log(defaultSchedule);
+      setDailySchedules([defaultSchedule]);
+      createOpenModal(); // 생성 모달 열기
     },
     schedulesData: schedulesData!,
   });
@@ -74,6 +101,12 @@ function Calendar() {
         onClose={() => closeModal()}
         schedulesData={dailySchedules!}
         isModifyMode={true}
+      />
+
+      <StudyFormModal
+        isOpen={createModalOpenState}
+        schedulesData={dailySchedules!}
+        onClose={() => createCloseModal()}
       />
     </>
   );

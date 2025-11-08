@@ -32,7 +32,7 @@ const CreateScheduleButton = () => {
         disabled={false}
       >
         <i className="bi bi-plus text-[22px]" />
-        일정 생성
+        스터디 일정 생성
       </Button.Ghost>
 
       {/* 일정 생성 모달 */}

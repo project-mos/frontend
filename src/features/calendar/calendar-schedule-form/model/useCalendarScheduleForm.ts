@@ -1,12 +1,16 @@
 import { GetSchedulesResponse } from "@/entities/study/schedule/api/schedule.api.types";
-import { SchedulesQueryKey, useDeleteStudySchedule, usePostStudySchedule, usePutStudySchedule } from "@/entities/study/schedule/model/schedule.query";
+import {
+  SchedulesQueryKey,
+  useDeleteStudySchedule,
+  usePostStudySchedule,
+  usePutStudySchedule,
+} from "@/entities/study/schedule/model/schedule.query";
 import { ModalOnClose, ModalProps } from "@/shared/components/atoms/Modal";
 import { useToast } from "@/shared/hooks/useToast";
 import { useMyJoinedStudyStore } from "@/shared/store/useMyJoinedStudyStore";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
-
 
 interface NoticeModalProps extends ModalProps {
   onClose: ModalOnClose;
@@ -26,9 +30,9 @@ interface ScheduleData {
 const useCalendarScheduleForm = ({
   onClose,
   isModifyMode,
-  schedulesData
+  schedulesData,
 }: NoticeModalProps) => {
-const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
   const methods = useForm<ScheduleData>({
     defaultValues: {
       title: "",
@@ -44,7 +48,7 @@ const queryClient = useQueryClient();
   const startDateTime = methods.watch("startDateTime");
   const studyScheduleId = Number(watch("studyScheduleId"));
   const [isDelete, setIsDelete] = useState<boolean>(false);
-
+  
   // 내가 참여중인 스터디 데이터
   const myJoinedStudiesData = useMyJoinedStudyStore(
     (state) => state.myJoinedStudiesData
@@ -52,11 +56,12 @@ const queryClient = useQueryClient();
 
   // 스케줄 선택 옵션
   const scheduleOption = useMemo(() => {
-    return myJoinedStudiesData?.filter((item) => item.studyMemberRole === "스터디장")
-    .map((item) => ({
-      label: item.title,
-      value: item.id,
-    }));
+    return myJoinedStudiesData
+      ?.filter((item) => item.studyMemberRole === "스터디장")
+      .map((item) => ({
+        label: item.title,
+        value: item.id,
+      }));
   }, [myJoinedStudiesData]);
 
   // 스케줄 일정 선택 옵션
@@ -75,15 +80,35 @@ const queryClient = useQueryClient();
   }, [schedulesData, studyScheduleId]);
 
   useEffect(() => {
-    // 수정 시 초기 데이터 셋팅
-    if (selectedScheduleData) {
-      methods.setValue("studyId", selectedScheduleData.studyId);
-      methods.setValue("title", selectedScheduleData.title);
-      methods.setValue("description", selectedScheduleData.description);
-      methods.setValue("startDateTime", selectedScheduleData.startDateTime);
-      methods.setValue("endDateTime", selectedScheduleData.endDateTime);
+    if (isModifyMode && selectedScheduleData) {
+      // 수정 모달
+      methods.reset({
+        title: selectedScheduleData.title,
+        description: selectedScheduleData.description,
+        startDateTime: selectedScheduleData.startDateTime,
+        endDateTime: selectedScheduleData.endDateTime,
+        studyId: selectedScheduleData.studyId,
+        studyScheduleId: selectedScheduleData.studyScheduleId,
+      });
+    } else if (!isModifyMode && schedulesData && schedulesData.length > 0) {
+      // 생성 모달, schedulesData가 있으면 첫 번째 일정의 startDateTime 사용
+      const firstStartDateTime = schedulesData[0].startDateTime;
+      methods.reset({
+        title: "",
+        description: "",
+        startDateTime: firstStartDateTime,
+        endDateTime: "",
+      });
+    } else if (!isModifyMode) {
+      // 생성 모달, schedulesData 없으면 현재 시간
+      methods.reset({
+        title: "",
+        description: "",
+        startDateTime: "",
+        endDateTime: "",
+      });
     }
-  }, [selectedScheduleData, methods]);
+  }, [isModifyMode, selectedScheduleData, schedulesData, methods]);
 
   // 일정 생성
   const { mutate: createSchedule, isPending: isCreating } =
@@ -165,7 +190,7 @@ const queryClient = useQueryClient();
     onClose();
   };
 
-return {
+  return {
     methods,
     handleSubmit,
     onSubmit,
@@ -179,8 +204,8 @@ return {
     onClickDeleteBtn,
     onClickCloseBtn,
     selectedScheduleData,
-    isDelete
+    isDelete,
   };
-}
+};
 
-export default useCalendarScheduleForm
+export default useCalendarScheduleForm;

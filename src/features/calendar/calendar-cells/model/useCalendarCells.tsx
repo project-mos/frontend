@@ -19,12 +19,14 @@ interface Props {
   currentDate: Date;
   onClickSchedule: (date: string) => void;
   schedulesData: GetSchedulesResponse[];
+  onDoubleClickSchedule?: (date: string) => void;
 }
 
 export const useCalendarCells = ({
   currentDate,
   onClickSchedule,
   schedulesData,
+  onDoubleClickSchedule,
 }: Props) => {
   const studyIdColorMapRef = useRef<Record<number, string>>({});
   const usedColorsRef = useRef<Set<string>>(new Set());
@@ -121,7 +123,11 @@ export const useCalendarCells = ({
       const dayEvents = events[dateKey] || [];
 
       cells.push(
-        <div key={day} className={cn(cellStyle)}>
+        <div
+          key={day}
+          className={cn(cellStyle)}
+          onDoubleClick={() => onDoubleClickSchedule?.(dateKey)}
+        >
           <div className="flex items-center">
             {isToday ? (
               <div className="flex size-5 items-center justify-center rounded-full bg-mos-main-500">
@@ -140,6 +146,7 @@ export const useCalendarCells = ({
               <div
                 className={`hidden h-5 w-full mobile:flex ${dayEvents[0].color} flex items-center rounded p-1`}
                 onClick={() => onClickSchedule(dateKey)}
+                onDoubleClick={() => onDoubleClickSchedule?.(dateKey)}
               >
                 <Typography.P3 className="truncate text-[11px] text-white">
                   {dayEvents[0].title}
@@ -149,6 +156,7 @@ export const useCalendarCells = ({
                 <div
                   className="flex items-center justify-end text-right text-[11px] font-semibold"
                   onClick={() => onClickSchedule(dateKey)}
+                  onDoubleClick={() => onDoubleClickSchedule?.(dateKey)}
                 >
                   <Typography.P3 className="rounded-full bg-gray-500 px-[3px] py-[2px] text-mos-white-gray-100">
                     +{dayEvents.length - 1}
