@@ -1,6 +1,6 @@
 import { Curriculum } from "@/entities/study/curriculum/api/curriculum.api.type";
 
-export interface GetSchedulesRespons extends PostUserScheduleResponse {
+export interface GetSchedulesResponse extends PostUserScheduleResponse {
   studyScheduleId: number;
   title: string;
   description: string;
@@ -10,11 +10,20 @@ export interface GetSchedulesRespons extends PostUserScheduleResponse {
   studyCurriculumResList: studyCurriculumResponse[];
 }
 
-export interface PostStudyScheduleResponse {
-  description: string;
-  endDateTime: string;
-  startDateTime: string;
+export interface PostUserScheduleResponse {
+  id: number;
   title: string;
+  description: string;
+  startDateTime: string;
+  endDateTime: string;
+}
+
+export interface PostUserScheduleRequest {
+  id: number;
+  title: string;
+  description: string;
+  startDateTime: string;
+  endDateTime: string;
 }
 
 export interface GetStudyScheduleResponse {
@@ -29,12 +38,4 @@ export interface GetStudyScheduleResponse {
 
 interface studyCurriculumResponse extends Curriculum {
   studyCurriculumId: number;
-}
-
-export interface PostUserScheduleResponse {
-  id: 1;
-  title: string;
-  description: string;
-  startDateTime: string;
-  endDateTime: string;
 }

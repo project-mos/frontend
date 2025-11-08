@@ -1,13 +1,15 @@
-import { GetSchedulesResponse } from "@/entities/study/schedule/api/userSchedule.api.types";
 import {
-  SchedulesQueryKey,
-  useDeleteStudySchedule,
-  usePostStudySchedule,
-  usePutStudySchedule,
-} from "@/entities/study/schedule/model/schedule.query";
+  PostUserScheduleRequest,
+  PostUserScheduleResponse,
+} from "@/entities/study/schedule/api/userSchedule.api.types";
+import {
+  useDeleteUserSchedule,
+  usePutUserSchedule,
+  UserSchedulesQueryKey,
+  useUserSchedule,
+} from "@/entities/study/schedule/model/userSchedule.query";
 import { ModalOnClose, ModalProps } from "@/shared/components/atoms/Modal";
 import { useToast } from "@/shared/hooks/useToast";
-import { useMyJoinedStudyStore } from "@/shared/store/useMyJoinedStudyStore";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -15,25 +17,24 @@ import { useForm } from "react-hook-form";
 interface NoticeModalProps extends ModalProps {
   onClose: ModalOnClose;
   isModifyMode?: boolean;
-  schedulesData?: GetSchedulesResponse[];
+  schedulesData?: PostUserScheduleResponse[];
 }
 
-interface ScheduleData {
+interface UserScheduleData {
+  id: number;
   title: string;
   description: string;
   startDateTime: string;
   endDateTime: string;
-  studyId?: number;
-  studyScheduleId?: number;
 }
 
-const useCalendarScheduleForm = ({
+const useUserCalendarScheduleForm = ({
   onClose,
   isModifyMode,
   schedulesData,
 }: NoticeModalProps) => {
   const queryClient = useQueryClient();
-  const methods = useForm<ScheduleData>({
+  const methods = useForm<UserScheduleData>({
     defaultValues: {
       title: "",
       description: "",
@@ -44,56 +45,39 @@ const useCalendarScheduleForm = ({
   });
   const { handleSubmit, reset, watch } = methods;
   const { success, error } = useToast();
-  const studyId = Number(watch("studyId"));
+  // const studyId = Number(watch("studyId"));
   const startDateTime = methods.watch("startDateTime");
-  const studyScheduleId = Number(watch("studyScheduleId"));
+  const studyScheduleId = Number(watch("id"));
   const [isDelete, setIsDelete] = useState<boolean>(false);
-  
-  // 내가 참여중인 스터디 데이터
-  const myJoinedStudiesData = useMyJoinedStudyStore(
-    (state) => state.myJoinedStudiesData
-  );
-
-  // 스케줄 선택 옵션
-  const scheduleOption = useMemo(() => {
-    return myJoinedStudiesData
-      ?.filter((item) => item.studyMemberRole === "스터디장")
-      .map((item) => ({
-        label: item.title,
-        value: item.id,
-      }));
-  }, [myJoinedStudiesData]);
 
   // 스케줄 일정 선택 옵션
-  const studyScheduleOption = useMemo(() => {
+  const userScheduleOption = useMemo(() => {
     return schedulesData?.map((item) => ({
       label: item.title,
-      value: item.studyScheduleId,
+      value: item.id,
     }));
   }, [schedulesData]);
 
   // 선택한 일정 상세 데이터 추출
   const selectedScheduleData = useMemo(() => {
-    return schedulesData?.filter(
-      (item) => item.studyScheduleId === studyScheduleId
-    )[0];
+    return schedulesData?.filter((item) => item.id === studyScheduleId)[0];
   }, [schedulesData, studyScheduleId]);
 
   useEffect(() => {
     if (isModifyMode && selectedScheduleData) {
       // 수정 모달
       methods.reset({
+        id: selectedScheduleData.id,
         title: selectedScheduleData.title,
         description: selectedScheduleData.description,
         startDateTime: selectedScheduleData.startDateTime,
         endDateTime: selectedScheduleData.endDateTime,
-        studyId: selectedScheduleData.studyId,
-        studyScheduleId: selectedScheduleData.studyScheduleId,
       });
     } else if (!isModifyMode && schedulesData && schedulesData.length > 0) {
       // 생성 모달, schedulesData가 있으면 첫 번째 일정의 startDateTime 사용
       const firstStartDateTime = schedulesData[0].startDateTime;
       methods.reset({
+        id: 0,
         title: "",
         description: "",
         startDateTime: firstStartDateTime,
@@ -102,6 +86,7 @@ const useCalendarScheduleForm = ({
     } else if (!isModifyMode) {
       // 생성 모달, schedulesData 없으면 현재 시간
       methods.reset({
+        id: 0,
         title: "",
         description: "",
         startDateTime: "",
@@ -110,31 +95,30 @@ const useCalendarScheduleForm = ({
     }
   }, [isModifyMode, selectedScheduleData, schedulesData, methods]);
 
-  // 일정 생성
-  const { mutate: createSchedule, isPending: isCreating } =
-    usePostStudySchedule(studyId, {
-      onSuccess: () => {
-        success("생성되었습니다.");
-        queryClient.invalidateQueries({
-          queryKey: SchedulesQueryKey,
-        });
+  // 개인 일정 생성
+  const { mutate: createSchedule, isPending: isCreating } = useUserSchedule({
+    onSuccess: () => {
+      success("생성되었습니다.");
+      queryClient.invalidateQueries({
+        queryKey: UserSchedulesQueryKey,
+      });
 
-        reset();
-        onClose();
-      },
-      onError: (err) => {
-        error(String(err));
-      },
-    });
+      reset();
+      onClose();
+    },
+    onError: (err) => {
+      error(String(err));
+    },
+  });
 
-  // 일정 수정
-  const { mutate: updateSchedule, isPending: isUpdating } = usePutStudySchedule(
-    studyId,
+  // 개인 일정 수정
+  const { mutate: updateSchedule, isPending: isUpdating } = usePutUserSchedule(
+    studyScheduleId,
     {
       onSuccess: () => {
         success("수정되었습니다.");
         queryClient.invalidateQueries({
-          queryKey: SchedulesQueryKey,
+          queryKey: UserSchedulesQueryKey,
         });
 
         reset();
@@ -146,13 +130,13 @@ const useCalendarScheduleForm = ({
     }
   );
 
-  // 일정 삭제
+  // 개인 일정 삭제
   const { mutate: deleteSchedule, isPending: isDeleting } =
-    useDeleteStudySchedule(studyId, {
+    useDeleteUserSchedule(studyScheduleId, {
       onSuccess: () => {
         success("삭제되었습니다.");
         queryClient.invalidateQueries({
-          queryKey: SchedulesQueryKey,
+          queryKey: UserSchedulesQueryKey,
         });
 
         setIsDelete(false);
@@ -164,17 +148,14 @@ const useCalendarScheduleForm = ({
       },
     });
 
-  const onSubmit = (data: ScheduleData) => {
-    // 불필요한 필드 제거
-    delete data.studyId;
-
+  const onSubmit = (data: PostUserScheduleRequest) => {
     // API 호출
     if (isDelete) {
       // 삭제
       deleteSchedule(studyScheduleId);
     } else if (isModifyMode) {
       // 수정
-      updateSchedule({ scheduleId: studyScheduleId, data: data });
+      updateSchedule({ userScheduleId: Number(data.id), data: data });
     } else {
       // 셍성
       createSchedule(data);
@@ -186,8 +167,8 @@ const useCalendarScheduleForm = ({
   };
 
   const onClickCloseBtn = () => {
-    reset();
     methods.reset({
+      id: 0,
       title: "",
       description: "",
       startDateTime: "",
@@ -203,8 +184,7 @@ const useCalendarScheduleForm = ({
     isCreating,
     isUpdating,
     isDeleting,
-    scheduleOption,
-    studyScheduleOption,
+    userScheduleOption,
     startDateTime,
     studyScheduleId,
     onClickDeleteBtn,
@@ -214,4 +194,4 @@ const useCalendarScheduleForm = ({
   };
 };
 
-export default useCalendarScheduleForm;
+export default useUserCalendarScheduleForm;

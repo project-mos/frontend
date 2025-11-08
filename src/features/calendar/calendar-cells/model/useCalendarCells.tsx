@@ -1,4 +1,4 @@
-import { GetSchedulesResponse } from "@/entities/study/schedule/api/schedule.api.types";
+import { GetSchedulesResponse } from "@/entities/study/schedule/api/userSchedule.api.types";
 import Typography from "@/shared/components/atoms/Typography";
 import {
   getDaysInMonth,
@@ -40,6 +40,7 @@ export const useCalendarCells = ({
     studyIdColorMapRef.current = saved ? JSON.parse(saved) : {};
   }
 
+  console.log("개인일정 포함됨?", schedulesData);
   const getRandomColor = () => {
     const colors = [
       "bg-blue-400",

@@ -5,9 +5,15 @@ import useModal from "@/shared/hooks/useModal";
 import { useToast } from "@/shared/hooks/useToast";
 import { useMyJoinedStudyStore } from "@/shared/store/useMyJoinedStudyStore";
 import StudyFormModal from "./StudyFormModal";
+import UserScheduleFormModal from "./UserScheduleFormModal";
 
 const CreateScheduleButton = () => {
   const { isModalOpenState, openModal, closeModal } = useModal();
+  const {
+    isModalOpenState: userScheduleModalOpenState,
+    openModal: userScheduleOpenModal,
+    closeModal: userScheduleCloseModal,
+  } = useModal();
   const toast = useToast();
   const myJoinedStudiesData = useMyJoinedStudyStore(
     (state) => state.myJoinedStudiesData
@@ -24,7 +30,7 @@ const CreateScheduleButton = () => {
   };
 
   return (
-    <>
+    <div className="flex gap-2">
       <Button.Ghost
         color="Main"
         className="h-[30px] p-0 pl-1.5 pr-3 text-[14px]"
@@ -35,9 +41,25 @@ const CreateScheduleButton = () => {
         스터디 일정 생성
       </Button.Ghost>
 
+      <Button.Ghost
+        color="Main"
+        className="h-[30px] p-0 pl-1.5 pr-3 text-[14px]"
+        onClick={() => userScheduleOpenModal()}
+        disabled={false}
+      >
+        <i className="bi bi-plus text-[22px]" />
+        개인 일정 생성
+      </Button.Ghost>
+
       {/* 일정 생성 모달 */}
       <StudyFormModal isOpen={isModalOpenState} onClose={() => closeModal()} />
-    </>
+
+      {/* 개인 일정 생성 모달 */}
+      <UserScheduleFormModal
+        isOpen={userScheduleModalOpenState}
+        onClose={() => userScheduleCloseModal()}
+      />
+    </div>
   );
 };
 
