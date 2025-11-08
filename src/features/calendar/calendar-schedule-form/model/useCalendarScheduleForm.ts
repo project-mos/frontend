@@ -167,6 +167,7 @@ const useCalendarScheduleForm = ({
   const onSubmit = (data: ScheduleData) => {
     // 불필요한 필드 제거
     delete data.studyId;
+    delete data.studyScheduleId
 
     // API 호출
     if (isDelete) {
@@ -174,7 +175,7 @@ const useCalendarScheduleForm = ({
       deleteSchedule(studyScheduleId);
     } else if (isModifyMode) {
       // 수정
-      updateSchedule({ scheduleId: studyScheduleId, data: data });
+      updateSchedule({ scheduleId: Number(studyScheduleId), data: data });
     } else {
       // 셍성
       createSchedule(data);
