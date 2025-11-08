@@ -29,6 +29,13 @@ const StudyApplicationFormCard = ({
     studyId,
     onSubmissionSuccess: () => {
       console.log("onSuccess callback called");
+      if (window.opener) {
+        setTimeout(() => {
+          window.close();
+        }, 1500); // 1.5초 뒤 창 닫기
+      } else {
+        setIsApplyVisible(false);
+      }
     },
   });
 
