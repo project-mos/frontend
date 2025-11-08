@@ -57,6 +57,7 @@ const StudyFormModal = ({
         <Modal.Header onClose={onClickCloseBtn}>
           <Typography.Head3>
             {isModifyMode ? "스터디 일정 수정/삭제" : "스터디 일정 생성"}
+            <span>(스터디장만 생성 가능)</span>
           </Typography.Head3>
         </Modal.Header>
 

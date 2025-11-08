@@ -52,7 +52,8 @@ const queryClient = useQueryClient();
 
   // 스케줄 선택 옵션
   const scheduleOption = useMemo(() => {
-    return myJoinedStudiesData?.map((item) => ({
+    return myJoinedStudiesData?.filter((item) => item.studyMemberRole === "스터디장")
+    .map((item) => ({
       label: item.title,
       value: item.id,
     }));
@@ -73,7 +74,7 @@ const queryClient = useQueryClient();
     )[0];
   }, [schedulesData, studyScheduleId]);
 
-useEffect(() => {
+  useEffect(() => {
     // 수정 시 초기 데이터 셋팅
     if (selectedScheduleData) {
       methods.setValue("studyId", selectedScheduleData.studyId);
