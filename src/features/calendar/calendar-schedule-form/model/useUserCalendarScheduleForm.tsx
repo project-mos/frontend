@@ -149,15 +149,16 @@ const useUserCalendarScheduleForm = ({
     });
 
   const onSubmit = (data: PostUserScheduleRequest) => {
-    // API 호출
+    delete data.id;
+
     if (isDelete) {
-      // 삭제
       deleteSchedule(studyScheduleId);
     } else if (isModifyMode) {
-      // 수정
-      updateSchedule({ userScheduleId: Number(data.id), data: data });
+      updateSchedule({
+        userScheduleId: Number(studyScheduleId),
+        data: data,
+      });
     } else {
-      // 셍성
       createSchedule(data);
     }
   };

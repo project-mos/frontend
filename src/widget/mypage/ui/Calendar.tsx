@@ -19,16 +19,20 @@ function ScheduleTypeSelectModal({
   isOpen,
   onClose,
   onSelect,
+  mode,
 }: {
   isOpen: boolean;
   onClose: () => void;
   onSelect: (type: "study" | "user") => void;
+  mode: "create" | "modify" | null;
 }) {
   return (
     <Modal isOpen={isOpen} onClose={onClose} className="w-[400px]">
       <Modal.Header onClose={onClose}>
         <Typography.P1 className="text-xl">
-          등록할 일정 종류를 선택하세요
+          {mode === "create"
+            ? "등록할 일정 종류를 선택하세요."
+            : "수정할 일정 종류를 선택하세요."}
         </Typography.P1>
       </Modal.Header>
       <Modal.Content>
@@ -61,6 +65,9 @@ function ScheduleTypeSelectModal({
 
 function Calendar() {
   const [currentDateState, setCurrentDateState] = useState(new Date());
+  const [selectModalMode, setSelectModalMode] = useState<
+    "create" | "modify" | null
+  >(null);
 
   // 스터디 일정 수정 모달
   const { isModalOpenState, openModal, closeModal } = useModal();
@@ -124,7 +131,7 @@ function Calendar() {
           (item) => item.startDateTime.split("T")[0] === date
         ) || [];
 
-      setDailySchedules(dailySchedule);
+      setDailySchedules(dailySchedule); // 전체 일정 우선 저장
       setSelectedDate(date);
 
       const hasStudy = dailySchedule.some(
@@ -133,22 +140,27 @@ function Calendar() {
       const hasUser = dailySchedule.some((item) => item.id !== undefined);
 
       if (hasStudy && hasUser) {
-        // 둘 다 있으면 일정 종류 선택 모달 표시
-        selectOpenModal();
+        setSelectModalMode("modify");
+        selectOpenModal(); // 일정 종류 선택 모달 열기
       } else if (hasStudy) {
-        // 스터디 일정만 있으면 스터디 수정 모달
+        setDailySchedules(
+          dailySchedule.filter((item) => item.studyScheduleId !== undefined)
+        );
         openModal();
       } else if (hasUser) {
-        // 개인 일정만 있으면 개인 일정 수정 모달
+        setDailySchedules(
+          dailySchedule.filter((item) => item.id !== undefined)
+        );
         userScheduleOpenModal();
       }
     },
 
-    // 더블클릭 → 일정 종류 선택 모달 먼저 열기
     onDoubleClickSchedule: (date: string) => {
       setSelectedDate(date);
+      setSelectModalMode("create");
       selectOpenModal();
     },
+
     schedulesData: combinedSchedulesData!,
   });
 
@@ -156,29 +168,47 @@ function Calendar() {
   const handleSelectType = (type: "study" | "user") => {
     if (!selectedDate) return;
 
-    const now = new Date();
-    const defaultSchedule: GetSchedulesResponse = {
-      id: 0,
-      studyId: 0,
-      title: "",
-      studyScheduleId: 0,
-      description: "",
-      studyCurriculumResList: [],
-      startDateTime: `${selectedDate}T${now
-        .getHours()
-        .toString()
-        .padStart(2, "0")}:${now.getMinutes().toString().padStart(2, "0")}`,
-      endDateTime: `${selectedDate}T${(now.getHours() + 1)
-        .toString()
-        .padStart(2, "0")}:${now.getMinutes().toString().padStart(2, "0")}`,
-    };
+    if (selectModalMode === "modify") {
+      // 수정 모드일 때: 해당 타입의 일정만 필터링
+      const filtered = dailySchedules.filter((item) =>
+        type === "study"
+          ? item.studyScheduleId !== undefined
+          : item.id !== undefined
+      );
 
-    setDailySchedules([defaultSchedule]);
+      setDailySchedules(filtered);
 
-    if (type === "study") {
-      createOpenModal(); // 스터디 일정 생성
-    } else {
-      userScheduleCreateOpenModal(); // 개인 일정 생성
+      if (type === "study") {
+        openModal();
+      } else {
+        userScheduleOpenModal();
+      }
+    } else if (selectModalMode === "create") {
+      // 생성 모드일 때: 기본값 생성
+      const now = new Date();
+      const defaultSchedule: GetSchedulesResponse = {
+        id: 0,
+        studyId: 0,
+        title: "",
+        studyScheduleId: 0,
+        description: "",
+        studyCurriculumResList: [],
+        startDateTime: `${selectedDate}T${now
+          .getHours()
+          .toString()
+          .padStart(2, "0")}:${now.getMinutes().toString().padStart(2, "0")}`,
+        endDateTime: `${selectedDate}T${(now.getHours() + 1)
+          .toString()
+          .padStart(2, "0")}:${now.getMinutes().toString().padStart(2, "0")}`,
+      };
+
+      setDailySchedules([defaultSchedule]);
+
+      if (type === "study") {
+        createOpenModal();
+      } else {
+        userScheduleCreateOpenModal();
+      }
     }
   };
 
@@ -216,6 +246,7 @@ function Calendar() {
         isOpen={selectModalOpenState}
         onClose={selectCloseModal}
         onSelect={handleSelectType}
+        mode={selectModalMode}
       />
 
       {/* 스터디 일정 수정 모달 */}

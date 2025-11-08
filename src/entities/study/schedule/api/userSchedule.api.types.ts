@@ -19,7 +19,7 @@ export interface PostUserScheduleResponse {
 }
 
 export interface PostUserScheduleRequest {
-  id: number;
+  id?: number;
   title: string;
   description: string;
   startDateTime: string;
