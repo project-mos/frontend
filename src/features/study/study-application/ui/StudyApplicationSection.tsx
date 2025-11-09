@@ -27,7 +27,8 @@ const StudyApplicationSection = ({ data }: StudyApplicationSectionProps) => {
 
   function onClickButton() {
     if (isLoggedIn) {
-      setIsApplyVisibleState(true);
+      const applyUrl = `/study/${id}/apply`;
+      window.open(applyUrl, "_blank", "width=1920,height=1080");
     } else {
       openModal();
     }

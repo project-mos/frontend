@@ -1,7 +1,6 @@
 import { FormProvider } from "react-hook-form";
 
 import Button from "@/shared/components/atoms/Button";
-import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
 
 import ActionConfirmModal from "@/shared/components/molecules/ActionConfirmModal";
@@ -30,17 +29,24 @@ const StudyApplicationFormCard = ({
     studyId,
     onSubmissionSuccess: () => {
       console.log("onSuccess callback called");
+      if (window.opener) {
+        setTimeout(() => {
+          window.close();
+        }, 1500); // 1.5초 뒤 창 닫기
+      } else {
+        setIsApplyVisible(false);
+      }
     },
   });
 
   return (
     <>
-      <Card className="h-auto w-[85%] sm-mobile:w-full">
-        <Card.Header className="mb-[15px]">
+      <div className="h-auto w-[85%] shadow-none sm-mobile:w-full">
+        <div className="mb-[15px]">
           <Typography.SubTitle1>지원양식</Typography.SubTitle1>
-        </Card.Header>
+        </div>
 
-        <Card.Content>
+        <div>
           <FormProvider {...methods}>
             <form onSubmit={onSubmitForm} className="flex flex-col gap-3">
               {(!joinStatusState ||
@@ -79,12 +85,12 @@ const StudyApplicationFormCard = ({
               </div>
             </form>
           </FormProvider>
-        </Card.Content>
+        </div>
 
-        <Card.Footer>
+        <div>
           <div className="flex w-full gap-2"></div>
-        </Card.Footer>
-      </Card>
+        </div>
+      </div>
       <ActionConfirmModal
         isOpen={modal.get("submit")!}
         onClose={() => closeModal("submit")}
