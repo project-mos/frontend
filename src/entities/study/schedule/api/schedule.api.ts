@@ -1,11 +1,11 @@
 import { createJsonRequestInit, fetchAPI } from "@/shared/api/util/fetcher";
 
 import {
-  GetSchedulesResponse,
   PostStudyScheduleResponse,
 } from "@/entities/study/schedule/api/schedule.api.types";
 import { GetStudySchedule } from "@/features/study-room/types/study-room.api";
 import { API_ENDPOINT } from "@/shared/api/lib";
+import { GetSchedulesResponse } from "./userSchedule.api.types";
 
 // 스터디 전체 일정 조회
 export async function getSchedules(): Promise<GetSchedulesResponse[]> {

@@ -1,4 +1,4 @@
-import { GetSchedulesResponse } from "@/entities/study/schedule/api/schedule.api.types";
+import { GetSchedulesResponse } from "@/entities/study/schedule/api/userSchedule.api.types";
 import Typography from "@/shared/components/atoms/Typography";
 import {
   getDaysInMonth,
@@ -12,19 +12,26 @@ const cellStyle =
   "h-16 w-full min-w-10 mobile:min-w-20 border border-gray-200 p-2 mobile:h-20 tablet:min-w-[50px]";
 
 interface CalendarProps {
-  [key: string]: { id: number; title: string; color: string }[];
+  [key: string]: {
+    id: number;
+    title: string;
+    color: string;
+    isUser: boolean;
+  }[];
 }
 
 interface Props {
   currentDate: Date;
   onClickSchedule: (date: string) => void;
   schedulesData: GetSchedulesResponse[];
+  onDoubleClickSchedule?: (date: string) => void;
 }
 
 export const useCalendarCells = ({
   currentDate,
   onClickSchedule,
   schedulesData,
+  onDoubleClickSchedule,
 }: Props) => {
   const studyIdColorMapRef = useRef<Record<number, string>>({});
   const usedColorsRef = useRef<Set<string>>(new Set());
@@ -38,6 +45,7 @@ export const useCalendarCells = ({
     studyIdColorMapRef.current = saved ? JSON.parse(saved) : {};
   }
 
+  console.log("개인일정 포함됨?", schedulesData);
   const getRandomColor = () => {
     const colors = [
       "bg-blue-400",
@@ -74,7 +82,11 @@ export const useCalendarCells = ({
     ? schedulesData.reduce((acc: CalendarProps, item) => {
         const dateKey = item.startDateTime.split("T")[0];
 
-        if (!studyIdColorMapRef.current[item.studyId]) {
+        // studyId가 없거나 0이면 개인 일정
+        const isUserSchedule = !item.studyId || item.studyId === 0;
+
+        // 개인 일정은 고정 컬러 사용 (또는 다른 스타일)
+        if (!isUserSchedule && !studyIdColorMapRef.current[item.studyId]) {
           studyIdColorMapRef.current[item.studyId] = getRandomColor();
           localStorage.setItem(
             "studyIdColorMap",
@@ -87,9 +99,12 @@ export const useCalendarCells = ({
         }
 
         acc[dateKey].push({
-          id: item.studyId,
+          id: item.studyId || item.id,
           title: item.title,
-          color: studyIdColorMapRef.current[item.studyId],
+          color: isUserSchedule
+            ? "bg-gray-500" // 개인 일정은 고정 색상
+            : studyIdColorMapRef.current[item.studyId],
+          isUser: isUserSchedule, // 개인일정 여부
         });
 
         return acc;
@@ -121,7 +136,11 @@ export const useCalendarCells = ({
       const dayEvents = events[dateKey] || [];
 
       cells.push(
-        <div key={day} className={cn(cellStyle)}>
+        <div
+          key={day}
+          className={cn(cellStyle)}
+          onDoubleClick={() => onDoubleClickSchedule?.(dateKey)}
+        >
           <div className="flex items-center">
             {isToday ? (
               <div className="flex size-5 items-center justify-center rounded-full bg-mos-main-500">
@@ -137,18 +156,29 @@ export const useCalendarCells = ({
           </div>
           {dayEvents.length > 0 && (
             <div className="mt-1 flex cursor-pointer flex-col space-y-1">
+              {/* 첫 번째 일정만 표시 */}
               <div
                 className={`hidden h-5 w-full mobile:flex ${dayEvents[0].color} flex items-center rounded p-1`}
                 onClick={() => onClickSchedule(dateKey)}
+                onDoubleClick={() => onDoubleClickSchedule?.(dateKey)}
               >
+                {/* 개인 일정인지 여부에 따라 아이콘 구분 */}
+                {dayEvents[0].isUser ? (
+                  <i className="bi bi-person-fill mr-1 text-[11px] text-white"></i>
+                ) : (
+                  <i className="bi bi-people-fill mr-1 text-[11px] text-white"></i>
+                )}
                 <Typography.P3 className="truncate text-[11px] text-white">
                   {dayEvents[0].title}
                 </Typography.P3>
               </div>
+
+              {/* 일정이 2개 이상이면 + 표시 */}
               {dayEvents.length > 1 && (
                 <div
                   className="flex items-center justify-end text-right text-[11px] font-semibold"
                   onClick={() => onClickSchedule(dateKey)}
+                  onDoubleClick={() => onDoubleClickSchedule?.(dateKey)}
                 >
                   <Typography.P3 className="rounded-full bg-gray-500 px-[3px] py-[2px] text-mos-white-gray-100">
                     +{dayEvents.length - 1}

@@ -8,7 +8,7 @@ const StudySchedule = () => {
   return (
     <Card className="col-span-12 tablet:col-span-8">
       <Card.Header className="flex items-center justify-between">
-        <Typography.P1 className="text-[20px]">스터디 일정</Typography.P1>
+        <Typography.P1 className="text-[20px]">일정표</Typography.P1>
         <CreateScheduleButton />
       </Card.Header>
       <Card.Content>

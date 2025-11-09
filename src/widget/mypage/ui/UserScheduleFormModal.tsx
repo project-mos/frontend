@@ -14,16 +14,16 @@ import LabelSelectInput from "@/shared/components/molecules/LabelSelectInput";
 import LabelInputDateLocal from "@/shared/components/molecules/LabelDateTimeLocal";
 import { StudyScheduleInterface } from "@/shared/types/api/studies/detail";
 import { formatNowDate } from "@/shared/utils/date";
-import useCalendarScheduleForm from "@/features/calendar/calendar-schedule-form/model/useCalendarScheduleForm";
-import { GetSchedulesResponse } from "@/entities/study/schedule/api/userSchedule.api.types";
+import useUserCalendarScheduleForm from "@/features/calendar/calendar-schedule-form/model/useUserCalendarScheduleForm";
+import { PostUserScheduleResponse } from "@/entities/study/schedule/api/userSchedule.api.types";
 
 interface NoticeModalProps extends ModalProps {
   onClose: ModalOnClose;
   isModifyMode?: boolean;
-  schedulesData?: GetSchedulesResponse[];
+  schedulesData?: PostUserScheduleResponse[];
 }
 
-const StudyFormModal = ({
+const UserScheduleFormModal = ({
   onClose,
   isModifyMode,
   schedulesData,
@@ -36,15 +36,14 @@ const StudyFormModal = ({
     isCreating,
     isUpdating,
     isDeleting,
-    scheduleOption,
-    studyScheduleOption,
-    startDateTime,
     studyScheduleId,
+    userScheduleOption,
+    selectedScheduleData,
+    startDateTime,
     onClickDeleteBtn,
     onClickCloseBtn,
-    selectedScheduleData,
     isDelete,
-  } = useCalendarScheduleForm({
+  } = useUserCalendarScheduleForm({
     onClose,
     isModifyMode,
     schedulesData,
@@ -56,8 +55,7 @@ const StudyFormModal = ({
       <Modal {...props} onClose={onClickCloseBtn}>
         <Modal.Header onClose={onClickCloseBtn}>
           <Typography.Head3>
-            {isModifyMode ? "스터디 일정 수정/삭제" : "스터디 일정 생성"}
-            {!isModifyMode && <span>(스터디장만 생성 가능)</span>}
+            {isModifyMode ? "개인 일정 수정/삭제" : "개인 일정 생성"}
           </Typography.Head3>
         </Modal.Header>
 
@@ -66,33 +64,14 @@ const StudyFormModal = ({
             {isModifyMode && (
               <LabelSelectInput
                 className="text-mos-gray-400 text-[14px]"
-                label="수정할 일정을 선택해 주세요."
-                name="studyScheduleId"
+                label="수정할 개인 일정을 선택해 주세요."
+                name="id"
                 selectList={[
                   {
                     label: "일정을 선택해 주세요.",
                     value: "",
                   },
-                  ...(studyScheduleOption || []),
-                ]}
-                required
-                registerOptions={{
-                  required: "필수 선택입니다.",
-                }}
-              />
-            )}
-
-            {!isModifyMode && (
-              <LabelSelectInput
-                className="text-mos-gray-400 text-[14px]"
-                label="일정을 추가할 스터디를 선택해 주세요."
-                name="studyId"
-                selectList={[
-                  {
-                    label: "스터디를 선택해 주세요.",
-                    value: "",
-                  },
-                  ...(scheduleOption || []),
+                  ...(userScheduleOption || []),
                 ]}
                 required
                 registerOptions={{
@@ -180,4 +159,4 @@ const StudyFormModal = ({
   );
 };
 
-export default StudyFormModal;
+export default UserScheduleFormModal;

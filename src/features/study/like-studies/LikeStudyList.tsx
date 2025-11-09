@@ -56,10 +56,6 @@ const LikeStudyList = () => {
           <Typography.Head3 className="text-[20px]">
             {data.title}
           </Typography.Head3>
-          <Typography.P1 className="line-clamp-2 text-[20px]">
-            {data.content}
-          </Typography.P1>
-
           <div className="flex items-end justify-between">
             <div className="flex items-center gap-[10px]">
               <MetaLike
