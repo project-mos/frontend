@@ -27,6 +27,7 @@ import Typography from "@/shared/components/atoms/Typography";
 import useDecodeToken from "@/shared/hooks/useDecodeToken";
 import useModal from "@/shared/hooks/useModal";
 import { getAttendances } from "../../attendance/api/attendance.api";
+import { useMyStudyRole } from "../model/member.query";
 import MemberModal from "./MemberModal";
 
 interface MemberCardProps {
@@ -44,6 +45,7 @@ interface StudyMemberCardProps {
 const MemberCard = ({ members, studyId }: MemberCardProps) => {
   const { isModalOpenState, openModal, closeModal } = useModal();
   const currentUser = useDecodeToken();
+  const myRole = useMyStudyRole(studyId);
 
   const [membersState] = useState(members);
 
@@ -138,6 +140,7 @@ const MemberCard = ({ members, studyId }: MemberCardProps) => {
         studyId={studyId}
         data={selectMemberAttendanceState}
         onClose={onClose}
+        isOwner={myRole === "스터디장"}
         isMyInfo={currentUser?.id === selectMemberAttendanceState?.userId}
       />
 

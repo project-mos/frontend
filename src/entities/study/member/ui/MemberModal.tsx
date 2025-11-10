@@ -16,6 +16,7 @@ export interface MemberModalProps extends ModalProps {
   onClose: ModalOnClose;
   studyId: string;
   isMyInfo: boolean;
+  isOwner: boolean;
   data?: StudyMemberAttendanceInterface;
 }
 
@@ -24,6 +25,7 @@ const MemberModal = ({
   studyId,
   data,
   isMyInfo,
+  isOwner,
   ...props
 }: MemberModalProps) => {
   const toast = useToast();
@@ -112,7 +114,7 @@ const MemberModal = ({
         </Modal.Content>
 
         <Modal.Footer className="flex justify-end gap-2">
-          {!isMyInfo && (
+          {!isMyInfo && isOwner && (
             <>
               {" "}
               <Button.Solid
