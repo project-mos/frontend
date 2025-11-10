@@ -14,10 +14,10 @@ const ChatCard = () => {
       <Card className="col-span-12 min-h-[500px] gap-4 tablet:col-span-9 laptop:col-span-10 ">
         <Card.Header className="flex items-center justify-between">
           <Typography.SubTitle1>채팅</Typography.SubTitle1>
-          <Button.Solid color="Main" active size="sm">
+          {/* <Button.Solid color="Main" active size="sm">
             <i className="bi bi-camera-video"></i>
             화상회의 시작
-          </Button.Solid>
+          </Button.Solid> */}
         </Card.Header>
         <Card.Content className="min-h-[75%] rounded-md border bg-mos-white-gray-100">
           <div className="bg-mos-white-gray-100"></div>

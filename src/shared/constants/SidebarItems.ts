@@ -32,11 +32,11 @@ export const MENU_ITEMS = (id: string): MenuItem[] => [
     icon: "bi-book",
     path: URL.STUDY_ROOM.DETAIL_CURRICULUM(id),
   },
-  {
-    name: "채팅",
-    icon: "bi-chat",
-    path: URL.STUDY_ROOM.DETAIL_CHAT(id),
-  },
+  // {
+  //   name: "채팅",
+  //   icon: "bi-chat",
+  //   path: URL.STUDY_ROOM.DETAIL_CHAT(id),
+  // },
   {
     name: "공지사항",
     icon: "bi-megaphone",
