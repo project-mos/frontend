@@ -46,9 +46,218 @@ const MemberCard = ({ members, studyId }: MemberCardProps) => {
   const { isModalOpenState, openModal, closeModal } = useModal();
   const currentUser = useDecodeToken();
   const myRole = useMyStudyRole(studyId);
-
-  const [membersState] = useState(members);
-
+  members = [
+    {
+      userId: 1,
+      nickname: "강민재",
+      studyMemberRoleType: "스터디장",
+      lastAttendanceDate: "2025-01-20",
+      participationRate: 98,
+    },
+    {
+      userId: 2,
+      nickname: "김철수",
+      studyMemberRoleType: "스터디원",
+      lastAttendanceDate: "2025-01-19",
+      participationRate: 85,
+    },
+    {
+      userId: 3,
+      nickname: "이영희",
+      studyMemberRoleType: "스터디원",
+      lastAttendanceDate: "2025-01-18",
+      participationRate: 92,
+    },
+    {
+      userId: 4,
+      nickname: "박민수",
+      studyMemberRoleType: "스터디원",
+      lastAttendanceDate: "2025-01-15",
+      participationRate: 74,
+    },
+    {
+      userId: 5,
+      nickname: "정우성",
+      studyMemberRoleType: "스터디원",
+      lastAttendanceDate: "2025-01-21",
+      participationRate: 88,
+    },
+    {
+      userId: 6,
+      nickname: "손흥민",
+      studyMemberRoleType: "스터디원",
+      lastAttendanceDate: "2025-01-17",
+      participationRate: 91,
+    },
+    {
+      userId: 7,
+      nickname: "박지성",
+      studyMemberRoleType: "스터디원",
+      lastAttendanceDate: "2025-01-14",
+      participationRate: 67,
+    },
+    {
+      userId: 8,
+      nickname: "김연아",
+      studyMemberRoleType: "스터디원",
+      lastAttendanceDate: "2025-01-20",
+      participationRate: 95,
+    },
+    {
+      userId: 9,
+      nickname: "유재석",
+      studyMemberRoleType: "스터디원",
+      lastAttendanceDate: "2025-01-13",
+      participationRate: 80,
+    },
+    {
+      userId: 10,
+      nickname: "강호동",
+      studyMemberRoleType: "스터디원",
+      lastAttendanceDate: "2025-01-10",
+      participationRate: 72,
+    },
+    {
+      userId: 11,
+      nickname: "아이유",
+      studyMemberRoleType: "스터디원",
+      lastAttendanceDate: "2025-01-21",
+      participationRate: 97,
+    },
+    {
+      userId: 12,
+      nickname: "제이홉",
+      studyMemberRoleType: "스터디원",
+      lastAttendanceDate: "2025-01-12",
+      participationRate: 65,
+    },
+    {
+      userId: 13,
+      nickname: "RM",
+      studyMemberRoleType: "스터디원",
+      lastAttendanceDate: "2025-01-19",
+      participationRate: 90,
+    },
+    {
+      userId: 14,
+      nickname: "진",
+      studyMemberRoleType: "스터디원",
+      lastAttendanceDate: "2025-01-16",
+      participationRate: 86,
+    },
+    {
+      userId: 15,
+      nickname: "슈가",
+      studyMemberRoleType: "스터디원",
+      lastAttendanceDate: "2025-01-18",
+      participationRate: 78,
+    },
+    {
+      userId: 16,
+      nickname: "지민",
+      studyMemberRoleType: "스터디원",
+      lastAttendanceDate: "2025-01-20",
+      participationRate: 89,
+    },
+    {
+      userId: 17,
+      nickname: "뷔",
+      studyMemberRoleType: "스터디원",
+      lastAttendanceDate: "2025-01-11",
+      participationRate: 64,
+    },
+    {
+      userId: 18,
+      nickname: "정국",
+      studyMemberRoleType: "스터디원",
+      lastAttendanceDate: "2025-01-21",
+      participationRate: 99,
+    },
+    {
+      userId: 19,
+      nickname: "장원영",
+      studyMemberRoleType: "스터디원",
+      lastAttendanceDate: "2025-01-13",
+      participationRate: 77,
+    },
+    {
+      userId: 20,
+      nickname: "안유진",
+      studyMemberRoleType: "스터디원",
+      lastAttendanceDate: "2025-01-19",
+      participationRate: 82,
+    },
+    {
+      userId: 21,
+      nickname: "가을",
+      studyMemberRoleType: "스터디원",
+      lastAttendanceDate: "2025-01-20",
+      participationRate: 93,
+    },
+    {
+      userId: 22,
+      nickname: "레이",
+      studyMemberRoleType: "스터디원",
+      lastAttendanceDate: "2025-01-17",
+      participationRate: 69,
+    },
+    {
+      userId: 23,
+      nickname: "리즈",
+      studyMemberRoleType: "스터디원",
+      lastAttendanceDate: "2025-01-16",
+      participationRate: 84,
+    },
+    {
+      userId: 24,
+      nickname: "이서",
+      studyMemberRoleType: "스터디원",
+      lastAttendanceDate: "2025-01-18",
+      participationRate: 71,
+    },
+    {
+      userId: 25,
+      nickname: "카리나",
+      studyMemberRoleType: "스터디원",
+      lastAttendanceDate: "2025-01-20",
+      participationRate: 94,
+    },
+    {
+      userId: 26,
+      nickname: "윈터",
+      studyMemberRoleType: "스터디원",
+      lastAttendanceDate: "2025-01-14",
+      participationRate: 66,
+    },
+    {
+      userId: 27,
+      nickname: "지젤",
+      studyMemberRoleType: "스터디원",
+      lastAttendanceDate: "2025-01-15",
+      participationRate: 79,
+    },
+    {
+      userId: 28,
+      nickname: "닝닝",
+      studyMemberRoleType: "스터디원",
+      lastAttendanceDate: "2025-01-13",
+      participationRate: 70,
+    },
+    {
+      userId: 29,
+      nickname: "하니",
+      studyMemberRoleType: "스터디원",
+      lastAttendanceDate: "2025-01-12",
+      participationRate: 73,
+    },
+    {
+      userId: 30,
+      nickname: "다니엘",
+      studyMemberRoleType: "스터디원",
+      lastAttendanceDate: "2025-01-21",
+      participationRate: 96,
+    },
+  ];
   const [memberAttendanceState, setMemberAttendanceState] = useState<
     StudyMemberAttendanceInterface[]
   >([]);
@@ -102,37 +311,6 @@ const MemberCard = ({ members, studyId }: MemberCardProps) => {
     if (best) setBestMember(best);
   }, []);
 
-  // 📌 날짜를 기반으로 몇 번째 주인지 계산하는 함수
-  // const getWeekNumber = (dateString: string): string => {
-  //   const date = new Date(dateString);
-  //   const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
-  //   const pastDays = Math.floor(
-  //     (date.getTime() - firstDayOfYear.getTime()) / (1000 * 60 * 60 * 24)
-  //   );
-  //   return `W${Math.ceil((pastDays + firstDayOfYear.getDay() + 1) / 7)}`;
-  // };
-
-  // // 📌 주차별 평균 참여율 계산
-  // const getWeeklyAverageParticipation = (members: StudyMemberInterface[]) => {
-  //   const weeklyData: Record<string, number[]> = {};
-
-  //   members.forEach((member) => {
-  //     const week = getWeekNumber(member.lastAttendanceDate);
-  //     if (!weeklyData[week]) {
-  //       weeklyData[week] = [];
-  //     }
-  //     weeklyData[week].push(member.participationRate);
-  //   });
-
-  //   return Object.entries(weeklyData).map(([week, rates]) => ({
-  //     week,
-  //     averageParticipationRate:
-  //       rates.reduce((sum, rate) => sum + rate, 0) / rates.length,
-  //   }));
-  // };
-
-  // const weeklyChartData = getWeeklyAverageParticipation(membersState);
-  // console.log(weeklyChartData); // 결과 확인
   return (
     <>
       <MemberModal
@@ -144,58 +322,27 @@ const MemberCard = ({ members, studyId }: MemberCardProps) => {
         isMyInfo={currentUser?.id === selectMemberAttendanceState?.userId}
       />
 
-      <Card className="col-span-8 overflow-x-scroll">
-        <Card.Header>
-          <Typography.SubTitle1>전체 참여율</Typography.SubTitle1>
-        </Card.Header>
-
-        <Card.Content className="max-h-[450px]">
-          <div className="h-32">Chart</div>
-        </Card.Content>
-        <Card.Content className="max-h-[450px] max-w-full flex-row gap-3">
-          {/* <ResponsiveContainer width="100%" height={180}>
-            <LineChart
-              data={weeklyChartData}
-              // margin={{ top: 20, right: 30, left: 10, bottom: 20 }}
-            >
-              <Line
-                type="monotone"
-                dataKey="averageParticipationRate"
-                stroke="#82ca9d"
-                strokeWidth={2}
-              />
-              <CartesianGrid stroke="#ccc" />
-              <XAxis
-                dataKey="week"
-                interval="preserveStartEnd"
-                padding={{ left: 0, right: 0 }}
-              />
-              <YAxis tickCount={5} domain={[10, 100]} width={30} />
-              <Tooltip />
-            </LineChart>
-          </ResponsiveContainer> */}
-        </Card.Content>
-      </Card>
-      {/* <Card className="col-span-2 gap-2 overflow-x-scroll">
-        <Card.Header>
-          <Typography.SubTitle1>이 달의 우수 멤버</Typography.SubTitle1>
-        </Card.Header>
-        <Card.Content className="max-h-[450px]">
-          {bestMember && <StudyMemberCard data={bestMember} />}
-        </Card.Content>
-      </Card> */}
-
-      <Card className="col-span-8 h-fit gap-3 overflow-x-scroll">
-        <Card.Header>
+      <Card className="col-span-8 gap-3 w-full">
+        <Card.Header className="flex flex-col">
           <Typography.SubTitle1>멤버 관리</Typography.SubTitle1>
         </Card.Header>
-        <Card.Content className="max-h-[450px] max-w-full flex-row gap-3 overflow-x-scroll">
-          {membersState.map((item, index) => {
+        <Card.Content
+          className="
+          max-h-[620px]
+          overflow-auto
+              grid 
+              grid-cols-2 
+              laptop:grid-cols-3
+              gap-5
+              p-2
+            "
+        >
+          {members.map((item, index) => {
             const isBest = item.userId === bestMember?.userId;
 
             return (
               <StudyMemberCard
-                key={`${item}_${index}`}
+                key={`${item.userId}-${index}`}
                 data={item}
                 isBest={isBest}
                 onChat={() => console.log("chat")}
