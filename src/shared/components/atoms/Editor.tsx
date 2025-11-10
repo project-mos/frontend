@@ -108,7 +108,7 @@ const Editor = ({ name, uploadImage }: EditorProps) => {
   }, [value, name]);
 
   return (
-    <div ref={editorRef}>
+    <div ref={editorRef} data-color-mode="light">
       <MDEditor
         className="mt-[20px]"
         value={value}
