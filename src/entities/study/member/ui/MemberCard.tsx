@@ -24,6 +24,7 @@ import Badge from "@/shared/components/atoms/Badge";
 import Button from "@/shared/components/atoms/Button";
 import Card from "@/shared/components/atoms/Card";
 import Typography from "@/shared/components/atoms/Typography";
+import useDecodeToken from "@/shared/hooks/useDecodeToken";
 import useModal from "@/shared/hooks/useModal";
 import { getAttendances } from "../../attendance/api/attendance.api";
 import MemberModal from "./MemberModal";
@@ -42,6 +43,7 @@ interface StudyMemberCardProps {
 
 const MemberCard = ({ members, studyId }: MemberCardProps) => {
   const { isModalOpenState, openModal, closeModal } = useModal();
+  const currentUser = useDecodeToken();
 
   const [membersState] = useState(members);
 
@@ -87,7 +89,7 @@ const MemberCard = ({ members, studyId }: MemberCardProps) => {
   }
 
   async function getAttendancesFunction() {
-    const res = await getAttendances({ studyId: studyId });
+    const res = await getAttendances({ studyId: Number(studyId) });
 
     setMemberAttendanceState(res);
   }
@@ -136,6 +138,7 @@ const MemberCard = ({ members, studyId }: MemberCardProps) => {
         studyId={studyId}
         data={selectMemberAttendanceState}
         onClose={onClose}
+        isMyInfo={currentUser?.id === selectMemberAttendanceState?.userId}
       />
 
       <Card className="col-span-8 overflow-x-scroll">

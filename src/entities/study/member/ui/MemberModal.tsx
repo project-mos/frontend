@@ -15,6 +15,7 @@ import { mandateMember } from "../api/member.api";
 export interface MemberModalProps extends ModalProps {
   onClose: ModalOnClose;
   studyId: string;
+  isMyInfo: boolean;
   data?: StudyMemberAttendanceInterface;
 }
 
@@ -22,6 +23,7 @@ const MemberModal = ({
   onClose,
   studyId,
   data,
+  isMyInfo,
   ...props
 }: MemberModalProps) => {
   const toast = useToast();
@@ -110,22 +112,29 @@ const MemberModal = ({
         </Modal.Content>
 
         <Modal.Footer className="flex justify-end gap-2">
-          <Button.Solid
-            color="Blue"
-            active
-            className="text-[14px]"
-            onClick={() => handleConfirmMandate(data!.studyMemberId.toString())}
-          >
-            스터디장 위임
-          </Button.Solid>
-          <Button.Solid
-            color="Red"
-            active
-            className="text-[14px]"
-            onClick={onDelete}
-          >
-            탈퇴
-          </Button.Solid>
+          {!isMyInfo && (
+            <>
+              {" "}
+              <Button.Solid
+                color="Blue"
+                active
+                className="text-[14px]"
+                onClick={() =>
+                  handleConfirmMandate(data!.studyMemberId.toString())
+                }
+              >
+                스터디장 위임
+              </Button.Solid>
+              <Button.Solid
+                color="Red"
+                active
+                className="text-[14px]"
+                onClick={onDelete}
+              >
+                탈퇴
+              </Button.Solid>
+            </>
+          )}
           <Button.Solid
             color="Main"
             active
